@@ -59,6 +59,8 @@ export const colors = {
   button: {
     backgroundPrimary: baseColors.green1,
     backgroundSecondary: baseColors.white1,
+    success: baseColors.green3,
+    error: baseColors.red1,
     textPrimary: baseColors.green2,
     textSecondary: baseColors.white1,
   },
