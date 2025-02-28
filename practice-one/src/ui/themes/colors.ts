@@ -37,6 +37,7 @@ const baseColors = {
 } as const;
 
 export const colors = {
+  transparent: 'transparent',
   primary: baseColors.green1,
   secondary: baseColors.grey1,
   tertiary: baseColors.whiteBlue1,
