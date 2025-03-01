@@ -58,7 +58,7 @@ describe('Button Component', () => {
   it('Should displays Loading text when isLoading is true', () => {
     render(<Button isLoading>Click</Button>);
 
-    expect(screen.getByText('Loading')).toBeTruthy();
+    expect(screen.getByTestId('button-loading')).toBeTruthy();
   });
 
   it('Should renders icon if provided', () => {

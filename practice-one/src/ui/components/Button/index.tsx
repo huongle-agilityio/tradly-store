@@ -1,5 +1,5 @@
 import { memo, ReactNode } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
 import {
   colorMap,
   ColorScheme,
@@ -30,7 +30,7 @@ interface ButtonProps {
 }
 
 const Button = ({
-  disabled,
+  disabled = false,
   size = 'medium',
   color = 'primary',
   variant = 'solid',
@@ -57,29 +57,32 @@ const Button = ({
     onPress={onPress}
     activeOpacity={0.7}
   >
-    <View style={{ position: 'relative' }}>
-      <View style={styles.contentWrapper}>
-        {Icon}
-        <Text
-          style={[
-            styles.text,
-            textStyles[variant],
-            textSizes[textSize],
-            {
-              color:
-                variant === 'solid'
-                  ? colors.button.textSecondary
-                  : colorMap[color],
-            },
-            { opacity: isLoading ? 0 : 1 },
-          ]}
-        >
-          {children}
-        </Text>
-      </View>
-      {/* Updating after have loading component */}
-      {isLoading && <Text style={styles.loading}>Loading</Text>}
+    <View style={[styles.contentWrapper, { opacity: isLoading ? 0 : 1 }]}>
+      {Icon}
+      <Text
+        style={[
+          styles.text,
+          textStyles[variant],
+          textSizes[textSize],
+          {
+            color:
+              variant === 'solid'
+                ? colors.button.textSecondary
+                : colorMap[color],
+          },
+        ]}
+      >
+        {children}
+      </Text>
     </View>
+    {isLoading && (
+      <ActivityIndicator
+        testID="button-loading"
+        size="small"
+        style={styles.loading}
+        color={colorMap[color]}
+      />
+    )}
   </TouchableOpacity>
 );
 

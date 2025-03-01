@@ -41,50 +41,45 @@ exports[`Button Component Should Should renders correctly when variant is not so
       "opacity": 1,
       "paddingHorizontal": 23,
       "paddingVertical": 4,
+      "position": "relative",
     }
   }
   testID="button"
 >
   <View
     style={
-      {
-        "position": "relative",
-      }
-    }
-  >
-    <View
-      style={
+      [
         {
           "alignItems": "center",
           "flexDirection": "row",
           "gap": 5,
-        }
+        },
+        {
+          "opacity": 1,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": "Montserrat",
+          },
+          {},
+          {
+            "fontSize": 12,
+            "fontWeight": "700",
+            "lineHeight": 21,
+          },
+          {
+            "color": "#33907c",
+          },
+        ]
       }
     >
-      <Text
-        style={
-          [
-            {
-              "fontFamily": "Montserrat",
-            },
-            {},
-            {
-              "fontSize": 12,
-              "fontWeight": "700",
-              "lineHeight": 21,
-            },
-            {
-              "color": "#33907c",
-            },
-            {
-              "opacity": 1,
-            },
-          ]
-        }
-      >
-        Click me
-      </Text>
-    </View>
+      Click me
+    </Text>
   </View>
 </View>
 `;
@@ -130,52 +125,47 @@ exports[`Button Component Should Should renders correctly with children 1`] = `
       "opacity": 1,
       "paddingHorizontal": 23,
       "paddingVertical": 4,
+      "position": "relative",
     }
   }
   testID="button"
 >
   <View
     style={
-      {
-        "position": "relative",
-      }
-    }
-  >
-    <View
-      style={
+      [
         {
           "alignItems": "center",
           "flexDirection": "row",
           "gap": 5,
-        }
+        },
+        {
+          "opacity": 1,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": "Montserrat",
+          },
+          {
+            "color": "#fff",
+          },
+          {
+            "fontSize": 12,
+            "fontWeight": "700",
+            "lineHeight": 21,
+          },
+          {
+            "color": "#fff",
+          },
+        ]
       }
     >
-      <Text
-        style={
-          [
-            {
-              "fontFamily": "Montserrat",
-            },
-            {
-              "color": "#fff",
-            },
-            {
-              "fontSize": 12,
-              "fontWeight": "700",
-              "lineHeight": 21,
-            },
-            {
-              "color": "#fff",
-            },
-            {
-              "opacity": 1,
-            },
-          ]
-        }
-      >
-        Click me
-      </Text>
-    </View>
+      Click me
+    </Text>
   </View>
 </View>
 `;

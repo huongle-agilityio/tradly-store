@@ -24,7 +24,7 @@ const meta = {
       options: ['none', 'small', 'medium', 'full'],
     },
     color: {
-      control: 'inline-radio',
+      control: 'color',
       options: ['primary', 'secondary', 'success', 'error'],
     },
     textSize: {
@@ -90,7 +90,6 @@ export const WithIcon: Story = {
     },
   },
   args: {
-    icon: 'store',
     color: 'secondary',
     variant: 'bordered',
   },

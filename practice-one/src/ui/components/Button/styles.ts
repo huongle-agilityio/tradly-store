@@ -14,6 +14,7 @@ export type ColorScheme = 'primary' | 'secondary' | 'success' | 'error';
 
 export const styles = StyleSheet.create({
   button: {
+    position: 'relative',
     borderRadius: radius['3xl'],
     flexDirection: 'row',
     alignItems: 'center',
@@ -30,10 +31,6 @@ export const styles = StyleSheet.create({
   },
   loading: {
     position: 'absolute',
-    textAlign: 'center',
-    top: '50%',
-    left: '50%',
-    transform: [{ translateX: -25 }, { translateY: -10 }],
   },
   text: {
     fontFamily: fontsFamily.regular,
