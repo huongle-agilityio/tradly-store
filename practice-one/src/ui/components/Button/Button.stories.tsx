@@ -24,7 +24,7 @@ const meta = {
       options: ['none', 'small', 'medium', 'full'],
     },
     color: {
-      control: 'color',
+      control: 'inline-radio',
       options: ['primary', 'secondary', 'success', 'error'],
     },
     textSize: {
