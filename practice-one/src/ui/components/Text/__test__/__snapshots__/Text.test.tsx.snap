@@ -6,6 +6,7 @@ exports[`Text Component Should renders children correctly 1`] = `
     [
       {
         "fontSize": 14,
+        "lineHeight": 16,
       },
       {
         "fontWeight": "500",

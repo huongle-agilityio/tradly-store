@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react-native';
 import { Text } from '..';
 
 // Themes
-import { colors, fontSizes, fontWeights } from '@/ui/themes';
+import { colors, fontSizes, fontWeights, lineHeights } from '@/ui/themes';
 
 describe('Text Component', () => {
   it('Should renders children correctly', () => {
@@ -20,7 +20,7 @@ describe('Text Component', () => {
 
     expect(textElement.props.style).toEqual(
       expect.arrayContaining([
-        { fontSize: fontSizes.base },
+        { fontSize: fontSizes.base, lineHeight: lineHeights.base },
         { fontWeight: fontWeights.normal },
         { color: colors.text.default },
         undefined,
@@ -38,7 +38,7 @@ describe('Text Component', () => {
 
     expect(textElement.props.style).toEqual(
       expect.arrayContaining([
-        { fontSize: fontSizes.xl },
+        { fontSize: fontSizes.xl, lineHeight: lineHeights.xxl },
         { fontWeight: fontWeights.bold },
       ]),
     );
