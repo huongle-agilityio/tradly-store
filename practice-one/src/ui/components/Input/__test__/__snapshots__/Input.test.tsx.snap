@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input Component Should match snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "borderColor": "#fff",
+          "borderRadius": 24,
+          "borderWidth": 1,
+          "paddingHorizontal": 16,
+          "paddingVertical": 13,
+        },
+        {
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <TextInput
+      editable={true}
+      onChangeText={[MockFunction]}
+      placeholder="Enter text"
+      placeholderTextColor="#fff"
+      style={
+        {
+          "color": "#fff",
+          "fontSize": 18,
+          "lineHeight": 22,
+        }
+      }
+      value="Test"
+    />
+  </View>
+</View>
+`;
