@@ -53,7 +53,7 @@ export const colors = {
     tertiary: baseColors.grey2,
     quaternary: baseColors.black2,
     placeholder: baseColors.grey1,
-    error: baseColors.red2,
+    error: baseColors.red1,
     success: baseColors.green3,
   },
   button: {

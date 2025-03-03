@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 // Components
 import { Input } from '.';
@@ -39,7 +40,7 @@ const meta = {
   ],
   args: {
     value: '',
-    onChangeText: (text) => console.log(text),
+    onChangeText: fn(),
     placeholder: 'First Name',
   },
 } satisfies Meta<typeof Input>;
@@ -57,6 +58,14 @@ export const Default: Story = {
   render: (args) => <InputWrapper {...args} />,
   args: {
     variant: 'default',
+  },
+};
+
+export const withError: Story = {
+  render: (args) => <InputWrapper {...args} />,
+  args: {
+    variant: 'default',
+    error: 'This field is required',
   },
 };
 

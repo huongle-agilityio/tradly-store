@@ -14,6 +14,10 @@ export const styles = StyleSheet.create({
   label: {
     paddingBottom: spacing[3],
   },
+  error: {
+    paddingHorizontal: spacing['2.5'],
+    paddingTop: spacing[3],
+  },
   disabled: {
     opacity: 0.7,
   },

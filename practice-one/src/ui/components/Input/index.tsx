@@ -16,6 +16,7 @@ interface InputProps {
   secureTextEntry?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
+  error?: string;
   label?: string;
   variant?: InputVariant;
   icon?: ReactNode;
@@ -28,6 +29,7 @@ export const Input = ({
   isLoading,
   icon: Icon,
   onChangeText,
+  error,
   disabled,
   placeholder,
   secureTextEntry,
@@ -60,5 +62,10 @@ export const Input = ({
         {...props}
       />
     </View>
+    {error && (
+      <Text color="error" fontWeight="light" textStyle={styles.error}>
+        {error}
+      </Text>
+    )}
   </View>
 );
