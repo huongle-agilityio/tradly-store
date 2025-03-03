@@ -29,3 +29,9 @@ export type TextWeight = 'light' | 'normal' | 'medium' | 'bold';
 
 // Input
 export type InputVariant = 'default' | 'outlined' | 'underlined';
+
+// Select
+export interface Option {
+  value: string;
+  label: string;
+}

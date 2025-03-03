@@ -73,6 +73,10 @@ export const colors = {
     textTertiary: baseColors.black3,
     textQuaternary: baseColors.black2,
   },
+  select: {
+    backgroundPrimary: baseColors.white1,
+    textPrimary: baseColors.grey1,
+  },
   productCard: {
     background: baseColors.white1,
     border: baseColors.grey3,
