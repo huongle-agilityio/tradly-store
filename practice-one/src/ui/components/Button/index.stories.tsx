@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import Button from '.';
+import { Button } from '.';
 
 // Icons
 import { StoreIcon } from '@/ui/icons';
@@ -90,6 +90,7 @@ export const WithIcon: Story = {
     },
   },
   args: {
+    icon: 'store',
     color: 'secondary',
     variant: 'bordered',
   },

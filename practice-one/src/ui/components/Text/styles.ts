@@ -5,18 +5,19 @@ import {
   fontWeights as baseFontWeights,
   fontSizes as baseFontSizes,
   colors as baseColors,
+  lineHeights,
 } from '@/ui/themes';
 
 export const fontSizes = StyleSheet.create({
-  xxs: { fontSize: baseFontSizes.xxs },
-  xs: { fontSize: baseFontSizes.xs },
-  sm: { fontSize: baseFontSizes.sm },
-  base: { fontSize: baseFontSizes.base },
-  md: { fontSize: baseFontSizes.md },
-  lg: { fontSize: baseFontSizes.lg },
-  xl: { fontSize: baseFontSizes.xl },
-  xxl: { fontSize: baseFontSizes.xxl },
-  xxxl: { fontSize: baseFontSizes.xxxl },
+  xxs: { fontSize: baseFontSizes.xxs, lineHeight: lineHeights.xxs },
+  xs: { fontSize: baseFontSizes.xs, lineHeight: lineHeights.xs },
+  sm: { fontSize: baseFontSizes.sm, lineHeight: lineHeights.lg },
+  base: { fontSize: baseFontSizes.base, lineHeight: lineHeights.base },
+  md: { fontSize: baseFontSizes.md, lineHeight: lineHeights.md },
+  lg: { fontSize: baseFontSizes.lg, lineHeight: lineHeights.sm },
+  xl: { fontSize: baseFontSizes.xl, lineHeight: lineHeights.xxl },
+  xxl: { fontSize: baseFontSizes.xxl, lineHeight: lineHeights.xxl },
+  xxxl: { fontSize: baseFontSizes.xxxl, lineHeight: lineHeights.xxl },
 });
 
 export const fontWeights = StyleSheet.create({

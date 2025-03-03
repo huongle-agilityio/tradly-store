@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, memo } from 'react';
 import { StyleProp } from 'react-native';
 import { Image as ExpoImage, ImageStyle } from 'expo-image';
 
@@ -11,7 +11,7 @@ interface ImageProps extends Omit<ComponentProps<typeof ExpoImage>, 'source'> {
   styles?: StyleProp<ImageStyle>;
 }
 
-export const Image = ({ source, alt, styles, ...props }: ImageProps) => (
+export const Image = memo(({ source, alt, styles, ...props }: ImageProps) => (
   <ExpoImage
     source={source}
     style={[styles]}
@@ -21,4 +21,6 @@ export const Image = ({ source, alt, styles, ...props }: ImageProps) => (
     transition={1000}
     {...props}
   />
-);
+));
+
+Image.displayName = 'Image';

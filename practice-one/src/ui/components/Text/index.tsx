@@ -1,56 +1,39 @@
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import { TextStyle, Text as BaseText, StyleProp } from 'react-native';
 import { colors, fontSizes, fontWeights } from './styles';
 
-type FontSizes =
-  | 'xxs'
-  | 'xs'
-  | 'sm'
-  | 'base'
-  | 'md'
-  | 'lg'
-  | 'xl'
-  | 'xxl'
-  | 'xxxl';
-type Colors =
-  | 'default'
-  | 'light'
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'quaternary'
-  | 'placeholder'
-  | 'error'
-  | 'success';
-type FontWeight = 'light' | 'normal' | 'medium' | 'bold';
+// Interfaces
+import { TextColor, TextSize, TextWeight } from '@/interfaces';
 
 interface TextProps {
-  color?: Colors;
-  fontSize?: FontSizes;
+  color?: TextColor;
+  fontSize?: TextSize;
   textStyle?: StyleProp<TextStyle>;
-  fontWeight?: FontWeight;
+  fontWeight?: TextWeight;
   children: ReactNode;
 }
 
-const Text = ({
-  children,
-  color = 'default',
-  fontSize = 'base',
-  fontWeight = 'normal',
-  textStyle,
-  ...props
-}: TextProps) => (
-  <BaseText
-    style={[
-      fontSizes[fontSize],
-      fontWeights[fontWeight],
-      colors[color],
-      textStyle && textStyle,
-    ]}
-    {...props}
-  >
-    {children}
-  </BaseText>
+export const Text = memo(
+  ({
+    children,
+    color = 'default',
+    fontSize = 'base',
+    fontWeight = 'normal',
+    textStyle,
+    ...props
+  }: TextProps) => (
+    <BaseText
+      style={[
+        fontSizes[fontSize],
+        fontWeights[fontWeight],
+        colors[color],
+        textStyle && textStyle,
+      ]}
+      {...props}
+    >
+      {children}
+    </BaseText>
+  ),
 );
 
-export default Text;
+Text.displayName = 'Text';

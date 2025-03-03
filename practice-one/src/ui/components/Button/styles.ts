@@ -10,7 +10,8 @@ import {
   spacing,
 } from '@/ui/themes';
 
-export type ColorScheme = 'primary' | 'secondary' | 'success' | 'error';
+// Interfaces
+import { ButtonColor } from '@/interfaces';
 
 export const styles = StyleSheet.create({
   button: {
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
+    borderWidth: spacing['0.5'],
   },
   disabled: {
     opacity: 0.7,
@@ -43,7 +44,7 @@ export const variantStyles = StyleSheet.create({
   ghost: { backgroundColor: colors.transparent, borderWidth: 0 },
 });
 
-export const colorMap: Record<ColorScheme, string> = {
+export const colorMap: Record<ButtonColor, string> = {
   primary: colors.button.backgroundPrimary,
   secondary: colors.button.backgroundSecondary,
   success: colors.button.success,

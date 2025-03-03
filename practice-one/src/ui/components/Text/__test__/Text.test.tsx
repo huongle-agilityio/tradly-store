@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react-native';
 
 // Components
-import Text from '..';
+import { Text } from '..';
 
 // Themes
 import { colors, fontSizes, fontWeights } from '@/ui/themes';
