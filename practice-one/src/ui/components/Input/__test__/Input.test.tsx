@@ -12,6 +12,18 @@ describe('Input Component', () => {
     expect(toJSON()).toMatchSnapshot();
   });
 
+  it('Should render error message', () => {
+    const { toJSON } = render(
+      <Input
+        value="Test"
+        placeholder="Enter text"
+        onChangeText={jest.fn()}
+        error="This field is required"
+      />,
+    );
+    expect(toJSON()).toMatchSnapshot();
+  });
+
   it('Should render label if provided', () => {
     render(
       <Input

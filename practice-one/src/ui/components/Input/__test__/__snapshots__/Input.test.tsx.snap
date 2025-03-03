@@ -44,3 +44,70 @@ exports[`Input Component Should match snapshot 1`] = `
   </View>
 </View>
 `;
+
+exports[`Input Component Should render error message 1`] = `
+<View
+  style={
+    [
+      {
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "borderColor": "#fff",
+          "borderRadius": 24,
+          "borderWidth": 1,
+          "paddingHorizontal": 16,
+          "paddingVertical": 13,
+        },
+        {
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <TextInput
+      editable={true}
+      onChangeText={[MockFunction]}
+      placeholder="Enter text"
+      placeholderTextColor="#fff"
+      style={
+        {
+          "color": "#fff",
+          "fontSize": 18,
+          "lineHeight": 22,
+        }
+      }
+      value="Test"
+    />
+  </View>
+  <Text
+    style={
+      [
+        {
+          "fontSize": 14,
+          "lineHeight": 16,
+        },
+        {
+          "fontWeight": "400",
+        },
+        {
+          "color": "#901F2E",
+        },
+        {
+          "paddingHorizontal": 10,
+          "paddingTop": 12,
+        },
+      ]
+    }
+  >
+    This field is required
+  </Text>
+</View>
+`;
