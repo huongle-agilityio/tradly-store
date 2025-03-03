@@ -53,7 +53,7 @@ export const colors = {
     tertiary: baseColors.grey2,
     quaternary: baseColors.black2,
     placeholder: baseColors.grey1,
-    error: baseColors.red2,
+    error: baseColors.red1,
     success: baseColors.green3,
   },
   button: {
@@ -65,11 +65,13 @@ export const colors = {
     textSecondary: baseColors.white1,
   },
   input: {
+    backgroundPrimary: baseColors.white1,
     borderPrimary: baseColors.white1,
     borderSecondary: baseColors.grey3,
     textPrimary: baseColors.white1,
     textSecondary: baseColors.grey1,
     textTertiary: baseColors.black3,
+    textQuaternary: baseColors.black2,
   },
   productCard: {
     background: baseColors.white1,

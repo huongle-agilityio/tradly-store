@@ -26,3 +26,6 @@ export type TextColor =
   | 'error'
   | 'success';
 export type TextWeight = 'light' | 'normal' | 'medium' | 'bold';
+
+// Input
+export type InputVariant = 'default' | 'outlined' | 'underlined';
