@@ -6,7 +6,7 @@ import { colors } from '@/ui/themes';
 export const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    height: 226,
+    height: '100%',
     backgroundColor: colors.opacity,
   },
   dotWrapper: {

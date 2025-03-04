@@ -6,7 +6,7 @@ exports[`ProductCarousel Should renders correct number of images 1`] = `
   style={
     {
       "backgroundColor": "rgba(8, 11, 18, 0.3)",
-      "height": 226,
+      "height": "100%",
       "position": "relative",
     }
   }
