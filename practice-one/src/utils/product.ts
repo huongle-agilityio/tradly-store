@@ -1,3 +1,5 @@
+import { Animated } from 'react-native';
+
 /**
  * Calculates the discounted price based on the original price and discount percentage.
  *
@@ -20,4 +22,26 @@ export const calculateDiscountedPrice = (
 
   const discountedPrice = originalPrice - (originalPrice * discount) / 100;
   return Math.round(discountedPrice * 100) / 100;
+};
+
+/**
+ * Interpolates a value based on the scroll position, providing a smooth transition effect.
+ *
+ * @param scrollX - The animated value representing the horizontal scroll position.
+ * @param index - The index of the current element in the scroll view.
+ * @param width - The width of each element in the scroll view.
+ * @param outputRange - The range of values to interpolate between, which can be numbers or strings.
+ * @returns The interpolated value, clamped to the range specified.
+ */
+export const interpolateValue = (
+  scrollX: Animated.Value,
+  index: number,
+  width: number,
+  outputRange: number[] | string[],
+) => {
+  return scrollX.interpolate({
+    inputRange: [width * (index - 1), width * index, width * (index + 1)],
+    outputRange,
+    extrapolate: 'clamp',
+  });
 };

@@ -45,6 +45,7 @@ export const colors = {
   placeholder: baseColors.grey1,
   error: baseColors.red2,
   success: baseColors.green2,
+  opacity: baseColors.greyTranslucent,
   text: {
     default: baseColors.black1,
     light: baseColors.white1,

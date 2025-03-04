@@ -1,4 +1,5 @@
-import { calculateDiscountedPrice } from '..';
+import { Animated } from 'react-native';
+import { calculateDiscountedPrice, interpolateValue } from '..';
 
 describe('calculateDiscountedPrice', () => {
   it('Should returns the original price when no discount is provided', () => {
@@ -20,5 +21,24 @@ describe('calculateDiscountedPrice', () => {
     expect(calculateDiscountedPrice(-100, 10)).toBe('--');
     expect(calculateDiscountedPrice(100, -5)).toBe('--');
     expect(calculateDiscountedPrice(100, 110)).toBe('--');
+  });
+});
+
+describe('interpolateValue', () => {
+  it('Should call interpolate with correct inputRange and outputRange', () => {
+    const scrollX = new Animated.Value(0);
+    const index = 1;
+    const width = 100;
+    const outputRange = [0.5, 1, 0.5];
+
+    const interpolateSpy = jest.spyOn(scrollX, 'interpolate');
+
+    interpolateValue(scrollX, index, width, outputRange);
+
+    expect(interpolateSpy).toHaveBeenCalledWith({
+      inputRange: [width * (index - 1), width * index, width * (index + 1)],
+      outputRange,
+      extrapolate: 'clamp',
+    });
   });
 });
