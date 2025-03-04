@@ -1,16 +1,20 @@
-import { memo, ReactNode } from 'react';
-import { TextStyle, Text as BaseText, StyleProp } from 'react-native';
+import { memo, PropsWithChildren } from 'react';
+import {
+  TextStyle,
+  Text as BaseText,
+  StyleProp,
+  TextProps as BaseTextProps,
+} from 'react-native';
 import { colors, fontSizes, fontWeights } from './styles';
 
 // Interfaces
 import { TextColor, TextSize, TextWeight } from '@/interfaces';
 
-interface TextProps {
+interface TextProps extends PropsWithChildren<BaseTextProps> {
   color?: TextColor;
   fontSize?: TextSize;
   textStyle?: StyleProp<TextStyle>;
   fontWeight?: TextWeight;
-  children: ReactNode;
 }
 
 export const Text = memo(
