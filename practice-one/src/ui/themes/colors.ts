@@ -19,7 +19,7 @@ const greyPallet = {
   grey1: '#4f4f4f',
   grey2: '#4a4a4a',
   grey3: '#dbdbde',
-  greyTranslucent: 'rgba(8, 11, 18, 0.4)',
+  greyTranslucent: 'rgba(8, 11, 18, 0.3)',
 } as const;
 
 const blackPallet = {
