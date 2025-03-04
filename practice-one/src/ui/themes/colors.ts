@@ -90,6 +90,7 @@ export const colors = {
   },
   categoryCard: {
     background: baseColors.greyTranslucent,
+    border: baseColors.grey3,
     text: baseColors.white1,
   },
   tabItem: {
