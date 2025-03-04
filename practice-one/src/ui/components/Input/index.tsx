@@ -12,12 +12,12 @@ import { InputVariant } from '@/interfaces';
 
 interface InputProps {
   value: string;
-  placeholder: string;
   secureTextEntry?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
   error?: string;
   label?: string;
+  placeholder?: string;
   variant?: InputVariant;
   icon?: ReactNode;
   onChangeText: (text: string) => void;
