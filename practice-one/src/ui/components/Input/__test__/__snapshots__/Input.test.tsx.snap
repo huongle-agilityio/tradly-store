@@ -95,6 +95,7 @@ exports[`Input Component Should render error message 1`] = `
           "lineHeight": 16,
         },
         {
+          "fontFamily": "Montserrat",
           "fontWeight": "400",
         },
         {
