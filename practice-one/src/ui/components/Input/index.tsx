@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, TextInputProps, View } from 'react-native';
 
 // Components
 import { Text } from '../Text';
@@ -10,7 +10,7 @@ import { colorMap, containerStyles, inputStyles, styles } from './styles';
 // Interfaces
 import { InputVariant } from '@/interfaces';
 
-interface InputProps {
+interface InputProps extends TextInputProps {
   value: string;
   secureTextEntry?: boolean;
   disabled?: boolean;

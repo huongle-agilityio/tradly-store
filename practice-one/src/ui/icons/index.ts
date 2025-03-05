@@ -1,4 +1,6 @@
 export * from './ArrowDownIcon';
+export * from './CartIcon';
+export * from './HeartIcon';
 export * from './HomeIcon';
 export * from './OrderHistoryIcon';
 export * from './SearchIcon';
