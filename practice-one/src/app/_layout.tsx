@@ -1,10 +1,13 @@
+import { colors } from '@/ui/themes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import { ClickOutsideProvider } from 'react-native-click-outside';
 import 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -43,8 +46,16 @@ export default function RootLayout() {
 
 const RootLayoutNav = () => (
   <ClickOutsideProvider>
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+      <StatusBar backgroundColor={colors.primary} barStyle="default" />
+    </SafeAreaView>
   </ClickOutsideProvider>
 );
