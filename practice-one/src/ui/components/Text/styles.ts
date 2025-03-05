@@ -6,6 +6,7 @@ import {
   fontSizes as baseFontSizes,
   colors as baseColors,
   lineHeights,
+  fontsFamily,
 } from '@/ui/themes';
 
 export const fontSizes = StyleSheet.create({
@@ -21,10 +22,13 @@ export const fontSizes = StyleSheet.create({
 });
 
 export const fontWeights = StyleSheet.create({
-  light: { fontWeight: baseFontWeights.light },
-  normal: { fontWeight: baseFontWeights.normal },
-  medium: { fontWeight: baseFontWeights.medium },
-  bold: { fontWeight: baseFontWeights.bold },
+  light: { fontFamily: fontsFamily.regular, fontWeight: baseFontWeights.light },
+  normal: {
+    fontFamily: fontsFamily.medium,
+    fontWeight: baseFontWeights.normal,
+  },
+  medium: { fontFamily: fontsFamily.bold, fontWeight: baseFontWeights.medium },
+  bold: { fontFamily: fontsFamily.semiBold, fontWeight: baseFontWeights.bold },
 });
 
 export const colors = StyleSheet.create({

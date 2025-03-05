@@ -9,6 +9,7 @@ exports[`Text Component Should renders children correctly 1`] = `
         "lineHeight": 16,
       },
       {
+        "fontFamily": "Montserrat-Medium",
         "fontWeight": "500",
       },
       {
