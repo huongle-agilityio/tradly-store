@@ -1,5 +1,6 @@
 import { colors } from '@/ui/themes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -44,18 +45,24 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-const RootLayoutNav = () => (
-  <ClickOutsideProvider>
-    <SafeAreaView style={{ flex: 1 }}>
-      <Stack>
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack>
-      <StatusBar backgroundColor={colors.primary} barStyle="default" />
-    </SafeAreaView>
-  </ClickOutsideProvider>
-);
+const RootLayoutNav = () => {
+  const queryClient = new QueryClient();
+
+  return (
+    <ClickOutsideProvider>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                headerShown: false,
+              }}
+            />
+          </Stack>
+          <StatusBar backgroundColor={colors.primary} barStyle="default" />
+        </SafeAreaView>
+      </QueryClientProvider>
+    </ClickOutsideProvider>
+  );
+};
