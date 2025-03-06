@@ -1,1 +1,1 @@
-export * from './UpComing';
+export * from './Upcoming';
