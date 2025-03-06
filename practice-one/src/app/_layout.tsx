@@ -1,14 +1,16 @@
-import { colors } from '@/ui/themes';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { StatusBar } from 'react-native';
-import { ClickOutsideProvider } from 'react-native-click-outside';
-import 'react-native-reanimated';
+import { Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ClickOutsideProvider } from 'react-native-click-outside';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import 'react-native-reanimated';
+
+// Themes
+import { colors } from '@/ui/themes';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,14 +54,11 @@ const RootLayoutNav = () => {
     <ClickOutsideProvider>
       <QueryClientProvider client={queryClient}>
         <SafeAreaView style={{ flex: 1 }}>
-          <Stack>
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerShown: false,
-              }}
-            />
-          </Stack>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          />
           <StatusBar backgroundColor={colors.primary} barStyle="default" />
         </SafeAreaView>
       </QueryClientProvider>
