@@ -1,12 +1,5 @@
-import { Text } from '@/ui/components';
-import { View } from 'react-native';
+import { Login as LoginScreen } from '@/ui/screens';
 
-const Login = () => {
-  return (
-    <View>
-      <Text>Login</Text>
-    </View>
-  );
-};
+const Login = () => <LoginScreen />;
 
 export default Login;
