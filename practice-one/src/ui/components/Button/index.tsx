@@ -1,5 +1,12 @@
 import { memo, ReactNode } from 'react';
-import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  View,
+  ActivityIndicator,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import {
   colorMap,
   sizes,
@@ -27,6 +34,7 @@ interface ButtonProps {
   variant?: ButtonVariant;
   color?: ButtonColor;
   textSize?: ButtonTextSize;
+  buttonStyles?: StyleProp<ViewStyle>;
   icon?: ReactNode;
   children: ReactNode;
   onPress?: () => void;
@@ -40,6 +48,7 @@ export const Button = memo(
     variant = 'solid',
     textSize = 'base',
     isLoading = false,
+    buttonStyles,
     icon: Icon,
     children,
     onPress,
@@ -56,6 +65,7 @@ export const Button = memo(
             variant === 'solid' ? colorMap[color] : colors.transparent,
         },
         (disabled || isLoading) && styles.disabled,
+        buttonStyles,
       ]}
       disabled={disabled || isLoading}
       onPress={onPress}

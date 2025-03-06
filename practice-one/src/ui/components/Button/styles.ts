@@ -68,26 +68,31 @@ export const textSizes = StyleSheet.create({
   xs: {
     fontSize: spacing[3],
     lineHeight: lineHeights.xs,
+    fontFamily: fontsFamily.medium,
     fontWeight: fontWeights.normal,
   },
   base: {
     fontSize: spacing[3],
     lineHeight: lineHeights.lg,
+    fontFamily: fontsFamily.semiBold,
     fontWeight: fontWeights.bold,
   },
   md: {
     fontSize: spacing['3.5'],
     lineHeight: lineHeights.sm,
+    fontFamily: fontsFamily.medium,
     fontWeight: fontWeights.normal,
   },
   lg: {
     fontSize: spacing[4],
     lineHeight: lineHeights.sm,
+    fontFamily: fontsFamily.medium,
     fontWeight: fontWeights.normal,
   },
   xl: {
     fontSize: spacing['4.5'],
     lineHeight: lineHeights.sm,
+    fontFamily: fontsFamily.bold,
     fontWeight: fontWeights.medium,
   },
 });

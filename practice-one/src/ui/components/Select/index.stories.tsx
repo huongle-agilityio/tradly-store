@@ -1,5 +1,5 @@
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 
 // Components
 import { Select } from '.';
@@ -14,7 +14,7 @@ const meta = {
   args: {
     value: '1',
     options: CART_QUANTITY,
-    onValueChange: fn(),
+    onValueChange: action('onPress'),
     style: {
       width: 100,
     },

@@ -68,6 +68,7 @@ exports[`Button Component Should Should renders correctly when variant is not so
           },
           {},
           {
+            "fontFamily": "Montserrat-SemiBold",
             "fontSize": 12,
             "fontWeight": "700",
             "lineHeight": 21,
@@ -154,6 +155,7 @@ exports[`Button Component Should Should renders correctly with children 1`] = `
             "color": "#fff",
           },
           {
+            "fontFamily": "Montserrat-SemiBold",
             "fontSize": 12,
             "fontWeight": "700",
             "lineHeight": 21,

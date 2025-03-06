@@ -1,4 +1,4 @@
-import { fn } from '@storybook/test';
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
@@ -13,7 +13,7 @@ const meta = {
     storeName: 'Tradlyas',
     storeSource: require('@/assets/category-beverages.webp'),
     price: 10,
-    onPress: fn(),
+    onPress: action('onPress'),
   },
 } satisfies Meta<typeof ProductCard>;
 

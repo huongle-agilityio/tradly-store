@@ -1,4 +1,4 @@
-import { fn } from '@storybook/test';
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
@@ -10,7 +10,7 @@ const meta = {
   args: {
     source: require('@/assets/category-beverages.webp'),
     title: 'Beverages',
-    onPress: fn(),
+    onPress: action('onPress'),
   },
 } satisfies Meta<typeof CategoryCard>;
 

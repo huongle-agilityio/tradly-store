@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 
 // Components
 import { Input } from '.';
@@ -40,7 +40,7 @@ const meta = {
   ],
   args: {
     value: '',
-    onChangeText: fn(),
+    onChangeText: action('onPress'),
     placeholder: 'First Name',
   },
 } satisfies Meta<typeof Input>;
