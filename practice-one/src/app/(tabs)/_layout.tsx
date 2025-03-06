@@ -12,6 +12,9 @@ import {
   UserIcon,
 } from '@/ui/icons';
 
+// Constants
+import { SCREEN_NAME } from '@/constants';
+
 // Themes
 import { colors } from '@/ui/themes';
 
@@ -37,7 +40,7 @@ const TabLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name={SCREEN_NAME.HOME}
         options={{
           title: 'Home',
           headerStyle: {
@@ -49,21 +52,21 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="browse"
+        name={SCREEN_NAME.BROWSE}
         options={{
           title: 'Browse',
           tabBarIcon: ({ color }) => <SearchIcon size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="product"
+        name={SCREEN_NAME.PRODUCT}
         options={{
           title: 'Product',
           tabBarIcon: ({ color }) => <StoreIcon size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="order-history"
+        name={SCREEN_NAME.ORDER_HISTORY}
         options={{
           title: 'Order History',
           tabBarIcon: ({ color }) => (
@@ -72,7 +75,7 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name={SCREEN_NAME.PROFILE}
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <UserIcon size={24} color={color} />,
