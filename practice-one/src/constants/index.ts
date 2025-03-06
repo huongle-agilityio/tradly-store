@@ -7,3 +7,5 @@ export * from './pagination';
 export * from './queryKeys';
 export * from './queryUrl';
 export * from './routes';
+export * from './regex';
+export * from './brand';
