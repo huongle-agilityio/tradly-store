@@ -1,4 +1,5 @@
 import { ApiPaginationResponse } from './api';
+import { Store } from './store';
 
 export interface Product {
   id: number;
@@ -13,10 +14,13 @@ export interface Product {
   priceType: string;
   location: string;
   category: string;
+  store: Store;
 }
 
 export interface ProductFilterParams {
   category: string;
+  page?: number;
+  pageSize?: number;
 }
 
 export type ListProductResponse = ApiPaginationResponse<Product[]>;
