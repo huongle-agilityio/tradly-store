@@ -1,6 +1,6 @@
 // Components
-import { UpComing } from '@/ui/screens';
+import { Profile as ProfileScreen } from '@/ui/screens';
 
-const Profile = () => <UpComing />;
+const Profile = () => <ProfileScreen />;
 
 export default Profile;

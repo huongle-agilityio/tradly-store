@@ -1,3 +1,4 @@
 export * from './Upcoming';
 export * from './Onboarding';
 export * from './Login';
+export * from './Profile';

@@ -9,3 +9,4 @@ export * from './queryUrl';
 export * from './routes';
 export * from './regex';
 export * from './brand';
+export * from './storageKey';
