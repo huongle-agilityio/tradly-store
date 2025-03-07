@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 
@@ -25,7 +25,6 @@ interface FormData {
 }
 
 export const FormLogin = () => {
-  const router = useRouter();
   const { mutate, isPending } = useAuthLogin();
   const [error, setError] = useState<string>('');
 

@@ -81,7 +81,9 @@ export const Button = memo(
             {
               color:
                 color === 'secondary'
-                  ? colors.button.backgroundPrimary
+                  ? variant === 'solid'
+                    ? colors.button.backgroundPrimary
+                    : colors.light
                   : variant === 'solid'
                     ? colors.button.textSecondary
                     : colorMap[color],

@@ -9,12 +9,14 @@ export const CartIcon = ({
   height,
   size = 24,
   color = colors.placeholder,
+  ...props
 }: SvgFactoryProps) => (
   <Svg
     width={width || size}
     height={height || size}
     color={color}
     viewBox="0 0 19 19"
+    {...props}
   >
     <Path
       fillRule="evenodd"

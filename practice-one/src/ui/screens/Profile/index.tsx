@@ -1,5 +1,6 @@
+import { useCallback } from 'react';
 import { View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 
 // Components
 import { Button } from '@/ui/components';
@@ -11,13 +12,12 @@ import { SCREEN_ROUTES } from '@/constants';
 import { useAuthStore } from '@/stores';
 
 export const Profile = () => {
-  const router = useRouter();
   const clearAuth = useAuthStore((state) => state.clearAuth);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     clearAuth();
     router.replace(SCREEN_ROUTES.ONBOARDING);
-  };
+  }, [clearAuth]);
 
   return (
     <View>

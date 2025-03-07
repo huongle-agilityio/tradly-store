@@ -1,6 +1,6 @@
-import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Animated, View } from 'react-native';
+import { router } from 'expo-router';
 import { styles } from './styles';
 
 // Components
@@ -8,10 +8,11 @@ import { Button, Text } from '@/ui/components';
 
 // Constants
 import { SCREEN_ROUTES } from '@/constants';
+
+// Themes
 import { spacing } from '@/ui/themes';
 
 export const Onboarding = () => {
-  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
@@ -55,7 +56,7 @@ export const Onboarding = () => {
     } else {
       router.replace(SCREEN_ROUTES.LOGIN);
     }
-  }, [currentIndex, fadeAnim, images.length, router]);
+  }, [currentIndex, fadeAnim, images.length]);
 
   return (
     <View style={styles.container}>

@@ -9,12 +9,14 @@ export const StoreIcon = ({
   height,
   size = spacing[5],
   color = colors.placeholder,
+  ...props
 }: SvgFactoryProps) => (
   <Svg
     width={width || size}
     height={height || size}
     color={color}
     viewBox="0 0 24 24"
+    {...props}
   >
     <Path
       fill="currentColor"

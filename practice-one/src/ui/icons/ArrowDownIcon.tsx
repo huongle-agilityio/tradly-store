@@ -9,12 +9,14 @@ export const ArrowDownIcon = ({
   height = spacing[1],
   size,
   color = colors.placeholder,
+  ...props
 }: SvgFactoryProps) => (
   <Svg
     width={width || size}
     height={height || size}
     color={color}
     viewBox="0 0 9 4"
+    {...props}
   >
     <Path
       fillRule="evenodd"
