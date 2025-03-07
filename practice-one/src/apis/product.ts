@@ -4,19 +4,36 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { API_ENDPOINT, QUERY_KEY, QUERY_URL } from '@/constants';
 
 // Interfaces
-import { ListProductResponse, ProductFilterParams } from '@/interfaces';
+import {
+  ListProductResponse,
+  ProductFilterParams,
+  SortType,
+} from '@/interfaces';
 
 // Services
 import { httpClient } from '@/services';
 
-export const useGetProduct = (enabled = true) => {
+export const useGetProduct = ({
+  sortCreatedAt,
+  hasDiscount = false,
+  enabled = true,
+}: {
+  sortCreatedAt?: SortType;
+  hasDiscount?: boolean;
+  enabled?: boolean;
+}) => {
   const { data, ...rest } = useQuery<ListProductResponse>({
     enabled,
-    queryKey: QUERY_KEY.PRODUCT,
-    queryFn: async () =>
-      httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS}`,
-      }),
+    queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({ sortCreatedAt, hasDiscount }),
+    queryFn: () => {
+      console.log(
+        `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: 5 })}`,
+      );
+
+      return httpClient.get({
+        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: 5 })}`,
+      });
+    },
   });
 
   return {
@@ -34,9 +51,9 @@ export const useGetProductByParams = (
     enabled,
     initialPageParam: 0,
     queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({ category }),
-    queryFn: async () =>
+    queryFn: () =>
       httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS_BY_PARAMS({ category })}`,
+        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ category })}`,
       }),
     getNextPageParam: (lastPage) =>
       lastPage.meta.pagination.next

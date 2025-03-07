@@ -19,3 +19,5 @@ export interface ApiPaginationResponse<T1> {
 export interface PayloadData<T> {
   data: T;
 }
+
+export type SortType = 'asc' | 'desc';

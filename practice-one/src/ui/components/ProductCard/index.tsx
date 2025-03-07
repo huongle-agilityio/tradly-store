@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { styles } from './styles';
 
 // Components
@@ -19,6 +19,7 @@ interface ProductCardProps {
   storeSource: string;
   price: number;
   discount?: number;
+  styleWrapper?: StyleProp<ViewStyle>;
   onPress: () => void;
 }
 
@@ -30,6 +31,7 @@ export const ProductCard = memo(
     storeSource,
     price,
     discount,
+    styleWrapper,
     onPress,
   }: ProductCardProps) => {
     const priceDiscount = calculateDiscountedPrice(price, discount);
@@ -37,7 +39,7 @@ export const ProductCard = memo(
     return (
       <TouchableOpacity
         testID="product-card"
-        style={styles.container}
+        style={[styles.container, styleWrapper]}
         onPress={onPress}
       >
         <Image

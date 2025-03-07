@@ -9,5 +9,6 @@ export const SCREEN_NAME = {
 export const SCREEN_ROUTES = {
   LOGIN: '/login',
   ONBOARDING: '/onboarding',
+  CATEGORIES: '/categories',
   HOME: '/home',
 } as const;

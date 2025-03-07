@@ -1,4 +1,4 @@
-import { ApiPaginationResponse } from './api';
+import { ApiPaginationResponse, SortType } from './api';
 import { Store } from './store';
 
 export interface Product {
@@ -18,7 +18,9 @@ export interface Product {
 }
 
 export interface ProductFilterParams {
-  category: string;
+  category?: string;
+  hasDiscount?: boolean;
+  sortCreatedAt?: SortType;
   page?: number;
   pageSize?: number;
 }
