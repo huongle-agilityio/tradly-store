@@ -1,6 +1,9 @@
 import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import { Href, router } from 'expo-router';
+
+// Constants
+import { SCREEN_ROUTES } from '@/constants';
 
 // Components
 import { CategoryCard } from '@/ui/components';
@@ -9,8 +12,11 @@ import { CategoryCard } from '@/ui/components';
 import { CATEGORIES } from '@/mocks';
 
 export const Categories = () => {
-  const handlePress = useCallback((name: string, value: string) => {
-    router.push(`/category/${name}?query=${value}`);
+  const handlePress = useCallback((name: string, query: string) => {
+    router.push({
+      pathname: SCREEN_ROUTES.CATEGORIES,
+      params: { query, name },
+    } as unknown as Href);
   }, []);
 
   return (
@@ -22,7 +28,6 @@ export const Categories = () => {
           title={name}
           source={image}
           onPress={handlePress}
-          styleWrapper={{ marginBottom: 5 }}
         />
       ))}
     </View>
