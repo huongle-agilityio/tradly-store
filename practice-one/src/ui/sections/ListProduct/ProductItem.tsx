@@ -4,12 +4,14 @@ import { router } from 'expo-router';
 // Components
 import { ProductCard } from '@/ui/components';
 
+// Constants
+import { SCREEN_ROUTES } from '@/constants';
+
 // Mocks
 import { INT_PRODUCT_CARD } from '@/mocks';
 
 // Interfaces
 import { Product } from '@/interfaces';
-import { SCREEN_ROUTES } from '@/constants';
 
 interface ProductListItemProps {
   index: number;

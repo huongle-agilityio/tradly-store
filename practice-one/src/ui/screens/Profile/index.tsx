@@ -20,7 +20,7 @@ export const Profile = () => {
   }, [clearAuth]);
 
   return (
-    <View>
+    <View style={{ minWidth: 330, paddingVertical: 30, alignSelf: 'center' }}>
       <Button onPress={handleLogout}>Logout</Button>
     </View>
   );

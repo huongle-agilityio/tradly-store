@@ -3,6 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 // Components
 import { Image } from '.';
 
+// Constants
+import { IMAGES } from '@/constants';
+
 const meta = {
   title: 'Image',
   component: Image,
@@ -25,7 +28,7 @@ const meta = {
     },
   },
   args: {
-    source: require('@/assets/splash-icon-dark.png'),
+    source: IMAGES.SPLASH_ICON_DARK,
     alt: 'Sample Image',
     contentFit: 'cover',
     transition: 1000,

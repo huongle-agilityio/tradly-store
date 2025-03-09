@@ -16,7 +16,7 @@ import {
 import { SCREEN_NAME } from '@/constants';
 
 // Themes
-import { colors } from '@/ui/themes';
+import { colors, fontsFamily, fontSizes, fontWeights } from '@/ui/themes';
 
 const TabLayout = () => (
   <Tabs
@@ -35,6 +35,12 @@ const TabLayout = () => (
       sceneStyle: {
         flex: 1,
         backgroundColor: colors.tertiary,
+      },
+      headerTintColor: colors.light,
+      headerTitleStyle: {
+        fontFamily: fontsFamily.semiBold,
+        fontWeight: fontWeights.bold,
+        fontSize: fontSizes.xxl,
       },
     }}
   >

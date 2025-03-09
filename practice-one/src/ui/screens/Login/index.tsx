@@ -1,4 +1,5 @@
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { styles } from './styles';
 
 // Components
 import { Text } from '@/ui/components';
@@ -8,7 +9,7 @@ import { FormLogin } from '@/ui/sections';
 import { BRAND } from '@/constants';
 
 // Themes
-import { colors, spacing } from '@/ui/themes';
+import { spacing } from '@/ui/themes';
 
 export const Login = () => (
   <View style={styles.container}>
@@ -37,18 +38,3 @@ export const Login = () => (
     </View>
   </View>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-  },
-  content: {
-    width: 310,
-    alignSelf: 'center',
-  },
-  textWrapper: {
-    alignItems: 'center',
-  },
-});

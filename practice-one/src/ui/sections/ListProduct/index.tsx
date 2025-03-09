@@ -1,18 +1,17 @@
+import { useCallback, useMemo } from 'react';
 import { FlatList, FlatListProps } from 'react-native';
 
 // Apis
 import { useGetProduct, useGetProductByParams } from '@/apis';
 
 // Components
+import { EmptyList } from '../EmptyList';
+import { ListFooter } from '../ListFooter';
 import { ProductListItem } from './ProductItem';
 
 // Interfaces
 import { Product, ProductFilterParams, SortType } from '@/interfaces';
-
-// Themes
-import { ListFooter } from '../ListFooter';
-import { useCallback, useMemo } from 'react';
-import { EmptyList } from '../EmptyList';
+import { spacing } from '@/ui/themes';
 
 interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {
   isLoadMore?: boolean;
@@ -64,15 +63,18 @@ export const ListProduct = ({
       showsHorizontalScrollIndicator: false,
       showsVerticalScrollIndicator: false,
       contentContainerStyle: {
-        gap: 10,
+        gap: spacing['2.5'],
         minWidth: 330,
-        paddingVertical: !horizontal ? 20 : undefined,
+        paddingVertical: !horizontal ? spacing[5] : undefined,
       },
       ...(isLoadMore && {
         onEndReached: handleEndReached,
         onEndReachedThreshold: 0.1,
       }),
-      ...(!horizontal && { numColumns: 2, columnWrapperStyle: { gap: 10 } }),
+      ...(!horizontal && {
+        numColumns: 2,
+        columnWrapperStyle: { gap: spacing['2.5'] },
+      }),
     }),
     [data, handleEndReached, horizontal, isLoadMore],
   );

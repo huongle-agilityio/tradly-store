@@ -4,11 +4,15 @@ import type { Meta, StoryObj } from '@storybook/react';
 // Components
 import { CategoryCard } from '.';
 
+// Constants
+import { IMAGES } from '@/constants';
+
 const meta = {
   title: 'CategoryCard',
   component: CategoryCard,
   args: {
-    source: require('@/assets/category-beverages.webp'),
+    value: 'default value',
+    source: IMAGES.CATEGORY_BEVERAGES,
     title: 'Beverages',
     onPress: action('onPress'),
   },
@@ -18,4 +22,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {},
+};
