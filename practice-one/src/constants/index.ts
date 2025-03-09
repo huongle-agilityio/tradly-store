@@ -10,3 +10,4 @@ export * from './routes';
 export * from './regex';
 export * from './brand';
 export * from './storageKey';
+export * from './timing';

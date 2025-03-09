@@ -5,17 +5,20 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Text } from '@/ui/components';
 import { ListProduct, Categories } from '@/ui/sections';
 
+// Constants
+import { SCREEN_ROUTES } from '@/constants';
+
 export const Home = () => {
   const handleRedirectNewProduct = () => {
     router.push({
-      pathname: '/products',
+      pathname: SCREEN_ROUTES.PRODUCT,
       params: { sortCreatedAt: 'desc', name: 'New Product' },
     } as unknown as Href);
   };
 
   const handleRedirectPopularProduct = () => {
     router.push({
-      pathname: '/products',
+      pathname: SCREEN_ROUTES.PRODUCT,
       params: { hasDiscount: true, name: 'Popular Product' },
     } as unknown as Href);
   };
