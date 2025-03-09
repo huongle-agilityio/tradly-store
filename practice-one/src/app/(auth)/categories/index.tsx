@@ -1,7 +1,6 @@
-import { Text } from '@/ui/components';
+// Sections
+import { ProductCategory } from '@/ui/screens';
 
-const ListCategory = () => {
-  return <Text>Product by category</Text>;
-};
+const ListCategory = () => <ProductCategory />;
 
 export default ListCategory;

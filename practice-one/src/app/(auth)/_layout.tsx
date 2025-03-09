@@ -22,7 +22,9 @@ const LayoutWithSearch = () => (
         <HeaderWithFilterButton title={route?.params?.name || ''} />
       ),
     }}
-  />
+  >
+    <Stack.Screen name="products/[id]/index" options={{ headerShown: false }} />
+  </Stack>
 );
 
 export default LayoutWithSearch;
