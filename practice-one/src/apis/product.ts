@@ -47,7 +47,12 @@ export const useGetProductByParams = ({
   params: ProductFilterParams;
   enabled?: boolean;
 }) => {
-  const { category = '', hasDiscount = false, sortCreatedAt } = params || {};
+  const {
+    category = '',
+    title = '',
+    hasDiscount = false,
+    sortCreatedAt,
+  } = params || {};
 
   const { data, ...rest } = useInfiniteQuery<ListProductResponse>({
     enabled,
@@ -55,10 +60,11 @@ export const useGetProductByParams = ({
     queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({
       hasDiscount,
       category,
+      title,
     }),
     queryFn: ({ pageParam = 1 }) =>
       httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, category, page: Number(pageParam), pageSize: 6 })}`,
+        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, title, sortCreatedAt, category, page: Number(pageParam), pageSize: 6 })}`,
       }),
     getNextPageParam: (lastPage) => {
       const { page, pageCount } = lastPage.meta.pagination;

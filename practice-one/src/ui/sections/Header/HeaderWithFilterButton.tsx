@@ -37,7 +37,7 @@ export const HeaderWithFilterButton = ({ title }: { title: string }) => {
 
   useEffect(() => {
     router.setParams({
-      category: debouncedSearchTerm,
+      title: debouncedSearchTerm,
     });
   }, [debouncedSearchTerm]);
 

@@ -15,7 +15,7 @@ export const Categories = () => {
   const handlePress = useCallback((name: string, query: string) => {
     router.push({
       pathname: SCREEN_ROUTES.CATEGORIES,
-      params: { query, name },
+      params: { category: query, name },
     } as unknown as Href);
   }, []);
 
