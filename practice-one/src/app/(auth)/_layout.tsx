@@ -15,16 +15,14 @@ interface HeaderProps {
 }
 
 const LayoutWithSearch = () => (
-  <Stack screenOptions={{ headerStyle: { backgroundColor: colors.primary } }}>
-    <Stack.Screen
-      name="index"
-      options={{
-        header: ({ route }: HeaderProps) => (
-          <HeaderWithFilterButton title={route?.params?.name || ''} />
-        ),
-      }}
-    />
-  </Stack>
+  <Stack
+    screenOptions={{
+      headerStyle: { backgroundColor: colors.primary },
+      header: ({ route }: HeaderProps) => (
+        <HeaderWithFilterButton title={route?.params?.name || ''} />
+      ),
+    }}
+  />
 );
 
 export default LayoutWithSearch;

@@ -24,16 +24,14 @@ export const useGetProduct = ({
 }) => {
   const { data, ...rest } = useQuery<ListProductResponse>({
     enabled,
-    queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({ sortCreatedAt, hasDiscount }),
-    queryFn: () => {
-      console.log(
-        `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: 5 })}`,
-      );
-
-      return httpClient.get({
+    queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({
+      sortCreatedAt,
+      hasDiscount,
+    }),
+    queryFn: async () =>
+      httpClient.get({
         endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: 5 })}`,
-      });
-    },
+      }),
   });
 
   return {

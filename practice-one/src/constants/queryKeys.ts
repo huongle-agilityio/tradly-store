@@ -4,6 +4,10 @@ export const QUERY_KEY = {
     category,
     sortCreatedAt,
     hasDiscount,
+    page,
+    pageSize,
   }: Partial<Record<string, string | number | boolean>>) =>
-    ['products', category, sortCreatedAt, hasDiscount].filter((i) => !!i),
+    ['products', category, sortCreatedAt, hasDiscount, page, pageSize].filter(
+      (i) => !!i,
+    ),
 };
