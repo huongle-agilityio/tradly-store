@@ -9,14 +9,14 @@ export const Home = () => {
   const handleRedirectNewProduct = () => {
     router.push({
       pathname: '/products',
-      params: { filter: 'popularProduct' },
+      params: { sortCreatedAt: 'desc', name: 'New Product' },
     } as unknown as Href);
   };
 
   const handleRedirectPopularProduct = () => {
     router.push({
       pathname: '/products',
-      params: { filter: 'popularProduct' },
+      params: { hasDiscount: true, name: 'Popular Product' },
     } as unknown as Href);
   };
 

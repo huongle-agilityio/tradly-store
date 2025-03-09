@@ -30,7 +30,7 @@ export const useGetProduct = ({
     }),
     queryFn: async () =>
       httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: 5 })}`,
+        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: 6 })}`,
       }),
   });
 
@@ -40,23 +40,31 @@ export const useGetProduct = ({
   };
 };
 
-export const useGetProductByParams = (
+export const useGetProductByParams = ({
+  params = {},
   enabled = true,
-  params: ProductFilterParams,
-) => {
-  const { category } = params;
+}: {
+  params: ProductFilterParams;
+  enabled?: boolean;
+}) => {
+  const { category = '', hasDiscount = false, sortCreatedAt } = params || {};
+
   const { data, ...rest } = useInfiniteQuery<ListProductResponse>({
     enabled,
-    initialPageParam: 0,
-    queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({ category }),
-    queryFn: () =>
+    initialPageParam: 1,
+    queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({
+      hasDiscount,
+      category,
+    }),
+    queryFn: ({ pageParam = 1 }) =>
       httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ category })}`,
+        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, category, page: Number(pageParam), pageSize: 6 })}`,
       }),
-    getNextPageParam: (lastPage) =>
-      lastPage.meta.pagination.next
-        ? lastPage.meta.pagination.offset + 10
-        : undefined,
+    getNextPageParam: (lastPage) => {
+      const { page, pageCount } = lastPage.meta.pagination;
+
+      return page < pageCount ? page + 1 : undefined;
+    },
   });
 
   return {
