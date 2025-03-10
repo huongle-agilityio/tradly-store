@@ -18,7 +18,7 @@ module.exports = {
     'src/utils/**/*.{ts,tsx}',
     '!**/*.stories.{ts,tsx}',
   ],
-  setupFilesAfterEnv: ['@testing-library/react-native'],
+  setupFilesAfterEnv: ['./jest.setup.ts'],
   moduleDirectories: [
     'node_modules',
     // add the directory with the test-utils.js file, for example:

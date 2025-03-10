@@ -30,6 +30,9 @@ export type TextWeight = 'light' | 'normal' | 'medium' | 'bold';
 // Input
 export type InputVariant = 'default' | 'outlined' | 'underlined';
 
+// Toast
+export type ToastColor = 'default' | 'success' | 'error';
+
 // Select
 export interface Option {
   value: string;
