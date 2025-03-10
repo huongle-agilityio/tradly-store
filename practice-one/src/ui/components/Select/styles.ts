@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
   optionsContainer: {
     width: '100%',
     maxHeight: 150,
+    zIndex: 999,
     top: 40,
     position: 'absolute',
     backgroundColor: colors.select.backgroundPrimary,

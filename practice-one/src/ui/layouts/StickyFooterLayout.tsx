@@ -12,6 +12,7 @@ interface StickyFooterLayoutProps {
   disabled?: boolean;
   isLoading?: boolean;
   children: ReactNode;
+  content?: ReactNode;
   onPress: () => void;
 }
 
@@ -22,28 +23,35 @@ export const StickyFooterLayout = memo(
     buttonText,
     onPress,
     children,
+    content: Content,
   }: StickyFooterLayoutProps) => (
-    <View style={{ flex: 1, position: 'relative' }}>
+    <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>{children}</View>
       <View
         style={{
-          paddingVertical: spacing[3],
-          paddingHorizontal: 32,
           width: '100%',
-          backgroundColor: colors.light,
-          bottom: 0,
-          position: 'absolute',
+          borderTopWidth: 0.5,
+          borderColor: colors.productCard.border,
         }}
       >
-        <Button
-          disabled={disabled}
-          isLoading={isLoading}
-          textSize="xl"
-          buttonStyles={{ height: 48 }}
-          onPress={onPress}
+        <View
+          style={{
+            backgroundColor: colors.light,
+            paddingVertical: spacing[3],
+            paddingHorizontal: 32,
+          }}
         >
-          {buttonText}
-        </Button>
+          {Content}
+          <Button
+            disabled={disabled}
+            isLoading={isLoading}
+            textSize="xl"
+            buttonStyles={{ height: 48 }}
+            onPress={onPress}
+          >
+            {buttonText}
+          </Button>
+        </View>
       </View>
     </View>
   ),

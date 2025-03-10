@@ -1,5 +1,8 @@
 import { Animated } from 'react-native';
 
+// Interfaces
+import { Cart, ListDetails } from '@/interfaces';
+
 /**
  * Calculates the discounted price based on the original price and discount percentage.
  *
@@ -54,7 +57,7 @@ export const getProductDetails = ({
   priceType: string;
   category: string;
   location: string;
-}) => [
+}): ListDetails[] => [
   {
     title: 'Condition',
     value: 'Organic',
@@ -72,3 +75,36 @@ export const getProductDetails = ({
     value: location,
   },
 ];
+
+export const getPriceDetails = ({
+  total,
+  totalQuantity,
+}: {
+  total: number;
+  totalQuantity: number;
+}): ListDetails[] => [
+  {
+    title: `Price ${totalQuantity}`,
+    value: total.toString(),
+  },
+  {
+    title: 'Delivery Fee',
+    value: 'Info',
+  },
+];
+
+export const getTotalCarts = (
+  carts: Cart[],
+): { total: number; totalQuantity: number } => {
+  const total = carts.reduce(
+    (sum, item) =>
+      sum +
+      Number(calculateDiscountedPrice(item.price, item.discount)) *
+        item.quantity,
+    0,
+  );
+
+  const totalQuantity = carts.reduce((sum, item) => sum + item.quantity, 0);
+
+  return { total, totalQuantity };
+};

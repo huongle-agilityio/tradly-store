@@ -7,6 +7,7 @@ import {
   ViewStyle,
   FlatList,
   TextInput,
+  TextInputProps as NativeSelectProps,
 } from 'react-native';
 
 // Components
@@ -22,7 +23,7 @@ import { Option } from '@/interfaces';
 // Themes
 import { styles } from './styles';
 
-interface SelectProps {
+interface SelectProps extends Omit<NativeSelectProps, 'style'> {
   value: string;
   error?: string;
   placeholder?: string;
@@ -43,6 +44,7 @@ export const Select = memo(
     onValueChange,
     placeholder,
     style,
+    ...props
   }: SelectProps) => {
     const [showOptions, setShowOptions] = useState(false);
 
@@ -80,6 +82,7 @@ export const Select = memo(
             placeholder={placeholder}
             editable={false}
             style={styles.text}
+            {...props}
           />
           <ArrowDownIcon />
         </TouchableOpacity>
