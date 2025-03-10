@@ -1,5 +1,6 @@
 export * from './Header/HeaderWithSearchInput';
 export * from './Header/HeaderWithFilterButton';
+export * from './Header/HeaderWithTitle';
 export * from './FormLogin';
 export * from './ListProduct';
 export * from './Categories';

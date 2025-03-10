@@ -9,6 +9,7 @@ export const SCREEN_NAME = {
 export const SCREEN_ROUTES = {
   LOGIN: '/login',
   BROWSE: '/browse',
+  CART: '/cart',
   ONBOARDING: '/onboarding',
   CATEGORIES: '/categories',
   HOME: '/home',

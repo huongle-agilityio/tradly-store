@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { router } from 'expo-router';
+import { Href, router } from 'expo-router';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 // Components
@@ -42,6 +42,10 @@ export const HeaderWithSearchInput = ({
     });
   };
 
+  const handlerRedirectMyCart = () => {
+    router.push(SCREEN_ROUTES.CART as Href);
+  };
+
   useEffect(() => {
     router.setParams({
       title: debouncedSearchTerm,
@@ -56,7 +60,9 @@ export const HeaderWithSearchInput = ({
         </Text>
         <View style={styles.iconWrapper}>
           <HeartIcon size={24} color={colors.light} />
-          <CartIcon size={24} color={colors.light} />
+          <TouchableOpacity onPress={handlerRedirectMyCart}>
+            <CartIcon size={24} color={colors.light} />
+          </TouchableOpacity>
         </View>
       </View>
 

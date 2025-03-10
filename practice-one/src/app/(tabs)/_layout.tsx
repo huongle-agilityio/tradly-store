@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 
 // Sections
-import { HeaderWithSearchInput } from '@/ui/sections';
+import { HeaderWithSearchInput, HeaderWithTitle } from '@/ui/sections';
 
 // Icons
 import {
@@ -42,6 +42,7 @@ const TabLayout = () => (
         fontWeight: fontWeights.bold,
         fontSize: fontSizes.xxl,
       },
+      header: ({ options }) => <HeaderWithTitle title={options.title || ''} />,
       tabBarHideOnKeyboard: true,
     }}
   >
