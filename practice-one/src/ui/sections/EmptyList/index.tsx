@@ -4,17 +4,23 @@ import { View } from 'react-native';
 // Components
 import { Text } from '@/ui/components';
 
-export const EmptyList = memo(() => (
-  <View
-    style={{
-      alignItems: 'center',
-      paddingVertical: 50,
-    }}
-  >
-    <Text fontSize="md" fontWeight="bold">
-      No results found.
-    </Text>
-  </View>
-));
+interface EmptyListProps {
+  text?: string;
+}
+
+export const EmptyList = memo(
+  ({ text = 'No results found.' }: EmptyListProps) => (
+    <View
+      style={{
+        alignItems: 'center',
+        paddingVertical: 50,
+      }}
+    >
+      <Text fontSize="md" fontWeight="bold">
+        {text}
+      </Text>
+    </View>
+  ),
+);
 
 EmptyList.displayName = 'EmptyList';

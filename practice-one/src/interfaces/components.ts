@@ -35,3 +35,8 @@ export interface Option {
   value: string;
   label: string;
 }
+
+export interface ListDetails {
+  value: string;
+  title: string;
+}

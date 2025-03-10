@@ -4,3 +4,4 @@ export * from './components';
 export * from './product';
 export * from './store';
 export * from './user';
+export * from './cart';
