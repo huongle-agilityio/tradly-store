@@ -18,6 +18,7 @@ export interface Product {
 }
 
 export interface ProductFilterParams {
+  title?: string;
   category?: string;
   hasDiscount?: boolean;
   sortCreatedAt?: SortType;

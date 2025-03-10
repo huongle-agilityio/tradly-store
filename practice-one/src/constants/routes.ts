@@ -11,4 +11,6 @@ export const SCREEN_ROUTES = {
   ONBOARDING: '/onboarding',
   CATEGORIES: '/categories',
   HOME: '/home',
+  PRODUCT: '/products',
+  PRODUCT_DETAIL: (id: string) => `/products/${id}` as const,
 } as const;

@@ -1,24 +1,45 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 
 // Components
-import { Button, Text } from '@/ui/components';
+import { Button, Input, Text } from '@/ui/components';
 
 // Icons
 import {
   ArrowLeftIcon,
   CategoryIcon,
   LocationIcon,
+  SearchIcon,
   SortIcon,
 } from '@/ui/icons';
+
+// Constants
+import { TIMING } from '@/constants';
+
+// Hooks
+import { useDebounce } from '@/hooks';
 
 // Themes
 import { colors, spacing } from '@/ui/themes';
 
 export const HeaderWithFilterButton = ({ title }: { title: string }) => {
+  const [filter, setFilter] = useState<string>('');
+  const debouncedSearchTerm = useDebounce(filter, TIMING.DEBOUNCE_DEFAULT);
+
   const handleBack = () => {
     router.back();
   };
+
+  const handleFilter = (value: string) => {
+    setFilter(value);
+  };
+
+  useEffect(() => {
+    router.setParams({
+      title: debouncedSearchTerm,
+    });
+  }, [debouncedSearchTerm]);
 
   return (
     <View style={{ backgroundColor: colors.primary, paddingHorizontal: 16 }}>
@@ -32,6 +53,15 @@ export const HeaderWithFilterButton = ({ title }: { title: string }) => {
         <Text fontSize="xxl" fontWeight="bold" color="light">
           {title}
         </Text>
+      </View>
+      <View style={{ marginTop: 37 }}>
+        <Input
+          variant="outlined"
+          placeholder="Search Product"
+          onChangeText={handleFilter}
+          value={filter}
+          icon={<SearchIcon size={24} color={colors.primary} />}
+        />
       </View>
       <View style={styles.buttonFilterWrapper}>
         <Button
@@ -74,7 +104,7 @@ const styles = StyleSheet.create({
   buttonFilterWrapper: {
     flexDirection: 'row',
     gap: spacing[2],
-    paddingTop: 45,
+    paddingTop: 28,
     paddingBottom: spacing[3],
   },
 });

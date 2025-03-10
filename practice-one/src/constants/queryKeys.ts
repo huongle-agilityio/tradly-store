@@ -8,6 +8,6 @@ export const QUERY_KEY = {
     pageSize,
   }: Partial<Record<string, string | number | boolean>>) =>
     ['products', category, sortCreatedAt, hasDiscount, page, pageSize].filter(
-      (i) => !!i,
+      (i) => i !== undefined && i !== null,
     ),
 };

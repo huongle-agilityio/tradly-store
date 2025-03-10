@@ -21,6 +21,26 @@ describe('Button Component', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('Should Should renders correctly when variant is solid and color is secondary', () => {
+    const container = render(
+      <Button color="secondary">Click me</Button>,
+    ).toJSON();
+
+    expect(screen.getByText('Click me')).toBeTruthy();
+    expect(container).toMatchSnapshot();
+  });
+
+  it('Should Should renders correctly when variant is not solid and color is secondary', () => {
+    const container = render(
+      <Button color="secondary" variant="bordered">
+        Click me
+      </Button>,
+    ).toJSON();
+
+    expect(screen.getByText('Click me')).toBeTruthy();
+    expect(container).toMatchSnapshot();
+  });
+
   it('Should calls onPress when pressed', () => {
     const mockOnPress = jest.fn();
     render(<Button onPress={mockOnPress}>Click</Button>);

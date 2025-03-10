@@ -37,7 +37,11 @@ export const CategoryCard = memo(
     };
 
     return (
-      <TouchableOpacity onPress={handlePress} style={styleWrapper}>
+      <TouchableOpacity
+        testID="category-card"
+        onPress={handlePress}
+        style={styleWrapper}
+      >
         <ImageBackground
           testID="category-card-image"
           source={source}
