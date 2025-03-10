@@ -100,20 +100,24 @@ export const ProductDetail = () => {
               <Text fontSize="lg" fontWeight="bold" color="secondary">
                 ${calculateDiscountedPrice(price, discount)}
               </Text>
-              <Text
-                fontWeight="normal"
-                color="placeholder"
-                textStyle={{
-                  marginLeft: 15,
-                  marginRight: 5,
-                  textDecorationLine: 'line-through',
-                }}
-              >
-                ${price}
-              </Text>
-              <Text fontWeight="normal" color="placeholder">
-                {discount}% off
-              </Text>
+              {discount && (
+                <>
+                  <Text
+                    fontWeight="normal"
+                    color="placeholder"
+                    textStyle={{
+                      marginLeft: 15,
+                      marginRight: 5,
+                      textDecorationLine: 'line-through',
+                    }}
+                  >
+                    ${price}
+                  </Text>
+                  <Text fontWeight="normal" color="placeholder">
+                    {discount}% off
+                  </Text>
+                </>
+              )}
             </View>
           </View>
         </View>

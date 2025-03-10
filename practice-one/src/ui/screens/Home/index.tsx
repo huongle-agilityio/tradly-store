@@ -37,7 +37,7 @@ export const Home = () => {
               See All
             </Button>
           </View>
-          <ListProduct hasDiscount horizontal={true} />
+          <ListProduct sortCreatedAt="desc" horizontal={true} />
         </View>
 
         <View style={styles.contentWrapper}>
@@ -49,7 +49,7 @@ export const Home = () => {
               See All
             </Button>
           </View>
-          <ListProduct sortCreatedAt="desc" horizontal={true} />
+          <ListProduct hasDiscount horizontal={true} />
         </View>
       </View>
     </ScrollView>

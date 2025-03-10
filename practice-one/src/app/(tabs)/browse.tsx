@@ -1,6 +1,6 @@
 // Components
-import { UpComing } from '@/ui/screens';
+import { ProductCategory } from '@/ui/screens';
 
-const Browse = () => <UpComing />;
+const Browse = () => <ProductCategory />;
 
 export default Browse;
