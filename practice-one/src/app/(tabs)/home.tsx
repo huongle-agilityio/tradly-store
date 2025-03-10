@@ -1,19 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { Home as HomeScreen } from '@/ui/screens';
 
-const HomeScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Home2</Text>
-    </View>
-  );
-};
+const Home = () => <HomeScreen />;
 
-export default HomeScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+export default Home;

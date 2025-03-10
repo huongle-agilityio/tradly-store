@@ -16,7 +16,7 @@ export const QUERY_URL = {
       {
         populate: { store: { fields: ['*'] } },
         filters: {
-          ...(category ? { category: { $eq: category } } : {}),
+          ...(category ? { title: { $eqi: category } } : {}),
           ...(hasDiscount ? { discount: { $notNull: true } } : {}),
         },
         ...(sortCreatedAt ? { sort: [`createdAt:${sortCreatedAt}`] } : {}),
