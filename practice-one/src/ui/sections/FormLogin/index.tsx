@@ -40,6 +40,7 @@ export const FormLogin = () => {
   const handleSubmit = ({ email, password }: FormData) => {
     if (error) setError('');
     const payload = { identifier: email, email, password };
+
     mutate(payload, {
       onSuccess: () => {
         router.replace(SCREEN_ROUTES.HOME);

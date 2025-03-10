@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 // Constants
-import { API_ENDPOINT, QUERY_KEY, QUERY_URL } from '@/constants';
+import { API_ENDPOINT, PAGE_SIZE, QUERY_KEY, QUERY_URL } from '@/constants';
 
 // Interfaces
 import {
@@ -13,6 +13,15 @@ import {
 // Services
 import { httpClient } from '@/services';
 
+/**
+ * React Query hook to fetch a list of products, given filtering parameters.
+ *
+ * @param {SortType} [sortCreatedAt] - Sort products by creation date.
+ * @param {boolean} [hasDiscount=false] - Filter products with a discount.
+ * @param {boolean} [enabled=true] - Whether to enable or disable the query.
+ *
+ * @returns {UseQueryResult<ListProductResponse, Error>} - The result of the query.
+ */
 export const useGetProduct = ({
   sortCreatedAt,
   hasDiscount = false,
@@ -30,7 +39,7 @@ export const useGetProduct = ({
     }),
     queryFn: async () =>
       httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: 6 })}`,
+        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: PAGE_SIZE })}`,
       }),
   });
 
@@ -40,6 +49,15 @@ export const useGetProduct = ({
   };
 };
 
+/**
+ * React Query hook to fetch a paginated list of products based on filtering parameters.
+ * Utilizes infinite query for seamless pagination support.
+ *
+ * @param {ProductFilterParams} params - The parameters to filter products, including category, title, discount, and sort order.
+ * @param {boolean} [enabled=true] - Whether to enable or disable the query.
+ *
+ * @returns {UseInfiniteQueryResult<ListProductResponse, Error>} - The result of the query, including product data and pagination info.
+ */
 export const useGetProductByParams = ({
   params = {},
   enabled = true,
@@ -64,7 +82,7 @@ export const useGetProductByParams = ({
     }),
     queryFn: ({ pageParam = 1 }) =>
       httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, title, sortCreatedAt, category, page: Number(pageParam), pageSize: 6 })}`,
+        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, title, sortCreatedAt, category, page: Number(pageParam), pageSize: PAGE_SIZE })}`,
       }),
     getNextPageParam: (lastPage) => {
       const { page, pageCount } = lastPage.meta.pagination;

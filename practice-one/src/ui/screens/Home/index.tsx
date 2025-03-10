@@ -1,5 +1,6 @@
 import { Href, router } from 'expo-router';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { styles } from './styles';
 
 // Components
 import { Button, Text } from '@/ui/components';
@@ -25,17 +26,10 @@ export const Home = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{ gap: 28, marginTop: 16, marginBottom: 90 }}>
+      <View style={styles.wrapper}>
         <Categories />
-        <View style={{ gap: 16 }}>
-          <View
-            style={{
-              paddingHorizontal: 20,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+        <View style={styles.contentWrapper}>
+          <View style={styles.content}>
             <Text fontWeight="bold" fontSize="lg" color="placeholder">
               New Product
             </Text>
@@ -46,15 +40,8 @@ export const Home = () => {
           <ListProduct hasDiscount horizontal={true} />
         </View>
 
-        <View style={{ gap: 16 }}>
-          <View
-            style={{
-              paddingHorizontal: 20,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+        <View style={styles.contentWrapper}>
+          <View style={styles.content}>
             <Text fontWeight="bold" fontSize="lg" color="placeholder">
               Popular Product
             </Text>
@@ -68,9 +55,3 @@ export const Home = () => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

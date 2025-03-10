@@ -205,7 +205,7 @@ class HttpService {
     endpoint,
     token,
     options,
-  }: Omit<ApiProps<TResponse>, 'body'>): Promise<TResponse> {
+  }: Omit<ApiProps<TResponse>, 'payload'>): Promise<TResponse> {
     return this.createRequest<TResponse>({
       endpoint,
       method: HttpMethod.DELETE,
