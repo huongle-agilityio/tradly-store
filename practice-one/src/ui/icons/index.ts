@@ -11,3 +11,6 @@ export * from './UserIcon';
 export * from './SortIcon';
 export * from './CategoryIcon';
 export * from './LocationIcon';
+export * from './ShareIcon';
+export * from './OutlineHeartIcon';
+export * from './MenuDotIcon';

@@ -1,5 +1,5 @@
-import { Text } from '@/ui/components';
+import { ProductDetail as ProductDetailScreen } from '@/ui/screens';
 
-const ProductDetail = () => <Text>Product detail</Text>;
+const ProductDetail = () => <ProductDetailScreen />;
 
 export default ProductDetail;

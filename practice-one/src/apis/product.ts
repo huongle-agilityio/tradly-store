@@ -7,6 +7,7 @@ import { API_ENDPOINT, PAGE_SIZE, QUERY_KEY, QUERY_URL } from '@/constants';
 import {
   ListProductResponse,
   ProductFilterParams,
+  ProductResponse,
   SortType,
 } from '@/interfaces';
 
@@ -94,6 +95,21 @@ export const useGetProductByParams = ({
   return {
     data: data?.pages.flatMap((page) => page.data) || [],
     total: data?.pages[0].meta.pagination.total,
+    ...rest,
+  };
+};
+
+export const useGetProductById = (id: string) => {
+  const { data, ...rest } = useQuery<ProductResponse>({
+    queryKey: [id],
+    queryFn: async () =>
+      httpClient.get({
+        endpoint: `${API_ENDPOINT.PRODUCT}/${id}${QUERY_URL.PRODUCTS({})}`,
+      }),
+  });
+
+  return {
+    data: data?.data,
     ...rest,
   };
 };

@@ -45,3 +45,30 @@ export const interpolateValue = (
     extrapolate: 'clamp',
   });
 };
+
+export const getProductDetails = ({
+  priceType,
+  category,
+  location,
+}: {
+  priceType: string;
+  category: string;
+  location: string;
+}) => [
+  {
+    title: 'Condition',
+    value: 'Organic',
+  },
+  {
+    title: 'Price Type',
+    value: priceType,
+  },
+  {
+    title: 'Category',
+    value: category,
+  },
+  {
+    title: 'Location',
+    value: location,
+  },
+];
