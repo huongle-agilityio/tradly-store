@@ -21,18 +21,27 @@ import {
   ShareIcon,
 } from '@/ui/icons';
 
-// Utils
-import { calculateDiscountedPrice, getProductDetails } from '@/utils';
+// Stores
+import { useCartStore } from '@/stores';
 
 // Themes
 import { colors, lineHeights, radius, spacing } from '@/ui/themes';
 
+// Utils
+import { calculateDiscountedPrice, getProductDetails } from '@/utils';
+
 export const ProductDetail = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const { data } = useGetProductById(id);
+  // Stores
+  const addNewCart = useCartStore((state) => state.addNewCart);
+
+  // Apis
+  const { data, isLoading } = useGetProductById(id);
   const {
+    documentId = '',
     slideImages = [],
+    image = '',
     title = '',
     price = 0,
     description,
@@ -51,14 +60,27 @@ export const ProductDetail = () => {
     },
   ];
 
-  const handleAddToCart = useCallback(() => {}, []);
+  const handleAddToCart = useCallback(() => {
+    addNewCart({
+      id: documentId,
+      name: title,
+      image,
+      price,
+      discount,
+      quantity: 1,
+    });
+  }, [addNewCart, discount, documentId, image, price, title]);
 
   const handleBack = () => {
     router.back();
   };
 
   return (
-    <StickyFooterLayout buttonText="Add to Cart" onPress={handleAddToCart}>
+    <StickyFooterLayout
+      isLoading={isLoading}
+      buttonText="Add to Cart"
+      onPress={handleAddToCart}
+    >
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <View>
           <View style={{ height: 226, position: 'relative' }}>

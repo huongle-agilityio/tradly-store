@@ -17,7 +17,7 @@ import { colors } from '@/ui/themes';
 import { STORAGE_KEY } from '@/constants';
 
 // Stores
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useCartStore } from '@/stores';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -32,6 +32,7 @@ export default function RootLayout() {
     state.setAuthenticated,
     state.setUser,
   ]);
+  const setCarts = useCartStore((state) => state.setCarts);
   const [loaded, error] = useFonts({
     Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
     'Montserrat-Bold': require('../assets/fonts/Montserrat-Bold.ttf'),
@@ -49,16 +50,18 @@ export default function RootLayout() {
     const getAuthenticated = async () => {
       const user = await AsyncStorage.getItem(STORAGE_KEY.USER);
       const token = await AsyncStorage.getItem(STORAGE_KEY.TOKEN);
+      const carts = await AsyncStorage.getItem(STORAGE_KEY.CART);
 
       if (loaded) {
         SplashScreen.hideAsync();
       }
 
+      setCarts(JSON.parse(carts || '[]'));
       setAuthenticated(!!token);
       setUser(JSON.parse(user || '{}'));
     };
     getAuthenticated();
-  }, [loaded, setAuthenticated, setUser]);
+  }, [loaded, setAuthenticated, setCarts, setUser]);
 
   if (!loaded) {
     return null;
