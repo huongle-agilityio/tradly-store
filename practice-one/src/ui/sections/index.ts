@@ -5,3 +5,4 @@ export * from './ListProduct';
 export * from './Categories';
 export * from './ListFooter';
 export * from './ListProductInfo';
+export * from './HeaderFilter';

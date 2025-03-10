@@ -42,24 +42,20 @@ const TabLayout = () => (
         fontWeight: fontWeights.bold,
         fontSize: fontSizes.xxl,
       },
+      tabBarHideOnKeyboard: true,
     }}
   >
     <Tabs.Screen
       name={SCREEN_NAME.HOME}
       options={{
-        title: 'Home',
-        headerStyle: {
-          height: 126,
-          backgroundColor: colors.primary,
-        },
-        headerTitle: () => <HeaderWithSearchInput title="Groceries" />,
+        header: () => <HeaderWithSearchInput title="Groceries" />,
         tabBarIcon: ({ color }) => <HomeIcon size={24} color={color} />,
       }}
     />
     <Tabs.Screen
       name={SCREEN_NAME.BROWSE}
       options={{
-        title: 'Browse',
+        header: () => <HeaderWithSearchInput hasFilter title="Browse" />,
         tabBarIcon: ({ color }) => <SearchIcon size={24} color={color} />,
       }}
     />

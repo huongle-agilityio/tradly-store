@@ -38,7 +38,7 @@ export const useGetProduct = ({
       sortCreatedAt,
       hasDiscount,
     }),
-    queryFn: async () =>
+    queryFn: () =>
       httpClient.get({
         endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: PAGE_SIZE })}`,
       }),
