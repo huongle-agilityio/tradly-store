@@ -39,6 +39,7 @@ export const colors = StyleSheet.create({
   tertiary: { color: baseColors.text.tertiary },
   quaternary: { color: baseColors.text.quaternary },
   placeholder: { color: baseColors.text.placeholder },
+  fade: { color: baseColors.text.fade },
   link: { color: baseColors.text.link },
   error: { color: baseColors.text.error },
   success: { color: baseColors.text.success },

@@ -13,6 +13,8 @@ const meta = {
         'default',
         'light',
         'primary',
+        'link',
+        'fade',
         'secondary',
         'tertiary',
         'quaternary',

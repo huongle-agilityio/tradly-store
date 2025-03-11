@@ -20,6 +20,8 @@ const greyPallet = {
   grey1: '#4f4f4f',
   grey2: '#4a4a4a',
   grey3: '#dbdbde',
+  grey4: '#606a7b',
+  grey5: '#ebecef',
   greyTranslucent: 'rgba(8, 11, 18, 0.3)',
 } as const;
 
@@ -54,6 +56,7 @@ export const colors = {
   opacity: baseColors.greyTranslucent,
   link: baseColors.blue1,
   dotNotification: baseColors.red4,
+  border: baseColors.grey5,
   text: {
     default: baseColors.black1,
     light: baseColors.white1,
@@ -62,6 +65,7 @@ export const colors = {
     tertiary: baseColors.grey2,
     quaternary: baseColors.black2,
     placeholder: baseColors.grey1,
+    fade: baseColors.grey4,
     link: baseColors.blue1,
     error: baseColors.red1,
     success: baseColors.green3,
@@ -73,6 +77,7 @@ export const colors = {
     error: baseColors.red1,
     textPrimary: baseColors.green2,
     textSecondary: baseColors.white1,
+    textDark: baseColors.black2,
   },
   toast: {
     default: baseColors.black3,

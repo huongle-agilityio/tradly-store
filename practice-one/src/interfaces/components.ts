@@ -2,7 +2,12 @@
 export type ButtonSize = 'none' | 'small' | 'medium' | 'full';
 export type ButtonVariant = 'solid' | 'bordered' | 'ghost';
 export type ButtonTextSize = 'xs' | 'base' | 'md' | 'lg' | 'xl';
-export type ButtonColor = 'primary' | 'secondary' | 'success' | 'error';
+export type ButtonColor =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'error'
+  | 'dark';
 
 // Text
 export type TextSize =
@@ -20,6 +25,7 @@ export type TextColor =
   | 'light'
   | 'primary'
   | 'link'
+  | 'fade'
   | 'secondary'
   | 'tertiary'
   | 'quaternary'

@@ -47,6 +47,7 @@ export const variantStyles = StyleSheet.create({
 export const colorMap: Record<ButtonColor, string> = {
   primary: colors.button.backgroundPrimary,
   secondary: colors.button.backgroundSecondary,
+  dark: colors.button.textDark,
   success: colors.button.success,
   error: colors.button.error,
 };
@@ -61,7 +62,7 @@ export const sizes = StyleSheet.create({
 export const textStyles = StyleSheet.create({
   solid: { color: colors.button.textSecondary },
   bordered: {},
-  ghost: { opacity: 0.7 },
+  ghost: {},
 });
 
 export const textSizes = StyleSheet.create({
