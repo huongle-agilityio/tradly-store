@@ -8,4 +8,5 @@ export * from './ListFooter';
 export * from './ListProductInfo';
 export * from './HeaderFilter';
 export * from './PriceDetails';
+export * from './TrackingOrder';
 export * from './EmptyList';

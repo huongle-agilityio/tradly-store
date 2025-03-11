@@ -2,6 +2,9 @@ import { useCallback } from 'react';
 import { Href, router } from 'expo-router';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 
+// Apis
+import { useCreateOrder } from '@/apis';
+
 // Components
 import { PriceDetails, EmptyList } from '@/ui/sections';
 import { Button, CartItem, Text } from '@/ui/components';
@@ -10,10 +13,10 @@ import { Button, CartItem, Text } from '@/ui/components';
 import { StickyFooterLayout } from '@/ui/layouts';
 
 // Constants
-import { SCREEN_ROUTES } from '@/constants';
+import { ERROR_MESSAGES, SCREEN_ROUTES } from '@/constants';
 
 // Stores
-import { useCartStore } from '@/stores';
+import { useCartStore, useToast } from '@/stores';
 
 // Hooks
 import { useAddressForm } from '@/hooks';
@@ -26,14 +29,20 @@ import { getTotalCarts, isEmptyObject } from '@/utils';
 
 export const Cart = () => {
   // Stores
+  const showToast = useToast((state) => state.showToast);
   const formAddress = useAddressForm((state) => state.form);
-  const [carts, updateQuantityItem, removeCart] = useCartStore((state) => [
-    state.carts,
-    state.updateQuantityItem,
-    state.removeCart,
-  ]);
+  const [carts, updateQuantityItem, removeCart, clearCart] = useCartStore(
+    (state) => [
+      state.carts,
+      state.updateQuantityItem,
+      state.removeCart,
+      state.clearCart,
+    ],
+  );
 
-  const { username, city, state, zipCode } = formAddress;
+  const { mutate, isPending } = useCreateOrder();
+
+  const { username, city, state, zipCode, phone, streetAddress } = formAddress;
   const isDisabled = !carts?.length || isEmptyObject(formAddress);
   const { total, totalQuantity } = getTotalCarts(carts || []);
 
@@ -42,8 +51,46 @@ export const Cart = () => {
   };
 
   const handlePayment = useCallback(() => {
-    // TODO: Payment
-  }, []);
+    const payload = {
+      username,
+      phone,
+      address: `${streetAddress}, ${city}, ${state}`,
+      zipCode,
+      total: total,
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        showToast({
+          description: 'Order successfully',
+          variant: 'success',
+        });
+        router.replace({
+          pathname: SCREEN_ROUTES.ORDER_SUCCESS,
+          params: { carts: JSON.stringify(carts) },
+        } as unknown as Href);
+        clearCart();
+      },
+      onError: () => {
+        showToast({
+          description: ERROR_MESSAGES.DEFAULT_API_ERROR,
+          variant: 'error',
+        });
+      },
+    });
+  }, [
+    carts,
+    city,
+    clearCart,
+    mutate,
+    phone,
+    showToast,
+    state,
+    streetAddress,
+    total,
+    username,
+    zipCode,
+  ]);
 
   const handleAddNewAddress = () => {
     router.push(SCREEN_ROUTES.ADDRESS as Href);
@@ -51,6 +98,7 @@ export const Cart = () => {
 
   return (
     <StickyFooterLayout
+      isLoading={isPending}
       disabled={isDisabled}
       content={<PriceDetails total={total} totalQuantity={totalQuantity} />}
       buttonText="Continue to Payment"
