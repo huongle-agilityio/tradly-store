@@ -7,7 +7,7 @@ import {
 } from './validate';
 
 export const addressSchema = v.object({
-  name: validateName,
+  username: validateName,
   phone: validatePhone,
   streetAddress: validateRequired,
   city: validateRequired,

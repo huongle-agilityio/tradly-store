@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
+import * as SecureStore from 'expo-secure-store';
 import * as SplashScreen from 'expo-splash-screen';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ClickOutsideProvider } from 'react-native-click-outside';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import 'react-native-reanimated';
 
@@ -17,7 +17,7 @@ import { Toast } from '@/ui/components';
 import { STORAGE_KEY } from '@/constants';
 
 // Stores
-import { useAuthStore, useCartStore, useToast } from '@/stores';
+import { useAuthStore, useToast } from '@/stores';
 
 // Themes
 import { colors } from '@/ui/themes';
@@ -31,11 +31,6 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [setAuthenticated, setUser] = useAuthStore((state) => [
-    state.setAuthenticated,
-    state.setUser,
-  ]);
-  const setCarts = useCartStore((state) => state.setCarts);
   const [loaded, error] = useFonts({
     Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
     'Montserrat-Bold': require('../assets/fonts/Montserrat-Bold.ttf'),
@@ -44,27 +39,27 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  // Stores
+  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) console.log(error);
   }, [error]);
 
   useEffect(() => {
-    const getAuthenticated = async () => {
-      const user = await AsyncStorage.getItem(STORAGE_KEY.USER);
-      const token = await AsyncStorage.getItem(STORAGE_KEY.TOKEN);
-      const carts = await AsyncStorage.getItem(STORAGE_KEY.CART);
+    const prepare = async () => {
+      const token = await SecureStore.getItemAsync(STORAGE_KEY.TOKEN);
 
       if (loaded) {
         SplashScreen.hideAsync();
       }
 
-      setCarts(JSON.parse(carts || '[]'));
       setAuthenticated(!!token);
-      setUser(JSON.parse(user || '{}'));
     };
-    getAuthenticated();
-  }, [loaded, setAuthenticated, setCarts, setUser]);
+
+    prepare();
+  }, [loaded, setAuthenticated]);
 
   if (!loaded) {
     return null;

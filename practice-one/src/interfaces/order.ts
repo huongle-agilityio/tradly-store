@@ -2,7 +2,7 @@ export interface Order {
   username: string;
   phone: string;
   address: string;
-  zipCode: number;
+  zipCode: string;
   total: number;
 }
 
