@@ -6,3 +6,4 @@ export * from './Home';
 export * from './ProductCategory';
 export * from './ProductDetail';
 export * from './Cart';
+export * from './Address';
