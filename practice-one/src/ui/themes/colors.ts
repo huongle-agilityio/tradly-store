@@ -5,9 +5,10 @@ const greenPallet = {
 } as const;
 
 const redPallet = {
-  red1: '#901F2E',
+  red1: '#901f2e',
   red2: '#ff5880',
-  red3: '#E4ABB1',
+  red3: '#e4abb1',
+  red4: '#ff7272',
 } as const;
 
 const whitePallet = {
@@ -46,6 +47,7 @@ export const colors = {
   error: baseColors.red2,
   success: baseColors.green2,
   opacity: baseColors.greyTranslucent,
+  dotNotification: baseColors.red4,
   text: {
     default: baseColors.black1,
     light: baseColors.white1,

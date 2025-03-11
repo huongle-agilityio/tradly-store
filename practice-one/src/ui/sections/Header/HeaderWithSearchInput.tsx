@@ -12,11 +12,14 @@ import { CartIcon, HeartIcon, SearchIcon } from '@/ui/icons';
 // Hooks
 import { useDebounce } from '@/hooks';
 
+// Stores
+import { useCartStore } from '@/stores';
+
 // Constants
 import { SCREEN_ROUTES, TIMING } from '@/constants';
 
 // Themes
-import { colors, spacing } from '@/ui/themes';
+import { colors, radius, spacing } from '@/ui/themes';
 
 interface HeaderWithSearchInputProps {
   hasFilter?: boolean;
@@ -29,6 +32,7 @@ export const HeaderWithSearchInput = ({
 }: HeaderWithSearchInputProps) => {
   const [filter, setFilter] = useState<string>('');
   const debouncedSearchTerm = useDebounce(filter, TIMING.DEBOUNCE_DEFAULT);
+  const carts = useCartStore((state) => state.carts);
 
   const handleFilter = (value: string) => {
     setFilter(value);
@@ -60,8 +64,12 @@ export const HeaderWithSearchInput = ({
         </Text>
         <View style={styles.iconWrapper}>
           <HeartIcon size={24} color={colors.light} />
-          <TouchableOpacity onPress={handlerRedirectMyCart}>
+          <TouchableOpacity
+            onPress={handlerRedirectMyCart}
+            style={{ position: 'relative' }}
+          >
             <CartIcon size={24} color={colors.light} />
+            {!!carts.length && <View style={styles.cartDot} />}
           </TouchableOpacity>
         </View>
       </View>
@@ -99,4 +107,13 @@ const styles = StyleSheet.create({
   },
   iconWrapper: { flexDirection: 'row', gap: spacing[5] },
   inputWrapper: { paddingTop: 23, paddingBottom: spacing[4] },
+  cartDot: {
+    width: spacing['3.5'],
+    height: spacing['3.5'],
+    borderRadius: radius.full,
+    backgroundColor: colors.dotNotification,
+    position: 'absolute',
+    right: -6,
+    top: -2,
+  },
 });
