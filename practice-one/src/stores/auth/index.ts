@@ -1,6 +1,11 @@
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
+
+// Constants
+import { STORAGE_KEY } from '@/constants';
 
 // Interfaces
 import { User } from '@/interfaces';
@@ -21,21 +26,28 @@ export const INITIAL_AUTH_STATE: AuthState = {
 };
 
 export const useAuthStore = createWithEqualityFn<AuthStore>()(
-  (set) => ({
-    ...INITIAL_AUTH_STATE,
-    setAuthenticated: (isAuthenticated: boolean) => {
-      set({ isAuthenticated });
-    },
+  persist(
+    (set) => ({
+      ...INITIAL_AUTH_STATE,
+      setAuthenticated: (isAuthenticated: boolean) => {
+        set({ isAuthenticated });
+      },
 
-    setUser: (user: User) => {
-      set({ user });
-    },
+      setUser: (user: User) => {
+        set({ user });
+      },
 
-    clearAuth: async () => {
-      await AsyncStorage.clear();
-      set({ ...INITIAL_AUTH_STATE });
+      clearAuth: async () => {
+        await AsyncStorage.clear();
+        await SecureStore.deleteItemAsync(STORAGE_KEY.TOKEN);
+        set({ ...INITIAL_AUTH_STATE });
+      },
+    }),
+    {
+      name: STORAGE_KEY.USER,
+      storage: createJSONStorage(() => AsyncStorage),
     },
-  }),
+  ),
   shallow,
 );
 

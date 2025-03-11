@@ -1,8 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from '@tanstack/react-query';
+import * as SecureStore from 'expo-secure-store';
 
 // Constants
 import { API_ENDPOINT, STORAGE_KEY } from '@/constants';
+
+// Stores
+import { useAuthStore } from '@/stores';
 
 // Services
 import { httpClient } from '@/services';
@@ -18,13 +21,15 @@ import { AuthPayload, AuthResponse } from '@/interfaces';
  *
  * @returns A React Query mutation function that can be used to log in a user.
  */
-export const useAuthLogin = () =>
-  useMutation<AuthResponse, string, AuthPayload>({
+export const useAuthLogin = () => {
+  const setUser = useAuthStore((state) => state.setUser);
+
+  return useMutation<AuthResponse, string, AuthPayload>({
     mutationFn: async (payload) =>
       httpClient.post({ endpoint: API_ENDPOINT.SIGN_IN, payload }),
-    onSuccess: async (data) => {
-      const user = JSON.stringify(data.user);
-      await AsyncStorage.setItem(STORAGE_KEY.USER, user);
-      await AsyncStorage.setItem(STORAGE_KEY.TOKEN, data.jwt);
+    onSuccess: async ({ jwt, user }) => {
+      await SecureStore.setItemAsync(STORAGE_KEY.TOKEN, jwt);
+      setUser(user);
     },
   });
+};
