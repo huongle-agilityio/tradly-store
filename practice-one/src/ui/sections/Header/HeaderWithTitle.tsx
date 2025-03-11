@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { router } from 'expo-router';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -5,25 +6,30 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from '@/ui/components';
 
 // Icons
-import { ArrowLeftIcon } from '@/ui/icons';
+import { ArrowLeftIcon, CloseIcon } from '@/ui/icons';
 
 // Themes
 import { colors, spacing } from '@/ui/themes';
-import { ReactNode } from 'react';
 
 interface HeaderWithFilterButtonProps {
   title: string;
   hasBackButton?: boolean;
+  redirectTo?: string;
   children?: ReactNode;
 }
 
 export const HeaderWithTitle = ({
   hasBackButton = false,
+  redirectTo,
   title,
   children,
 }: HeaderWithFilterButtonProps) => {
   const handleBack = () => {
     router.back();
+  };
+
+  const handleRedirectToHome = () => {
+    if (redirectTo) router.navigate(redirectTo);
   };
 
   return (
@@ -40,6 +46,15 @@ export const HeaderWithTitle = ({
         <Text fontSize="xxl" fontWeight="bold" color="light">
           {title}
         </Text>
+
+        {redirectTo && (
+          <TouchableOpacity
+            onPress={handleRedirectToHome}
+            style={styles.closeButton}
+          >
+            <CloseIcon size={16} color={colors.light} />
+          </TouchableOpacity>
+        )}
       </View>
 
       {children}
@@ -58,5 +73,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: spacing[0],
     top: 13,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: spacing[0],
+    top: 18,
   },
 });

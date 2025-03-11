@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { HeaderWithFilterButton, HeaderWithTitle } from '@/ui/sections';
 
 // Constants
-import { SCREEN_NAME } from '@/constants';
+import { SCREEN_NAME, SCREEN_ROUTES } from '@/constants';
 
 // Themes
 import { colors } from '@/ui/themes';
@@ -29,7 +29,10 @@ const LayoutWithSearch = () => (
       ),
     }}
   >
-    <Stack.Screen name="products/[id]/index" options={{ headerShown: false }} />
+    <Stack.Screen
+      name={SCREEN_NAME.PRODUCT_DETAIL}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen
       name={SCREEN_NAME.CART}
       options={{
@@ -41,6 +44,17 @@ const LayoutWithSearch = () => (
       options={{
         header: () => (
           <HeaderWithTitle hasBackButton title="Add a new address" />
+        ),
+      }}
+    />
+    <Stack.Screen
+      name={SCREEN_NAME.ORDER_SUCCESS}
+      options={{
+        header: () => (
+          <HeaderWithTitle
+            redirectTo={SCREEN_ROUTES.HOME}
+            title="Order Details"
+          />
         ),
       }}
     />
