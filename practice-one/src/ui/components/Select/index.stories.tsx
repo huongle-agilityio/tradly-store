@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -6,7 +7,6 @@ import { Select } from '.';
 
 // Themes
 import { CART_QUANTITY } from '@/mocks';
-import { useState } from 'react';
 
 const meta = {
   title: 'Select',

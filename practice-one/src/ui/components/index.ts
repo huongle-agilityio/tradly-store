@@ -9,3 +9,4 @@ export * from './Select';
 export * from './SelectController';
 export * from './Text';
 export * from './CartItem';
+export * from './Toast';

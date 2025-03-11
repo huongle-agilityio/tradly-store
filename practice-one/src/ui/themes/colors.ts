@@ -67,6 +67,11 @@ export const colors = {
     textPrimary: baseColors.green2,
     textSecondary: baseColors.white1,
   },
+  toast: {
+    default: baseColors.black3,
+    success: baseColors.green3,
+    error: baseColors.red4,
+  },
   input: {
     backgroundPrimary: baseColors.white1,
     borderPrimary: baseColors.white1,

@@ -10,14 +10,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import 'react-native-reanimated';
 
-// Themes
-import { colors } from '@/ui/themes';
+// Components
+import { Toast } from '@/ui/components';
 
 // Constants
 import { STORAGE_KEY } from '@/constants';
 
 // Stores
-import { useAuthStore, useCartStore } from '@/stores';
+import { useAuthStore, useCartStore, useToast } from '@/stores';
+
+// Themes
+import { colors } from '@/ui/themes';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -72,6 +75,7 @@ export default function RootLayout() {
 
 const RootLayoutNav = () => {
   const queryClient = new QueryClient();
+  const toast = useToast((state) => state.toast);
 
   return (
     <ClickOutsideProvider>
@@ -82,6 +86,10 @@ const RootLayoutNav = () => {
               headerShown: false,
             }}
           />
+
+          {toast?.description && (
+            <Toast description={toast.description} variant={toast.variant} />
+          )}
           <StatusBar backgroundColor={colors.primary} barStyle="default" />
         </SafeAreaView>
       </QueryClientProvider>

@@ -22,7 +22,7 @@ import {
 } from '@/ui/icons';
 
 // Stores
-import { useCartStore } from '@/stores';
+import { useCartStore, useToast } from '@/stores';
 
 // Themes
 import { colors, lineHeights, radius, spacing } from '@/ui/themes';
@@ -34,6 +34,7 @@ export const ProductDetail = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   // Stores
+  const showToast = useToast((state) => state.showToast);
   const addNewCart = useCartStore((state) => state.addNewCart);
 
   // Apis
@@ -69,7 +70,8 @@ export const ProductDetail = () => {
       discount,
       quantity: 1,
     });
-  }, [addNewCart, discount, documentId, image, price, title]);
+    showToast({ description: 'Added to cart', variant: 'success' });
+  }, [addNewCart, discount, documentId, image, price, showToast, title]);
 
   const handleBack = () => {
     router.back();
