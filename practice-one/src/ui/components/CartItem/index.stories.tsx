@@ -1,5 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
+import { View } from 'react-native';
 
 // Components
 import { CartItem } from '.';
@@ -17,6 +18,13 @@ const meta = {
     onRemoveItem: action('onRemoveItem'),
     onUpdateQuantityItem: action('onUpdateQuantityItem'),
   },
+  decorators: [
+    (Story) => (
+      <View style={{ width: '100%', height: 300 }}>
+        <Story />
+      </View>
+    ),
+  ],
 } satisfies Meta<typeof CartItem>;
 
 export default meta;

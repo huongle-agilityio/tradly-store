@@ -18,7 +18,7 @@ import { AddressState, useAddressForm } from '@/hooks';
 import { useToast } from '@/stores';
 
 // Schemas
-import { addressSchema } from '@/schema';
+import { addressSchema } from '@/schemas';
 
 // Themes
 import { colors } from '@/ui/themes';

@@ -113,17 +113,21 @@ Make sure you install packages with correct version below:
 ├── .husky                          # Husky configuration
 ├── .storybook                      # Storybook folder
 ├── src
+│   ├── apis                        # Contain APIs
 │   ├── app                         # App folder
 │   ├── assets                      # Contain images, fonts, and other assets
 │   ├── constants                   # App constants
+│   ├── hooks                       # Contain custom hooks
 │   ├── interfaces                  # TypeScript interfaces
-│   ├── navigation                  # Navigation configuration
+│   ├── mocks                       # Mock data
+│   ├── schemas                     # Schemas validate data
 │   ├── services                    # Handle data with API: GET, POST, PUT, DELETE
 │   ├── ui                          # Folder contain ui of app
 │       ├── components              # React components
 │       ├── icons                   # Icons folder
 │       ├── layouts                 # React components for app layout
 │       ├── screens                 # Screens components
+│       ├── sections                # Sections components
 │       ├── themes                  # Custom themes styles
 │   ├── utils                       # Utilities folder
 ├── .eslintrc.js                    # ESLint configuration
@@ -132,6 +136,7 @@ Make sure you install packages with correct version below:
 ├── app.config.js                   # App configuration
 ├── babel.config.js                 # Babel configuration
 ├── jest.config.ts                  # Jest configuration
+├── jest.setup.ts                   # Jest setup
 ├── metro.config.js                 # Metro configuration
 └── tsconfig.json                   # TypeScript configuration
 ```

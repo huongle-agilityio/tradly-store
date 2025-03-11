@@ -20,9 +20,19 @@ export const useCartStore = createWithEqualityFn<CartStore>()(
   persist(
     (set) => ({
       ...INITIAL_CART,
+
       setCarts: (carts: Cart[]) => set({ carts }),
+      /**
+       * Adds a new cart to the list of carts, or updates the quantity
+       * of an existing cart if a cart with the same ID already exists.
+       *
+       * @param {Cart} cart The cart to add or update.
+       *
+       * @returns The updated list of carts.
+       */
       addNewCart: async (cart: Cart) => {
         set((state) => {
+          // Check if a cart with the same ID already exists
           const existingCartIndex = state.carts.findIndex(
             (item) => item.id === cart.id,
           );
@@ -30,6 +40,8 @@ export const useCartStore = createWithEqualityFn<CartStore>()(
 
           if (existingCartIndex !== -1) {
             updatedCarts = [...state.carts];
+
+            // Update the quantity of the existing cart
             updatedCarts[existingCartIndex] = {
               ...updatedCarts[existingCartIndex],
               quantity:
@@ -43,6 +55,14 @@ export const useCartStore = createWithEqualityFn<CartStore>()(
         });
       },
 
+      /**
+       * Updates the quantity of an existing cart in the list of carts.
+       *
+       * @param {string} id The ID of the cart to update.
+       * @param {number} quantity The new quantity of the cart.
+       *
+       * @returns The updated list of carts.
+       */
       updateQuantityItem: async (id: string, quantity: number) => {
         set((state) => ({
           carts: state.carts.map((item) =>
@@ -51,6 +71,13 @@ export const useCartStore = createWithEqualityFn<CartStore>()(
         }));
       },
 
+      /**
+       * Removes a cart from the list of carts.
+       *
+       * @param {string} id The ID of the cart to remove.
+       *
+       * @returns The updated list of carts.
+       */
       removeCart: async (id: string) => {
         set((state) => ({
           carts: state.carts.filter((item) => item.id !== id),

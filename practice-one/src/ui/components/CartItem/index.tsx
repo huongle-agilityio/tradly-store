@@ -75,7 +75,7 @@ export const CartItem = memo(
               <Text fontWeight="bold" color="secondary" fontSize="lg">
                 ${calculateDiscountedPrice(price, discount)}
               </Text>
-              {discount && (
+              {!!discount && (
                 <View style={{ flexDirection: 'row', gap: 5 }}>
                   <Text
                     fontWeight="normal"

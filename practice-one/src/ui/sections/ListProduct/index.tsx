@@ -11,6 +11,8 @@ import { ProductListItem } from './ProductItem';
 
 // Interfaces
 import { Product, ProductFilterParams, SortType } from '@/interfaces';
+
+// Themes
 import { spacing } from '@/ui/themes';
 
 interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {

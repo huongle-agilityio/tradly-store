@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Href, router } from 'expo-router';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
+import { styles } from './styles';
 
 // Apis
 import { useCreateOrder } from '@/apis';
@@ -22,7 +23,7 @@ import { useCartStore, useToast } from '@/stores';
 import { useAddressForm } from '@/hooks';
 
 // Themes
-import { colors, spacing } from '@/ui/themes';
+import { spacing } from '@/ui/themes';
 
 // Utils
 import { getTotalCarts, isEmptyObject } from '@/utils';
@@ -165,26 +166,3 @@ export const Cart = () => {
     </StickyFooterLayout>
   );
 };
-
-const styles = StyleSheet.create({
-  contentContainerStyle: {
-    gap: spacing['2.5'],
-    paddingTop: spacing['2.5'],
-    paddingBottom: spacing[7],
-  },
-  buttonAddressWrapper: {
-    width: '100%',
-    paddingVertical: spacing['4.5'],
-    alignItems: 'center',
-    backgroundColor: colors.light,
-  },
-  addressWrapper: {
-    width: '100%',
-    paddingVertical: 15,
-    paddingHorizontal: spacing[5],
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.light,
-  },
-});

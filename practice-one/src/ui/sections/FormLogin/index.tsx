@@ -14,7 +14,7 @@ import { Button, InputController, Text } from '@/ui/components';
 import { ERROR_MESSAGES, SCREEN_ROUTES } from '@/constants';
 
 // Schema
-import { loginSchema } from '@/schema';
+import { loginSchema } from '@/schemas';
 
 // Themes
 import { spacing } from '@/ui/themes';

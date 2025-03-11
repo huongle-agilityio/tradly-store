@@ -49,6 +49,12 @@ export const interpolateValue = (
   });
 };
 
+/**
+ * Returns an array of ListDetails objects containing the product details.
+ *
+ * @param {{ priceType: string, category: string, location: string }} - An object containing the product details.
+ * @returns An array of ListDetails objects containing the product details.
+ */
 export const getProductDetails = ({
   priceType,
   category,
@@ -76,6 +82,12 @@ export const getProductDetails = ({
   },
 ];
 
+/**
+ * Returns an array of ListDetails objects containing the price details.
+ *
+ * @param {{ total: number, totalQuantity: number }} - An object containing the total price and total quantity.
+ * @returns An array of ListDetails objects containing the price details.
+ */
 export const getPriceDetails = ({
   total,
   totalQuantity,
@@ -93,6 +105,12 @@ export const getPriceDetails = ({
   },
 ];
 
+/**
+ * Calculates the total price and total quantity of the items in the cart.
+ *
+ * @param {{ price: number, discount?: number, quantity: number }[]} carts - An array of Cart objects containing the items in the cart.
+ * @returns An object with two properties: total and totalQuantity, containing the total price and total quantity of the items in the cart.
+ */
 export const getTotalCarts = (
   carts: Cart[],
 ): { total: number; totalQuantity: number } => {

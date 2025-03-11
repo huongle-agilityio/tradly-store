@@ -1,3 +1,4 @@
+import { View } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
@@ -16,10 +17,19 @@ const meta = {
     ],
     name: 'Beverages',
   },
+  decorators: [
+    (Story) => (
+      <View style={{ width: '100%', height: 300 }}>
+        <Story />
+      </View>
+    ),
+  ],
 } satisfies Meta<typeof ProductCarousel>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {},
+};

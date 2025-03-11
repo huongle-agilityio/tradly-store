@@ -17,9 +17,18 @@ const INITIAL_TOAST_STATE: ToastState = {
 
 export const useToast = create<ToastStore>()((set) => ({
   ...INITIAL_TOAST_STATE,
+  /**
+   * Displays a toast notification with the provided toast details.
+   * Updates the toast state with the given toast object.
+   *
+   * @param {Toast} toast - The toast object containing details such as title, description, variant, and duration.
+   */
   showToast: (toast: Toast) => {
     set({ toast });
   },
+  /**
+   * Closes the toast notification by setting the toast state to null.
+   */
   closeToast: () => {
     set({ toast: null });
   },

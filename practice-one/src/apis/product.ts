@@ -99,6 +99,13 @@ export const useGetProductByParams = ({
   };
 };
 
+/**
+ * React Query hook to fetch a product by its ID.
+ *
+ * @param {string} id - The unique identifier of the product to fetch.
+ *
+ * @returns {UseQueryResult<ProductResponse, Error>} - The result of the query, including the product data.
+ */
 export const useGetProductById = (id: string) => {
   const { data, ...rest } = useQuery<ProductResponse>({
     queryKey: [id],
