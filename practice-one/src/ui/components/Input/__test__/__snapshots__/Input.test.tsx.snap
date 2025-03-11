@@ -99,7 +99,7 @@ exports[`Input Component Should render error message 1`] = `
           "fontWeight": "400",
         },
         {
-          "color": "#901F2E",
+          "color": "#901f2e",
         },
         {
           "paddingHorizontal": 10,
