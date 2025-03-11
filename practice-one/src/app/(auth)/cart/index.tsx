@@ -1,5 +1,5 @@
-import { Text } from '@/ui/components';
+import { Cart as CartScreen } from '@/ui/screens';
 
-const Cart = () => <Text>My Cart</Text>;
+const Cart = () => <CartScreen />;
 
 export default Cart;
