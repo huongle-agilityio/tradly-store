@@ -4,6 +4,8 @@ export const SCREEN_NAME = {
   PRODUCT: 'product',
   ORDER_HISTORY: 'order-history',
   PROFILE: 'profile',
+  CART: 'cart/index',
+  ADDRESS: 'address/index',
 } as const;
 
 export const SCREEN_ROUTES = {
@@ -15,4 +17,5 @@ export const SCREEN_ROUTES = {
   HOME: '/home',
   PRODUCT: '/products',
   PRODUCT_DETAIL: (id: string) => `/products/${id}` as const,
+  ADDRESS: '/address',
 } as const;

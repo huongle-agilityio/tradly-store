@@ -19,6 +19,7 @@ export type TextColor =
   | 'default'
   | 'light'
   | 'primary'
+  | 'link'
   | 'secondary'
   | 'tertiary'
   | 'quaternary'

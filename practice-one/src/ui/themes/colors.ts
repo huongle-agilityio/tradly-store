@@ -23,6 +23,10 @@ const greyPallet = {
   greyTranslucent: 'rgba(8, 11, 18, 0.3)',
 } as const;
 
+const bluePallet = {
+  blue1: '#4ea0ff',
+} as const;
+
 const blackPallet = {
   black1: '#000',
   black2: '#212121',
@@ -30,6 +34,7 @@ const blackPallet = {
 } as const;
 
 const baseColors = {
+  ...bluePallet,
   ...greenPallet,
   ...redPallet,
   ...whitePallet,
@@ -47,6 +52,7 @@ export const colors = {
   error: baseColors.red2,
   success: baseColors.green2,
   opacity: baseColors.greyTranslucent,
+  link: baseColors.blue1,
   dotNotification: baseColors.red4,
   text: {
     default: baseColors.black1,
@@ -56,6 +62,7 @@ export const colors = {
     tertiary: baseColors.grey2,
     quaternary: baseColors.black2,
     placeholder: baseColors.grey1,
+    link: baseColors.blue1,
     error: baseColors.red1,
     success: baseColors.green3,
   },
