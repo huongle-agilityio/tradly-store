@@ -28,7 +28,8 @@ export const Cart = () => {
     state.updateQuantityItem,
     state.removeCart,
   ]);
-  const { total, totalQuantity } = getTotalCarts(carts);
+
+  const { total, totalQuantity } = getTotalCarts(carts || []);
 
   const handleQuantityChange = (id: string, value: string) => {
     updateQuantityItem(id, Number(value));

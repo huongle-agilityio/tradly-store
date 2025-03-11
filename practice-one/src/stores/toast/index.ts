@@ -1,5 +1,4 @@
-import { shallow } from 'zustand/shallow';
-import { createWithEqualityFn } from 'zustand/traditional';
+import { create } from 'zustand';
 
 // Constants
 import { TIMING } from '@/constants';
@@ -16,17 +15,14 @@ const INITIAL_TOAST_STATE: ToastState = {
   },
 };
 
-export const useToast = createWithEqualityFn<ToastStore>()(
-  (set) => ({
-    ...INITIAL_TOAST_STATE,
-    showToast: (toast: Toast) => {
-      set({ toast });
-    },
-    closeToast: () => {
-      set({ toast: null });
-    },
-  }),
-  shallow,
-);
+export const useToast = create<ToastStore>()((set) => ({
+  ...INITIAL_TOAST_STATE,
+  showToast: (toast: Toast) => {
+    set({ toast });
+  },
+  closeToast: () => {
+    set({ toast: null });
+  },
+}));
 
 export default useToast;
