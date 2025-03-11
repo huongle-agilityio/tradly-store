@@ -6,6 +6,14 @@ export interface Order {
   total: number;
 }
 
+export interface OderTracking {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  isActive?: boolean;
+}
+
 export interface OrderResponse {
   data: Order;
 }

@@ -15,3 +15,4 @@ export * from './ShareIcon';
 export * from './OutlineHeartIcon';
 export * from './MenuDotIcon';
 export * from './TargetLocationIcon';
+export * from './CloseIcon';

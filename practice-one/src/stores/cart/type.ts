@@ -6,6 +6,7 @@ export interface CartState {
 }
 
 export interface CartStore extends CartState {
+  clearCart: () => void;
   setCarts: (carts: Cart[]) => void;
   addNewCart: (cart: Cart) => void;
   removeCart: (id: string) => void;

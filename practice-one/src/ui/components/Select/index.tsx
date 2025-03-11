@@ -27,6 +27,7 @@ interface SelectProps extends Omit<NativeSelectProps, 'style'> {
   value: string;
   error?: string;
   placeholder?: string;
+  showIcon?: boolean;
   isLoading?: boolean;
   disabled?: boolean;
   options: Option[];
@@ -42,6 +43,7 @@ export const Select = memo(
     isLoading,
     options,
     onValueChange,
+    showIcon = true,
     placeholder,
     style,
     ...props
@@ -84,7 +86,7 @@ export const Select = memo(
             style={styles.text}
             {...props}
           />
-          <ArrowDownIcon />
+          {showIcon && <ArrowDownIcon />}
         </TouchableOpacity>
         {error && (
           <Text color="error" fontWeight="light" textStyle={styles.error}>

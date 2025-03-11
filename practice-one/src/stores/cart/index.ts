@@ -56,6 +56,7 @@ export const useCartStore = createWithEqualityFn<CartStore>()(
           carts: state.carts.filter((item) => item.id !== id),
         }));
       },
+      clearCart: () => set({ ...INITIAL_CART }),
     }),
     {
       name: STORAGE_KEY.CART,

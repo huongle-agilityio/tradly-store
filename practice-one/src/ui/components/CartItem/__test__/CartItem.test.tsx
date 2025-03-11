@@ -6,21 +6,25 @@ import { CartItem } from '..';
 // Mocks
 import { CART_QUANTITY } from '@/mocks';
 
-const mockOnRemoveItem = jest.fn();
-const mockOnUpdateQuantityItem = jest.fn();
-
-const defaultProps = {
-  id: '1',
-  image: 'https://example.com/image.jpg',
-  name: 'Test Product',
-  quantity: 2,
-  price: 100,
-  discount: 10,
-  onRemoveItem: mockOnRemoveItem,
-  onUpdateQuantityItem: mockOnUpdateQuantityItem,
-};
-
 describe('CartItem', () => {
+  const mockOnRemoveItem = jest.fn();
+  const mockOnUpdateQuantityItem = jest.fn();
+
+  const defaultPropsWithoutAction = {
+    id: '1',
+    image: 'https://example.com/image.jpg',
+    name: 'Test Product',
+    quantity: 2,
+    price: 100,
+    discount: 10,
+  };
+
+  const defaultProps = {
+    ...defaultPropsWithoutAction,
+    onRemoveItem: mockOnRemoveItem,
+    onUpdateQuantityItem: mockOnUpdateQuantityItem,
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -33,6 +37,16 @@ describe('CartItem', () => {
     expect(screen.getByText('$100')).toBeTruthy();
     expect(screen.getByText('10% off')).toBeTruthy();
     expect(screen.getByText('Remove')).toBeTruthy();
+    expect(toJSON()).toMatchSnapshot();
+  });
+
+  it('Should renders CartItem correctly without actions', () => {
+    const { toJSON } = render(<CartItem {...defaultPropsWithoutAction} />);
+
+    expect(screen.getByText('Test Product')).toBeTruthy();
+    expect(screen.getByText('$90')).toBeTruthy();
+    expect(screen.getByText('$100')).toBeTruthy();
+    expect(screen.getByText('10% off')).toBeTruthy();
     expect(toJSON()).toMatchSnapshot();
   });
 

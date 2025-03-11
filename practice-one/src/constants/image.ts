@@ -4,6 +4,7 @@ export const IMAGES = {
   SPLASH_ICON_DARK: require('@/assets/splash-icon-dark.png'),
 
   WORKING_TEAM: require('@/assets/working-team.png'),
+  SUCCESS: require('@/assets/success.png'),
   // Categories
   CATEGORY_BEVERAGES: require('@/assets/category-beverages.webp'),
   CATEGORY_BREAD_BAKERY: require('@/assets/category-bread-bakery.webp'),
@@ -36,5 +37,9 @@ export const IMAGE_DETAILS = {
   UPCOMING: {
     src: IMAGES.WORKING_TEAM,
     alt: 'Illustration of people collaborating around a large digital tablet with text, laptops, and a trophy.',
+  },
+  SUCCESS: {
+    src: IMAGES.SUCCESS,
+    alt: 'Green check mark in a white circle with sparkles.',
   },
 };

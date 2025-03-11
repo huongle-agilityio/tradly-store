@@ -23,8 +23,8 @@ export interface CartItemProps {
   quantity: number;
   price: number;
   discount?: number;
-  onRemoveItem: (id: string) => void;
-  onUpdateQuantityItem: (id: string, value: string) => void;
+  onRemoveItem?: (id: string) => void;
+  onUpdateQuantityItem?: (id: string, value: string) => void;
 }
 
 export const CartItem = memo(
@@ -39,16 +39,23 @@ export const CartItem = memo(
     onUpdateQuantityItem,
   }: CartItemProps) => {
     const handleRemoveItem = () => {
-      onRemoveItem(id);
+      onRemoveItem?.(id);
     };
 
     const handleUpdateQuantity = (value: string) => {
-      onUpdateQuantityItem(id, value);
+      onUpdateQuantityItem?.(id, value);
     };
 
     return (
       <View style={styles.cartWrapper}>
-        <View style={styles.content}>
+        <View
+          style={[
+            styles.content,
+            onRemoveItem
+              ? { paddingBottom: spacing[3], paddingTop: spacing['7.5'] }
+              : { paddingVertical: 25 },
+          ]}
+        >
           <Image
             source={image}
             alt={`image of ${name} product`}
@@ -93,6 +100,8 @@ export const CartItem = memo(
                 testID="quantity-select"
                 onValueChange={handleUpdateQuantity}
                 options={CART_QUANTITY}
+                disabled={!onUpdateQuantityItem}
+                showIcon={!!onUpdateQuantityItem}
                 value={quantity.toString()}
                 style={{ width: 50 }}
               />
@@ -100,14 +109,16 @@ export const CartItem = memo(
           </View>
         </View>
 
-        <TouchableOpacity
-          style={styles.buttonWrapper}
-          onPress={handleRemoveItem}
-        >
-          <Text fontWeight="normal" color="placeholder">
-            Remove
-          </Text>
-        </TouchableOpacity>
+        {onRemoveItem && (
+          <TouchableOpacity
+            style={styles.buttonWrapper}
+            onPress={handleRemoveItem}
+          >
+            <Text fontWeight="normal" color="placeholder">
+              Remove
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   },

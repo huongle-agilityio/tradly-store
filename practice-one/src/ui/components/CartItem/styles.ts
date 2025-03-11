@@ -6,8 +6,6 @@ import { colors, spacing } from '@/ui/themes';
 export const styles = StyleSheet.create({
   cartWrapper: { backgroundColor: colors.light },
   content: {
-    paddingBottom: spacing[3],
-    paddingTop: spacing['7.5'],
     paddingHorizontal: spacing[4],
     flexDirection: 'row',
     gap: 15,
