@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { Href, router } from 'expo-router';
 import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
 // Components
@@ -7,6 +8,9 @@ import { CartItem, Text } from '@/ui/components';
 
 // Layouts
 import { StickyFooterLayout } from '@/ui/layouts';
+
+// Constants
+import { SCREEN_ROUTES } from '@/constants';
 
 // Stores
 import { useCartStore } from '@/stores';
@@ -35,7 +39,7 @@ export const Cart = () => {
   }, []);
 
   const handleAddNewAddress = () => {
-    // TODO: Add new address
+    router.push(SCREEN_ROUTES.ADDRESS as Href);
   };
 
   return (

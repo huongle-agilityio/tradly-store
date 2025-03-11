@@ -3,6 +3,9 @@ import { Stack } from 'expo-router';
 // Components
 import { HeaderWithFilterButton, HeaderWithTitle } from '@/ui/sections';
 
+// Constants
+import { SCREEN_NAME } from '@/constants';
+
 // Themes
 import { colors } from '@/ui/themes';
 
@@ -28,9 +31,17 @@ const LayoutWithSearch = () => (
   >
     <Stack.Screen name="products/[id]/index" options={{ headerShown: false }} />
     <Stack.Screen
-      name="cart/index"
+      name={SCREEN_NAME.CART}
       options={{
         header: () => <HeaderWithTitle hasBackButton title="My Cart" />,
+      }}
+    />
+    <Stack.Screen
+      name={SCREEN_NAME.ADDRESS}
+      options={{
+        header: () => (
+          <HeaderWithTitle hasBackButton title="Add a new address" />
+        ),
       }}
     />
   </Stack>
