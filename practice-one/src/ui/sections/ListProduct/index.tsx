@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from 'react';
-import { FlatList, FlatListProps } from 'react-native';
+import { useCallback, useMemo, useState } from 'react';
+import { FlatList, FlatListProps, RefreshControl } from 'react-native';
 
 // Apis
 import { useGetProduct, useGetProductByParams } from '@/apis';
@@ -29,6 +29,8 @@ export const ListProduct = ({
   params = {},
   horizontal,
 }: Props) => {
+  const [refreshing, setRefreshing] = useState(false);
+
   // Apis
   const {
     data: productByParams,
@@ -55,6 +57,13 @@ export const ListProduct = ({
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   // Render
   const listProps = useMemo(
@@ -100,6 +109,9 @@ export const ListProduct = ({
           dataLength={data.length}
         />
       )}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     />
   );
 };
