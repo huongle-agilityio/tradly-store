@@ -1,3 +1,5 @@
+import { Cart } from '@/interfaces';
+
 export const CART_QUANTITY = [
   {
     value: '1',
@@ -39,4 +41,9 @@ export const CART_QUANTITY = [
     value: '10',
     label: '10',
   },
+];
+
+export const CART_lIST: Cart[] = [
+  { id: '1', name: 'Item 1', quantity: 2, price: 100, image: '' },
+  { id: '2', name: 'Item 2', quantity: 1, price: 50, image: '' },
 ];

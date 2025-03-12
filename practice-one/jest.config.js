@@ -14,6 +14,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/ui/components/**/*.{ts,tsx}',
     'src/hooks/**/*.{ts,tsx}',
+    'src/stores/**/*.{ts,tsx}',
     'src/services/**/*.{ts,tsx}',
     'src/utils/**/*.{ts,tsx}',
     '!**/*.stories.{ts,tsx}',

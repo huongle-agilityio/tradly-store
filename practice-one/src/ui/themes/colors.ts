@@ -70,6 +70,10 @@ export const colors = {
     error: baseColors.red1,
     success: baseColors.green3,
   },
+  skeleton: {
+    backgroundPrimary: baseColors.grey4,
+    backgroundSecondary: baseColors.greyTranslucent,
+  },
   button: {
     backgroundPrimary: baseColors.green1,
     backgroundSecondary: baseColors.white1,

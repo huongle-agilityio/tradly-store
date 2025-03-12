@@ -10,3 +10,4 @@ export * from './SelectController';
 export * from './Text';
 export * from './CartItem';
 export * from './Toast';
+export * from './Skeleton';

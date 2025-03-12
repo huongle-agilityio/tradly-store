@@ -8,7 +8,13 @@ import { useGetProductById } from '@/apis';
 
 // Components
 import { ListProductInfo } from '@/ui/sections';
-import { Button, Image, ProductCarousel, Text } from '@/ui/components';
+import {
+  Button,
+  Image,
+  ProductCarousel,
+  Skeleton,
+  Text,
+} from '@/ui/components';
 
 // Layouts
 import { StickyFooterLayout } from '@/ui/layouts';
@@ -112,37 +118,46 @@ export const ProductDetail = () => {
           </View>
 
           <View style={[styles.productWrapper, styles.contentWrapper]}>
-            <Text
-              color="placeholder"
-              fontSize="lg"
-              fontWeight="bold"
-              textStyle={{ lineHeight: lineHeights.md }}
-            >
-              {title}
-            </Text>
-            <View style={styles.price}>
-              <Text fontSize="lg" fontWeight="bold" color="secondary">
-                ${calculateDiscountedPrice(price, discount)}
-              </Text>
-              {discount && (
-                <>
-                  <Text
-                    fontWeight="normal"
-                    color="placeholder"
-                    textStyle={{
-                      marginLeft: 15,
-                      marginRight: 5,
-                      textDecorationLine: 'line-through',
-                    }}
-                  >
-                    ${price}
+            {isLoading ? (
+              <View style={{ gap: 10 }}>
+                <Skeleton width="60%" height={20} borderRadius={4} />
+                <Skeleton width="40%" height={20} borderRadius={4} />
+              </View>
+            ) : (
+              <>
+                <Text
+                  color="placeholder"
+                  fontSize="lg"
+                  fontWeight="bold"
+                  textStyle={{ lineHeight: lineHeights.md }}
+                >
+                  {title}
+                </Text>
+                <View style={styles.price}>
+                  <Text fontSize="lg" fontWeight="bold" color="secondary">
+                    ${calculateDiscountedPrice(price, discount)}
                   </Text>
-                  <Text fontWeight="normal" color="placeholder">
-                    {discount}% off
-                  </Text>
-                </>
-              )}
-            </View>
+                  {discount && (
+                    <>
+                      <Text
+                        fontWeight="normal"
+                        color="placeholder"
+                        textStyle={{
+                          marginLeft: 15,
+                          marginRight: 5,
+                          textDecorationLine: 'line-through',
+                        }}
+                      >
+                        ${price}
+                      </Text>
+                      <Text fontWeight="normal" color="placeholder">
+                        {discount}% off
+                      </Text>
+                    </>
+                  )}
+                </View>
+              </>
+            )}
           </View>
         </View>
 
@@ -153,9 +168,13 @@ export const ProductDetail = () => {
               alt={`store-${store.name}-image`}
               styles={{ width: 32, height: 32, borderRadius: radius.full }}
             />
-            <Text fontWeight="normal" color="placeholder">
-              {store.name}
-            </Text>
+            {isLoading ? (
+              <Skeleton width={100} height={20} borderRadius={4} />
+            ) : (
+              <Text fontWeight="normal" color="placeholder">
+                {store.name}
+              </Text>
+            )}
           </View>
 
           <View style={{ height: 23 }}>
@@ -164,13 +183,17 @@ export const ProductDetail = () => {
         </View>
 
         <View style={[styles.description, styles.contentWrapper]}>
-          <Text
-            fontWeight="light"
-            color="placeholder"
-            textStyle={{ lineHeight: lineHeights.md }}
-          >
-            {description}
-          </Text>
+          {isLoading ? (
+            <Skeleton width="100%" height={100} borderRadius={4} />
+          ) : (
+            <Text
+              fontWeight="light"
+              color="placeholder"
+              textStyle={{ lineHeight: lineHeights.md }}
+            >
+              {description}
+            </Text>
+          )}
         </View>
 
         <View style={[styles.content, styles.contentWrapper]}>
