@@ -1,2 +1,2 @@
 cd ./practice-one
-npm test && npm run prebuild
+yarn test && yarn run prebuild

@@ -1,2 +1,2 @@
 cd ./practice-one
-npx lint-staged
+yarn lint-staged

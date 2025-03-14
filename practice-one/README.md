@@ -85,25 +85,36 @@
 
 Make sure you install packages with correct version below:
 
-- [node v20.11.0](https://nodejs.org/en/download/package-manager)
-- [npm 10.2.4](https://www.npmjs.com/)
+- [node v20.18.1](https://nodejs.org/en/download/package-manager)
+- [yarn 4.7.0](https://yarnpkg.com/)
 
 - **Note:**
   - Please add `.env` into root of project source code, refer `.env.sample`.
+
+### Getting Started
+
+- Step 1: Clone repository
+  - With HTTPS :
+    - `$ git clone https://gitlab.asoft-python.com/huong.le/react-native-training.git`
+  - With SSH:
+    - `$ git clone git@gitlab.asoft-python.com:huong.le/react-native-training.git`
+- Step 2: Move to branch feature/practice-one
+  - `$ git checkout feature/practice-one`
+- Step 3: `cd practice-one`
 
 ### Build and Run app
 
 | Command                       | Action                                      | Port |
 | :---------------------------- | :------------------------------------------ | :--- |
-| `$ npm install`               | Install all dependencies                    | N/A  |
-| `$ npm run android`           | Start the app on an Android emulator/device | N/A  |
-| `$ npm run ios`               | Start the app on an iOS simulator/device    | N/A  |
-| `$ npm run storybook:android` | Run Storybook on an Android emulator/device | N/A  |
-| `$ npm run storybook:ios`     | Run Storybook on an iOS simulator/device    | N/A  |
-| `$ npm run prebuild`          | Build android apk file                      | N/A  |
-| `$ npm run test`              | Run unit tests                              | N/A  |
-| `$ npm run coverage`          | Generate test coverage report               | N/A  |
-| `$ npm run build:apk`         | Build a production-ready APK file           | N/A  |
+| `$ yarn install`               | Install all dependencies                    | N/A  |
+| `$ yarn run android`           | Start the app on an Android emulator/device | N/A  |
+| `$ yarn run ios`               | Start the app on an iOS simulator/device    | N/A  |
+| `$ yarn run storybook:android` | Run Storybook on an Android emulator/device | N/A  |
+| `$ yarn run storybook:ios`     | Run Storybook on an iOS simulator/device    | N/A  |
+| `$ yarn run prebuild`          | Build android apk file                      | N/A  |
+| `$ yarn run test`              | Run unit tests                              | N/A  |
+| `$ yarn run coverage`          | Generate test coverage report               | N/A  |
+| `$ yarn run build:apk`         | Build a production-ready APK file           | N/A  |
 
 ### Project structure
 

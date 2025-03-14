@@ -1,18 +1,21 @@
 {
   "extends": "expo/tsconfig.base",
-  "lib": ["es2020", "dom"],
+  "lib": [
+    "es2020",
+    "dom"
+  ],
   "compilerOptions": {
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts",
     "jest.config.js"
   ]
 }
