@@ -49,6 +49,7 @@ const TabLayout = () => (
     <Tabs.Screen
       name={SCREEN_NAME.HOME}
       options={{
+        title: 'Home',
         header: () => <HeaderWithSearchInput title="Groceries" />,
         tabBarIcon: ({ color }) => <HomeIcon size={24} color={color} />,
       }}
@@ -56,6 +57,7 @@ const TabLayout = () => (
     <Tabs.Screen
       name={SCREEN_NAME.BROWSE}
       options={{
+        title: 'Browse',
         header: () => <HeaderWithSearchInput hasFilter title="Browse" />,
         tabBarIcon: ({ color }) => <SearchIcon size={24} color={color} />,
       }}

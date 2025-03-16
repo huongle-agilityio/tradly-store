@@ -50,6 +50,7 @@ export const ProductDetail = () => {
     slideImages = [],
     image = '',
     title = '',
+    quantity = 0,
     price = 0,
     description,
     store = { image: '', name: '' },
@@ -86,6 +87,7 @@ export const ProductDetail = () => {
   return (
     <StickyFooterLayout
       isLoading={isLoading}
+      disabled={quantity === 0}
       buttonText="Add to Cart"
       onPress={handleAddToCart}
     >
