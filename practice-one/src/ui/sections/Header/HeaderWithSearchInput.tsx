@@ -66,7 +66,8 @@ export const HeaderWithSearchInput = ({
           <HeartIcon size={24} color={colors.light} />
           <TouchableOpacity
             onPress={handlerRedirectMyCart}
-            style={{ position: 'relative' }}
+            style={{ position: 'relative', opacity: carts.length ? 1 : 0.7 }}
+            disabled={!carts.length}
           >
             <CartIcon size={24} color={colors.light} />
             {!!carts.length && <View style={styles.cartDot} />}
