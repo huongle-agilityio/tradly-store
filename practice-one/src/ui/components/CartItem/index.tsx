@@ -5,7 +5,7 @@ import { styles } from './styles';
 // Components
 import { Text } from '../Text';
 import { Image } from '../Image';
-import { Select } from '../Select';
+import { Dropdown } from '../Dropdown';
 
 // Mocks
 import { CART_QUANTITY } from '@/mocks';
@@ -92,18 +92,21 @@ export const CartItem = memo(
                 </View>
               )}
             </View>
+
             <View style={styles.quantityWrapper}>
               <Text fontSize="sm" fontWeight="normal" color="placeholder">
                 Qty:
               </Text>
-              <Select
-                testID="quantity-select"
-                onValueChange={handleUpdateQuantity}
-                options={CART_QUANTITY}
-                disabled={!onUpdateQuantityItem}
-                showIcon={!!onUpdateQuantityItem}
+              <Dropdown
+                items={CART_QUANTITY}
                 value={quantity.toString()}
-                style={{ width: 50 }}
+                disabled={!onUpdateQuantityItem}
+                onValueChange={handleUpdateQuantity}
+                style={{
+                  inputAndroid: {
+                    width: 80,
+                  },
+                }}
               />
             </View>
           </View>

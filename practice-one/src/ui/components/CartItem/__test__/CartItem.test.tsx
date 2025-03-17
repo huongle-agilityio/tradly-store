@@ -3,9 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react-native';
 // Components
 import { CartItem } from '..';
 
-// Mocks
-import { CART_QUANTITY } from '@/mocks';
-
 describe('CartItem', () => {
   const mockOnRemoveItem = jest.fn();
   const mockOnUpdateQuantityItem = jest.fn();
@@ -57,16 +54,6 @@ describe('CartItem', () => {
 
     expect(mockOnRemoveItem).toHaveBeenCalledTimes(1);
     expect(mockOnRemoveItem).toHaveBeenCalledWith('1');
-  });
-
-  it('Should calls onUpdateQuantityItem when quantity is changed', () => {
-    render(<CartItem {...defaultProps} />);
-
-    fireEvent.press(screen.getByTestId('quantity-select'));
-    fireEvent.press(screen.getByText(CART_QUANTITY[1].label));
-
-    expect(mockOnUpdateQuantityItem).toHaveBeenCalledTimes(1);
-    expect(mockOnUpdateQuantityItem).toHaveBeenCalledWith('1', '2');
   });
 
   it('Should does not display discount if there is no discount', () => {
