@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { StatusBar } from 'react-native';
+import { Asset } from 'expo-asset';
 import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SecureStore from 'expo-secure-store';
@@ -42,28 +43,37 @@ export default function RootLayout() {
   // Stores
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) console.log(error);
-  }, [error]);
-
   useEffect(() => {
     const prepare = async () => {
-      const token = await SecureStore.getItemAsync(STORAGE_KEY.TOKEN);
+      try {
+        // Download and cache images for splash images
+        await Asset.fromModule(
+          require('../assets/splash-icon-dark.png'),
+        ).downloadAsync();
+        await Asset.fromModule(
+          require('../assets/splash-icon-light.png'),
+        ).downloadAsync();
 
-      if (loaded) {
-        SplashScreen.hideAsync();
+        // Check if user is authenticated
+        const token = await SecureStore.getItemAsync(STORAGE_KEY.TOKEN);
+
+        setAuthenticated(!!token);
+
+        if (loaded) {
+          SplashScreen.hideAsync();
+        }
+      } catch (error) {
+        console.error('Error loading splash images:', error);
       }
-
-      setAuthenticated(!!token);
     };
 
     prepare();
   }, [loaded, setAuthenticated]);
 
-  if (!loaded) {
-    return null;
-  }
+  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  useEffect(() => {
+    if (error || !loaded) console.log(error);
+  }, [error, loaded]);
 
   return <RootLayoutNav />;
 }

@@ -46,7 +46,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         image: './src/assets/splash-icon-dark.png',
         dark: {
           image: './src/assets/splash-icon-light.png',
-          backgroundColor: '#000000',
+          backgroundColor: '#000',
         },
         imageWidth: 200,
       },
