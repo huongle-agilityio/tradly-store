@@ -8,13 +8,13 @@ import {
 } from 'react-hook-form';
 
 // Components
-import { Select } from '../Select';
+import { Dropdown } from '../Dropdown';
 
 // Types
 import { Option } from '@/interfaces';
 
 interface SelectControllerProps<T extends FieldValues, K extends Path<T>>
-  extends Omit<ComponentProps<typeof Select>, 'onValueChange' | 'value'> {
+  extends Omit<ComponentProps<typeof Dropdown>, 'onValueChange' | 'value'> {
   name: K;
   options: Option[];
   control: Control<T>;
@@ -48,12 +48,12 @@ export const SelectController = <T extends FieldValues, K extends Path<T>>({
   );
 
   return (
-    <Select
-      options={options}
+    <Dropdown
       value={value}
       onValueChange={handleOnChange}
       error={error?.message}
       {...props}
+      items={options}
     />
   );
 };
