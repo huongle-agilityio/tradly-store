@@ -13,7 +13,7 @@ export const ONBOARDING_STEPS_IMAGES = [
   },
   {
     image: IMAGE_DETAILS.TECHNICAL_ANALYSIS.src,
-    title: ' Donate, Invest & Support infrastructure projects',
+    title: 'Donate, Invest & Support infrastructure projects',
     alt: IMAGE_DETAILS.TECHNICAL_ANALYSIS.alt,
   },
 ];
