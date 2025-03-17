@@ -67,6 +67,7 @@ export const ProductDetail = () => {
       value: 'Home Delivery Available, Cash On Delivery',
     },
   ];
+  const isSoldOut = quantity <= 0;
 
   const handleAddToCart = useCallback(() => {
     addNewCart({
@@ -87,7 +88,7 @@ export const ProductDetail = () => {
   return (
     <StickyFooterLayout
       isLoading={isLoading}
-      disabled={quantity === 0}
+      disabled={isSoldOut}
       buttonText="Add to Cart"
       onPress={handleAddToCart}
     >
@@ -156,6 +157,20 @@ export const ProductDetail = () => {
                         {discount}% off
                       </Text>
                     </>
+                  )}
+                  {isSoldOut && (
+                    <Text
+                      color="light"
+                      textStyle={{
+                        marginLeft: 10,
+                        backgroundColor: colors.error,
+                        borderRadius: 8,
+                        paddingVertical: 2,
+                        paddingHorizontal: 6,
+                      }}
+                    >
+                      SOLD OUT
+                    </Text>
                   )}
                 </View>
               </>
