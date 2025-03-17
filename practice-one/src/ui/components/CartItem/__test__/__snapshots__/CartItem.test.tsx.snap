@@ -210,124 +210,68 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
         >
           Qty:
         </Text>
-        <View
-          style={
-            [
-              {
-                "position": "relative",
-              },
-              undefined,
-              {
-                "width": 50,
-              },
-            ]
-          }
-        >
+        <View>
           <View
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": undefined,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
-              {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "space-between",
-                "opacity": 1,
-                "padding": 12,
-              }
+              [
+                {
+                  "alignSelf": "stretch",
+                },
+                undefined,
+              ]
             }
-            testID="select-box"
           >
-            <TextInput
-              editable={false}
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 {
-                  "color": "#4f4f4f",
-                  "fontWeight": "500",
-                  "lineHeight": 14,
+                  "opacity": 1,
                 }
               }
-              testID="quantity-select"
-              value="2"
-            />
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={4}
-              bbWidth={9}
-              color="#4f4f4f"
-              focusable={false}
-              height={4}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 4,
-                    "width": 9,
-                  },
-                ]
-              }
-              tintColor="#4f4f4f"
-              vbHeight={4}
-              vbWidth={9}
-              width={9}
+              testID="ios_touchable_wrapper"
             >
-              <RNSVGGroup
-                fill={
-                  {
-                    "payload": 4278190080,
-                    "type": 0,
-                  }
-                }
+              <View
+                pointerEvents="box-only"
               >
-                <RNSVGPath
-                  clipRule={0}
-                  d="M8.47396 0C8.65786 0 8.74428 0.227303 8.60683 0.349482L4.63287 3.88189C4.5571 3.94925 4.4429 3.94925 4.36713 3.88189L0.393167 0.349482C0.255716 0.227303 0.342136 0 0.52604 0H8.47396Z"
-                  fill={
-                    {
-                      "type": 2,
-                    }
-                  }
-                  fillRule={0}
-                  propList={
+                <TextInput
+                  editable={false}
+                  style={
                     [
-                      "fill",
-                      "fillRule",
+                      undefined,
+                      {},
                     ]
                   }
+                  testID="text_input"
+                  value="2"
                 />
-              </RNSVGGroup>
-            </RNSVGSvgView>
+              </View>
+            </View>
           </View>
         </View>
       </View>
@@ -605,72 +549,68 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
         >
           Qty:
         </Text>
-        <View
-          style={
-            [
-              {
-                "position": "relative",
-              },
-              {
-                "opacity": 0.7,
-              },
-              {
-                "width": 50,
-              },
-            ]
-          }
-        >
+        <View>
           <View
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": true,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={false}
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
-              {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "space-between",
-                "opacity": 1,
-                "padding": 12,
-              }
-            }
-            testID="select-box"
-          >
-            <TextInput
-              editable={false}
-              style={
+              [
                 {
-                  "color": "#4f4f4f",
-                  "fontWeight": "500",
-                  "lineHeight": 14,
+                  "alignSelf": "stretch",
+                },
+                undefined,
+              ]
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
                 }
               }
-              testID="quantity-select"
-              value="2"
-            />
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "opacity": 1,
+                }
+              }
+              testID="ios_touchable_wrapper"
+            >
+              <View
+                pointerEvents="box-only"
+              >
+                <TextInput
+                  editable={false}
+                  style={
+                    [
+                      undefined,
+                      {},
+                    ]
+                  }
+                  testID="text_input"
+                  value="2"
+                />
+              </View>
+            </View>
           </View>
         </View>
       </View>
