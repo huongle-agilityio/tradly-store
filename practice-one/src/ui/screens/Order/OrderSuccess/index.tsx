@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useAssets } from 'expo-asset';
 import { ScrollView, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { orderSuccessStyles } from './styles';
@@ -17,6 +18,7 @@ import { Cart } from '@/interfaces';
 import { DeliveryAddress } from './DeliveryAddress';
 
 export const OrderSuccess = () => {
+  const [assets] = useAssets([require('@/assets/success.png')]);
   const params = useLocalSearchParams();
   const carts: Cart[] = params.carts ? JSON.parse(params.carts as string) : [];
 
@@ -29,14 +31,16 @@ export const OrderSuccess = () => {
       contentContainerStyle={orderSuccessStyles.contentContainerStyle}
     >
       <View style={orderSuccessStyles.imageWrapper}>
-        <Image
-          source={require('@/assets/success.png')}
-          alt={IMAGE_DETAILS.SUCCESS.alt}
-          styles={{
-            width: 160,
-            height: 100,
-          }}
-        />
+        {assets && (
+          <Image
+            source={assets[0]}
+            alt={IMAGE_DETAILS.SUCCESS.alt}
+            styles={{
+              width: 160,
+              height: 100,
+            }}
+          />
+        )}
         <Text fontWeight="bold" fontSize="xxl" color="placeholder">
           Thanks for Order
         </Text>

@@ -6,35 +6,37 @@ import { colors, radius, spacing } from '@/ui/themes';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: colors.light,
   },
   headerWrapper: {
-    position: 'relative',
     backgroundColor: colors.primary,
     width: '100%',
     height: '40%',
   },
-  imageWrapper: {
-    position: 'absolute',
-    bottom: '-50%',
-    width: 310,
-    height: 334,
-    borderRadius: radius.lg,
+  scroll: {
+    paddingTop: 57,
     backgroundColor: colors.light,
-    alignItems: 'center',
+    borderRadius: radius.lg,
+  },
+  content: {
     alignSelf: 'center',
+    height: '60%',
+    position: 'relative',
     justifyContent: 'flex-end',
+    paddingBottom: spacing['7.5'],
   },
-  image: {
-    height: 250,
-    marginBottom: spacing['7.5'],
+  slideWrapper: {
+    position: 'absolute',
+    top: -150,
   },
-  bottomContentWrapper: {
-    width: 310,
-    marginTop: 200,
+  imageWrapper: {
     alignItems: 'center',
-    gap: 50,
+    gap: 100,
+  },
+  dotWrapper: {
+    flexDirection: 'row',
+    gap: spacing['2.5'],
+    justifyContent: 'center',
   },
   dot: {
     width: spacing[3],
