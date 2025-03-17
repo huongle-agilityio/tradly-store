@@ -1,5 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { Animated, View } from 'react-native';
+import {
+  Animated,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { router } from 'expo-router';
 import { styles } from './styles';
 
@@ -10,15 +17,22 @@ import { ONBOARDING_STEPS_IMAGES } from '@/mocks';
 import { Button, Text } from '@/ui/components';
 
 // Constants
-import { SCREEN_ROUTES } from '@/constants';
+import { MEDIA_SCREEN, SCREEN_ROUTES } from '@/constants';
 
 // Themes
 import { spacing } from '@/ui/themes';
 
-export const Onboarding = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const fadeAnim = useRef(new Animated.Value(1)).current;
+// Utils
+import { interpolateValue } from '@/utils';
 
+export const Onboarding = () => {
+  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollX = useRef(new Animated.Value(0)).current;
+
+  const { width } = useWindowDimensions();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const widthContainer = width > MEDIA_SCREEN.TABLET ? width - 200 : width - 74;
   const buttonText = useMemo(
     () =>
       currentIndex === ONBOARDING_STEPS_IMAGES.length - 1 ? 'Finish' : 'Next',
@@ -27,72 +41,111 @@ export const Onboarding = () => {
 
   const handleOnboardingStep = useCallback(() => {
     if (currentIndex < ONBOARDING_STEPS_IMAGES.length - 1) {
-      // Fade animation from 0.5
-      Animated.timing(fadeAnim, {
-        toValue: 0.5,
-        duration: 300,
-        useNativeDriver: true,
-      }).start(() => {
-        setCurrentIndex((prev) => prev + 1);
-
-        // Fade animation to 1
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }).start();
+      scrollViewRef.current?.scrollTo({
+        // scroll to next step
+        x: (currentIndex + 1) * widthContainer,
+        animated: true,
       });
     } else {
       router.replace(SCREEN_ROUTES.LOGIN);
     }
-  }, [currentIndex, fadeAnim]);
+  }, [currentIndex, widthContainer]);
+
+  const handleScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+    { useNativeDriver: false },
+  );
+
+  /**
+   * Function check scroll end and set current index for dots
+   */
+  const handleScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const contentOffsetX = event.nativeEvent.contentOffset.x;
+      const newIndex = Math.round(contentOffsetX / widthContainer);
+      setCurrentIndex(newIndex);
+    },
+    [widthContainer],
+  );
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerWrapper}>
-        <View style={styles.imageWrapper}>
-          <Animated.Image
-            source={ONBOARDING_STEPS_IMAGES[currentIndex].image}
-            alt={ONBOARDING_STEPS_IMAGES[currentIndex].alt}
-            style={[
-              styles.image,
-              {
-                opacity: fadeAnim,
-              },
-            ]}
-          />
+      <View style={styles.headerWrapper} />
+      <View
+        style={[
+          styles.content,
+          {
+            width: widthContainer,
+          },
+        ]}
+      >
+        <View style={styles.slideWrapper}>
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            scrollEventThrottle={16}
+            onScroll={handleScroll}
+            onMomentumScrollEnd={handleScrollEnd}
+            style={styles.scroll}
+          >
+            {ONBOARDING_STEPS_IMAGES.map(({ image, title, alt }, index) => (
+              <View
+                key={index}
+                style={[styles.imageWrapper, { width: widthContainer }]}
+              >
+                <Animated.Image
+                  source={image}
+                  alt={alt}
+                  resizeMode="contain"
+                  width={width - 80}
+                />
+                <Text
+                  fontSize="xl"
+                  fontWeight="normal"
+                  color="primary"
+                  textStyle={{
+                    textAlign: 'center',
+                    paddingHorizontal: spacing['2.5'],
+                  }}
+                >
+                  {title}
+                </Text>
+              </View>
+            ))}
+          </ScrollView>
         </View>
-      </View>
-      <View style={styles.bottomContentWrapper}>
-        <Text
-          fontSize="xl"
-          fontWeight="normal"
-          color="primary"
-          textStyle={{ textAlign: 'center' }}
+
+        <View
+          style={{
+            gap: 50,
+          }}
         >
-          {ONBOARDING_STEPS_IMAGES[currentIndex].title}
-        </Text>
-        <View style={{ flexDirection: 'row', gap: spacing['2.5'] }}>
-          {ONBOARDING_STEPS_IMAGES.map((_, index) => (
-            <Animated.View
-              key={index}
-              style={[
-                styles.dot,
-                {
-                  opacity: currentIndex === index ? 1 : 0.4,
-                },
-              ]}
-            />
-          ))}
+          <View style={styles.dotWrapper}>
+            {ONBOARDING_STEPS_IMAGES.map((_, index) => {
+              const opacity = interpolateValue(
+                scrollX,
+                index,
+                widthContainer,
+                [0.4, 1, 0.4],
+              );
+
+              return (
+                <Animated.View key={index} style={[styles.dot, { opacity }]} />
+              );
+            })}
+          </View>
+
+          <Button
+            size="full"
+            onPress={handleOnboardingStep}
+            textSize="xl"
+            buttonStyles={{ height: spacing[12] }}
+          >
+            {buttonText}
+          </Button>
         </View>
-        <Button
-          size="full"
-          onPress={handleOnboardingStep}
-          textSize="xl"
-          buttonStyles={{ height: spacing[12] }}
-        >
-          {buttonText}
-        </Button>
       </View>
     </View>
   );
