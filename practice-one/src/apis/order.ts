@@ -9,6 +9,9 @@ import { Order, OrderResponse } from '@/interfaces';
 // Services
 import { httpClient } from '@/services';
 
+// HOCs
+import { withAuth } from '@/hocs';
+
 /**
  * Mutation hook to create an order.
  *
@@ -17,8 +20,11 @@ import { httpClient } from '@/services';
 export const useCreateOrder = () =>
   useMutation<OrderResponse, string, Order>({
     mutationFn: async (payload) =>
-      httpClient.post({
-        endpoint: API_ENDPOINT.ORDER,
-        payload: { data: payload },
-      }),
+      withAuth((token) =>
+        httpClient.post({
+          endpoint: API_ENDPOINT.ORDER,
+          payload: { data: payload },
+          token,
+        }),
+      ),
   });

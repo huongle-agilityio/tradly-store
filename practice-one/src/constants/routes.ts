@@ -2,6 +2,7 @@ export const SCREEN_NAME = {
   HOME: 'home',
   BROWSE: 'browse',
   PRODUCT: 'product',
+  TABS: '(tabs)',
   PRODUCT_DETAIL: 'products/[id]/index',
   ORDER_HISTORY: 'order-history',
   ORDER_SUCCESS: 'order/OrderSuccess',

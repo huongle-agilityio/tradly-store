@@ -94,6 +94,5 @@ export const textSizes = StyleSheet.create({
     fontSize: spacing['4.5'],
     lineHeight: lineHeights.sm,
     fontFamily: fontsFamily.bold,
-    fontWeight: fontWeights.medium,
   },
 });
