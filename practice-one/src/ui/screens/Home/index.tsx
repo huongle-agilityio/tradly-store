@@ -33,7 +33,11 @@ export const Home = () => {
             <Text fontWeight="bold" fontSize="lg" color="placeholder">
               New Product
             </Text>
-            <Button textSize="xs" onPress={handleRedirectNewProduct}>
+            <Button
+              textSize="xs"
+              buttonStyles={{ width: 90 }}
+              onPress={handleRedirectNewProduct}
+            >
               See All
             </Button>
           </View>
@@ -45,7 +49,11 @@ export const Home = () => {
             <Text fontWeight="bold" fontSize="lg" color="placeholder">
               Popular Product
             </Text>
-            <Button textSize="xs" onPress={handleRedirectPopularProduct}>
+            <Button
+              textSize="xs"
+              buttonStyles={{ width: 90 }}
+              onPress={handleRedirectPopularProduct}
+            >
               See All
             </Button>
           </View>

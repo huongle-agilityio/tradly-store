@@ -25,6 +25,9 @@ import { useAddressForm } from '@/hooks';
 // Themes
 import { spacing } from '@/ui/themes';
 
+// Interfaces
+import { Cart as CartType } from '@/interfaces';
+
 // Utils
 import { getTotalCarts, isEmptyObject } from '@/utils';
 
@@ -47,9 +50,12 @@ export const Cart = () => {
   const isDisabled = !carts?.length || isEmptyObject(formAddress);
   const { total, totalQuantity } = getTotalCarts(carts || []);
 
-  const handleQuantityChange = (id: string, value: string) => {
-    updateQuantityItem(id, Number(value));
-  };
+  const handleQuantityChange = useCallback(
+    (id: string, value: string) => {
+      updateQuantityItem(id, Number(value));
+    },
+    [updateQuantityItem],
+  );
 
   const handlePayment = useCallback(() => {
     const payload = {
@@ -96,6 +102,29 @@ export const Cart = () => {
   const handleAddNewAddress = () => {
     router.push(SCREEN_ROUTES.ADDRESS as Href);
   };
+
+  const keyExtractor = useCallback((item: CartType) => item.id, []);
+
+  const renderItem = useCallback(
+    ({
+      item: { id, name, image, quantity, price, discount },
+    }: {
+      item: CartType;
+    }) => (
+      <CartItem
+        key={id}
+        id={id}
+        name={name}
+        image={image}
+        quantity={quantity}
+        price={price}
+        discount={discount}
+        onRemoveItem={removeCart}
+        onUpdateQuantityItem={handleQuantityChange}
+      />
+    ),
+    [handleQuantityChange, removeCart],
+  );
 
   return (
     <StickyFooterLayout
@@ -144,24 +173,10 @@ export const Cart = () => {
       <FlatList
         data={carts}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={keyExtractor}
         contentContainerStyle={styles.contentContainerStyle}
         ListEmptyComponent={<EmptyList text="Your cart is empty." />}
-        renderItem={({
-          item: { id, name, image, quantity, price, discount },
-        }) => (
-          <CartItem
-            key={id}
-            id={id}
-            name={name}
-            image={image}
-            quantity={quantity}
-            price={price}
-            discount={discount}
-            onRemoveItem={removeCart}
-            onUpdateQuantityItem={handleQuantityChange}
-          />
-        )}
+        renderItem={renderItem}
       />
     </StickyFooterLayout>
   );
