@@ -31,6 +31,10 @@ import { Cart as CartType } from '@/interfaces';
 // Utils
 import { getTotalCarts, isEmptyObject } from '@/utils';
 
+interface RenderItemProps {
+  item: CartType;
+}
+
 export const Cart = () => {
   // Stores
   const showToast = useToast((state) => state.showToast);
@@ -99,18 +103,16 @@ export const Cart = () => {
     zipCode,
   ]);
 
-  const handleAddNewAddress = () => {
+  const handleAddNewAddress = useCallback(() => {
     router.push(SCREEN_ROUTES.ADDRESS as Href);
-  };
+  }, []);
 
   const keyExtractor = useCallback((item: CartType) => item.id, []);
 
   const renderItem = useCallback(
     ({
       item: { id, name, image, quantity, price, discount },
-    }: {
-      item: CartType;
-    }) => (
+    }: RenderItemProps) => (
       <CartItem
         key={id}
         id={id}
@@ -160,7 +162,7 @@ export const Cart = () => {
           <Button
             textSize="xs"
             buttonStyles={{
-              width: 94,
+              width: 100,
               height: 23,
             }}
             onPress={handleAddNewAddress}
