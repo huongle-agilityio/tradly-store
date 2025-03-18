@@ -17,9 +17,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   ios: {
     supportsTablet: true,
+    bundleIdentifier: 'practice.one.tradly',
+    icon: './src/assets/adaptive-icon.png',
   },
   android: {
-    package: 'com.huong.le.reactnativepracticeone',
+    package: 'practice.one.tradly',
     adaptiveIcon: {
       foregroundImage: './src/assets/adaptive-icon.png',
       backgroundColor: '#ffffff',
