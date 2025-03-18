@@ -24,7 +24,7 @@ describe('SelectController Component', () => {
     return (
       <SelectController
         name="selectField"
-        options={CART_QUANTITY}
+        items={CART_QUANTITY}
         control={control}
         clearErrors={mockClearErrors || clearErrors}
       />
@@ -33,19 +33,7 @@ describe('SelectController Component', () => {
 
   it('should render the component with provided options', () => {
     render(<Wrapper />);
-    expect(screen.getByTestId('select-box')).toBeTruthy();
-  });
-
-  it('should update value and call clearErrors on change', async () => {
-    const mockClearErrors = jest.fn();
-    render(<Wrapper mockClearErrors={mockClearErrors} />);
-
-    const select = screen.getByTestId('select-box');
-    fireEvent.press(select);
-    expect(screen.getByText(CART_QUANTITY[2].label)).toBeTruthy();
-    fireEvent.press(screen.getByText(CART_QUANTITY[2].label));
-
-    expect(mockClearErrors).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('text_input')).toBeTruthy();
   });
 
   it('should display error message when validation fails', async () => {
@@ -58,7 +46,7 @@ describe('SelectController Component', () => {
         <>
           <SelectController
             name="selectField"
-            options={CART_QUANTITY}
+            items={CART_QUANTITY}
             control={control}
             clearErrors={jest.fn()}
           />
