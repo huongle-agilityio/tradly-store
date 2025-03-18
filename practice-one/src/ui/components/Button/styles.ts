@@ -59,7 +59,7 @@ export const sizes = StyleSheet.create({
   medium: { paddingVertical: spacing[1], paddingHorizontal: 23 },
 });
 
-export const textStyles = StyleSheet.create({
+export const textVariants = StyleSheet.create({
   solid: { color: colors.button.textSecondary },
   bordered: {},
   ghost: {},

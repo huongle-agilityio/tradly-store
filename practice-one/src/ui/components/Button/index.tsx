@@ -6,14 +6,15 @@ import {
   ActivityIndicator,
   StyleProp,
   ViewStyle,
+  TextStyle,
 } from 'react-native';
 import {
   colorMap,
   sizes,
   styles,
   textSizes,
-  textStyles,
   variantStyles,
+  textVariants,
 } from './styles';
 
 // Themes
@@ -35,6 +36,7 @@ interface ButtonProps {
   color?: ButtonColor;
   textSize?: ButtonTextSize;
   buttonStyles?: StyleProp<ViewStyle>;
+  textStyles?: StyleProp<TextStyle>;
   icon?: ReactNode;
   children: ReactNode;
   onPress?: () => void;
@@ -49,6 +51,7 @@ export const Button = memo(
     textSize = 'base',
     isLoading = false,
     buttonStyles,
+    textStyles,
     icon: Icon,
     children,
     onPress,
@@ -76,7 +79,7 @@ export const Button = memo(
         <Text
           style={[
             styles.text,
-            textStyles[variant],
+            textVariants[variant],
             textSizes[textSize],
             {
               color:
@@ -88,6 +91,7 @@ export const Button = memo(
                     ? colors.button.textSecondary
                     : colorMap[color],
             },
+            textStyles,
           ]}
         >
           {children}

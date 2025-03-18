@@ -142,6 +142,7 @@ export const Onboarding = () => {
             onPress={handleOnboardingStep}
             textSize="xl"
             buttonStyles={{ height: spacing[12] }}
+            textStyles={{ width: '100%', textAlign: 'center' }}
           >
             {buttonText}
           </Button>

@@ -76,6 +76,7 @@ exports[`Button Component Should Should renders correctly when variant is not so
           {
             "color": "#33907c",
           },
+          undefined,
         ]
       }
     >
@@ -161,6 +162,7 @@ exports[`Button Component Should Should renders correctly when variant is not so
           {
             "color": "#fff",
           },
+          undefined,
         ]
       }
     >
@@ -248,6 +250,7 @@ exports[`Button Component Should Should renders correctly when variant is solid 
           {
             "color": "#33907c",
           },
+          undefined,
         ]
       }
     >
@@ -335,6 +338,7 @@ exports[`Button Component Should Should renders correctly with children 1`] = `
           {
             "color": "#fff",
           },
+          undefined,
         ]
       }
     >
