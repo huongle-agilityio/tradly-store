@@ -6,6 +6,9 @@ import { valibotResolver } from '@hookform/resolvers/valibot';
 // Components
 import { Button, InputController, Text } from '@/ui/components';
 
+// Hooks
+import { useFocusInput } from '@/hooks';
+
 // Schema
 import { loginSchema } from '@/schemas';
 
@@ -25,6 +28,8 @@ interface FormLoginProps {
 
 export const FormLogin = memo(
   ({ error, isLoading, onSubmit }: FormLoginProps) => {
+    const { focusNextInput, refs } = useFocusInput(2);
+
     const {
       control,
       clearErrors,
@@ -47,14 +52,20 @@ export const FormLogin = memo(
         <View style={{ gap: spacing['2.5'] }}>
           <View style={{ gap: spacing[4] }}>
             <InputController
+              index={0}
+              refs={refs}
               name="email"
               placeholder="Enter your email"
+              onFocusNextInput={focusNextInput}
               control={control}
               clearErrors={clearErrors}
             />
             <InputController
+              index={1}
+              refs={refs}
               name="password"
               placeholder="Enter your password"
+              onFocusNextInput={focusNextInput}
               control={control}
               secureTextEntry={true}
               clearErrors={clearErrors}

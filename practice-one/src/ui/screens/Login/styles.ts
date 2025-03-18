@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
   content: {
     maxWidth: 320,
     alignSelf: 'center',
+    justifyContent: 'center',
   },
   textWrapper: {
     alignItems: 'center',
