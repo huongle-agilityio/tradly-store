@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { View } from 'react-native';
 import { trackingOrderStyles } from './styles';
 
@@ -12,7 +11,7 @@ import { TrackingOrderItem } from './TrackingOrderItem';
 // Themes
 import { lineHeights } from '@/ui/themes';
 
-export const TrackingOrder = memo(() => (
+export const TrackingOrder = () => (
   <View style={trackingOrderStyles.container}>
     <View>
       <Text fontWeight="medium" fontSize="md" color="quaternary">
@@ -43,6 +42,4 @@ export const TrackingOrder = memo(() => (
       )}
     </View>
   </View>
-));
-
-TrackingOrder.displayName = 'TrackingOrder';
+);

@@ -82,7 +82,6 @@ export const HeaderWithSearchInput = ({
             placeholder="Search Product"
             onChangeText={handleFilter}
             editable={!!hasFilter}
-            onPress={handleRedirectBrowse}
             value={filter}
             icon={<SearchIcon size={24} color={colors.primary} />}
           />

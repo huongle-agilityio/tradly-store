@@ -1,23 +1,25 @@
-import { useCallback } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Href, router } from 'expo-router';
-
-// Constants
-import { SCREEN_ROUTES } from '@/constants';
+import { memo, useMemo } from 'react';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 // Components
 import { CategoryCard } from '@/ui/components';
 
+// Constants
+import { MEDIA_SCREEN } from '@/constants';
+
 // Mocks
 import { CATEGORIES } from '@/mocks';
 
-export const Categories = () => {
-  const handlePress = useCallback((name: string, query: string) => {
-    router.push({
-      pathname: SCREEN_ROUTES.CATEGORIES,
-      params: { category: query, name },
-    } as unknown as Href);
-  }, []);
+interface CategoriesProps {
+  handlePress: (name: string, query: string) => void;
+}
+
+export const Categories = memo(({ handlePress }: CategoriesProps) => {
+  const { width } = useWindowDimensions();
+  const cardSize = useMemo(
+    () => (width > MEDIA_SCREEN.TABLET ? width / 8 : width / 4),
+    [width],
+  );
 
   return (
     <View style={styles.container}>
@@ -28,16 +30,18 @@ export const Categories = () => {
           title={name}
           source={image}
           onPress={handlePress}
+          style={{ width: cardSize, height: cardSize }}
         />
       ))}
     </View>
   );
-};
+});
+
+Categories.displayName = 'Categories';
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
   },
 });
