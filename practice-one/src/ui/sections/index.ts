@@ -10,3 +10,4 @@ export * from './HeaderFilter';
 export * from './PriceDetails';
 export * from './TrackingOrder';
 export * from './EmptyList';
+export * from './FormAddress';

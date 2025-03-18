@@ -28,7 +28,7 @@ export const HeaderWithTitle = ({
     router.back();
   };
 
-  const handleRedirectToHome = () => {
+  const handleRedirectTo = () => {
     if (redirectTo) router.navigate(redirectTo);
   };
 
@@ -49,7 +49,7 @@ export const HeaderWithTitle = ({
 
         {redirectTo && (
           <TouchableOpacity
-            onPress={handleRedirectToHome}
+            onPress={handleRedirectTo}
             style={styles.closeButton}
           >
             <CloseIcon size={16} color={colors.light} />

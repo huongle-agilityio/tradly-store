@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import {
   FlatList,
   FlatListProps,
@@ -6,9 +6,6 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-
-// Apis
-import { useGetProduct, useGetProductByParams } from '@/apis';
 
 // Components
 import { EmptyList } from '../EmptyList';
@@ -19,124 +16,108 @@ import { ProductListItem } from './ProductItem';
 import { MEDIA_SCREEN } from '@/constants';
 
 // Interfaces
-import { Product, ProductFilterParams, SortType } from '@/interfaces';
+import { Product } from '@/interfaces';
 
 // Themes
 import { spacing } from '@/ui/themes';
 
-interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {
-  isLoadMore?: boolean;
-  hasDiscount?: boolean;
-  sortCreatedAt?: SortType;
-  params?: ProductFilterParams;
+interface RenderItemProps {
+  item: Product;
+  index: number;
 }
 
-export const ListProduct = ({
-  isLoadMore = false,
-  hasDiscount,
-  sortCreatedAt,
-  params = {},
-  horizontal,
-}: Props) => {
-  const { width } = useWindowDimensions();
-  const [refreshing, setRefreshing] = useState(false);
+interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {
+  data: Product[];
+  isLoading?: boolean;
+  isLoadMore?: boolean;
+  isFetchingNextPage?: boolean;
+  onEndReached?: () => void;
+}
 
-  // Apis
-  const {
-    data: productByParams,
-    fetchNextPage,
-    hasNextPage,
+export const ListProduct = memo(
+  ({
+    data,
+    isLoading,
     isFetchingNextPage,
-    isLoading: isLoadingProductByParams,
-  } = useGetProductByParams({
-    params,
-    enabled: isLoadMore,
-  });
+    isLoadMore = false,
+    onEndReached,
+    horizontal,
+  }: Props) => {
+    const { width } = useWindowDimensions();
+    const [refreshing, setRefreshing] = useState(false);
 
-  const { data: product, isLoading } = useGetProduct({
-    hasDiscount,
-    sortCreatedAt,
-    enabled: !isLoadMore,
-  });
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
-  const data = isLoadMore ? productByParams : product;
+    const keyExtractor = useCallback(
+      ({ id }: { id: number }) => id.toString(),
+      [],
+    );
 
-  const handleEndReached = useCallback(() => {
-    // fetch next page
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
-  const keyExtractor = useCallback(
-    ({ id }: { id: number }) => id.toString(),
-    [],
-  );
-
-  // Render
-  const listProps = useMemo(
-    () => ({
-      horizontal,
-      data,
-      keyExtractor,
-      showsHorizontalScrollIndicator: false,
-      showsVerticalScrollIndicator: false,
-      contentContainerStyle: {
-        gap: width > MEDIA_SCREEN.TABLET ? 20 : spacing['2.5'],
-        minWidth: 330,
-        paddingVertical: !horizontal ? spacing[5] : undefined,
-      },
-      ...(isLoadMore && {
-        onEndReached: handleEndReached,
-        onEndReachedThreshold: 0.1,
-      }),
-      ...(!horizontal && {
-        numColumns: width > MEDIA_SCREEN.TABLET ? 3 : 2,
-        columnWrapperStyle: {
+    // Render
+    const listProps = useMemo(
+      () => ({
+        horizontal,
+        data,
+        keyExtractor,
+        showsHorizontalScrollIndicator: false,
+        showsVerticalScrollIndicator: false,
+        contentContainerStyle: {
           gap: width > MEDIA_SCREEN.TABLET ? 20 : spacing['2.5'],
+          minWidth: 330,
+          paddingVertical: !horizontal ? spacing[5] : undefined,
         },
+        ...(isLoadMore && {
+          onEndReached,
+          onEndReachedThreshold: 0.1,
+        }),
+        ...(!horizontal && {
+          numColumns: width > MEDIA_SCREEN.TABLET ? 3 : 2,
+          columnWrapperStyle: {
+            gap: width > MEDIA_SCREEN.TABLET ? 20 : spacing['2.5'],
+          },
+        }),
       }),
-    }),
-    [data, handleEndReached, horizontal, isLoadMore, keyExtractor, width],
-  );
+      [data, horizontal, isLoadMore, keyExtractor, onEndReached, width],
+    );
 
-  const renderItem = useCallback(
-    ({ item, index }: { item: Product; index: number }) => (
-      <ProductListItem
-        horizontal={horizontal}
-        item={item}
-        index={index}
-        dataLength={data.length}
-      />
-    ),
-    [data.length, horizontal],
-  );
+    const renderItem = useCallback(
+      ({ item, index }: RenderItemProps) => (
+        <ProductListItem
+          horizontal={horizontal}
+          item={item}
+          index={index}
+          dataLength={data.length}
+        />
+      ),
+      [data.length, horizontal],
+    );
 
-  return (
-    <View>
-      {isLoadingProductByParams || isLoading ? (
-        <ListFooter style={{ height: '100%', justifyContent: 'center' }} />
-      ) : null}
-      <FlatList
-        {...listProps}
-        ListEmptyComponent={<EmptyList />}
-        ListFooterComponent={
-          isFetchingNextPage ? (
-            <ListFooter style={{ marginVertical: 20 }} />
-          ) : null
-        }
-        renderItem={renderItem}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
-    </View>
-  );
-};
+    return (
+      <View>
+        {isLoading ? (
+          <ListFooter style={{ height: '100%', justifyContent: 'center' }} />
+        ) : null}
+        <FlatList
+          {...listProps}
+          ListEmptyComponent={<EmptyList />}
+          ListFooterComponent={
+            isFetchingNextPage ? (
+              <ListFooter style={{ marginVertical: 20 }} />
+            ) : null
+          }
+          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
+      </View>
+    );
+  },
+);
+
+ListProduct.displayName = 'ListProduct';

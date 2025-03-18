@@ -16,7 +16,7 @@ export const Profile = () => {
 
   const handleLogout = useCallback(() => {
     clearAuth();
-    router.replace(SCREEN_ROUTES.ONBOARDING);
+    router.replace(SCREEN_ROUTES.LOGIN);
   }, [clearAuth]);
 
   return (
