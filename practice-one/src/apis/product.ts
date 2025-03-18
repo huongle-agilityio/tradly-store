@@ -14,6 +14,9 @@ import {
 // Services
 import { httpClient } from '@/services';
 
+// HOCs
+import { withAuth } from '@/hocs';
+
 /**
  * React Query hook to fetch a list of products, given filtering parameters.
  *
@@ -39,9 +42,12 @@ export const useGetProduct = ({
       hasDiscount,
     }),
     queryFn: () =>
-      httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: PAGE_SIZE })}`,
-      }),
+      withAuth((token) =>
+        httpClient.get({
+          endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, sortCreatedAt, page: 1, pageSize: PAGE_SIZE })}`,
+          token,
+        }),
+      ),
   });
 
   return {
@@ -82,9 +88,12 @@ export const useGetProductByParams = ({
       title,
     }),
     queryFn: ({ pageParam = 1 }) =>
-      httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, title, sortCreatedAt, category, page: Number(pageParam), pageSize: PAGE_SIZE })}`,
-      }),
+      withAuth((token) =>
+        httpClient.get({
+          endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, title, sortCreatedAt, category, page: Number(pageParam), pageSize: PAGE_SIZE })}`,
+          token,
+        }),
+      ),
     getNextPageParam: (lastPage) => {
       const { page, pageCount } = lastPage.meta.pagination;
 
@@ -110,9 +119,12 @@ export const useGetProductById = (id: string) => {
   const { data, ...rest } = useQuery<ProductResponse>({
     queryKey: [id],
     queryFn: async () =>
-      httpClient.get({
-        endpoint: `${API_ENDPOINT.PRODUCT}/${id}${QUERY_URL.PRODUCTS({})}`,
-      }),
+      withAuth((token) =>
+        httpClient.get({
+          endpoint: `${API_ENDPOINT.PRODUCT}/${id}${QUERY_URL.PRODUCTS({})}`,
+          token,
+        }),
+      ),
   });
 
   return {

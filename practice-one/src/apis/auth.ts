@@ -22,7 +22,10 @@ import { AuthPayload, AuthResponse } from '@/interfaces';
  * @returns A React Query mutation function that can be used to log in a user.
  */
 export const useAuthLogin = () => {
-  const setUser = useAuthStore((state) => state.setUser);
+  const [setUser, setIsAuthenticated] = useAuthStore((state) => [
+    state.setUser,
+    state.setAuthenticated,
+  ]);
 
   return useMutation<AuthResponse, string, AuthPayload>({
     mutationFn: async (payload) =>
@@ -30,6 +33,7 @@ export const useAuthLogin = () => {
     onSuccess: async ({ jwt, user }) => {
       await SecureStore.setItemAsync(STORAGE_KEY.TOKEN, jwt);
       setUser(user);
+      setIsAuthenticated(true);
     },
   });
 };
