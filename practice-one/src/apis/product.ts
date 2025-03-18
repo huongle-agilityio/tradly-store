@@ -11,6 +11,9 @@ import {
   SortType,
 } from '@/interfaces';
 
+// Hooks
+import { useMedia } from '@/hooks';
+
 // Services
 import { httpClient } from '@/services';
 
@@ -72,13 +75,12 @@ export const useGetProductByParams = ({
   params: ProductFilterParams;
   enabled?: boolean;
 }) => {
+  const { isTablet } = useMedia();
   const {
     category = '',
     title = '',
     hasDiscount,
     sortCreatedAt,
-    page = 1,
-    pageSize = 1,
   } = params || {};
 
   const { data, ...rest } = useInfiniteQuery<ListProductResponse>({
@@ -89,13 +91,11 @@ export const useGetProductByParams = ({
       category,
       title,
       sortCreatedAt,
-      page,
-      pageSize,
     }),
     queryFn: ({ pageParam = 1 }) =>
       withAuth((token) =>
         httpClient.get({
-          endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, title, sortCreatedAt, category, page: Number(pageParam), pageSize: 8 })}`,
+          endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({ hasDiscount, title, sortCreatedAt, category, page: Number(pageParam), pageSize: isTablet ? 9 : 8 })}`,
           token,
         }),
       ),

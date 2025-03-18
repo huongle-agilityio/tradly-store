@@ -32,6 +32,7 @@ exports[`Input Component Should match snapshot 1`] = `
       onChangeText={[MockFunction]}
       placeholder="Enter text"
       placeholderTextColor="#fff"
+      selectionColor="#fff"
       style={
         {
           "color": "#fff",
@@ -77,6 +78,7 @@ exports[`Input Component Should render error message 1`] = `
       onChangeText={[MockFunction]}
       placeholder="Enter text"
       placeholderTextColor="#fff"
+      selectionColor="#fff"
       style={
         {
           "color": "#fff",

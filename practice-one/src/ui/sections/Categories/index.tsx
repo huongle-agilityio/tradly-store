@@ -1,11 +1,11 @@
 import { memo, useMemo } from 'react';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 // Components
 import { CategoryCard } from '@/ui/components';
 
-// Constants
-import { MEDIA_SCREEN } from '@/constants';
+// Hooks
+import { useMedia } from '@/hooks';
 
 // Mocks
 import { CATEGORIES } from '@/mocks';
@@ -15,10 +15,11 @@ interface CategoriesProps {
 }
 
 export const Categories = memo(({ handlePress }: CategoriesProps) => {
-  const { width } = useWindowDimensions();
+  const { isTablet, width } = useMedia();
+
   const cardSize = useMemo(
-    () => (width > MEDIA_SCREEN.TABLET ? width / 8 : width / 4),
-    [width],
+    () => (isTablet ? width / 8 : width / 4),
+    [isTablet, width],
   );
 
   return (

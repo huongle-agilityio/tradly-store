@@ -4,7 +4,6 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import { router } from 'expo-router';
@@ -17,7 +16,10 @@ import { ONBOARDING_STEPS_IMAGES } from '@/mocks';
 import { Button, Text } from '@/ui/components';
 
 // Constants
-import { MEDIA_SCREEN, SCREEN_ROUTES } from '@/constants';
+import { SCREEN_ROUTES } from '@/constants';
+
+// Hooks
+import { useMedia } from '@/hooks';
 
 // Themes
 import { spacing } from '@/ui/themes';
@@ -29,10 +31,10 @@ export const Onboarding = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const { width } = useWindowDimensions();
+  const { isTablet, width } = useMedia();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const widthContainer = width > MEDIA_SCREEN.TABLET ? width - 200 : width - 74;
+  const widthContainer = isTablet ? width - 200 : width - 74;
   const buttonText = useMemo(
     () =>
       currentIndex === ONBOARDING_STEPS_IMAGES.length - 1 ? 'Finish' : 'Next',

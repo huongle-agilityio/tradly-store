@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   content: {
-    width: 310,
+    maxWidth: 320,
     alignSelf: 'center',
   },
   textWrapper: {

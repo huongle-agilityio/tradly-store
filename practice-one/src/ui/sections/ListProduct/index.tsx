@@ -1,19 +1,13 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-import {
-  FlatList,
-  FlatListProps,
-  RefreshControl,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { FlatList, FlatListProps, RefreshControl, View } from 'react-native';
 
 // Components
 import { EmptyList } from '../EmptyList';
 import { ListFooter } from '../ListFooter';
 import { ProductListItem } from './ProductItem';
 
-// Constants
-import { MEDIA_SCREEN } from '@/constants';
+// Hooks
+import { useMedia } from '@/hooks';
 
 // Interfaces
 import { Product } from '@/interfaces';
@@ -43,7 +37,8 @@ export const ListProduct = memo(
     onEndReached,
     horizontal,
   }: Props) => {
-    const { width } = useWindowDimensions();
+    const { isTablet } = useMedia();
+
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -67,7 +62,7 @@ export const ListProduct = memo(
         showsHorizontalScrollIndicator: false,
         showsVerticalScrollIndicator: false,
         contentContainerStyle: {
-          gap: width > MEDIA_SCREEN.TABLET ? 20 : spacing['2.5'],
+          gap: isTablet ? 20 : spacing['2.5'],
           minWidth: 330,
           paddingVertical: !horizontal ? spacing[5] : undefined,
         },
@@ -76,13 +71,13 @@ export const ListProduct = memo(
           onEndReachedThreshold: 0.1,
         }),
         ...(!horizontal && {
-          numColumns: width > MEDIA_SCREEN.TABLET ? 3 : 2,
+          numColumns: isTablet ? 3 : 2,
           columnWrapperStyle: {
-            gap: width > MEDIA_SCREEN.TABLET ? 20 : spacing['2.5'],
+            gap: isTablet ? 20 : spacing['2.5'],
           },
         }),
       }),
-      [data, horizontal, isLoadMore, keyExtractor, onEndReached, width],
+      [data, horizontal, isLoadMore, isTablet, keyExtractor, onEndReached],
     );
 
     const renderItem = useCallback(

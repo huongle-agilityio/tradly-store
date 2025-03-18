@@ -59,6 +59,7 @@ export const Input = ({
         secureTextEntry={secureTextEntry}
         style={inputStyles[variant]}
         placeholderTextColor={colorMap[variant]}
+        selectionColor={colorMap[variant]}
         {...props}
       />
     </View>
