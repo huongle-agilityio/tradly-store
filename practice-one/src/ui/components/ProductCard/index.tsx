@@ -61,6 +61,7 @@ export const ProductCard = memo(
             <View style={styles.textWrapper}>
               <Image
                 source={storeSource}
+                contentFit="cover"
                 alt={`store-${storeName}-logo`}
                 styles={styles.storeImage}
               />
