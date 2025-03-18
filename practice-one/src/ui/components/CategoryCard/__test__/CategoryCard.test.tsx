@@ -12,6 +12,7 @@ describe('CategoryCard Component', () => {
     onPress: jest.fn(),
     title: mockTitle,
     source: mockSource,
+    style: { width: 100, height: 100 },
   };
 
   it('Should render correctly', () => {

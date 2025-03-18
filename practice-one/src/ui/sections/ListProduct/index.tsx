@@ -1,5 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, FlatListProps, RefreshControl } from 'react-native';
+import {
+  FlatList,
+  FlatListProps,
+  RefreshControl,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 // Apis
 import { useGetProduct, useGetProductByParams } from '@/apis';
@@ -8,6 +14,9 @@ import { useGetProduct, useGetProductByParams } from '@/apis';
 import { EmptyList } from '../EmptyList';
 import { ListFooter } from '../ListFooter';
 import { ProductListItem } from './ProductItem';
+
+// Constants
+import { MEDIA_SCREEN } from '@/constants';
 
 // Interfaces
 import { Product, ProductFilterParams, SortType } from '@/interfaces';
@@ -29,6 +38,7 @@ export const ListProduct = ({
   params = {},
   horizontal,
 }: Props) => {
+  const { width } = useWindowDimensions();
   const [refreshing, setRefreshing] = useState(false);
 
   // Apis
@@ -65,16 +75,21 @@ export const ListProduct = ({
     }, 2000);
   }, []);
 
+  const keyExtractor = useCallback(
+    ({ id }: { id: number }) => id.toString(),
+    [],
+  );
+
   // Render
   const listProps = useMemo(
     () => ({
       horizontal,
       data,
-      keyExtractor: ({ id }: { id: number }) => id.toString(),
+      keyExtractor,
       showsHorizontalScrollIndicator: false,
       showsVerticalScrollIndicator: false,
       contentContainerStyle: {
-        gap: spacing['2.5'],
+        gap: width > MEDIA_SCREEN.TABLET ? 20 : spacing['2.5'],
         minWidth: 330,
         paddingVertical: !horizontal ? spacing[5] : undefined,
       },
@@ -83,35 +98,45 @@ export const ListProduct = ({
         onEndReachedThreshold: 0.1,
       }),
       ...(!horizontal && {
-        numColumns: 2,
-        columnWrapperStyle: { gap: spacing['2.5'] },
+        numColumns: width > MEDIA_SCREEN.TABLET ? 3 : 2,
+        columnWrapperStyle: {
+          gap: width > MEDIA_SCREEN.TABLET ? 20 : spacing['2.5'],
+        },
       }),
     }),
-    [data, handleEndReached, horizontal, isLoadMore],
+    [data, handleEndReached, horizontal, isLoadMore, keyExtractor, width],
   );
 
-  return isLoadingProductByParams || isLoading ? (
-    <ListFooter style={{ height: '100%', justifyContent: 'center' }} />
-  ) : (
-    <FlatList
-      {...listProps}
-      ListEmptyComponent={<EmptyList />}
-      ListFooterComponent={
-        isFetchingNextPage ? (
-          <ListFooter style={{ marginVertical: 20 }} />
-        ) : null
-      }
-      renderItem={({ item, index }) => (
-        <ProductListItem
-          horizontal={horizontal}
-          item={item}
-          index={index}
-          dataLength={data.length}
-        />
-      )}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    />
+  const renderItem = useCallback(
+    ({ item, index }: { item: Product; index: number }) => (
+      <ProductListItem
+        horizontal={horizontal}
+        item={item}
+        index={index}
+        dataLength={data.length}
+      />
+    ),
+    [data.length, horizontal],
+  );
+
+  return (
+    <View>
+      {isLoadingProductByParams || isLoading ? (
+        <ListFooter style={{ height: '100%', justifyContent: 'center' }} />
+      ) : null}
+      <FlatList
+        {...listProps}
+        ListEmptyComponent={<EmptyList />}
+        ListFooterComponent={
+          isFetchingNextPage ? (
+            <ListFooter style={{ marginVertical: 20 }} />
+          ) : null
+        }
+        renderItem={renderItem}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+    </View>
   );
 };

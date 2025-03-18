@@ -15,6 +15,7 @@ const meta = {
     source: IMAGES.CATEGORY_BEVERAGES,
     title: 'Beverages',
     onPress: action('onPress'),
+    style: { width: 100, height: 100 },
   },
 } satisfies Meta<typeof CategoryCard>;
 

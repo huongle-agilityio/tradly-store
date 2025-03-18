@@ -48,7 +48,12 @@ export const CategoryCard = memo(
           alt={`category-${title}`}
         >
           <View style={[styles.container, style]}>
-            <Text fontSize="xs" color="light" fontWeight="medium">
+            <Text
+              fontSize="xs"
+              color="light"
+              fontWeight="medium"
+              textStyle={{ width: '100%', textAlign: 'center' }}
+            >
               {title}
             </Text>
           </View>
@@ -62,8 +67,6 @@ CategoryCard.displayName = 'CategoryCard';
 
 const styles = StyleSheet.create({
   container: {
-    width: 93,
-    height: 93,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.categoryCard.background,
