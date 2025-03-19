@@ -12,16 +12,18 @@ import { INT_PRODUCT_CARD } from '@/mocks';
 
 // Interfaces
 import { Product } from '@/interfaces';
+import { StyleProp, ViewStyle } from 'react-native';
 
 interface ProductListItemProps {
   index: number;
   dataLength: number;
   horizontal?: boolean | null | undefined;
+  style?: StyleProp<ViewStyle>;
   item: Product;
 }
 
 export const ProductListItem = memo(
-  ({ horizontal, item, index, dataLength }: ProductListItemProps) => {
+  ({ horizontal, item, index, dataLength, style }: ProductListItemProps) => {
     const {
       documentId,
       image,
@@ -49,6 +51,7 @@ export const ProductListItem = memo(
         styleWrapper={[
           horizontal && isFirstItem && { marginLeft: 20 },
           horizontal && isLastItem && { marginRight: 20 },
+          style,
         ]}
       />
     );

@@ -6,7 +6,6 @@ import { colors, radius, spacing } from '@/ui/themes';
 export const styles = StyleSheet.create({
   container: {
     width: spacing[40],
-    height: 200,
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.categoryCard.border,
@@ -16,6 +15,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     borderTopLeftRadius: radius.lg,
     borderTopRightRadius: radius.lg,
+    elevation: 2,
   },
   storeImage: {
     width: spacing[5],
@@ -25,6 +25,9 @@ export const styles = StyleSheet.create({
   content: {
     gap: spacing['3.5'],
     padding: spacing[3],
+    backgroundColor: colors.light,
+    borderBottomLeftRadius: radius.lg,
+    borderBottomRightRadius: radius.lg,
   },
   textWrapper: {
     flexDirection: 'row',

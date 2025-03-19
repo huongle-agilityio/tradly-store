@@ -34,7 +34,6 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
       "borderColor": "#dbdbde",
       "borderRadius": 8,
       "borderWidth": 1,
-      "height": 200,
       "opacity": 1,
       "width": 160,
     }
@@ -94,6 +93,9 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
   <View
     style={
       {
+        "backgroundColor": "#fff",
+        "borderBottomLeftRadius": 8,
+        "borderBottomRightRadius": 8,
         "gap": 14,
         "padding": 12,
       }

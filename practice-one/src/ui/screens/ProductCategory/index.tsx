@@ -25,7 +25,12 @@ export const ProductCategory = () => {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 20,
+      }}
+    >
       <ListProduct
         isLoadMore
         isFetchingNextPage={isFetchingNextPage}

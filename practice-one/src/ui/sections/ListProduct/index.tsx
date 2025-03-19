@@ -37,7 +37,7 @@ export const ListProduct = memo(
     onEndReached,
     horizontal,
   }: Props) => {
-    const { isTablet } = useMedia();
+    const { isTablet, width } = useMedia();
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -71,8 +71,9 @@ export const ListProduct = memo(
           onEndReachedThreshold: 0.1,
         }),
         ...(!horizontal && {
-          numColumns: isTablet ? 3 : 2,
+          numColumns: 2,
           columnWrapperStyle: {
+            justifyContent: 'center' as const,
             gap: isTablet ? 20 : spacing['2.5'],
           },
         }),
@@ -86,10 +87,15 @@ export const ListProduct = memo(
           horizontal={horizontal}
           item={item}
           index={index}
+          style={
+            !horizontal && {
+              width: Math.round((width - 50) / (listProps?.numColumns ?? 1)),
+            }
+          }
           dataLength={data.length}
         />
       ),
-      [data.length, horizontal],
+      [data.length, horizontal, listProps?.numColumns, width],
     );
 
     return (
