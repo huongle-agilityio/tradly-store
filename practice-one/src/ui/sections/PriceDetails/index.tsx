@@ -6,7 +6,7 @@ import { styles } from './styles';
 import { Text } from '@/ui/components';
 
 // Themes
-import { lineHeights, spacing } from '@/ui/themes';
+import { lineHeights } from '@/ui/themes';
 
 interface PriceDetailsProps {
   total: number;
@@ -21,7 +21,7 @@ export const PriceDetails = memo(
           Price Details
         </Text>
 
-        <View style={{ gap: spacing['2.5'] }}>
+        <View style={styles.wrapper}>
           <View style={styles.textWrapper}>
             <Text textStyle={{ lineHeight: lineHeights.md }}>
               Price (

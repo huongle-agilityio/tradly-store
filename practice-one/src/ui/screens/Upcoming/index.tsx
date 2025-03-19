@@ -9,10 +9,14 @@ import { Text } from '@/ui/components';
 // Constants
 import { IMAGE_DETAILS } from '@/constants';
 
+// Hooks
+import { useMedia } from '@/hooks';
+
 // Themes
 import { lineHeights } from '@/ui/themes';
 
 export const UpComing = () => {
+  const { width } = useMedia();
   const [assets] = useAssets([IMAGE_DETAILS.UPCOMING.src]);
 
   return (
@@ -22,7 +26,11 @@ export const UpComing = () => {
           <Image
             source={IMAGE_DETAILS.UPCOMING.src}
             alt={IMAGE_DETAILS.UPCOMING.alt}
-            style={{ minWidth: 250, minHeight: 250 }}
+            contentFit="contain"
+            style={{
+              width: width * 0.8,
+              aspectRatio: 16 / 9,
+            }}
           />
           <Text
             fontSize="lg"

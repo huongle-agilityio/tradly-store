@@ -9,6 +9,9 @@ export const styles = StyleSheet.create({
     paddingBottom: spacing[6],
     gap: spacing[5],
   },
+  wrapper: {
+    gap: spacing['2.5'],
+  },
   totalWrapper: {
     paddingTop: spacing[3],
     paddingBottom: spacing[6],

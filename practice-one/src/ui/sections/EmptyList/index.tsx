@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 // Components
 import { Text } from '@/ui/components';
@@ -10,12 +10,7 @@ interface EmptyListProps {
 
 export const EmptyList = memo(
   ({ text = 'No results found.' }: EmptyListProps) => (
-    <View
-      style={{
-        alignItems: 'center',
-        paddingVertical: 50,
-      }}
-    >
+    <View style={styles.container}>
       <Text fontSize="md" fontWeight="bold">
         {text}
       </Text>
@@ -24,3 +19,10 @@ export const EmptyList = memo(
 );
 
 EmptyList.displayName = 'EmptyList';
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    paddingVertical: 50,
+  },
+});

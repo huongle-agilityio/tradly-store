@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { memo, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { valibotResolver } from '@hookform/resolvers/valibot';
@@ -48,9 +48,9 @@ export const FormLogin = memo(
     );
 
     return (
-      <View style={{ gap: 38 }}>
-        <View style={{ gap: spacing['2.5'] }}>
-          <View style={{ gap: spacing[4] }}>
+      <View style={styles.wrapper}>
+        <View style={styles.wrapper}>
+          <View style={styles.inputWrapper}>
             <InputController
               index={0}
               refs={refs}
@@ -72,7 +72,7 @@ export const FormLogin = memo(
             />
           </View>
           {error && (
-            <Text color="error" textStyle={{ paddingHorizontal: spacing[2] }}>
+            <Text color="error" textStyle={styles.error}>
               {error}
             </Text>
           )}
@@ -92,3 +92,12 @@ export const FormLogin = memo(
 );
 
 FormLogin.displayName = 'FormLogin';
+
+const styles = StyleSheet.create({
+  wrapper: {
+    gap: 38,
+  },
+  formWrapper: { gap: spacing['2.5'] },
+  inputWrapper: { gap: spacing[4] },
+  error: { paddingHorizontal: spacing[2] },
+});

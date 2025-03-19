@@ -59,6 +59,7 @@ export const CartItem = memo(
           <Image
             source={image}
             alt={`image of ${name} product`}
+            contentFit="cover"
             styles={{
               width: spacing[30],
               height: spacing[30],
