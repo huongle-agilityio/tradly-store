@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { router } from 'expo-router';
 import { View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { styles } from './styles';
 
 // Apis
@@ -41,7 +42,10 @@ export const Login = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
+      <KeyboardAwareScrollView
+        extraKeyboardSpace={50}
+        contentContainerStyle={[styles.content, { flexGrow: 1 }]}
+      >
         <View style={[{ gap: 66, marginBottom: 45 }, styles.textWrapper]}>
           <Text color="light" fontSize="xxl" fontWeight="normal">
             Welcome to {BRAND.NAME}
@@ -67,7 +71,7 @@ export const Login = () => {
             </Text>
           </Text>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

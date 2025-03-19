@@ -22,6 +22,7 @@ import { useAuthStore, useToast } from '@/stores';
 
 // Themes
 import { colors } from '@/ui/themes';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -84,20 +85,22 @@ const RootLayoutNav = () => {
 
   return (
     <ClickOutsideProvider>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          />
+      <KeyboardProvider>
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaView style={{ flex: 1 }}>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            />
 
-          {toast?.description && (
-            <Toast description={toast.description} variant={toast.variant} />
-          )}
-          <StatusBar backgroundColor={colors.primary} barStyle="default" />
-        </SafeAreaView>
-      </QueryClientProvider>
+            {toast?.description && (
+              <Toast description={toast.description} variant={toast.variant} />
+            )}
+            <StatusBar backgroundColor={colors.primary} barStyle="default" />
+          </SafeAreaView>
+        </QueryClientProvider>
+      </KeyboardProvider>
     </ClickOutsideProvider>
   );
 };

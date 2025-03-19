@@ -1,13 +1,8 @@
 import { memo } from 'react';
 import { useForm } from 'react-hook-form';
+import { StyleSheet, View } from 'react-native';
 import { valibotResolver } from '@hookform/resolvers/valibot';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 // Components
 import { StickyFooterLayout } from '@/ui/layouts';
@@ -17,7 +12,7 @@ import { InputController, Text } from '@/ui/components';
 import { TargetLocationIcon } from '@/ui/icons';
 
 // Hooks
-import { AddressState } from '@/hooks';
+import { AddressState, useFocusInput } from '@/hooks';
 
 // Schemas
 import { addressSchema } from '@/schemas';
@@ -31,6 +26,8 @@ interface FormAddressProps {
 }
 
 export const FormAddress = memo(({ form, onSubmit }: FormAddressProps) => {
+  const { focusNextInput, refs } = useFocusInput(6);
+
   const {
     control,
     clearErrors,
@@ -43,84 +40,95 @@ export const FormAddress = memo(({ form, onSubmit }: FormAddressProps) => {
   });
 
   return (
-    <StickyFooterLayout
-      disabled={!isDirty}
-      buttonText="Save"
-      onPress={submitForm(onSubmit)}
-    >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 110}
-        style={styles.container}
+    <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <StickyFooterLayout
+        disabled={!isDirty}
+        buttonText="Save"
+        onPress={submitForm(onSubmit)}
       >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.currentLocationWrapper}>
-            <TargetLocationIcon size={24} color={colors.link} />
-            <Text
-              fontWeight="normal"
-              color="link"
-              fontSize="md"
-              textStyle={{ lineHeight: 24 }}
-            >
-              Use current location
-            </Text>
-          </View>
-          <View style={styles.formWrapper}>
-            <InputController
-              name="username"
-              variant="underlined"
-              label="Name"
-              placeholder="Enter your name"
-              clearErrors={clearErrors}
-              control={control}
-            />
-            <InputController
-              name="phone"
-              variant="underlined"
-              label="Phone"
-              placeholder="Enter your phone number"
-              clearErrors={clearErrors}
-              control={control}
-            />
-            <InputController
-              name="streetAddress"
-              label="Street address"
-              variant="underlined"
-              placeholder="Enter your street address"
-              clearErrors={clearErrors}
-              control={control}
-            />
-            <InputController
-              name="city"
-              variant="underlined"
-              label="City"
-              placeholder="Enter your city"
-              clearErrors={clearErrors}
-              control={control}
-            />
-            <InputController
-              name="state"
-              variant="underlined"
-              label="State"
-              placeholder="Enter your state"
-              clearErrors={clearErrors}
-              control={control}
-            />
-            <InputController
-              name="zipCode"
-              label="Zipcode"
-              variant="underlined"
-              placeholder="Enter your zipcode"
-              clearErrors={clearErrors}
-              control={control}
-            />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </StickyFooterLayout>
+        <View style={styles.currentLocationWrapper}>
+          <TargetLocationIcon size={24} color={colors.link} />
+          <Text
+            fontWeight="normal"
+            color="link"
+            fontSize="md"
+            textStyle={{ lineHeight: 24 }}
+          >
+            Use current location
+          </Text>
+        </View>
+        <View style={styles.formWrapper}>
+          <InputController
+            index={0}
+            refs={refs}
+            name="username"
+            variant="underlined"
+            label="Name"
+            onFocusNextInput={focusNextInput}
+            placeholder="Enter your name"
+            clearErrors={clearErrors}
+            control={control}
+          />
+          <InputController
+            index={1}
+            refs={refs}
+            name="phone"
+            variant="underlined"
+            label="Phone"
+            keyboardType="phone-pad"
+            onFocusNextInput={focusNextInput}
+            placeholder="Enter your phone number"
+            clearErrors={clearErrors}
+            control={control}
+          />
+          <InputController
+            index={2}
+            refs={refs}
+            name="streetAddress"
+            label="Street address"
+            variant="underlined"
+            onFocusNextInput={focusNextInput}
+            placeholder="Enter your street address"
+            clearErrors={clearErrors}
+            control={control}
+          />
+          <InputController
+            index={3}
+            refs={refs}
+            name="city"
+            variant="underlined"
+            label="City"
+            onFocusNextInput={focusNextInput}
+            placeholder="Enter your city"
+            clearErrors={clearErrors}
+            control={control}
+          />
+          <InputController
+            index={4}
+            refs={refs}
+            name="state"
+            variant="underlined"
+            label="State"
+            onFocusNextInput={focusNextInput}
+            placeholder="Enter your state"
+            clearErrors={clearErrors}
+            control={control}
+          />
+          <InputController
+            index={5}
+            refs={refs}
+            name="zipCode"
+            label="Zipcode"
+            keyboardType="number-pad"
+            variant="underlined"
+            onFocusNextInput={focusNextInput}
+            placeholder="Enter your zipcode"
+            clearErrors={clearErrors}
+            control={control}
+          />
+        </View>
+      </StickyFooterLayout>
+    </KeyboardAwareScrollView>
   );
 });
 
