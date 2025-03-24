@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "444246012700",
+    "project_id": "fir-d1a43",
+    "storage_bucket": "fir-d1a43.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444246012700:android:0fb4aea9251ddba47000d9",
+        "android_client_info": {
+          "package_name": "com.tradlystore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDouvq3GH7ikLVWysF9MKPTo9kc-S757TQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
