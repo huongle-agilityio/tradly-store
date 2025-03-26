@@ -1,16 +1,24 @@
 import {useEffect} from 'react';
 import {Linking, PermissionsAndroid, ActivityIndicator} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import {LinkingOptions, NavigationContainer} from '@react-navigation/native';
+import {
+  LinkingOptions,
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BootSplash from 'react-native-bootsplash';
-
 import {HomeScreen, Post, Details} from '@/screens';
+
+type MoreStackParamList = {
+  Feed?: undefined;
+  Message?: {user: string};
+};
 
 export type RootStackParamList = {
   Home: undefined;
   Post: undefined;
-  Details: undefined;
+  Details: NavigatorScreenParams<MoreStackParamList>;
 };
 
 const NAVIGATION_IDS = ['home', 'post', 'details'];
@@ -125,6 +133,13 @@ const App = () => {
       console.log('BootSplash has been hidden successfully');
     });
   }, []);
+  const showStorybook = false;
+
+  if (showStorybook) {
+    const StorybookUI = require('./.storybook').default;
+
+    return <StorybookUI />;
+  }
 
   return (
     <NavigationContainer
