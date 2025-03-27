@@ -79,6 +79,15 @@ export const HomeScreen = () => {
             onPress={() => navigation.navigate('Details')}
             title="Go to Details"
           />
+          <Button
+            onPress={() =>
+              navigation.navigate('Details', {
+                screen: 'Message',
+                params: {user: 'jane'},
+              })
+            }
+            title="Go to Message"
+          />
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx 12312312</Text> to
             change this screen and then come back to see your edits.
