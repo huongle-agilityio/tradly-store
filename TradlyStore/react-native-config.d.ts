@@ -1,7 +1,7 @@
 // Autocompletion and typesafety for .env files.
 declare module 'react-native-config' {
   export interface NativeConfig {
-    GOOGLE_MAPS_API_KEY?: string;
+    ENABLE_STORYBOOK?: string;
     API_URL?: string;
   }
 

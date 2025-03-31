@@ -9,4 +9,7 @@ module.exports = {
       extends: ['plugin:testing-library/react'],
     },
   ],
+  rules: {
+    '@typescript-eslint/no-shadow': 'off',
+  },
 };

@@ -2,7 +2,7 @@ module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
     // Remove all console.* calls
-    'transform-remove-console',
+    // 'transform-remove-console',
     [
       'module-resolver',
       {
