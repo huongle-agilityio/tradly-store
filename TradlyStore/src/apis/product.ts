@@ -97,8 +97,8 @@ export const useGetProductByParams = ({
       title,
       sortCreatedAt,
     }),
-    queryFn: ({ pageParam = 1 }) =>
-      withAuth((token) =>
+    queryFn: async ({ pageParam = 1 }) =>
+      await withAuth((token) =>
         httpClient.get({
           endpoint: `${API_ENDPOINT.PRODUCT}${QUERY_URL.PRODUCTS({
             hasDiscount,

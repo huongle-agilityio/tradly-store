@@ -4,6 +4,8 @@ export const ERROR_MESSAGES = {
     'Please try again later or contact our team for further support.',
   EMAIL_PASSWORD_INVALID: 'You have entered an invalid username or password',
   UNAUTHORIZED: 'You are not authorized to perform this action.',
+  NO_TOKEN_FOUND: 'No token found.',
+  FAILED_TOKEN: 'Failed to retrieve token.',
 
   // Validate
   REQUIRED: 'This field is required',

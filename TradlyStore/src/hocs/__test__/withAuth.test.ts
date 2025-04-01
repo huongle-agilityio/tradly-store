@@ -1,64 +1,40 @@
 import * as Keychain from 'react-native-keychain';
 
-// Constants
-import { STORAGE_KEY } from '@/constants';
-
 // HOCs
 import { withAuth } from '../withAuth';
 
-jest.mock('react-native-keychain', () => ({
-  getGenericPassword: jest.fn(),
-}));
+// Constants
+import { ERROR_MESSAGES } from '@/constants';
 
-describe('withAuth utility function', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+jest.mock('react-native-keychain');
 
-  it('Should call callback with the stored token', async () => {
-    const mockToken = 'mock-jwt-token';
-    (Keychain.getGenericPassword as jest.Mock).mockResolvedValue({
-      password: mockToken,
-    });
-
-    const mockCallback = jest.fn().mockResolvedValue('success');
-
-    const result = await withAuth(mockCallback);
-
-    expect(Keychain.getGenericPassword).toHaveBeenCalledWith({
-      service: STORAGE_KEY.TOKEN,
-    });
-    expect(mockCallback).toHaveBeenCalledWith(mockToken);
-    expect(result).toBe('success');
-  });
-
-  it('Should return null if no token is stored', async () => {
+describe('withAuth', () => {
+  it('Should throw an error if no token is found', async () => {
     (Keychain.getGenericPassword as jest.Mock).mockResolvedValue(null);
 
-    const mockCallback = jest.fn();
-
-    const result = await withAuth(mockCallback);
-
-    expect(Keychain.getGenericPassword).toHaveBeenCalledWith({
-      service: STORAGE_KEY.TOKEN,
-    });
-    expect(mockCallback).not.toHaveBeenCalled();
-    expect(result).toBeNull();
+    await expect(withAuth(jest.fn())).rejects.toThrow(
+      ERROR_MESSAGES.NO_TOKEN_FOUND,
+    );
   });
 
-  it('Should return null if Keychain.getGenericPassword throws an error', async () => {
-    (Keychain.getGenericPassword as jest.Mock).mockRejectedValue(
-      new Error('Keychain error'),
-    );
+  it('Should throw a generic error if Keychain fails to retrieve token', async () => {
+    const keychainError = 'Some non-error string';
+    (Keychain.getGenericPassword as jest.Mock).mockRejectedValue(keychainError);
 
-    const mockCallback = jest.fn();
+    await expect(withAuth(jest.fn())).rejects.toThrow(
+      ERROR_MESSAGES.FAILED_TOKEN,
+    );
+  });
+
+  it('Should call the callback with token when token is found', async () => {
+    const mockToken = { password: 'valid-jwt-token' };
+    (Keychain.getGenericPassword as jest.Mock).mockResolvedValue(mockToken);
+
+    const mockCallback = jest.fn().mockResolvedValue('callback result');
 
     const result = await withAuth(mockCallback);
 
-    expect(Keychain.getGenericPassword).toHaveBeenCalledWith({
-      service: STORAGE_KEY.TOKEN,
-    });
-    expect(mockCallback).not.toHaveBeenCalled();
-    expect(result).toBeNull();
+    expect(mockCallback).toHaveBeenCalledWith('valid-jwt-token');
+    expect(result).toBe('callback result');
   });
 });

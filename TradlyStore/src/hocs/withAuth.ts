@@ -1,7 +1,7 @@
 import * as Keychain from 'react-native-keychain';
 
 // Constants
-import { STORAGE_KEY } from '@/constants';
+import { ERROR_MESSAGES, STORAGE_KEY } from '@/constants';
 
 export const withAuth = async <T>(
   callback: (token: string) => Promise<T>,
@@ -11,13 +11,15 @@ export const withAuth = async <T>(
       service: STORAGE_KEY.TOKEN,
     });
 
-    if (token) {
-      const { password: jwt } = token;
-      return callback(jwt);
+    if (!token) {
+      throw new Error(ERROR_MESSAGES.NO_TOKEN_FOUND);
     }
 
-    return callback('');
+    const { password: jwt } = token;
+    return callback(jwt);
   } catch (error) {
-    return callback('');
+    throw new Error(
+      error instanceof Error ? error.message : ERROR_MESSAGES.FAILED_TOKEN,
+    );
   }
 };
