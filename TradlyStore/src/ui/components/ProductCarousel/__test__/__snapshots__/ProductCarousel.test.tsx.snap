@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductCarousel Should renders correct number of images 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(8, 11, 18, 0.3)",
+      "height": "100%",
+      "position": "relative",
+    }
+  }
+  testID="product-carousel-container"
+>
+  <RCTScrollView
+    horizontal={true}
+    onScroll={[Function]}
+    pagingEnabled={true}
+    scrollEventThrottle={16}
+    showsHorizontalScrollIndicator={false}
+    testID="product-carousel-scroll"
+  >
+    <View>
+      <Image
+        alt="Product image of Test Product - View 1"
+        source={
+          {
+            "uri": "image1.jpg",
+          }
+        }
+        style={
+          {
+            "resizeMode": "cover",
+            "width": 0,
+          }
+        }
+        testID="product-carousel-image"
+      />
+      <Image
+        alt="Product image of Test Product - View 2"
+        source={
+          {
+            "uri": "image2.jpg",
+          }
+        }
+        style={
+          {
+            "resizeMode": "cover",
+            "width": 0,
+          }
+        }
+        testID="product-carousel-image"
+      />
+      <Image
+        alt="Product image of Test Product - View 3"
+        source={
+          {
+            "uri": "image3.jpg",
+          }
+        }
+        style={
+          {
+            "resizeMode": "cover",
+            "width": 0,
+          }
+        }
+        testID="product-carousel-image"
+      />
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "alignSelf": "center",
+        "bottom": 15,
+        "flexDirection": "row",
+        "gap": 5,
+        "position": "absolute",
+        "zIndex": 999,
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderRadius": 9999,
+          "height": 6,
+          "opacity": 0.4,
+          "width": 6,
+        }
+      }
+      testID="product-carousel-dot-item"
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderRadius": 9999,
+          "height": 6,
+          "opacity": 0.4,
+          "width": 6,
+        }
+      }
+      testID="product-carousel-dot-item"
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderRadius": 9999,
+          "height": 6,
+          "opacity": 0.4,
+          "width": 6,
+        }
+      }
+      testID="product-carousel-dot-item"
+    />
+  </View>
+</View>
+`;

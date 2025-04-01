@@ -1,20 +1,20 @@
-import {View} from 'react-native';
-import type {Meta, StoryObj} from '@storybook/react';
+import { View } from 'react-native';
+import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import {Button} from '.';
+import { Button } from '.';
 
 // Icons
-// import { StoreIcon } from '@/ui/icons';
+import { StoreIcon } from '@/ui/icons';
 
 // Themes
-import {colors} from '@/ui/themes';
+import { colors } from '@/ui/themes';
 
 const meta = {
   title: 'Button',
   component: Button,
   argTypes: {
-    onPress: {action: 'pressed the button'},
+    onPress: { action: 'pressed the button' },
     variant: {
       control: 'inline-radio',
       options: ['solid', 'bordered', 'ghost'],
@@ -65,7 +65,7 @@ export const Loading: Story = {
 
 export const WithIcon: Story = {
   decorators: [
-    Story => (
+    (Story) => (
       <View
         style={{
           width: '100%',
@@ -74,20 +74,21 @@ export const WithIcon: Story = {
           alignItems: 'center',
           paddingHorizontal: 20,
           backgroundColor: colors.primary,
-        }}>
+        }}
+      >
         <Story />
       </View>
     ),
   ],
-  // argTypes: {
-  //   icon: {
-  //     mapping: {
-  //       store: (
-  //         <StoreIcon size={16} color={colors.button.backgroundSecondary} />
-  //       ),
-  //     },
-  //   },
-  // },
+  argTypes: {
+    icon: {
+      mapping: {
+        store: (
+          <StoreIcon size={16} color={colors.button.backgroundSecondary} />
+        ),
+      },
+    },
+  },
   args: {
     icon: 'store',
     color: 'secondary',

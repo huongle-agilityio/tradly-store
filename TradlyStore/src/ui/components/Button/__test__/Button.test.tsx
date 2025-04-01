@@ -1,8 +1,8 @@
-import {render, fireEvent, screen} from '@testing-library/react-native';
-import {Text} from 'react-native';
+import { render, fireEvent, screen } from '@testing-library/react-native';
+import { Text } from 'react-native';
 
 //  Components
-import {Button} from '..';
+import { Button } from '..';
 
 describe('Button Component', () => {
   it('Should Should renders correctly with children', () => {

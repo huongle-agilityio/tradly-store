@@ -1,0 +1,548 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartItem Should renders CartItem correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "gap": 15,
+        "paddingBottom": 12,
+        "paddingHorizontal": 16,
+        "paddingTop": 30,
+      }
+    }
+  >
+    <Image
+      alt="image of Test Product product"
+      source={
+        {
+          "uri": "https://example.com/image.jpg",
+        }
+      }
+      style={
+        {
+          "borderRadius": 10,
+          "height": 120,
+          "width": 120,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "justifyContent": "space-between",
+          "paddingBottom": 10,
+          "paddingTop": 14,
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "fontSize": 14,
+              "lineHeight": 16,
+            },
+            {
+              "fontFamily": "Montserrat-Medium",
+              "fontWeight": "500",
+            },
+            {
+              "color": "#4f4f4f",
+            },
+            undefined,
+          ]
+        }
+      >
+        Test Product
+      </Text>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "gap": 14,
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "fontSize": 18,
+                "lineHeight": 18,
+              },
+              {
+                "fontFamily": "Montserrat-SemiBold",
+                "fontWeight": "700",
+              },
+              {
+                "color": "#33907c",
+              },
+              undefined,
+            ]
+          }
+        >
+          $
+          90
+        </Text>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "gap": 5,
+            }
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 14,
+                  "lineHeight": 16,
+                },
+                {
+                  "fontFamily": "Montserrat-Medium",
+                  "fontWeight": "500",
+                },
+                {
+                  "color": "#4f4f4f",
+                },
+                {
+                  "textDecorationLine": "line-through",
+                },
+              ]
+            }
+          >
+            $
+            100
+          </Text>
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 14,
+                  "lineHeight": 16,
+                },
+                {
+                  "fontFamily": "Montserrat-Medium",
+                  "fontWeight": "500",
+                },
+                {
+                  "color": "#4f4f4f",
+                },
+                undefined,
+              ]
+            }
+          >
+            10
+            % off
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "fontSize": 12,
+                "lineHeight": 21,
+              },
+              {
+                "fontFamily": "Montserrat-Medium",
+                "fontWeight": "500",
+              },
+              {
+                "color": "#4f4f4f",
+              },
+              undefined,
+            ]
+          }
+        >
+          Qty:
+        </Text>
+        <View>
+          <View
+            style={
+              [
+                {
+                  "alignSelf": "stretch",
+                },
+                undefined,
+              ]
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "opacity": 1,
+                }
+              }
+              testID="ios_touchable_wrapper"
+            >
+              <View
+                pointerEvents="box-only"
+              >
+                <TextInput
+                  editable={false}
+                  style={
+                    [
+                      undefined,
+                      {},
+                    ]
+                  }
+                  testID="text_input"
+                  value="2"
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "borderTopColor": "#dbdbde",
+        "borderTopWidth": 0.5,
+        "opacity": 1,
+        "paddingVertical": 12,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontSize": 14,
+            "lineHeight": 16,
+          },
+          {
+            "fontFamily": "Montserrat-Medium",
+            "fontWeight": "500",
+          },
+          {
+            "color": "#4f4f4f",
+          },
+          undefined,
+        ]
+      }
+    >
+      Remove
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`CartItem Should renders CartItem correctly without actions 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "gap": 15,
+        "paddingHorizontal": 16,
+        "paddingVertical": 25,
+      }
+    }
+  >
+    <Image
+      alt="image of Test Product product"
+      source={
+        {
+          "uri": "https://example.com/image.jpg",
+        }
+      }
+      style={
+        {
+          "borderRadius": 10,
+          "height": 120,
+          "width": 120,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "justifyContent": "space-between",
+          "paddingBottom": 10,
+          "paddingTop": 14,
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "fontSize": 14,
+              "lineHeight": 16,
+            },
+            {
+              "fontFamily": "Montserrat-Medium",
+              "fontWeight": "500",
+            },
+            {
+              "color": "#4f4f4f",
+            },
+            undefined,
+          ]
+        }
+      >
+        Test Product
+      </Text>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "gap": 14,
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "fontSize": 18,
+                "lineHeight": 18,
+              },
+              {
+                "fontFamily": "Montserrat-SemiBold",
+                "fontWeight": "700",
+              },
+              {
+                "color": "#33907c",
+              },
+              undefined,
+            ]
+          }
+        >
+          $
+          90
+        </Text>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "gap": 5,
+            }
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 14,
+                  "lineHeight": 16,
+                },
+                {
+                  "fontFamily": "Montserrat-Medium",
+                  "fontWeight": "500",
+                },
+                {
+                  "color": "#4f4f4f",
+                },
+                {
+                  "textDecorationLine": "line-through",
+                },
+              ]
+            }
+          >
+            $
+            100
+          </Text>
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 14,
+                  "lineHeight": 16,
+                },
+                {
+                  "fontFamily": "Montserrat-Medium",
+                  "fontWeight": "500",
+                },
+                {
+                  "color": "#4f4f4f",
+                },
+                undefined,
+              ]
+            }
+          >
+            10
+            % off
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "fontSize": 12,
+                "lineHeight": 21,
+              },
+              {
+                "fontFamily": "Montserrat-Medium",
+                "fontWeight": "500",
+              },
+              {
+                "color": "#4f4f4f",
+              },
+              undefined,
+            ]
+          }
+        >
+          Qty:
+        </Text>
+        <View>
+          <View
+            style={
+              [
+                {
+                  "alignSelf": "stretch",
+                },
+                undefined,
+              ]
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "opacity": 1,
+                }
+              }
+              testID="ios_touchable_wrapper"
+            >
+              <View
+                pointerEvents="box-only"
+              >
+                <TextInput
+                  editable={false}
+                  style={
+                    [
+                      undefined,
+                      {},
+                    ]
+                  }
+                  testID="text_input"
+                  value="2"
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

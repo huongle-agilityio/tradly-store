@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 // Themes
 import {
@@ -11,42 +11,39 @@ import {
 } from '@/ui/themes';
 
 // Interfaces
-export type ButtonColor =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'error'
-  | 'dark';
+import { ButtonColor } from '@/interfaces';
 
-export const styles = StyleSheet.create({
-  button: {
-    position: 'relative',
-    borderRadius: radius['3xl'],
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: spacing['0.5'],
-  },
-  disabled: {
-    opacity: 0.7,
-  },
-  contentWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  loading: {
-    position: 'absolute',
-  },
-  text: {
-    fontFamily: fontsFamily.regular,
-  },
-});
+export const getStyles = (isLoading: boolean) =>
+  StyleSheet.create({
+    button: {
+      position: 'relative',
+      borderRadius: radius['3xl'],
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: spacing['0.5'],
+    },
+    disabled: {
+      opacity: 0.7,
+    },
+    contentWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+      opacity: isLoading ? 0 : 1,
+    },
+    loading: {
+      position: 'absolute',
+    },
+    text: {
+      fontFamily: fontsFamily.regular,
+    },
+  });
 
 export const variantStyles = StyleSheet.create({
-  solid: {borderWidth: 0},
-  bordered: {backgroundColor: colors.transparent},
-  ghost: {backgroundColor: colors.transparent, borderWidth: 0},
+  solid: { borderWidth: 0 },
+  bordered: { backgroundColor: colors.transparent },
+  ghost: { backgroundColor: colors.transparent, borderWidth: 0 },
 });
 
 export const colorMap: Record<ButtonColor, string> = {
@@ -59,13 +56,13 @@ export const colorMap: Record<ButtonColor, string> = {
 
 export const sizes = StyleSheet.create({
   none: {},
-  full: {width: '100%'},
-  small: {paddingVertical: spacing[1], paddingHorizontal: spacing[3]},
-  medium: {paddingVertical: spacing[1], paddingHorizontal: 23},
+  full: { width: '100%' },
+  small: { paddingVertical: spacing[1], paddingHorizontal: spacing[3] },
+  medium: { paddingVertical: spacing[1], paddingHorizontal: 23 },
 });
 
 export const textVariants = StyleSheet.create({
-  solid: {color: colors.button.textSecondary},
+  solid: { color: colors.button.textSecondary },
   bordered: {},
   ghost: {},
 });

@@ -1,0 +1,74 @@
+import { memo, useCallback } from 'react';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+
+// Components
+import { ProductCard } from '@/ui/components';
+
+// Mocks
+import { INT_PRODUCT_CARD } from '@/mocks';
+
+// Interfaces
+import { Product } from '@/interfaces';
+
+interface ProductListItemProps {
+  index: number;
+  dataLength: number;
+  horizontal?: boolean | null | undefined;
+  item: Product;
+  style?: StyleProp<ViewStyle>;
+  onNavigate: (id: string) => void;
+}
+
+export const ProductListItem = memo(
+  ({
+    horizontal,
+    item,
+    index,
+    dataLength,
+    style,
+    onNavigate,
+  }: ProductListItemProps) => {
+    const {
+      documentId,
+      image,
+      title,
+      store: { name: storeName, image: storeSource },
+      price,
+      discount,
+    } = item || INT_PRODUCT_CARD;
+    const isFirstItem = index === 0;
+    const isLastItem = index === dataLength - 1;
+
+    const handleProductDetail = useCallback(() => {
+      if (!documentId) {
+        return;
+      }
+
+      onNavigate(documentId);
+    }, [documentId, onNavigate]);
+
+    return (
+      <ProductCard
+        onPress={handleProductDetail}
+        price={price}
+        source={image}
+        storeName={storeName}
+        storeSource={storeSource}
+        title={title}
+        discount={discount}
+        styleWrapper={[
+          horizontal && isFirstItem && styles.firstItem,
+          horizontal && isLastItem && styles.lastItem,
+          style,
+        ]}
+      />
+    );
+  },
+);
+
+ProductListItem.displayName = 'ProductListItem';
+
+const styles = StyleSheet.create({
+  firstItem: { marginLeft: 20 },
+  lastItem: { marginRight: 20 },
+});
