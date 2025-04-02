@@ -1,7 +1,14 @@
 import { StyleSheet } from 'react-native';
 
 // Themes
-import { colors, fontSizes, lineHeights, radius, spacing } from '@/ui/themes';
+import {
+  colors,
+  fontsFamily,
+  fontSizes,
+  lineHeights,
+  radius,
+  spacing,
+} from '@/ui/themes';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,6 +16,7 @@ export const styles = StyleSheet.create({
   },
   containerHasIcon: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 25,
   },
   label: {
@@ -34,7 +42,7 @@ export const containerStyles = StyleSheet.create({
   outlined: {
     flexDirection: 'row',
     gap: 25,
-    paddingVertical: 11,
+    paddingVertical: 5,
     paddingHorizontal: spacing['4.5'],
     borderWidth: 1,
     borderColor: colors.input.borderPrimary,
@@ -50,17 +58,20 @@ export const containerStyles = StyleSheet.create({
 export const inputStyles = StyleSheet.create({
   default: {
     color: colors.input.textPrimary,
+    fontFamily: fontsFamily.regular,
     fontSize: fontSizes.lg,
     lineHeight: lineHeights.xl,
   },
   outlined: {
     color: colors.input.textQuaternary,
+    fontFamily: fontsFamily.regular,
     fontSize: fontSizes.base,
     lineHeight: lineHeights.base,
   },
   underlined: {
     paddingBottom: spacing['2.5'],
     color: colors.input.textTertiary,
+    fontFamily: fontsFamily.regular,
     fontSize: fontSizes.md,
     lineHeight: lineHeights.xl,
   },

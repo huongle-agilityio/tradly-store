@@ -1,5 +1,8 @@
 // Screens
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  BottomTabHeaderProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 
 // Screens
 import { HeaderWithSearchInput, HeaderWithTitle } from '@/ui/sections';
@@ -25,74 +28,103 @@ import { colors, fontsFamily, fontSizes, fontWeights } from '@/ui/themes';
 
 const Tabs = createBottomTabNavigator<TabsStackParamList>();
 
-export const TabsNavigation = () => (
-  <Tabs.Navigator
-    screenOptions={{
-      tabBarActiveTintColor: colors.primary,
-      tabBarInactiveTintColor: colors.placeholder,
-      tabBarStyle: {
-        height: 72,
-        paddingTop: 13,
-        borderColor: colors.light,
-        borderTopWidth: 0,
-      },
-      headerStyle: {
-        backgroundColor: colors.primary,
-      },
-      sceneStyle: {
-        flex: 1,
-        backgroundColor: colors.tertiary,
-      },
-      headerTintColor: colors.light,
-      headerTitleStyle: {
-        fontFamily: fontsFamily.semiBold,
-        fontWeight: fontWeights.bold,
-        fontSize: fontSizes.xxl,
-      },
-      header: ({ options }) => <HeaderWithTitle title={options.title || ''} />,
-      tabBarHideOnKeyboard: true,
-    }}
-  >
-    <Tabs.Screen
-      name={SCREENS.HOME}
-      component={Home}
-      options={{
-        header: () => <HeaderWithSearchInput title="Groceries" />,
-        tabBarIcon: ({ color }) => <HomeIcon size={24} color={color} />,
+export const TabsNavigation = () => {
+  const headerTitle = ({ options }: BottomTabHeaderProps) => (
+    <HeaderWithTitle title={options.title || ''} />
+  );
+
+  const headerInput = ({ options }: BottomTabHeaderProps) => (
+    <HeaderWithSearchInput title={options.title || ''} />
+  );
+
+  const handleRenderTabBarIcon =
+    (screen: keyof TabsStackParamList) =>
+    ({ color }: { color: string }) => {
+      switch (screen) {
+        case SCREENS.HOME:
+          return <HomeIcon size={24} color={color} />;
+        case SCREENS.BROWSE:
+          return <SearchIcon size={24} color={color} />;
+        case SCREENS.PRODUCT:
+          return <StoreIcon size={24} color={color} />;
+        case SCREENS.ORDER_HISTORY:
+          return <OrderHistoryIcon size={24} color={color} />;
+        case SCREENS.PROFILE:
+          return <UserIcon size={24} color={color} />;
+        default:
+          return null;
+      }
+    };
+
+  return (
+    <Tabs.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.placeholder,
+        tabBarStyle: {
+          height: 72,
+          paddingTop: 13,
+          borderColor: colors.light,
+          borderTopWidth: 0,
+        },
+        headerStyle: {
+          backgroundColor: colors.primary,
+        },
+        sceneStyle: {
+          flex: 1,
+          backgroundColor: colors.tertiary,
+        },
+        headerTintColor: colors.light,
+        headerTitleStyle: {
+          fontFamily: fontsFamily.semiBold,
+          fontWeight: fontWeights.bold,
+          fontSize: fontSizes.xxl,
+        },
+        header: headerTitle,
+        tabBarHideOnKeyboard: true,
       }}
-    />
-    <Tabs.Screen
-      name={SCREENS.BROWSE}
-      component={ProductCategory}
-      options={{
-        title: 'Browse',
-        header: () => <HeaderWithSearchInput hasFilter title="Browse" />,
-        tabBarIcon: ({ color }) => <SearchIcon size={24} color={color} />,
-      }}
-    />
-    <Tabs.Screen
-      name={SCREENS.PRODUCT}
-      component={UpComing}
-      options={{
-        title: 'Product',
-        tabBarIcon: ({ color }) => <StoreIcon size={24} color={color} />,
-      }}
-    />
-    <Tabs.Screen
-      name={SCREENS.ORDER_HISTORY}
-      component={UpComing}
-      options={{
-        title: 'Order History',
-        tabBarIcon: ({ color }) => <OrderHistoryIcon size={24} color={color} />,
-      }}
-    />
-    <Tabs.Screen
-      name={SCREENS.PROFILE}
-      component={Profile}
-      options={{
-        title: 'Profile',
-        tabBarIcon: ({ color }) => <UserIcon size={24} color={color} />,
-      }}
-    />
-  </Tabs.Navigator>
-);
+    >
+      <Tabs.Screen
+        name={SCREENS.HOME}
+        component={Home}
+        options={{
+          title: 'Groceries',
+          header: headerInput,
+          tabBarIcon: handleRenderTabBarIcon(SCREENS.HOME),
+        }}
+      />
+      <Tabs.Screen
+        name={SCREENS.BROWSE}
+        component={ProductCategory}
+        options={{
+          header: () => <HeaderWithSearchInput hasFilter title="Browse" />,
+          tabBarIcon: handleRenderTabBarIcon(SCREENS.BROWSE),
+        }}
+      />
+      <Tabs.Screen
+        name={SCREENS.PRODUCT}
+        component={UpComing}
+        options={{
+          title: 'Product',
+          tabBarIcon: handleRenderTabBarIcon(SCREENS.PRODUCT),
+        }}
+      />
+      <Tabs.Screen
+        name={SCREENS.ORDER_HISTORY}
+        component={UpComing}
+        options={{
+          title: 'Order History',
+          tabBarIcon: handleRenderTabBarIcon(SCREENS.ORDER_HISTORY),
+        }}
+      />
+      <Tabs.Screen
+        name={SCREENS.PROFILE}
+        component={Profile}
+        options={{
+          title: 'Profile',
+          tabBarIcon: handleRenderTabBarIcon(SCREENS.PROFILE),
+        }}
+      />
+    </Tabs.Navigator>
+  );
+};
