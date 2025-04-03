@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
     paddingBottom: spacing[3],
   },
   error: {
-    paddingHorizontal: spacing['2.5'],
     paddingTop: spacing[3],
   },
   disabled: {

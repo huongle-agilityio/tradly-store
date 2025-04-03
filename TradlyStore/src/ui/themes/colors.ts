@@ -22,6 +22,7 @@ const greyPallet = {
   grey3: '#dbdbde',
   grey4: '#606a7b',
   grey5: '#ebecef',
+  grey6: '#d8d8d8',
   greyTranslucent: 'rgba(8, 11, 18, 0.3)',
 } as const;
 
@@ -99,6 +100,7 @@ export const colors = {
   },
   select: {
     backgroundPrimary: baseColors.white1,
+    badge: baseColors.grey6,
     textPrimary: baseColors.grey1,
   },
   productCard: {
