@@ -3,15 +3,17 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 // Components
 import { CategoryCard } from '..';
 
+// Constants
+import { IMAGES } from '@/constants';
+
 describe('CategoryCard Component', () => {
   const mockTitle = 'Test Category';
-  const mockSource = 'https://example.com/image.jpg';
 
   const props = {
     value: mockTitle,
     onPress: jest.fn(),
     title: mockTitle,
-    source: mockSource,
+    source: IMAGES.SUCCESS,
     style: { width: 100, height: 100 },
   };
 

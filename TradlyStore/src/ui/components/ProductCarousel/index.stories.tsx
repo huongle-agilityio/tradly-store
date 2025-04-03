@@ -4,17 +4,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 // Components
 import { ProductCarousel } from '.';
 
+// Mocks
+import { LIST_IMAGES } from '@/mocks';
+
 const meta = {
   title: 'ProductCarousel',
   component: ProductCarousel,
   args: {
-    images: [
-      'https://picsum.photos/seed/696/3000/2000',
-      'https://picsum.photos/seed/696/3000/2000',
-      'https://picsum.photos/seed/696/3000/2000',
-      'https://picsum.photos/seed/696/3000/2000',
-      'https://picsum.photos/seed/696/3000/2000',
-    ],
+    images: LIST_IMAGES,
     name: 'Beverages',
   },
   decorators: [
