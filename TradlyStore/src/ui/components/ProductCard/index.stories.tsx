@@ -4,14 +4,17 @@ import type { Meta, StoryObj } from '@storybook/react';
 // Components
 import { ProductCard } from '.';
 
+// Mocks
+import { IMAGES } from '@/mocks';
+
 const meta = {
   title: 'ProductCard',
   component: ProductCard,
   args: {
-    source: 'https://picsum.photos/seed/696/3000/2000',
+    source: IMAGES,
     title: 'Beverages',
-    storeName: 'Tradlyas',
-    storeSource: 'https://picsum.photos/seed/696/3000/2000',
+    storeName: 'Tradlya',
+    storeSource: IMAGES,
     price: 10,
     onPress: action('onPress'),
   },
