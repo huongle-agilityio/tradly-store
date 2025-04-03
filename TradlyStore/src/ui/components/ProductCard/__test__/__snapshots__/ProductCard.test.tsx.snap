@@ -40,24 +40,29 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
   }
   testID="product-card"
 >
-  <Image
-    alt="product-Product Title"
-    source={
-      {
-        "uri": "image-url",
+  <View>
+    <Image
+      alt="product-Product Title"
+      source={
+        {
+          "uri": "image-url",
+        }
       }
-    }
-    style={
-      {
-        "borderTopLeftRadius": 8,
-        "borderTopRightRadius": 8,
-        "elevation": 2,
-        "height": 125,
-        "width": "100%",
+      style={
+        [
+          {
+            "borderTopLeftRadius": 8,
+            "borderTopRightRadius": 8,
+            "elevation": 2,
+            "height": 125,
+            "position": "relative",
+            "width": "100%",
+          },
+        ]
       }
-    }
-    testID="category-card-image"
-  />
+      testID="category-card-image"
+    />
+  </View>
   <View
     style={
       {
