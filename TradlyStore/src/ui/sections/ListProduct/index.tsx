@@ -32,7 +32,9 @@ interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {
   isLoadMore?: boolean;
   isFetchingNextPage?: boolean;
   onEndReached?: () => void;
-  onNavigateProductDetail: (id: string) => void;
+  onNavigateProductDetail?: (id: string) => void;
+  onEditProduct?: (id: string) => void;
+  onDeleteProduct?: (id: string) => void;
 }
 
 export const ListProduct = memo(
@@ -44,9 +46,11 @@ export const ListProduct = memo(
     onEndReached,
     horizontal,
     onNavigateProductDetail,
+    onEditProduct,
+    onDeleteProduct,
+    ...props
   }: Props) => {
     const { isTablet, width } = useMedia();
-
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -71,8 +75,12 @@ export const ListProduct = memo(
         showsVerticalScrollIndicator: false,
         contentContainerStyle: {
           gap: isTablet ? 20 : spacing['2.5'],
-          minWidth: 330,
+          minWidth: isLoadMore ? 330 : ('100%' as const),
           paddingVertical: !horizontal ? spacing[5] : undefined,
+          ...(isLoading && {
+            opacity: 0,
+            pointerEvents: 'none' as const,
+          }),
         },
         ...(isLoadMore && {
           onEndReached,
@@ -86,7 +94,15 @@ export const ListProduct = memo(
           },
         }),
       }),
-      [data, horizontal, isLoadMore, isTablet, keyExtractor, onEndReached],
+      [
+        data,
+        horizontal,
+        isLoadMore,
+        isLoading,
+        isTablet,
+        keyExtractor,
+        onEndReached,
+      ],
     );
 
     const renderItem = useCallback(
@@ -100,14 +116,19 @@ export const ListProduct = memo(
               width: Math.round((width - 50) / (listProps?.numColumns ?? 1)),
             }
           }
+          hasAction={!onNavigateProductDetail}
           dataLength={data.length}
           onNavigate={onNavigateProductDetail}
+          onEditProduct={onEditProduct}
+          onDeleteProduct={onDeleteProduct}
         />
       ),
       [
         data.length,
         horizontal,
         listProps?.numColumns,
+        onDeleteProduct,
+        onEditProduct,
         onNavigateProductDetail,
         width,
       ],
@@ -128,6 +149,7 @@ export const ListProduct = memo(
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          {...props}
         />
       </View>
     );
@@ -137,6 +159,11 @@ export const ListProduct = memo(
 ListProduct.displayName = 'ListProduct';
 
 const styles = StyleSheet.create({
-  loading: { height: '100%', justifyContent: 'center' },
+  loading: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+  },
   loadingNextPage: { marginVertical: 20 },
 });
