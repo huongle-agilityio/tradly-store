@@ -176,13 +176,14 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
         </Text>
         <View>
           <View
+            onLayout={[Function]}
             style={
-              [
-                {
-                  "alignSelf": "stretch",
-                },
-                undefined,
-              ]
+              {
+                "height": 50,
+                "justifyContent": "center",
+                "paddingHorizontal": 8,
+                "width": 60,
+              }
             }
           >
             <View
@@ -195,16 +196,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
                   "selected": undefined,
                 }
               }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
-              }
-              accessible={true}
-              collapsable={false}
+              accessible={false}
               focusable={true}
               onClick={[Function]}
               onResponderGrant={[Function]}
@@ -215,26 +207,85 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
               onStartShouldSetResponder={[Function]}
               style={
                 {
-                  "opacity": 1,
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
                 }
               }
-              testID="ios_touchable_wrapper"
+              testID="dropdown"
             >
-              <View
-                pointerEvents="box-only"
+              <Text
+                style={
+                  [
+                    {
+                      "flex": 1,
+                      "fontSize": 16,
+                      "writingDirection": "ltr",
+                    },
+                    {
+                      "color": "#4f4f4f",
+                      "fontFamily": "Montserrat",
+                      "fontSize": 16,
+                    },
+                    {},
+                  ]
+                }
               >
-                <TextInput
-                  editable={false}
-                  style={
-                    [
-                      undefined,
-                      {},
-                    ]
+                2
+              </Text>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={4}
+                bbWidth={9}
+                color="#4f4f4f"
+                focusable={false}
+                height={4}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 4,
+                      "width": 9,
+                    },
+                  ]
+                }
+                vbHeight={4}
+                vbWidth={9}
+                width={9}
+              >
+                <RNSVGGroup
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
                   }
-                  testID="text_input"
-                  value="2"
-                />
-              </View>
+                >
+                  <RNSVGPath
+                    clipRule={0}
+                    d="M8.47396 0C8.65786 0 8.74428 0.227303 8.60683 0.349482L4.63287 3.88189C4.5571 3.94925 4.4429 3.94925 4.36713 3.88189L0.393167 0.349482C0.255716 0.227303 0.342136 0 0.52604 0H8.47396Z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    fillRule={0}
+                    propList={
+                      [
+                        "fill",
+                        "fillRule",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
             </View>
           </View>
         </View>
@@ -479,13 +530,14 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
         </Text>
         <View>
           <View
+            onLayout={[Function]}
             style={
-              [
-                {
-                  "alignSelf": "stretch",
-                },
-                undefined,
-              ]
+              {
+                "height": 50,
+                "justifyContent": "center",
+                "paddingHorizontal": 8,
+                "width": 60,
+              }
             }
           >
             <View
@@ -498,16 +550,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   "selected": undefined,
                 }
               }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
-              }
-              accessible={true}
-              collapsable={false}
+              accessible={false}
               focusable={true}
               onClick={[Function]}
               onResponderGrant={[Function]}
@@ -518,26 +561,85 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
               onStartShouldSetResponder={[Function]}
               style={
                 {
-                  "opacity": 1,
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
                 }
               }
-              testID="ios_touchable_wrapper"
+              testID="dropdown"
             >
-              <View
-                pointerEvents="box-only"
+              <Text
+                style={
+                  [
+                    {
+                      "flex": 1,
+                      "fontSize": 16,
+                      "writingDirection": "ltr",
+                    },
+                    {
+                      "color": "#4f4f4f",
+                      "fontFamily": "Montserrat",
+                      "fontSize": 16,
+                    },
+                    {},
+                  ]
+                }
               >
-                <TextInput
-                  editable={false}
-                  style={
-                    [
-                      undefined,
-                      {},
-                    ]
+                2
+              </Text>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={4}
+                bbWidth={9}
+                color="#4f4f4f"
+                focusable={false}
+                height={4}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 4,
+                      "width": 9,
+                    },
+                  ]
+                }
+                vbHeight={4}
+                vbWidth={9}
+                width={9}
+              >
+                <RNSVGGroup
+                  fill={
+                    {
+                      "payload": 4278190080,
+                      "type": 0,
+                    }
                   }
-                  testID="text_input"
-                  value="2"
-                />
-              </View>
+                >
+                  <RNSVGPath
+                    clipRule={0}
+                    d="M8.47396 0C8.65786 0 8.74428 0.227303 8.60683 0.349482L4.63287 3.88189C4.5571 3.94925 4.4429 3.94925 4.36713 3.88189L0.393167 0.349482C0.255716 0.227303 0.342136 0 0.52604 0H8.47396Z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    fillRule={0}
+                    propList={
+                      [
+                        "fill",
+                        "fillRule",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
             </View>
           </View>
         </View>

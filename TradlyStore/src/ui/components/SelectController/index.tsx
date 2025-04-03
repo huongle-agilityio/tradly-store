@@ -14,15 +14,15 @@ import { Dropdown } from '../Dropdown';
 import { Option } from '@/interfaces';
 
 interface SelectControllerProps<T extends FieldValues, K extends Path<T>>
-  extends Omit<ComponentProps<typeof Dropdown>, 'onValueChange' | 'value'> {
+  extends Omit<ComponentProps<typeof Dropdown>, 'onChange' | 'value'> {
   name: K;
-  items: Option[];
+  data: Option[];
   control: Control<T>;
   clearErrors: UseFormClearErrors<T>;
 }
 
 export const SelectController = <T extends FieldValues, K extends Path<T>>({
-  items,
+  data,
   name,
   control,
   clearErrors,
@@ -49,11 +49,11 @@ export const SelectController = <T extends FieldValues, K extends Path<T>>({
 
   return (
     <Dropdown
-      value={value}
-      onValueChange={handleOnChange}
-      error={error?.message}
       {...props}
-      items={items}
+      onChange={handleOnChange}
+      value={value}
+      error={error?.message}
+      data={data}
     />
   );
 };
