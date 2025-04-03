@@ -106,7 +106,6 @@ exports[`Input Component Should render error message 1`] = `
           "color": "#901f2e",
         },
         {
-          "paddingHorizontal": 10,
           "paddingTop": 12,
         },
       ]
