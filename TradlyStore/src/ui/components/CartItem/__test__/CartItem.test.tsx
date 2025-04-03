@@ -27,24 +27,24 @@ describe('CartItem', () => {
   });
 
   it('Should renders CartItem correctly', () => {
-    const { toJSON } = render(<CartItem {...defaultProps} />);
+    render(<CartItem {...defaultProps} />);
 
     expect(screen.getByText('Test Product')).toBeTruthy();
     expect(screen.getByText('$90')).toBeTruthy();
     expect(screen.getByText('$100')).toBeTruthy();
     expect(screen.getByText('10% off')).toBeTruthy();
     expect(screen.getByText('Remove')).toBeTruthy();
-    expect(toJSON()).toMatchSnapshot();
+    expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('Should renders CartItem correctly without actions', () => {
-    const { toJSON } = render(<CartItem {...defaultPropsWithoutAction} />);
+    render(<CartItem {...defaultPropsWithoutAction} />);
 
     expect(screen.getByText('Test Product')).toBeTruthy();
     expect(screen.getByText('$90')).toBeTruthy();
     expect(screen.getByText('$100')).toBeTruthy();
     expect(screen.getByText('10% off')).toBeTruthy();
-    expect(toJSON()).toMatchSnapshot();
+    expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('Should calls onRemoveItem when "Remove" button is pressed', () => {

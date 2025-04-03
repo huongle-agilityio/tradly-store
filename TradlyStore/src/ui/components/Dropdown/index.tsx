@@ -1,35 +1,42 @@
 import { StyleSheet, View } from 'react-native';
-import RNPickerSelect, {
-  PickerSelectProps,
-  PickerStyle,
-} from 'react-native-picker-select';
+import { Dropdown as DropdownBase } from 'react-native-element-dropdown';
+import { DropdownProps as DropdownBaseProps } from 'react-native-element-dropdown/lib/typescript/components/Dropdown/model';
 
 // Components
 import { Text } from '../Text';
 
 // Themes
-import { spacing } from '@/ui/themes';
+import { colors, fontsFamily, fontSizes, spacing } from '@/ui/themes';
 
-interface DropdownProps extends PickerSelectProps {
+type DropdownProps = Omit<
+  DropdownBaseProps<any>,
+  'labelField' | 'valueField'
+> & {
   disabled?: boolean;
   error?: string;
-  style?: PickerStyle;
-  onValueChange: (value: string) => void;
-}
+};
 
 export const Dropdown = ({
   disabled,
-  onValueChange,
-  style,
   error,
+  style,
+  data,
+  onChange,
   ...props
 }: DropdownProps) => (
   <View>
-    <RNPickerSelect
-      disabled={disabled}
-      onValueChange={onValueChange}
-      style={style}
+    <DropdownBase
+      testID="dropdown"
       {...props}
+      data={data}
+      itemTextStyle={styles.itemTextStyle}
+      onChange={onChange}
+      labelField="label"
+      valueField="value"
+      maxHeight={200}
+      disable={disabled}
+      style={[styles.dropdown, style]}
+      selectedTextStyle={styles.selectedTextStyle}
     />
     {error && (
       <Text color="error" fontWeight="light" textStyle={styles.error}>
@@ -41,7 +48,18 @@ export const Dropdown = ({
 
 export const styles = StyleSheet.create({
   error: {
-    paddingHorizontal: spacing['2.5'],
     paddingTop: spacing[3],
+  },
+  dropdown: {
+    height: 50,
+    paddingHorizontal: 8,
+  },
+  itemTextStyle: {
+    textAlign: 'center',
+  },
+  selectedTextStyle: {
+    fontSize: fontSizes.md,
+    fontFamily: fontsFamily.regular,
+    color: colors.secondary,
   },
 });

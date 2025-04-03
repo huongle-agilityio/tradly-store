@@ -3,35 +3,34 @@ import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import { Dropdown } from '.';
+import { MultipleDropdown } from '.';
 
-// Themes
+// Mocks
 import { CART_QUANTITY } from '@/mocks';
 
 const meta = {
-  title: 'Dropdown',
-  component: Dropdown,
+  title: 'MultipleDropdown',
+  component: MultipleDropdown,
   args: {
-    value: '1',
     data: CART_QUANTITY,
+    label: 'Additional Details',
+    placeholder: 'Select Quantity',
     onChange: action('onPress'),
-    style: { width: 60 },
   },
-} satisfies Meta<typeof Dropdown>;
+} satisfies Meta<typeof MultipleDropdown>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 const DropDownComponent = (props: any) => {
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState<string[]>([]);
 
-  return <Dropdown {...props} value={value} onValueChange={setValue} />;
+  return <MultipleDropdown {...props} value={value} onChange={setValue} />;
 };
 
 export const Default: Story = {
   render: (args) => <DropDownComponent {...args} />,
-  args: {},
 };
 
 export const withError: Story = {
@@ -44,6 +43,6 @@ export const withError: Story = {
 export const Disabled: Story = {
   render: (args) => <DropDownComponent {...args} />,
   args: {
-    disabled: true,
+    disable: true,
   },
 };

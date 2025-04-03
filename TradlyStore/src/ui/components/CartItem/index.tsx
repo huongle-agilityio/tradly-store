@@ -6,6 +6,9 @@ import { getStyles } from './styles';
 import { Text } from '../Text';
 import { Dropdown } from '../Dropdown';
 
+// Icons
+import { ArrowDownIcon } from '@/ui/icons';
+
 // Mocks
 import { CART_QUANTITY } from '@/mocks';
 
@@ -92,15 +95,12 @@ export const CartItem = memo(
                 Qty:
               </Text>
               <Dropdown
-                items={CART_QUANTITY}
+                data={CART_QUANTITY}
                 value={quantity.toString()}
                 disabled={!onUpdateQuantityItem}
-                onValueChange={handleUpdateQuantity}
-                style={{
-                  inputAndroid: {
-                    width: 80,
-                  },
-                }}
+                onChange={handleUpdateQuantity}
+                renderRightIcon={() => <ArrowDownIcon size={10} />}
+                style={{ width: 60 }}
               />
             </View>
           </View>

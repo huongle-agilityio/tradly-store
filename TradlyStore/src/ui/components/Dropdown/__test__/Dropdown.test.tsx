@@ -11,9 +11,9 @@ describe('Dropdown Component', () => {
     render(
       <Dropdown
         value=""
-        items={CART_QUANTITY}
+        data={CART_QUANTITY}
         error="This field is required"
-        onValueChange={jest.fn()}
+        onChange={jest.fn()}
       />,
     );
 
@@ -22,15 +22,10 @@ describe('Dropdown Component', () => {
 
   it('Should not open options when disabled', () => {
     render(
-      <Dropdown
-        value=""
-        items={CART_QUANTITY}
-        disabled
-        onValueChange={jest.fn()}
-      />,
+      <Dropdown value="" data={CART_QUANTITY} disabled onChange={jest.fn()} />,
     );
 
-    fireEvent.press(screen.getByTestId('text_input'));
+    fireEvent.press(screen.getByTestId('dropdown'));
 
     expect(screen.queryByText(CART_QUANTITY[0].value)).toBeNull();
   });

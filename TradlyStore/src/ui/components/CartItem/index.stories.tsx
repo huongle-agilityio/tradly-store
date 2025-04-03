@@ -5,13 +5,16 @@ import { View } from 'react-native';
 // Components
 import { CartItem } from '.';
 
+// Mocks
+import { IMAGES } from '@/mocks';
+
 const meta = {
   title: 'CartItem',
   component: CartItem,
   args: {
     id: '1',
     name: 'Beverages',
-    image: 'https://picsum.photos/seed/696/3000/2000',
+    image: IMAGES,
     quantity: 1,
     price: 10,
     discount: 0,

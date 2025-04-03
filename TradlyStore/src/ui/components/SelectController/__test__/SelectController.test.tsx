@@ -24,7 +24,7 @@ describe('SelectController Component', () => {
     return (
       <SelectController
         name="selectField"
-        items={CART_QUANTITY}
+        data={CART_QUANTITY}
         control={control}
         clearErrors={mockClearErrors || clearErrors}
       />
@@ -33,7 +33,7 @@ describe('SelectController Component', () => {
 
   it('Should render the component with provided options', () => {
     render(<Wrapper />);
-    expect(screen.getByTestId('text_input')).toBeTruthy();
+    expect(screen.getByTestId('dropdown')).toBeTruthy();
   });
 
   it('Should display error message when validation fails', async () => {
@@ -46,7 +46,7 @@ describe('SelectController Component', () => {
         <>
           <SelectController
             name="selectField"
-            items={CART_QUANTITY}
+            data={CART_QUANTITY}
             control={control}
             clearErrors={jest.fn()}
           />
