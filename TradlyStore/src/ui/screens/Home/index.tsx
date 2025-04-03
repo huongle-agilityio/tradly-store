@@ -88,7 +88,6 @@ export const Home = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Button onPress={handleRedirectNewProduct}>123123123</Button>
       <View style={styles.wrapper}>
         <Categories handlePress={handleRedirectProductCategory} />
         <View style={styles.contentWrapper}>

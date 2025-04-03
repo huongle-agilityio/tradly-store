@@ -1,4 +1,7 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackHeaderProps,
+} from '@react-navigation/native-stack';
 
 // Screens
 import { HeaderWithFilterButton } from '@/ui/sections';
@@ -13,29 +16,19 @@ import { ProductStackParamList } from '@/interfaces';
 const Stack = createNativeStackNavigator<ProductStackParamList>();
 
 export const ProductNavigation = () => {
+  const headerProductList = ({ navigation, route }: NativeStackHeaderProps) => {
+    const { name = '' } = (route.params ?? {}) as { name?: string };
+
+    return <HeaderWithFilterButton navigation={navigation} title={name} />;
+  };
+
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator>
       <Stack.Screen
         name={SCREENS.PRODUCT_LIST}
         component={ProductCategory}
         options={{
-          header: ({ navigation }) => {
-            const handleBack = () => {
-              navigation.goBack();
-            };
-
-            const handleClose = () => {
-              navigation.navigate(SCREENS.HOME);
-            };
-
-            return (
-              <HeaderWithFilterButton
-                title="Test"
-                onBack={handleBack}
-                onClose={handleClose}
-              />
-            );
-          },
+          header: headerProductList,
         }}
       />
       <Stack.Screen name={SCREENS.PRODUCT_DETAIL} component={ProductDetail} />

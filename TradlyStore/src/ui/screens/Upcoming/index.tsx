@@ -21,6 +21,7 @@ export const UpComing = () => {
       <Image
         source={IMAGE_DETAILS.UPCOMING.src}
         alt={IMAGE_DETAILS.UPCOMING.alt}
+        resizeMode="contain"
         style={{
           width: width * 0.8,
           aspectRatio: 16 / 9,

@@ -10,6 +10,7 @@ module.exports = {
     },
   ],
   rules: {
+    'react/no-unstable-nested-components': 'off',
     '@typescript-eslint/no-shadow': 'off',
   },
 };

@@ -72,7 +72,7 @@ export const HeaderWithSearchInput = ({
           <TouchableOpacity
             onPress={handlerRedirectMyCart}
             style={{ position: 'relative', opacity: carts.length ? 1 : 0.7 }}
-            // disabled={!carts.length}
+            disabled={!carts.length}
           >
             <CartIcon size={24} color={colors.light} />
             {!!carts.length && <View style={styles.cartDot} />}
