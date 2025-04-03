@@ -13,6 +13,7 @@ export const getStyles = (discount: number | undefined) =>
     },
     image: {
       height: 125,
+      position: 'relative',
       width: '100%',
       borderTopLeftRadius: radius.lg,
       borderTopRightRadius: radius.lg,
@@ -48,3 +49,25 @@ export const getStyles = (discount: number | undefined) =>
       textDecorationLine: 'line-through',
     },
   });
+
+export const productActions = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 44,
+  },
+  icon: {
+    width: 32,
+    height: 32,
+    borderRadius: radius.full,
+    backgroundColor: 'rgba(181, 185, 185, 0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+});

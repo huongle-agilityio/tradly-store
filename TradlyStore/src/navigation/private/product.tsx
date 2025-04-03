@@ -4,8 +4,8 @@ import {
 } from '@react-navigation/native-stack';
 
 // Screens
-import { HeaderWithFilterButton } from '@/ui/sections';
-import { ProductCategory, ProductDetail } from '@/ui/screens';
+import { HeaderWithFilterButton, HeaderWithTitle } from '@/ui/sections';
+import { FormProduct, ProductCategory, ProductDetail } from '@/ui/screens';
 
 // Constants
 import { SCREENS } from '@/constants';
@@ -22,6 +22,12 @@ export const ProductNavigation = () => {
     return <HeaderWithFilterButton navigation={navigation} title={name} />;
   };
 
+  const headerStack = ({ navigation, route }: NativeStackHeaderProps) => {
+    const { title } = (route.params ?? {}) as { title?: string };
+
+    return <HeaderWithTitle navigation={navigation} title={title || ''} />;
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -29,6 +35,13 @@ export const ProductNavigation = () => {
         component={ProductCategory}
         options={{
           header: headerProductList,
+        }}
+      />
+      <Stack.Screen
+        name={SCREENS.FORM_PRODUCT}
+        component={FormProduct}
+        options={{
+          header: headerStack,
         }}
       />
       <Stack.Screen name={SCREENS.PRODUCT_DETAIL} component={ProductDetail} />
