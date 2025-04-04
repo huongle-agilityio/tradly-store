@@ -7,8 +7,7 @@ import { useDeleteProduct, useGetProductByParams } from '@/apis';
 
 // Components
 import { Text } from '@/ui/components';
-import { EmptyStore } from './EmptyStore';
-import { ListProduct } from '@/ui/sections';
+import { ListProduct, EmptyStore } from '@/ui/sections';
 
 // Icons
 import { PlusCircleIcon } from '@/ui/icons';

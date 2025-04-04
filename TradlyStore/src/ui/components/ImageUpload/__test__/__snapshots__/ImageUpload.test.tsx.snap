@@ -3,15 +3,18 @@
 exports[`ImageUpload Component renders correctly with given image 1`] = `
 <View
   style={
-    {
-      "position": "relative",
-    }
+    [
+      {
+        "position": "relative",
+      },
+      undefined,
+    ]
   }
 >
   <Image
     source={
       {
-        "uri": "https://picsum.photos/seed/696/3000/2000",
+        "uri": "https://path-to-image.jpg",
       }
     }
     style={
