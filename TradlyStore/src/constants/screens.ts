@@ -10,7 +10,7 @@ export const SCREENS = {
   // Bottom Tabs
   HOME: 'home',
   BROWSE: 'browse',
-  PRODUCT: 'product',
+  STORE: 'store',
   ORDER_HISTORY: 'orderHistory',
   PROFILE: 'profile',
 
@@ -19,6 +19,7 @@ export const SCREENS = {
   PRODUCT_LIST: 'productList',
   PRODUCT_CATEGORY: 'productCategory',
   PRODUCT_DETAIL: 'productDetail',
+  FORM_PRODUCT: 'formProduct',
 
   // Private Stack
   CART: 'cart',

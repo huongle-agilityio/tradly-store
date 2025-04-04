@@ -10,6 +10,7 @@ export const QUERY_URL = {
     sortCreatedAt,
     category = '',
     title = '',
+    storeId = '',
     page = CURRENT_PAGE,
     pageSize = PAGE_SIZE,
   }: ProductFilterParams) =>
@@ -20,6 +21,7 @@ export const QUERY_URL = {
           ...(title ? { title: { $eqi: title } } : {}),
           ...(category ? { category: { $eqi: category } } : {}),
           ...(hasDiscount ? { discount: { $notNull: true } } : {}),
+          ...(storeId ? { store: { storeId: { $eqi: storeId } } } : {}),
         },
         ...(sortCreatedAt ? { sort: [`createdAt:${sortCreatedAt}`] } : {}),
         pagination: { page, pageSize },

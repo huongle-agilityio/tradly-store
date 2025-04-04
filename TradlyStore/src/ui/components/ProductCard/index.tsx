@@ -6,10 +6,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { getStyles } from './styles';
+import { getStyles, productActions } from './styles';
 
 // Components
 import { Text } from '../Text';
+
+// Icons
+import { EditIcon, TrashIcon } from '@/ui/icons';
 
 // Themes
 import { lineHeights } from '@/ui/themes';
@@ -23,20 +26,26 @@ interface ProductCardProps {
   storeName: string;
   storeSource: string;
   price: number;
+  hasAction?: boolean;
   discount?: number;
   styleWrapper?: StyleProp<ViewStyle>;
-  onPress: () => void;
+  onPress?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 export const ProductCard = memo(
   ({
     source,
+    hasAction,
     title,
     storeName,
     storeSource,
     price,
     discount,
     styleWrapper,
+    onEdit,
+    onDelete,
     onPress,
   }: ProductCardProps) => {
     const styles = getStyles(discount);
@@ -48,12 +57,25 @@ export const ProductCard = memo(
         style={[styles.container, styleWrapper]}
         onPress={onPress}
       >
-        <Image
-          source={{ uri: source }}
-          testID="category-card-image"
-          alt={`product-${title}`}
-          style={styles.image}
-        />
+        <View>
+          <Image
+            source={{ uri: source }}
+            testID="category-card-image"
+            alt={`product-${title}`}
+            style={[styles.image]}
+          />
+
+          {hasAction && (
+            <View style={productActions.container}>
+              <TouchableOpacity style={productActions.icon} onPress={onEdit}>
+                <EditIcon />
+              </TouchableOpacity>
+              <TouchableOpacity style={productActions.icon} onPress={onDelete}>
+                <TrashIcon />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
         <View style={styles.content}>
           <Text
             color="tertiary"

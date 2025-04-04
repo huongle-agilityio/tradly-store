@@ -6,7 +6,7 @@ import {
 
 // Screens
 import { HeaderWithSearchInput, HeaderWithTitle } from '@/ui/sections';
-import { Home, ProductCategory, Profile, UpComing } from '@/ui/screens';
+import { Home, ProductCategory, Profile, Store, UpComing } from '@/ui/screens';
 
 // Icons
 import {
@@ -45,7 +45,7 @@ export const TabsNavigation = () => {
           return <HomeIcon size={24} color={color} />;
         case SCREENS.BROWSE:
           return <SearchIcon size={24} color={color} />;
-        case SCREENS.PRODUCT:
+        case SCREENS.STORE:
           return <StoreIcon size={24} color={color} />;
         case SCREENS.ORDER_HISTORY:
           return <OrderHistoryIcon size={24} color={color} />;
@@ -102,11 +102,13 @@ export const TabsNavigation = () => {
         }}
       />
       <Tabs.Screen
-        name={SCREENS.PRODUCT}
-        component={UpComing}
+        name={SCREENS.STORE}
+        component={Store}
         options={{
-          title: 'Product',
-          tabBarIcon: handleRenderTabBarIcon(SCREENS.PRODUCT),
+          header: () => (
+            <HeaderWithSearchInput hasSearchInput={false} title="My Store" />
+          ),
+          tabBarIcon: handleRenderTabBarIcon(SCREENS.STORE),
         }}
       />
       <Tabs.Screen

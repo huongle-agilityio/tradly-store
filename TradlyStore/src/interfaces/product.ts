@@ -22,6 +22,7 @@ export interface ProductFilterParams {
   title?: string;
   category?: string;
   hasDiscount?: boolean;
+  storeId?: string;
   sortCreatedAt?: SortType;
   page?: number;
   pageSize?: number;

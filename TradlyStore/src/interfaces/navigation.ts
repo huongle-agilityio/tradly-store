@@ -25,6 +25,7 @@ export type ProductStackParamList = {
     name?: string;
     category?: string;
   };
+  [SCREENS.FORM_PRODUCT]: { title: string; id?: string };
   [SCREENS.PRODUCT_DETAIL]: { id: string };
 };
 
@@ -43,7 +44,7 @@ export type TabsStackParamList = {
     name?: string;
     category?: string;
   };
-  [SCREENS.PRODUCT]: undefined;
+  [SCREENS.STORE]: undefined;
   [SCREENS.ORDER_HISTORY]: undefined;
   [SCREENS.PROFILE]: undefined;
 };

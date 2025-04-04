@@ -26,12 +26,14 @@ import { SCREENS, TIMING } from '@/constants';
 import { colors, radius, spacing } from '@/ui/themes';
 
 interface HeaderWithSearchInputProps {
-  hasFilter?: boolean;
   title: string;
+  hasFilter?: boolean;
+  hasSearchInput?: boolean;
 }
 
 export const HeaderWithSearchInput = ({
   hasFilter = false,
+  hasSearchInput = true,
   title,
 }: HeaderWithSearchInputProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<AppParamList>>();
@@ -80,18 +82,20 @@ export const HeaderWithSearchInput = ({
         </View>
       </View>
 
-      <View style={styles.inputWrapper}>
-        <TouchableOpacity onPress={handleRedirectBrowse}>
-          <Input
-            variant="outlined"
-            placeholder="Search Product"
-            onChangeText={handleFilter}
-            editable={!!hasFilter}
-            value={filter}
-            icon={<SearchIcon size={24} color={colors.primary} />}
-          />
-        </TouchableOpacity>
-      </View>
+      {hasSearchInput && (
+        <View style={styles.inputWrapper}>
+          <TouchableOpacity onPress={handleRedirectBrowse}>
+            <Input
+              variant="outlined"
+              placeholder="Search Product"
+              onChangeText={handleFilter}
+              editable={!!hasFilter}
+              value={filter}
+              icon={<SearchIcon size={24} color={colors.primary} />}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
 
       {hasFilter && <HeaderFilter />}
     </View>
@@ -105,13 +109,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   headerWrapper: {
+    paddingBottom: 23,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   iconWrapper: { flexDirection: 'row', gap: spacing[5] },
-  inputWrapper: { paddingTop: 23, paddingBottom: spacing[4] },
+  inputWrapper: { paddingBottom: spacing[4] },
   cartDot: {
     width: spacing['3.5'],
     height: spacing['3.5'],
