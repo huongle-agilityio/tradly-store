@@ -13,10 +13,13 @@ import { Product } from '@/interfaces';
 interface ProductListItemProps {
   index: number;
   dataLength: number;
+  hasAction?: boolean;
   horizontal?: boolean | null | undefined;
   item: Product;
   style?: StyleProp<ViewStyle>;
-  onNavigate: (id: string) => void;
+  onNavigate?: (id: string) => void;
+  onEditProduct?: (id: string) => void;
+  onDeleteProduct?: (id: string) => void;
 }
 
 export const ProductListItem = memo(
@@ -24,9 +27,12 @@ export const ProductListItem = memo(
     horizontal,
     item,
     index,
+    hasAction,
     dataLength,
     style,
     onNavigate,
+    onEditProduct,
+    onDeleteProduct,
   }: ProductListItemProps) => {
     const {
       documentId,
@@ -40,16 +46,33 @@ export const ProductListItem = memo(
     const isLastItem = index === dataLength - 1;
 
     const handleProductDetail = useCallback(() => {
-      if (!documentId) {
+      if (!documentId || !onNavigate) {
         return;
       }
 
       onNavigate(documentId);
     }, [documentId, onNavigate]);
 
+    const handleEdit = useCallback(() => {
+      if (!documentId || onNavigate) {
+        return;
+      }
+      onEditProduct?.(documentId);
+    }, [documentId, onEditProduct, onNavigate]);
+
+    const handleDelete = useCallback(() => {
+      if (!documentId || onNavigate) {
+        return;
+      }
+      onDeleteProduct?.(documentId);
+    }, [documentId, onDeleteProduct, onNavigate]);
+
     return (
       <ProductCard
         onPress={handleProductDetail}
+        hasAction={hasAction}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
         price={price}
         source={image}
         storeName={storeName}

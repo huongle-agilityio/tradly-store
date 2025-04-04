@@ -7,4 +7,6 @@ export * from './ProductCategory';
 export * from './ProductDetail';
 export * from './Cart';
 export * from './Address';
+export * from './Store';
 export * from './Order';
+export * from './FormProduct';

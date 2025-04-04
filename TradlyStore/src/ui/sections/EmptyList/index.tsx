@@ -22,6 +22,8 @@ EmptyList.displayName = 'EmptyList';
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
+    alignContent: 'center',
     alignItems: 'center',
     paddingVertical: 50,
   },

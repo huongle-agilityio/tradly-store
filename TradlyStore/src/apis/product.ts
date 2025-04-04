@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 
 // Constants
 import { API_ENDPOINT, PAGE_SIZE, QUERY_KEY, QUERY_URL } from '@/constants';
@@ -149,3 +149,19 @@ export const useGetProductById = (id: string) => {
     ...rest,
   };
 };
+
+/**
+ * Mutation hook to delete a product by its ID.
+ *
+ * @returns A React Query mutation function that can be used to delete a product.
+ */
+export const useDeleteProduct = () =>
+  useMutation<ProductResponse | null, string, string>({
+    mutationFn: async (id) =>
+      withAuth((token) =>
+        httpClient.delete({
+          endpoint: `${API_ENDPOINT.PRODUCT}/${id}`,
+          token,
+        }),
+      ),
+  });
