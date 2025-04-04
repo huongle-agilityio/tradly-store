@@ -19,3 +19,4 @@ export * from './CloseIcon';
 export * from './TrashIcon';
 export * from './EditIcon';
 export * from './PlusCircleIcon';
+export * from './PlusIcon';
