@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
 
 // Icons
@@ -15,28 +16,36 @@ import { CloseIcon } from '@/ui/icons';
 import { colors, radius } from '@/ui/themes';
 
 interface ImageUploadProps {
+  id: number;
   image: string;
   style?: StyleProp<ImageStyle>;
-  onPress: () => void;
+  styleContainer?: StyleProp<ViewStyle>;
+  onPress: (id: number) => void;
 }
 
 export const ImageUpload = memo(
-  ({ image, style, onPress }: ImageUploadProps) => (
-    <View style={styles.container}>
-      <Image
-        testID="uploaded-image"
-        source={{ uri: image }}
-        style={[styles.image, style]}
-      />
-      <TouchableOpacity
-        testID="close-button"
-        style={styles.closeIcon}
-        onPress={onPress}
-      >
-        <CloseIcon size={9} color={colors.light} />
-      </TouchableOpacity>
-    </View>
-  ),
+  ({ id, image, style, styleContainer, onPress }: ImageUploadProps) => {
+    const handleDelete = () => {
+      onPress(id);
+    };
+
+    return (
+      <View style={[styles.container, styleContainer]}>
+        <Image
+          testID="uploaded-image"
+          source={{ uri: image }}
+          style={[styles.image, style]}
+        />
+        <TouchableOpacity
+          testID="close-button"
+          style={styles.closeIcon}
+          onPress={handleDelete}
+        >
+          <CloseIcon size={9} color={colors.light} />
+        </TouchableOpacity>
+      </View>
+    );
+  },
 );
 
 const styles = StyleSheet.create({

@@ -11,6 +11,7 @@ const meta = {
   title: 'ImageUpload',
   component: ImageUpload,
   args: {
+    id: 0,
     image: IMAGES,
     onPress: action('onPress'),
   },
