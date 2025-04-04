@@ -26,15 +26,15 @@ import { colors, radius, spacing } from '@/ui/themes';
 // Utils
 import { requestCameraPermission, requestGalleryPermission } from '@/utils';
 
-interface ListProductImageProps {
+interface ProductPhotosUploadProps {
   selectedImages: Asset[];
   onSelectImage: (images: Asset[]) => void;
 }
 
-export const ListProductImage = ({
+export const ProductPhotosUpload = ({
   selectedImages,
   onSelectImage,
-}: ListProductImageProps) => {
+}: ProductPhotosUploadProps) => {
   const MAX_IMAGES = 4;
   const hasButtonAddImage = selectedImages.length < MAX_IMAGES;
 

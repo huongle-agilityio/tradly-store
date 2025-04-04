@@ -8,6 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 // Components
 import { StickyFooterLayout } from '@/ui/layouts';
 import { InputController } from '@/ui/components';
+import { ProductPhotosUpload } from '@/ui/sections';
 
 // Hooks
 import { AddressState, useFocusInput } from '@/hooks';
@@ -19,7 +20,6 @@ import { addressSchema } from '@/schemas';
 import { colors, spacing } from '@/ui/themes';
 
 // Utils
-import { ListProductImage } from './ListProductImage';
 
 interface FormAddressProps {
   form: AddressState;
@@ -50,7 +50,7 @@ export const FormProduct = ({ form, onSubmit }: FormAddressProps) => {
         buttonText="Save"
         onPress={submitForm(onSubmit)}
       >
-        <ListProductImage
+        <ProductPhotosUpload
           selectedImages={selectedImages}
           onSelectImage={setSelectedImages}
         />

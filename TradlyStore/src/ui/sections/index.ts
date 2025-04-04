@@ -11,3 +11,5 @@ export * from './PriceDetails';
 export * from './TrackingOrder';
 export * from './EmptyList';
 export * from './FormAddress';
+export * from './ProductPhotosUpload';
+export * from './EmptyStore';
