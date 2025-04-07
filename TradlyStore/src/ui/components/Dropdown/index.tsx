@@ -1,65 +1,108 @@
-import { StyleSheet, View } from 'react-native';
-import { Dropdown as DropdownBase } from 'react-native-element-dropdown';
-import { DropdownProps as DropdownBaseProps } from 'react-native-element-dropdown/lib/typescript/components/Dropdown/model';
-
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 // Components
 import { Text } from '../Text';
 
 // Themes
-import { colors, fontsFamily, fontSizes, spacing } from '@/ui/themes';
+import { colors, spacing } from '@/ui/themes';
+import { SingleSelectModal } from '../DropdownModal/SingleSelectModal';
+import { ReactNode, useState } from 'react';
+import { Option } from '@/interfaces';
 
-type DropdownProps = Omit<
-  DropdownBaseProps<any>,
-  'labelField' | 'valueField'
-> & {
+interface DropdownProps {
   disabled?: boolean;
+  label?: string;
+  value?: string;
   error?: string;
-};
-
+  placeholder?: string;
+  options: Option[];
+  style?: StyleProp<ViewStyle>;
+  renderRightIcon?: ReactNode;
+  onChange: (value: string) => void;
+}
 export const Dropdown = ({
   disabled,
+  label,
+  value,
   error,
+  placeholder,
+  renderRightIcon: RenderRightIcon,
+  options,
   style,
-  data,
   onChange,
-  ...props
-}: DropdownProps) => (
-  <View>
-    <DropdownBase
-      testID="dropdown"
-      {...props}
-      data={data}
-      itemTextStyle={styles.itemTextStyle}
-      onChange={onChange}
-      labelField="label"
-      valueField="value"
-      maxHeight={200}
-      disable={disabled}
-      style={[styles.dropdown, style]}
-      selectedTextStyle={styles.selectedTextStyle}
-    />
-    {error && (
-      <Text color="error" fontWeight="light" textStyle={styles.error}>
-        {error}
-      </Text>
-    )}
-  </View>
-);
+}: DropdownProps) => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-export const styles = StyleSheet.create({
+  const selectedLabel = options.find((option) => option.value === value)?.label;
+
+  const handleCloseModal = () => setIsModalVisible(false);
+  const handleOpenModal = () => setIsModalVisible(true);
+
+  const handleSelect = (selectedValue: string) => {
+    onChange(selectedValue);
+    handleCloseModal();
+  };
+
+  return (
+    <View style={style}>
+      {label && <Text style={styles.label}>{label}</Text>}
+      <TouchableOpacity
+        testID="single-select-modal"
+        disabled={disabled}
+        style={styles.selectBox}
+        onPress={handleOpenModal}
+        activeOpacity={0.8}
+      >
+        <Text fontSize="sm" color="placeholder">
+          {selectedLabel || placeholder}
+        </Text>
+
+        {RenderRightIcon}
+      </TouchableOpacity>
+
+      {error && (
+        <Text color="error" fontWeight="light" textStyle={styles.error}>
+          {error}
+        </Text>
+      )}
+
+      <SingleSelectModal
+        isModalVisible={isModalVisible}
+        data={options}
+        selectedItem={value || ''}
+        handleCloseModal={handleCloseModal}
+        onItemSelect={handleSelect}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  label: {
+    marginBottom: 8,
+    color: colors.text.primary,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  selectBox: {
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  selectText: {
+    fontSize: 16,
+    color: colors.text.primary,
+  },
+  placeholderText: {
+    color: colors.text.secondary,
+  },
   error: {
     paddingTop: spacing[3],
-  },
-  dropdown: {
-    height: 50,
-    paddingHorizontal: 8,
-  },
-  itemTextStyle: {
-    textAlign: 'center',
-  },
-  selectedTextStyle: {
-    fontSize: fontSizes.md,
-    fontFamily: fontsFamily.regular,
-    color: colors.secondary,
   },
 });

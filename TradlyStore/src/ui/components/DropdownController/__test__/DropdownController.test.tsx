@@ -4,12 +4,12 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 
 // Components
 import { Text } from '../../Text';
-import { SelectController } from '..';
+import { DropdownController } from '..';
 
 // Interfaces
 import { CART_QUANTITY } from '@/mocks';
 
-describe('SelectController Component', () => {
+describe('DropdownController Component', () => {
   const Wrapper = ({
     defaultValue = '',
     mockClearErrors,
@@ -22,7 +22,7 @@ describe('SelectController Component', () => {
     });
 
     return (
-      <SelectController
+      <DropdownController
         name="selectField"
         data={CART_QUANTITY}
         control={control}
@@ -44,7 +44,7 @@ describe('SelectController Component', () => {
 
       return (
         <>
-          <SelectController
+          <DropdownController
             name="selectField"
             data={CART_QUANTITY}
             control={control}

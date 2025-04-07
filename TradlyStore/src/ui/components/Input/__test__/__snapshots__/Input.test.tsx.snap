@@ -8,6 +8,7 @@ exports[`Input Component Should match snapshot 1`] = `
         "width": "100%",
       },
       undefined,
+      undefined,
     ]
   }
 >
@@ -54,6 +55,7 @@ exports[`Input Component Should render error message 1`] = `
       {
         "width": "100%",
       },
+      undefined,
       undefined,
     ]
   }

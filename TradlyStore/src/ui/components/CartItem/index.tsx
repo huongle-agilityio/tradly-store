@@ -95,11 +95,11 @@ export const CartItem = memo(
                 Qty:
               </Text>
               <Dropdown
-                data={CART_QUANTITY}
+                options={CART_QUANTITY}
                 value={quantity.toString()}
                 disabled={!onUpdateQuantityItem}
                 onChange={handleUpdateQuantity}
-                renderRightIcon={() => <ArrowDownIcon size={10} />}
+                renderRightIcon={<ArrowDownIcon size={10} />}
                 style={{ width: 60 }}
               />
             </View>

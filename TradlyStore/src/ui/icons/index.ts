@@ -20,3 +20,5 @@ export * from './TrashIcon';
 export * from './EditIcon';
 export * from './PlusCircleIcon';
 export * from './PlusIcon';
+export * from './MoneyIcon';
+export * from './MapIcon';

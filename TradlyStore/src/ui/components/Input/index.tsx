@@ -1,5 +1,11 @@
 import { ForwardedRef, forwardRef, ReactNode } from 'react';
-import { TextInput, TextInputProps, View } from 'react-native';
+import {
+  StyleProp,
+  TextInput,
+  TextInputProps,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 // Components
 import { Text } from '../Text';
@@ -11,7 +17,7 @@ import { colorMap, containerStyles, inputStyles, styles } from './styles';
 import { InputVariant } from '@/interfaces';
 
 interface InputProps extends TextInputProps {
-  value: string;
+  value?: string;
   secureTextEntry?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
@@ -20,7 +26,9 @@ interface InputProps extends TextInputProps {
   placeholder?: string;
   variant?: InputVariant;
   icon?: ReactNode;
-  onChangeText: (text: string) => void;
+  iconRight?: ReactNode;
+  styleContainer?: StyleProp<ViewStyle>;
+  onChangeText?: (text: string) => void;
 }
 
 export const Input = forwardRef(
@@ -30,18 +38,24 @@ export const Input = forwardRef(
       label,
       isLoading,
       icon: Icon,
+      iconRight: IconRight,
       onChangeText,
       error,
       disabled,
       placeholder,
       secureTextEntry,
       variant = 'default',
+      styleContainer,
       ...props
     }: InputProps,
     ref: ForwardedRef<TextInput>,
   ) => (
     <View
-      style={[styles.container, (disabled || isLoading) && styles.disabled]}
+      style={[
+        styles.container,
+        (disabled || isLoading) && styles.disabled,
+        styleContainer,
+      ]}
     >
       {label && (
         <Text color="placeholder" fontWeight="light" textStyle={styles.label}>
@@ -52,7 +66,8 @@ export const Input = forwardRef(
         style={[
           containerStyles[variant],
           styles.container,
-          ...(Icon ? [styles.containerHasIcon] : []),
+          ...(Icon || IconRight ? [styles.containerHasIcon] : []),
+          ...(IconRight ? [styles.hasRightIcon] : []),
         ]}
       >
         {Icon}
@@ -69,6 +84,8 @@ export const Input = forwardRef(
           selectionColor={colorMap[variant]}
           {...props}
         />
+
+        {IconRight}
       </View>
       {error && (
         <Text color="error" fontWeight="light" textStyle={styles.error}>

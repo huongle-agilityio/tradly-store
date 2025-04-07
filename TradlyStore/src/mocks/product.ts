@@ -8,3 +8,18 @@ export const INT_PRODUCT_CARD = {
     image: '',
   },
 };
+
+export const ADDITIONAL_DETAILS = [
+  {
+    label: 'Shipping',
+    value: 'shipping',
+  },
+  {
+    label: 'Available',
+    value: 'available',
+  },
+  {
+    label: 'Cash on delivery',
+    value: 'cashOnDelivery',
+  },
+];

@@ -13,7 +13,7 @@ const meta = {
   component: Dropdown,
   args: {
     value: '1',
-    data: CART_QUANTITY,
+    options: CART_QUANTITY,
     onChange: action('onPress'),
     style: { width: 60 },
   },

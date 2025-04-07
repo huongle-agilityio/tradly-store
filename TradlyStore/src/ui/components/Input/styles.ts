@@ -19,6 +19,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 25,
   },
+  hasRightIcon: {
+    justifyContent: 'space-between',
+  },
   label: {
     paddingBottom: spacing[3],
   },
