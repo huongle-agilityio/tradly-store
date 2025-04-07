@@ -1,101 +1,147 @@
+import { Option } from '@/interfaces';
+import { colors, spacing } from '@/ui/themes';
 import { useState } from 'react';
-import { MultiSelect } from 'react-native-element-dropdown';
-import { StyleSheet, View } from 'react-native';
-import { MultiSelectProps } from 'react-native-element-dropdown/lib/typescript/components/MultiSelect/model';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 // Components
 import { Text } from '../Text';
-import { DropdownItem } from './DropdownItem';
+import { Input } from '../Input';
+import { DropdownChip } from './DropdownChip';
+import { MultipleSelectModal } from '../DropdownModal/MultipleSelectModal';
 
-// Interfaces
-import { Option } from '@/interfaces';
-
-// Themes
-import { colors, fontsFamily, lineHeights, spacing } from '@/ui/themes';
-
-interface MultipleDropdownProps
-  extends Omit<MultiSelectProps<Option>, 'labelField' | 'valueField'> {
-  label?: string;
+interface SelectWithChipsProps {
+  label: string;
+  placeholder: string;
   error?: string;
-  data: Option[];
+  disabled?: boolean;
+  options: Option[];
+  selectedItems: string[];
+  onChange: (value: string[]) => void;
 }
 
 export const MultipleDropdown = ({
-  data,
   label,
+  options,
+  placeholder,
+  selectedItems,
   error,
-  value,
   onChange,
-  ...props
-}: MultipleDropdownProps) => {
-  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false);
+  disabled,
+}: SelectWithChipsProps) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleFocus = () => {
-    setShowPlaceholder(true);
+  /**
+   * Handles the selection of an item in the dropdown list. If the item is
+   * already selected, it will be removed from the selectedItems state array.
+   * If the item is not selected, it will be added to the selectedItems state
+   * array.
+   * @param {number} itemId The value of the item selected.
+   */
+  const handleItemSelect = (itemId: string) => {
+    // Remove item
+    if (selectedItems.includes(itemId)) {
+      return selectedItems.filter((value) => value !== itemId);
+    }
+
+    onChange([...selectedItems, itemId]);
   };
 
-  const handleBlur = () => {
-    setShowPlaceholder(false);
+  /**
+   * Removes the chip with the given itemId from the selectedItems state array.
+   * @param {number} itemId The value of the chip to remove.
+   */
+  const handleChipRemove = (itemId: string) => {
+    const chips = selectedItems.filter((value) => value !== itemId);
+    onChange(chips);
   };
 
-  const renderSelectedItem = (
-    item: Option,
-    unSelect: ((item: Option) => void) | undefined,
-  ) => <DropdownItem item={item} unSelect={unSelect} />;
+  const handleOpenModal = () => setIsModalVisible(true);
+  const handleCloseModal = () => setIsModalVisible(false);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.wrapper}>
-        <MultiSelect
-          testID="multiple-dropdown"
-          style={styles.dropdown}
-          placeholderStyle={!showPlaceholder && !!value?.length && styles.hide}
-          data={data}
-          labelField="label"
-          valueField="value"
-          value={value}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          iconStyle={styles.hide}
-          renderSelectedItem={renderSelectedItem}
-          {...props}
-          onChange={onChange}
-        />
-      </View>
+      {selectedItems.length > 0 ? (
+        <View style={[styles.borderCommon, styles.inputWithChip]}>
+          <Text
+            color="placeholder"
+            fontWeight="light"
+            textStyle={{ paddingBottom: spacing[3] }}
+          >
+            {label}
+          </Text>
+          <View style={[styles.chipsContainer]}>
+            {selectedItems.map((itemId) => {
+              const item = options.find((i) => i.value === itemId);
+
+              if (!item) return null;
+
+              return (
+                <DropdownChip
+                  key={`chip-${item.value}`}
+                  label={item.label}
+                  value={item.value}
+                  onRemove={handleChipRemove}
+                  style={styles.dropdownChip}
+                />
+              );
+            })}
+          </View>
+          <TouchableOpacity
+            disabled={disabled}
+            onPress={handleOpenModal}
+            style={styles.touchModal}
+          />
+        </View>
+      ) : (
+        <TouchableOpacity disabled={disabled} onPress={handleOpenModal}>
+          <Input
+            label={label}
+            variant="underlined"
+            placeholder={placeholder}
+            editable={false}
+          />
+        </TouchableOpacity>
+      )}
       {error && (
         <Text color="error" fontWeight="light" textStyle={styles.error}>
           {error}
         </Text>
       )}
+
+      <MultipleSelectModal
+        data={options}
+        handleCloseModal={handleCloseModal}
+        isModalVisible={isModalVisible}
+        selectedItems={selectedItems}
+        onItemSelect={handleItemSelect}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  label: {
-    color: colors.secondary,
-    fontFamily: fontsFamily.regular,
-    lineHeight: lineHeights.base,
-    opacity: 0.5,
-    marginBottom: spacing['2.5'],
-  },
   container: {
+    flex: 1,
+    paddingVertical: 20,
     width: '100%',
-    padding: spacing[4],
   },
-  wrapper: { minHeight: 30, position: 'relative' },
-  dropdown: {
-    color: 'red',
+  inputWithChip: { position: 'relative', width: '100%' },
+  touchModal: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    top: 0,
-    borderBottomWidth: 1,
-    borderColor: colors.input.borderSecondary,
+    zIndex: 1,
   },
-  hide: {
-    opacity: 0,
+  dropdownChip: { zIndex: 2 },
+  borderCommon: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.input.borderSecondary,
+  },
+  chipsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 10,
+    paddingRight: 20,
   },
   error: {
     paddingTop: spacing[3],

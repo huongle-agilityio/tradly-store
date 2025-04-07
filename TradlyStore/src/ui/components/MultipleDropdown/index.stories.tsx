@@ -12,9 +12,10 @@ const meta = {
   title: 'MultipleDropdown',
   component: MultipleDropdown,
   args: {
-    data: CART_QUANTITY,
+    options: CART_QUANTITY,
     label: 'Additional Details',
     placeholder: 'Select Quantity',
+    selectedItems: [],
     onChange: action('onPress'),
   },
 } satisfies Meta<typeof MultipleDropdown>;
@@ -31,6 +32,7 @@ const DropDownComponent = (props: any) => {
 
 export const Default: Story = {
   render: (args) => <DropDownComponent {...args} />,
+  args: {},
 };
 
 export const withError: Story = {
@@ -43,6 +45,6 @@ export const withError: Story = {
 export const Disabled: Story = {
   render: (args) => <DropDownComponent {...args} />,
   args: {
-    disable: true,
+    disabled: true,
   },
 };
