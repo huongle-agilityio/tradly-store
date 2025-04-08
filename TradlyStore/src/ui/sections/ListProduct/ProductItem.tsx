@@ -38,7 +38,7 @@ export const ProductListItem = memo(
       documentId,
       image,
       title,
-      store: { name: storeName, image: storeSource },
+      store: { username: storeName, image: storeSource },
       price,
       discount,
     } = item || INT_PRODUCT_CARD;
