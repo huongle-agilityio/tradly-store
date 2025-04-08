@@ -138,7 +138,8 @@ export const useGetProductByParams = ({
  */
 export const useGetProductById = (id: string) => {
   const { data, ...rest } = useQuery<ProductResponse | null>({
-    queryKey: [id],
+    enabled: !!id,
+    queryKey: [`${QUERY_KEY.PRODUCT}/${id}`],
     queryFn: async () =>
       withAuth((token) =>
         httpClient.get({
@@ -188,6 +189,27 @@ export const useCreateProduct = () =>
   });
 
 /**
+ * Mutation hook to create a product.
+ *
+ * @returns A React Query mutation function that can be used to create a product.
+ */
+export const useEditProduct = () =>
+  useMutation<
+    ProductResponse | null,
+    string,
+    { id: string; data: ProductPayload }
+  >({
+    mutationFn: async ({ id, data }) =>
+      withAuth((token) =>
+        httpClient.put({
+          endpoint: `${API_ENDPOINT.PRODUCT}/${id}`,
+          payload: { data },
+          token,
+        }),
+      ),
+  });
+
+/**
  * Mutation hook to create a product and upload its images.
  *
  * @returns An object that contains the `createProductWithImages` mutation function, as well as
@@ -198,17 +220,27 @@ export const useCreateProductWithImages = () => {
   const { mutateAsync: uploadMutation, error: uploadError } = useUploadImages();
   const { mutateAsync: createMutation, error: createError } =
     useCreateProduct();
+  const { mutateAsync: editMutation, error: editError } = useEditProduct();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const createProductWithImages = async (
-    product: ProductFormData,
-    id: string,
-  ) => {
+  const createProductWithImages = async ({
+    id,
+    product,
+    storeId,
+  }: {
+    id?: string;
+    product: ProductFormData;
+    storeId: string;
+  }) => {
     try {
       setIsLoading(true);
-
-      const uploadedUrls = await uploadMutation(product.slideImages);
+      const hasAsset = product.slideImages.some(
+        (item) => typeof item !== 'string',
+      );
+      const uploadedUrls = hasAsset
+        ? await uploadMutation(product.slideImages)
+        : (product.slideImages as string[]);
 
       const payload: ProductPayload = {
         ...product,
@@ -217,11 +249,13 @@ export const useCreateProductWithImages = () => {
         discount: Number(product.discount),
         image: uploadedUrls[0],
         slideImages: uploadedUrls,
-        store: id,
+        store: storeId,
       };
-      const createdProduct = await createMutation(payload);
+      console.log('payload', payload);
 
-      return createdProduct;
+      return id
+        ? await editMutation({ id: id || '', data: payload })
+        : await createMutation(payload);
     } catch (error) {
       throw error;
     } finally {
@@ -232,7 +266,6 @@ export const useCreateProductWithImages = () => {
   return {
     createProductWithImages,
     isLoading,
-    uploadError,
-    createError,
+    error: uploadError || createError || editError,
   };
 };

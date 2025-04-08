@@ -9,4 +9,4 @@ export * from './Cart';
 export * from './Address';
 export * from './Store';
 export * from './Order';
-export * from './FormAddProduct';
+export * from './FormCreateOrUpdateProduct';
