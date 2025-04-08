@@ -31,6 +31,7 @@ interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {
   isLoading?: boolean;
   isLoadMore?: boolean;
   isFetchingNextPage?: boolean;
+  refetch?: () => void;
   onEndReached?: () => void;
   onNavigateProductDetail?: (id: string) => void;
   onEditProduct?: (id: string) => void;
@@ -45,6 +46,7 @@ export const ListProduct = memo(
     isLoadMore = false,
     onEndReached,
     horizontal,
+    refetch,
     onNavigateProductDetail,
     onEditProduct,
     onDeleteProduct,
@@ -55,10 +57,11 @@ export const ListProduct = memo(
 
     const onRefresh = useCallback(() => {
       setRefreshing(true);
+      refetch?.();
       setTimeout(() => {
         setRefreshing(false);
       }, 2000);
-    }, []);
+    }, [refetch]);
 
     const keyExtractor = useCallback(
       (item: Product) => item?.id.toString(),

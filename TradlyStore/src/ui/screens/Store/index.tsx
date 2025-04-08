@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 // Apis
@@ -13,7 +12,7 @@ import { ListProduct, EmptyStore } from '@/ui/sections';
 import { PlusCircleIcon } from '@/ui/icons';
 
 // Constants
-import { ERROR_MESSAGES, QUERY_KEY, SCREENS } from '@/constants';
+import { ERROR_MESSAGES, SCREENS } from '@/constants';
 
 // Stores
 import { useAuthStore, useToast } from '@/stores';
@@ -27,17 +26,21 @@ import { colors } from '@/ui/themes';
 export const Store = ({
   navigation,
 }: BottomTabsScreenProps<typeof SCREENS.STORE>) => {
-  const queryClient = useQueryClient();
-
   const user = useAuthStore((state) => state.user);
   const showToast = useToast((state) => state.showToast);
 
   // Apis
   const { mutate } = useDeleteProduct();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useGetProductByParams({
-      params: { storeId: user.documentId },
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useGetProductByParams({
+    params: { storeId: user.documentId },
+  });
 
   const handleEndReached = useCallback(() => {
     // fetch next page
@@ -74,16 +77,14 @@ export const Store = ({
     [navigation],
   );
 
-  const handleDeleteSuccess = useCallback(() => {
-    queryClient.invalidateQueries({
-      queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({ storeId: user.documentId || '' }),
-    });
+  const handleDeleteSuccess = useCallback(async () => {
+    await refetch();
     showToast({
       variant: 'success',
       title: 'Success!',
       description: 'Product deleted successfully',
     });
-  }, [queryClient, showToast, user.documentId]);
+  }, [refetch, showToast]);
 
   const handleDeleteFailed = useCallback(() => {
     showToast({
@@ -135,6 +136,7 @@ export const Store = ({
       <ListProduct
         data={data}
         isLoadMore
+        refetch={refetch}
         isFetchingNextPage={isFetchingNextPage}
         isLoading={isLoading}
         onEndReached={handleEndReached}

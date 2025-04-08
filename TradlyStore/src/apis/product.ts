@@ -90,6 +90,7 @@ export const useGetProductByParams = ({
     title = '',
     hasDiscount,
     sortCreatedAt,
+    storeId,
   } = params || {};
 
   const { data, ...rest } = useInfiniteQuery<ListProductResponse>({
@@ -100,6 +101,7 @@ export const useGetProductByParams = ({
       category,
       title,
       sortCreatedAt,
+      storeId,
     }),
     queryFn: async ({ pageParam = 1 }) =>
       await withAuth((token) =>
@@ -251,7 +253,6 @@ export const useCreateProductWithImages = () => {
         slideImages: uploadedUrls,
         store: storeId,
       };
-      console.log('payload', payload);
 
       return id
         ? await editMutation({ id: id || '', data: payload })
