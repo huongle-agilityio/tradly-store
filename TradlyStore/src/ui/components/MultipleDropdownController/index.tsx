@@ -8,35 +8,48 @@ import {
 } from 'react-hook-form';
 
 // Components
-import { Dropdown } from '../Dropdown';
+import { MultipleDropdown } from '../MultipleDropdown';
 
-interface DropdownControllerProps<T extends FieldValues, K extends Path<T>>
-  extends Omit<ComponentProps<typeof Dropdown>, 'onChange' | 'value'> {
+// Types
+import { Option } from '@/interfaces';
+
+interface MultipleDropdownControllerProps<
+  T extends FieldValues,
+  K extends Path<T>,
+> extends Omit<
+    ComponentProps<typeof MultipleDropdown>,
+    'options' | 'selectedItems' | 'onChange'
+  > {
   name: K;
+  data: Option[];
   control: Control<T>;
   clearErrors: UseFormClearErrors<T>;
+  onFocusNextInput?: (index?: number) => void;
 }
 
-export const DropdownController = <T extends FieldValues, K extends Path<T>>({
+export const MultipleDropdownController = <
+  T extends FieldValues,
+  K extends Path<T>,
+>({
+  data,
   name,
   control,
   clearErrors,
-  options,
   ...props
-}: DropdownControllerProps<T, K>) => {
+}: MultipleDropdownControllerProps<T, K>) => {
   const {
     field,
     fieldState: { error },
   } = useController({ name, control });
 
-  const { onChange, value } = field;
+  const { onChange, value = [] } = field;
 
   /**
    * Function onChange select and clear error if any
    * @param value - value select
    */
   const handleOnChange = useCallback(
-    (value: string) => {
+    (value: string[]) => {
       onChange(value);
       clearErrors(name);
     },
@@ -44,12 +57,12 @@ export const DropdownController = <T extends FieldValues, K extends Path<T>>({
   );
 
   return (
-    <Dropdown
+    <MultipleDropdown
       {...props}
       onChange={handleOnChange}
-      value={value}
       error={error?.message}
-      options={options}
+      selectedItems={value}
+      options={data}
     />
   );
 };
