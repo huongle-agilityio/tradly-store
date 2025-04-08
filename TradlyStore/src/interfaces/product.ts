@@ -1,5 +1,7 @@
-import { ApiPaginationResponse, SortType } from './api';
+import { Asset } from 'react-native-image-picker';
+
 import { Store } from './store';
+import { ApiPaginationResponse, SortType } from './api';
 
 export interface Product {
   id: number;
@@ -16,6 +18,21 @@ export interface Product {
   category: string;
   additionalDetails: string[];
   store: Store;
+}
+
+export type ProductPayload = Omit<Product, 'id' | 'store'> & { store: string };
+
+export interface ProductFormData {
+  title: string;
+  category: string;
+  price: string;
+  discount: string;
+  quantity: string;
+  location: string;
+  priceType: string;
+  description: string;
+  slideImages: Asset[];
+  additionalDetails: string[];
 }
 
 export interface ProductFilterParams {

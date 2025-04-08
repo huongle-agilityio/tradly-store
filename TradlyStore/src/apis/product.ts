@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useUploadImages } from './image';
 
 // Constants
 import { API_ENDPOINT, PAGE_SIZE, QUERY_KEY, QUERY_URL } from '@/constants';
@@ -7,6 +9,8 @@ import { API_ENDPOINT, PAGE_SIZE, QUERY_KEY, QUERY_URL } from '@/constants';
 import {
   ListProductResponse,
   ProductFilterParams,
+  ProductFormData,
+  ProductPayload,
   ProductResponse,
   SortType,
 } from '@/interfaces';
@@ -165,3 +169,70 @@ export const useDeleteProduct = () =>
         }),
       ),
   });
+
+/**
+ * Mutation hook to create a product.
+ *
+ * @returns A React Query mutation function that can be used to create a product.
+ */
+export const useCreateProduct = () =>
+  useMutation<ProductResponse | null, string, ProductPayload>({
+    mutationFn: async (payload) =>
+      withAuth((token) =>
+        httpClient.post({
+          endpoint: API_ENDPOINT.PRODUCT,
+          payload: { data: payload },
+          token,
+        }),
+      ),
+  });
+
+/**
+ * Mutation hook to create a product and upload its images.
+ *
+ * @returns An object that contains the `createProductWithImages` mutation function, as well as
+ *   the `isLoading` state and the `uploadError` and `createError` properties of the
+ *   underlying mutations.
+ */
+export const useCreateProductWithImages = () => {
+  const { mutateAsync: uploadMutation, error: uploadError } = useUploadImages();
+  const { mutateAsync: createMutation, error: createError } =
+    useCreateProduct();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const createProductWithImages = async (
+    product: ProductFormData,
+    id: string,
+  ) => {
+    try {
+      setIsLoading(true);
+
+      const uploadedUrls = await uploadMutation(product.slideImages);
+
+      const payload: ProductPayload = {
+        ...product,
+        quantity: Number(product.quantity),
+        price: Number(product.price),
+        discount: Number(product.discount),
+        image: uploadedUrls[0],
+        slideImages: uploadedUrls,
+        store: id,
+      };
+      const createdProduct = await createMutation(payload);
+
+      return createdProduct;
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {
+    createProductWithImages,
+    isLoading,
+    uploadError,
+    createError,
+  };
+};

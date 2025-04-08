@@ -6,7 +6,7 @@ export interface Store {
   documentId?: string;
   image: string;
   coverImage: string;
-  name: string;
+  username: string;
   products: Product[];
 }
 

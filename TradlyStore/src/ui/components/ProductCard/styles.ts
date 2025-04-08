@@ -19,6 +19,9 @@ export const getStyles = (discount: number | undefined) =>
       borderTopRightRadius: radius.lg,
       elevation: 2,
     },
+    imageWrapper: {
+      backgroundColor: colors.opacity,
+    },
     storeImage: {
       width: spacing[5],
       height: spacing[5],
@@ -43,7 +46,7 @@ export const getStyles = (discount: number | undefined) =>
     },
     store: {
       lineHeight: lineHeights.sm,
-      width: discount ? 55 : 65,
+      width: discount ? 40 : 65,
     },
     price: {
       textDecorationLine: 'line-through',

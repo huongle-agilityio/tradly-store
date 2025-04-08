@@ -57,7 +57,7 @@ export const ProductCard = memo(
         style={[styles.container, styleWrapper]}
         onPress={onPress}
       >
-        <View>
+        <View style={styles.imageWrapper}>
           <Image
             source={{ uri: source }}
             testID="category-card-image"
@@ -102,7 +102,7 @@ export const ProductCard = memo(
             </View>
 
             <View style={styles.textWrapper}>
-              {discount && (
+              {!!discount && (
                 <Text
                   fontSize="xxs"
                   color="placeholder"
