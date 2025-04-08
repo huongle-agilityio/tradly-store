@@ -22,10 +22,16 @@ export const ProductCategory = ({
   route: { params },
 }: ProductCategoryProps) => {
   // Apis
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useGetProductByParams({
-      params: params || {},
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useGetProductByParams({
+    params: params || {},
+  });
 
   const handleEndReached = useCallback(() => {
     // fetch next page
@@ -53,6 +59,7 @@ export const ProductCategory = ({
     <View style={styles.container}>
       <ListProduct
         isLoadMore
+        refetch={refetch}
         isFetchingNextPage={isFetchingNextPage}
         isLoading={isLoading}
         data={data}

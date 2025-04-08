@@ -6,6 +6,7 @@ export const QUERY_KEY = {
     hasDiscount,
     title,
     page,
+    storeId,
     pageSize,
   }: Partial<Record<string, string | number | boolean>>) =>
     [
@@ -14,6 +15,7 @@ export const QUERY_KEY = {
       title,
       sortCreatedAt,
       hasDiscount,
+      storeId,
       page,
       pageSize,
     ].filter((i) => i !== undefined && i !== null),

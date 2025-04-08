@@ -51,7 +51,7 @@ export const FormCreateOrUpdateProduct = ({
             : 'Create product successfully',
           variant: 'success',
         });
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
           queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({
             storeId: userId,
           }),
