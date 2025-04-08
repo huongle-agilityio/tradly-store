@@ -13,3 +13,5 @@ export * from './EmptyList';
 export * from './FormAddress';
 export * from './ProductPhotosUpload';
 export * from './EmptyStore';
+export * from './ProductPhotosUploadController';
+export * from './FormProduct';

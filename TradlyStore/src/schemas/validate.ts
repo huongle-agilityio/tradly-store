@@ -11,6 +11,11 @@ import {
 
 export const validateRequired = v.string(ERROR_MESSAGES.REQUIRED);
 
+export const validateRequiredArray = v.pipe(
+  v.array(v.any(), ERROR_MESSAGES.REQUIRED),
+  v.check((input) => input.length > 0, ERROR_MESSAGES.REQUIRED),
+);
+
 export const validateName = v.pipe(
   validateRequired,
   v.regex(REGEX_NAME, ERROR_MESSAGES.INVALID_NAME),

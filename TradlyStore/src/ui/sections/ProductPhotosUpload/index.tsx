@@ -27,11 +27,13 @@ import { colors, radius, spacing } from '@/ui/themes';
 import { requestCameraPermission, requestGalleryPermission } from '@/utils';
 
 interface ProductPhotosUploadProps {
+  error?: string;
   selectedImages: Asset[];
   onSelectImage: (images: Asset[]) => void;
 }
 
 export const ProductPhotosUpload = ({
+  error,
   selectedImages,
   onSelectImage,
 }: ProductPhotosUploadProps) => {
@@ -207,6 +209,15 @@ export const ProductPhotosUpload = ({
         horizontal
         showsHorizontalScrollIndicator={false}
       />
+      {error && (
+        <Text
+          color="error"
+          fontWeight="light"
+          textStyle={[styles.error, styles.placeholder]}
+        >
+          {error}
+        </Text>
+      )}
       <Text
         fontWeight="light"
         color="placeholder"
@@ -246,5 +257,8 @@ const styles = StyleSheet.create({
   placeholder: {
     marginTop: 15,
     marginLeft: spacing[5],
+  },
+  error: {
+    paddingTop: spacing[3],
   },
 });
