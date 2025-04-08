@@ -10,22 +10,18 @@ import {
 // Components
 import { Dropdown } from '../Dropdown';
 
-// Types
-import { Option } from '@/interfaces';
-
 interface DropdownControllerProps<T extends FieldValues, K extends Path<T>>
   extends Omit<ComponentProps<typeof Dropdown>, 'onChange' | 'value'> {
   name: K;
-  data: Option[];
   control: Control<T>;
   clearErrors: UseFormClearErrors<T>;
 }
 
 export const DropdownController = <T extends FieldValues, K extends Path<T>>({
-  data,
   name,
   control,
   clearErrors,
+  options,
   ...props
 }: DropdownControllerProps<T, K>) => {
   const {
@@ -53,7 +49,7 @@ export const DropdownController = <T extends FieldValues, K extends Path<T>>({
       onChange={handleOnChange}
       value={value}
       error={error?.message}
-      options={data}
+      options={options}
     />
   );
 };

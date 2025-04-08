@@ -24,7 +24,7 @@ describe('DropdownController Component', () => {
     return (
       <DropdownController
         name="selectField"
-        data={CART_QUANTITY}
+        options={CART_QUANTITY}
         control={control}
         clearErrors={mockClearErrors || clearErrors}
       />
@@ -33,7 +33,8 @@ describe('DropdownController Component', () => {
 
   it('Should render the component with provided options', () => {
     render(<Wrapper />);
-    expect(screen.getByTestId('dropdown')).toBeTruthy();
+
+    expect(screen.getByTestId('single-select-modal')).toBeTruthy();
   });
 
   it('Should display error message when validation fails', async () => {
@@ -46,7 +47,7 @@ describe('DropdownController Component', () => {
         <>
           <DropdownController
             name="selectField"
-            data={CART_QUANTITY}
+            options={CART_QUANTITY}
             control={control}
             clearErrors={jest.fn()}
           />
