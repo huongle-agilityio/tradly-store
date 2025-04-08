@@ -40,7 +40,13 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
   }
   testID="product-card"
 >
-  <View>
+  <View
+    style={
+      {
+        "backgroundColor": "rgba(8, 11, 18, 0.3)",
+      }
+    }
+  >
     <Image
       alt="product-Product Title"
       source={
@@ -147,7 +153,7 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
               },
               {
                 "lineHeight": 18,
-                "width": 55,
+                "width": 40,
               },
             ]
           }

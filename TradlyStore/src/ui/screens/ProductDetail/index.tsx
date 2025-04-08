@@ -56,7 +56,7 @@ export const ProductDetail = ({
     quantity = 0,
     price = 0,
     description,
-    store = { image: '', name: '' },
+    store = { image: '', username: '' },
     discount,
     priceType = '',
     location = '',
@@ -151,7 +151,7 @@ export const ProductDetail = ({
                   <Text fontSize="lg" fontWeight="bold" color="secondary">
                     ${calculateDiscountedPrice(price, discount)}
                   </Text>
-                  {discount && (
+                  {!!discount && (
                     <>
                       <Text
                         fontWeight="normal"
@@ -180,14 +180,14 @@ export const ProductDetail = ({
           <View style={styles.storeTitle}>
             <Image
               source={{ uri: store.image }}
-              alt={`store-${store.name}-image`}
+              alt={`store-${store.username}-image`}
               style={styles.image}
             />
             {isLoading ? (
               <Skeleton width={100} height={20} borderRadius={4} />
             ) : (
               <Text fontWeight="normal" color="placeholder">
-                {store.name}
+                {store.username}
               </Text>
             )}
           </View>
