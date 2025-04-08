@@ -5,7 +5,11 @@ import {
 
 // Screens
 import { HeaderWithFilterButton, HeaderWithTitle } from '@/ui/sections';
-import { FormAddProduct, ProductCategory, ProductDetail } from '@/ui/screens';
+import {
+  FormCreateOrUpdateProduct,
+  ProductCategory,
+  ProductDetail,
+} from '@/ui/screens';
 
 // Constants
 import { SCREENS } from '@/constants';
@@ -39,7 +43,7 @@ export const ProductNavigation = () => {
       />
       <Stack.Screen
         name={SCREENS.FORM_PRODUCT}
-        component={FormAddProduct}
+        component={FormCreateOrUpdateProduct}
         options={{
           header: headerStack,
         }}

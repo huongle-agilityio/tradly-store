@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 import { valibotResolver } from '@hookform/resolvers/valibot';
@@ -16,7 +16,7 @@ import { MapIcon, MoneyIcon } from '@/ui/icons';
 import { useFocusInput } from '@/hooks';
 
 // Interfaces
-import { ProductFormData } from '@/interfaces';
+import { Product, ProductFormData } from '@/interfaces';
 
 // Schemas
 import { productSchema } from '@/schemas';
@@ -32,7 +32,7 @@ import { isEmptyObject } from '@/utils';
 
 interface FormAddressProps {
   isLoading?: boolean;
-  product?: ProductFormData;
+  product?: Product;
   onSubmit: (data: ProductFormData) => void;
 }
 
@@ -44,13 +44,13 @@ export const FormProduct = memo(
       () => ({
         title: product?.title || '',
         category: product?.category || '',
-        price: product?.price || '',
-        discount: product?.discount || '',
-        quantity: product?.discount || '',
+        price: product?.price.toString() || '',
+        discount: product?.discount.toString() || '',
+        quantity: product?.quantity.toString() || '',
         location: product?.location || '',
         priceType: product?.priceType || '',
         description: product?.description || '',
-        images: product?.slideImages || [],
+        slideImages: product?.slideImages || [],
         additionalDetails: product?.additionalDetails || [],
       }),
       [
@@ -61,6 +61,7 @@ export const FormProduct = memo(
         product?.location,
         product?.price,
         product?.priceType,
+        product?.quantity,
         product?.slideImages,
         product?.title,
       ],
@@ -69,6 +70,7 @@ export const FormProduct = memo(
     const {
       control,
       clearErrors,
+      reset,
       formState: { isDirty },
       handleSubmit: submitForm,
     } = useForm<ProductFormData>({
@@ -76,6 +78,12 @@ export const FormProduct = memo(
       mode: 'onSubmit',
       defaultValues: initForm,
     });
+
+    useEffect(() => {
+      if (product) {
+        reset(initForm);
+      }
+    }, [initForm, product, reset]);
 
     return (
       <KeyboardAwareScrollView

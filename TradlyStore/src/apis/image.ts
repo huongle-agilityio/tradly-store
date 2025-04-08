@@ -16,7 +16,11 @@ import { API_ENDPOINT, ERROR_MESSAGES } from '@/constants';
  * @throws Will throw an error if the API response for any image is not ok or if there is an
  * unexpected API response.
  */
-export const uploadImages = async (files: Asset[]): Promise<string[]> => {
+export const uploadImages = async (
+  files: Asset[] | string[],
+): Promise<string[]> => {
+  const urls: string[] = [];
+
   /**
    * Uploads a single image to the server.
    *
@@ -57,11 +61,16 @@ export const uploadImages = async (files: Asset[]): Promise<string[]> => {
     throw new Error('Unexpected API response');
   };
 
-  const uploadedUrls = await Promise.all(
-    files.map((file) => uploadSingleImage(file)),
-  );
+  for (const file of files) {
+    if (typeof file === 'string') {
+      urls.push(file);
+    } else {
+      const uploaded = await uploadSingleImage(file);
+      urls.push(uploaded);
+    }
+  }
 
-  return uploadedUrls;
+  return urls;
 };
 
 /**
@@ -71,7 +80,7 @@ export const uploadImages = async (files: Asset[]): Promise<string[]> => {
  * the mutation, including the uploaded images' URLs.
  */
 export const useUploadImages = () => {
-  return useMutation<string[], Error, Asset[]>({
+  return useMutation<string[], Error, Asset[] | string[]>({
     mutationFn: uploadImages,
   });
 };

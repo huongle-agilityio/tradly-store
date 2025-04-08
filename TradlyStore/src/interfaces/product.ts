@@ -31,7 +31,7 @@ export interface ProductFormData {
   location: string;
   priceType: string;
   description: string;
-  slideImages: Asset[];
+  slideImages: Asset[] | string[];
   additionalDetails: string[];
 }
 

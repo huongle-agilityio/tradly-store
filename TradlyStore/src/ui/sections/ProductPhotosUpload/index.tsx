@@ -153,11 +153,12 @@ export const ProductPhotosUpload = ({
     ({ item, index }: { item: Asset; index: number }) => {
       const isFirstItem = index === 0;
       const isLastItem = index === selectedImages.length - 1;
+      const image = typeof item === 'string' ? item : item.uri || '';
 
       return (
         <ImageUpload
           id={index}
-          image={item.uri || ''}
+          image={image}
           onPress={handleDeleteImage}
           styleContainer={[
             isLastItem && styles.lastItem,
