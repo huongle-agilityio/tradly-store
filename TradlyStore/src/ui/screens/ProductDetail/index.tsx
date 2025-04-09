@@ -98,12 +98,12 @@ export const ProductDetail = ({
   };
 
   useEffect(() => {
-    if (isEmptyObject(data)) {
+    if (!isLoading && isEmptyObject(data)) {
       navigation.navigate(SCREENS.TABS, {
         screen: SCREENS.HOME,
       });
     }
-  }, [data, navigation]);
+  }, [data, isLoading, navigation]);
 
   return (
     <StickyFooterLayout
@@ -187,17 +187,22 @@ export const ProductDetail = ({
 
         <View style={[styles.storeWrapper, styles.contentWrapper]}>
           <View style={styles.storeTitle}>
-            <Image
-              source={{ uri: store.image }}
-              alt={`store-${store.username}-image`}
-              style={styles.image}
-            />
             {isLoading ? (
-              <Skeleton width={100} height={20} borderRadius={4} />
+              <>
+                <Skeleton width={32} height={32} style={styles.image} />
+                <Skeleton width={100} height={20} borderRadius={4} />
+              </>
             ) : (
-              <Text fontWeight="normal" color="placeholder">
-                {store.username}
-              </Text>
+              <>
+                <Image
+                  source={{ uri: store.image }}
+                  alt={`store-${store.username}-image`}
+                  style={styles.image}
+                />
+                <Text fontWeight="normal" color="placeholder">
+                  {store.username}
+                </Text>
+              </>
             )}
           </View>
 
@@ -229,7 +234,7 @@ export const ProductDetail = ({
             Details
           </Text>
           <View style={{ gap: spacing[2], paddingTop: spacing[5] }}>
-            <ListProductInfo data={productInfo} />
+            <ListProductInfo isLoading={isLoading} data={productInfo} />
           </View>
         </View>
 
@@ -242,6 +247,7 @@ export const ProductDetail = ({
             Additional Details
           </Text>
           <ListProductInfo
+            isLoading={isLoading}
             data={productAdditional}
             style={{
               paddingTop: spacing[5],

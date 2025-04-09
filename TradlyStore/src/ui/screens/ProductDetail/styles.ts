@@ -27,6 +27,10 @@ export const styles = StyleSheet.create({
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: radius.full,
+    backgroundColor: 'rgba(181, 185, 185, 0.6)',
+    borderWidth: 1,
+    borderColor: '#fff',
   },
   backgroundIcon: {
     position: 'absolute',
