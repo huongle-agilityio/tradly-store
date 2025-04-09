@@ -4,6 +4,9 @@ import { View, ScrollView, Animated, Image } from 'react-native';
 // Components
 import { DotItem } from './DotItem';
 
+// Constants
+import { IMAGES } from '@/constants';
+
 // Themes
 import { getStyles } from './styles';
 
@@ -48,7 +51,7 @@ export const ProductCarousel = memo(
               testID="product-carousel-image"
               key={`product-carousel-image-${index}`}
               alt={`Product image of ${name} - View ${index + 1}`}
-              source={{ uri: image }}
+              source={{ uri: image || IMAGES.BLUR_HASH }}
               style={styles.image}
             />
           ))}

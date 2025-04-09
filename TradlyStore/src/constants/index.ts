@@ -13,3 +13,4 @@ export * from './storageKey';
 export * from './timing';
 export * from './mediaScreen';
 export * from './linking';
+export * from './notifications';

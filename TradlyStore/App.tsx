@@ -1,39 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import BootSplash from 'react-native-bootsplash';
-import { PermissionsAndroid } from 'react-native';
 import * as Keychain from 'react-native-keychain';
-import messaging from '@react-native-firebase/messaging';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 // Navigation
 import { Navigation } from '@/navigation';
 
 // Constants
-import { ENABLE_STORYBOOK, STORAGE_KEY } from '@/constants';
+import { ENABLE_STORYBOOK, SCREENS, STORAGE_KEY } from '@/constants';
 
 // Stores
 import { useAuthStore } from '@/stores';
 
+// Utils
+import { registerNotificationHandlers } from '@/utils';
+
 const App = () => {
+  const [initialScreenPublic, setInitialScreenPublic] = useState<
+    typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING
+  >(SCREENS.LOGIN);
+
   // Stores
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
-
-  useEffect(() => {
-    /**
-     * Requests user permissions for posting notifications and other messaging-related permissions.
-     * This function uses `PermissionsAndroid` to request POST_NOTIFICATIONS permission and
-     * `messaging().requestPermission()` to request necessary messaging permissions.
-     */
-    const requestUserPermission = async () => {
-      PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-      );
-
-      await messaging().requestPermission();
-    };
-
-    requestUserPermission();
-  }, []);
 
   useEffect(() => {
     /**
@@ -46,17 +34,26 @@ const App = () => {
       const token = await Keychain.getGenericPassword({
         service: STORAGE_KEY.TOKEN,
       });
+      const firstLogin = await Keychain.getGenericPassword({
+        service: STORAGE_KEY.FIRST_LOGIN,
+      });
 
       if (typeof token !== 'boolean') {
-        return setAuthenticated(!!token.password);
+        setAuthenticated(!!token.password);
+      } else {
+        setAuthenticated(false);
+        if (typeof firstLogin !== 'boolean') {
+          setInitialScreenPublic(SCREENS.LOGIN);
+        } else {
+          setInitialScreenPublic(SCREENS.ONBOARDING);
+        }
       }
-
-      setAuthenticated(false);
     };
 
     init().finally(async () => {
       await BootSplash.hide({ fade: true });
     });
+    registerNotificationHandlers();
   }, [setAuthenticated]);
 
   if (ENABLE_STORYBOOK === 'true') {
@@ -67,7 +64,7 @@ const App = () => {
 
   return (
     <KeyboardProvider>
-      <Navigation />
+      <Navigation initialScreenPublic={initialScreenPublic} />
     </KeyboardProvider>
   );
 };
