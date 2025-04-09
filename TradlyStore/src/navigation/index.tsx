@@ -29,10 +29,20 @@ import { colors } from '@/ui/themes';
 
 const App = createNativeStackNavigator<AppParamList>();
 
-export const Navigation = () => {
+interface NavigationProps {
+  initialScreenPublic: typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING;
+}
+
+export const Navigation = ({ initialScreenPublic }: NavigationProps) => {
   const queryClient = new QueryClient();
+
+  // Stores
   const toast = useToast((state) => state.toast);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  const PublicNavigateStack = () => (
+    <PublicNavigation initScreen={initialScreenPublic} />
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -56,7 +66,10 @@ export const Navigation = () => {
                 />
               </App.Group>
             ) : (
-              <App.Screen name={SCREENS.PUBLIC} component={PublicNavigation} />
+              <App.Screen
+                name={SCREENS.PUBLIC}
+                component={PublicNavigateStack}
+              />
             )}
           </App.Navigator>
 

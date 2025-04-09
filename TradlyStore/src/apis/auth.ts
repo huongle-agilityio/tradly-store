@@ -13,6 +13,9 @@ import { httpClient } from '@/services';
 // Interfaces
 import { AuthPayload, AuthResponse } from '@/interfaces';
 
+// Utils
+import { checkAndRequestNotificationPermission } from '@/utils';
+
 /**
  * Mutation hook to log in a user. The mutation function makes a
  * POST request to the `signin` endpoint with the provided payload. On success,
@@ -34,8 +37,17 @@ export const useAuthLogin = () => {
       await Keychain.setGenericPassword(STORAGE_KEY.TOKEN, jwt, {
         service: STORAGE_KEY.TOKEN,
       });
+      await Keychain.setGenericPassword(
+        STORAGE_KEY.FIRST_LOGIN,
+        STORAGE_KEY.FIRST_LOGIN,
+        {
+          service: STORAGE_KEY.FIRST_LOGIN,
+        },
+      );
+
       setUser(user);
       setIsAuthenticated(true);
+      await checkAndRequestNotificationPermission();
     },
   });
 };

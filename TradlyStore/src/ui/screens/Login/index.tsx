@@ -13,9 +13,6 @@ import { FormLogin } from '@/ui/sections';
 // Constants
 import { BRAND, ERROR_MESSAGES } from '@/constants';
 
-// Stores
-import { useAuthStore } from '@/stores';
-
 // Interfaces
 import { AuthPayload } from '@/interfaces';
 
@@ -25,12 +22,8 @@ export const Login = () => {
   // Apis
   const { mutate, isPending } = useAuthLogin();
 
-  // Stores
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
-
   const handleSubmit = useCallback(
     async (payload: AuthPayload) => {
-      setAuthenticated(true);
       if (error) setError('');
       mutate(payload, {
         onError: () => {
@@ -38,7 +31,7 @@ export const Login = () => {
         },
       });
     },
-    [error, mutate, setAuthenticated],
+    [error, mutate],
   );
 
   return (

@@ -1,5 +1,4 @@
-import { useCallback } from 'react';
-import { CommonActions } from '@react-navigation/native';
+import { useCallback, useEffect } from 'react';
 import { ScrollView, TouchableOpacity, Image, View } from 'react-native';
 import { styles } from './styles';
 
@@ -34,7 +33,11 @@ import { useCartStore, useToast } from '@/stores';
 import { colors, lineHeights, spacing } from '@/ui/themes';
 
 // Utils
-import { calculateDiscountedPrice, getProductDetails } from '@/utils';
+import {
+  calculateDiscountedPrice,
+  getProductDetails,
+  isEmptyObject,
+} from '@/utils';
 
 export const ProductDetail = ({
   navigation,
@@ -88,13 +91,19 @@ export const ProductDetail = ({
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {
-      navigation.dispatch(
-        CommonActions.reset({
-          routes: [{ name: SCREENS.TABS, params: { screen: SCREENS.HOME } }],
-        }),
-      );
+      navigation.navigate(SCREENS.TABS, {
+        screen: SCREENS.HOME,
+      });
     }
   };
+
+  useEffect(() => {
+    if (isEmptyObject(data)) {
+      navigation.navigate(SCREENS.TABS, {
+        screen: SCREENS.HOME,
+      });
+    }
+  }, [data, navigation]);
 
   return (
     <StickyFooterLayout

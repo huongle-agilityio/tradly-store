@@ -55,6 +55,7 @@ export const FormLogin = memo(
               index={0}
               refs={refs}
               name="email"
+              keyboardType="email-address"
               placeholder="Enter your email"
               onFocusNextInput={focusNextInput}
               control={control}
