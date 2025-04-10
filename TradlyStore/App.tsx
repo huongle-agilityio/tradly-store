@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import BootSplash from 'react-native-bootsplash';
 import * as Keychain from 'react-native-keychain';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 // Navigation
@@ -54,6 +55,7 @@ const App = () => {
       await BootSplash.hide({ fade: true });
     });
     registerNotificationHandlers();
+    crashlytics().log('App mounted.');
   }, [setAuthenticated]);
 
   if (ENABLE_STORYBOOK === 'true') {

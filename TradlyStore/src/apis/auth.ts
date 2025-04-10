@@ -1,20 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
-import * as Keychain from 'react-native-keychain';
 
 // Constants
-import { API_ENDPOINT, STORAGE_KEY } from '@/constants';
-
-// Stores
-import { useAuthStore } from '@/stores';
+import { API_ENDPOINT } from '@/constants';
 
 // Services
 import { httpClient } from '@/services';
 
 // Interfaces
 import { AuthPayload, AuthResponse } from '@/interfaces';
-
-// Utils
-import { checkAndRequestNotificationPermission } from '@/utils';
 
 /**
  * Mutation hook to log in a user. The mutation function makes a
@@ -24,30 +17,8 @@ import { checkAndRequestNotificationPermission } from '@/utils';
  *
  * @returns A React Query mutation function that can be used to log in a user.
  */
-export const useAuthLogin = () => {
-  const [setUser, setIsAuthenticated] = useAuthStore((state) => [
-    state.setUser,
-    state.setAuthenticated,
-  ]);
-
-  return useMutation<AuthResponse, string, AuthPayload>({
+export const useAuthLogin = () =>
+  useMutation<AuthResponse, string, AuthPayload>({
     mutationFn: async (payload) =>
       httpClient.post({ endpoint: API_ENDPOINT.SIGN_IN, payload }),
-    onSuccess: async ({ jwt, user }) => {
-      await Keychain.setGenericPassword(STORAGE_KEY.TOKEN, jwt, {
-        service: STORAGE_KEY.TOKEN,
-      });
-      await Keychain.setGenericPassword(
-        STORAGE_KEY.FIRST_LOGIN,
-        STORAGE_KEY.FIRST_LOGIN,
-        {
-          service: STORAGE_KEY.FIRST_LOGIN,
-        },
-      );
-
-      setUser(user);
-      setIsAuthenticated(true);
-      await checkAndRequestNotificationPermission();
-    },
   });
-};

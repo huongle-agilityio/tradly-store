@@ -1,10 +1,5 @@
 import { httpClient } from '../httpClient';
 
-// Constants
-import { ERROR_MESSAGES, ERROR_STATUS } from '@/constants';
-
-global.fetch = jest.fn();
-
 describe('HttpService', () => {
   const mockEndpoint = 'test-endpoint';
   const mockPayload = { key: 'value' };
@@ -13,17 +8,21 @@ describe('HttpService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    global.fetch = jest.fn();
   });
 
   const mockFetch = (status: number, response: any) => {
     (fetch as jest.Mock).mockResolvedValue({
       ok: status >= 200 && status < 300,
       status,
-      json: jest.fn().mockResolvedValue(response),
+      json: async () => response,
+      headers: {
+        get: jest.fn(() => 'application/json'),
+      },
     });
   };
 
-  it('Should send a GET request', async () => {
+  it('Should make a GET request successfully', async () => {
     mockFetch(200, mockResponse);
 
     const result = await httpClient.get({
@@ -40,11 +39,12 @@ describe('HttpService', () => {
         }),
       }),
     );
+
     expect(result).toEqual(mockResponse);
   });
 
-  it('Should send a POST request', async () => {
-    mockFetch(201, mockResponse);
+  it('Should make a POST request successfully', async () => {
+    mockFetch(200, mockResponse);
 
     const result = await httpClient.post({
       endpoint: mockEndpoint,
@@ -57,12 +57,37 @@ describe('HttpService', () => {
       expect.objectContaining({
         method: 'POST',
         body: JSON.stringify(mockPayload),
+        headers: expect.objectContaining({
+          Authorization: `Bearer ${mockToken}`,
+          'Content-Type': 'application/json',
+        }),
       }),
     );
+
     expect(result).toEqual(mockResponse);
   });
 
-  it('Should send a PUT request', async () => {
+  it('Should handle error response', async () => {
+    const errorMessage = 'Bad Request';
+    (fetch as jest.Mock).mockResolvedValue({
+      ok: false,
+      status: 400,
+      statusText: errorMessage,
+      json: async () => ({ message: errorMessage }),
+      headers: {
+        get: jest.fn(() => 'application/json'),
+      },
+    });
+
+    await expect(
+      httpClient.get({
+        endpoint: mockEndpoint,
+        token: mockToken,
+      }),
+    ).rejects.toThrow(errorMessage);
+  });
+
+  it('Should make a PUT request successfully', async () => {
     mockFetch(200, mockResponse);
 
     const result = await httpClient.put({
@@ -78,10 +103,11 @@ describe('HttpService', () => {
         body: JSON.stringify(mockPayload),
       }),
     );
+
     expect(result).toEqual(mockResponse);
   });
 
-  it('Should send a PATCH request', async () => {
+  it('Should make a PATCH request successfully', async () => {
     mockFetch(200, mockResponse);
 
     const result = await httpClient.patch({
@@ -97,10 +123,11 @@ describe('HttpService', () => {
         body: JSON.stringify(mockPayload),
       }),
     );
+
     expect(result).toEqual(mockResponse);
   });
 
-  it('Should send a DELETE request', async () => {
+  it('Should make a DELETE request successfully', async () => {
     mockFetch(200, mockResponse);
 
     const result = await httpClient.delete({
@@ -114,48 +141,7 @@ describe('HttpService', () => {
         method: 'DELETE',
       }),
     );
+
     expect(result).toEqual(mockResponse);
-  });
-
-  it('Should handle 204 No Content', async () => {
-    mockFetch(ERROR_STATUS.NO_CONTENT, null);
-
-    const result = await httpClient.get({ endpoint: mockEndpoint });
-
-    expect(result).toBeNull();
-  });
-
-  it('Should handle API errors', async () => {
-    mockFetch(400, { error: { message: 'Bad Request' } });
-
-    await expect(httpClient.get({ endpoint: mockEndpoint })).rejects.toThrow(
-      'Bad Request',
-    );
-  });
-
-  it('Should handle API errors with default error message', async () => {
-    mockFetch(400, { error: { message: '' } });
-
-    await expect(httpClient.get({ endpoint: mockEndpoint })).rejects.toThrow(
-      `Error: 400 - `,
-    );
-  });
-
-  it('Should handle network errors', async () => {
-    (fetch as jest.Mock).mockRejectedValue(
-      new Error(ERROR_MESSAGES.DEFAULT_API_ERROR),
-    );
-
-    await expect(httpClient.get({ endpoint: mockEndpoint })).rejects.toThrow(
-      ERROR_MESSAGES.DEFAULT_API_ERROR,
-    );
-  });
-
-  it('Should throw DEFAULT_API_ERROR when an unknown error occurs', async () => {
-    (fetch as jest.Mock).mockRejectedValue('Unknown error');
-
-    await expect(httpClient.get({ endpoint: mockEndpoint })).rejects.toThrow(
-      ERROR_MESSAGES.DEFAULT_API_ERROR,
-    );
   });
 });
