@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { View, ScrollView } from 'react-native';
+import { PerformanceMeasureView } from '@shopify/react-native-performance';
 import { styles } from './styles';
 
 // Apis
@@ -87,51 +88,58 @@ export const Home = ({
   );
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.wrapper}>
-        <Categories handlePress={handleRedirectProductCategory} />
-        <View style={styles.contentWrapper}>
-          <View style={styles.content}>
-            <Text fontWeight="bold" fontSize="lg" color="placeholder">
-              New Product
-            </Text>
-            <Button
-              textSize="xs"
-              buttonStyles={styles.button}
-              onPress={handleRedirectNewProduct}
-            >
-              See All
-            </Button>
+    <PerformanceMeasureView
+      interactive={
+        productSorted !== undefined && productHasDiscount !== undefined
+      }
+      screenName={SCREENS.HOME}
+    >
+      <ScrollView style={styles.container}>
+        <View style={styles.wrapper}>
+          <Categories handlePress={handleRedirectProductCategory} />
+          <View style={styles.contentWrapper}>
+            <View style={styles.content}>
+              <Text fontWeight="bold" fontSize="lg" color="placeholder">
+                New Product
+              </Text>
+              <Button
+                textSize="xs"
+                buttonStyles={styles.button}
+                onPress={handleRedirectNewProduct}
+              >
+                See All
+              </Button>
+            </View>
+            <ListProduct
+              data={productSorted}
+              isLoading={isLoadingProductSorted}
+              horizontal={true}
+              onNavigateProductDetail={handleNavigateProductDetail}
+            />
           </View>
-          <ListProduct
-            data={productSorted}
-            isLoading={isLoadingProductSorted}
-            horizontal={true}
-            onNavigateProductDetail={handleNavigateProductDetail}
-          />
-        </View>
 
-        <View style={styles.contentWrapper}>
-          <View style={styles.content}>
-            <Text fontWeight="bold" fontSize="lg" color="placeholder">
-              Popular Product
-            </Text>
-            <Button
-              textSize="xs"
-              buttonStyles={styles.button}
-              onPress={handleRedirectPopularProduct}
-            >
-              See All
-            </Button>
+          <View style={styles.contentWrapper}>
+            <View style={styles.content}>
+              <Text fontWeight="bold" fontSize="lg" color="placeholder">
+                Popular Product
+              </Text>
+              <Button
+                textSize="xs"
+                buttonStyles={styles.button}
+                onPress={handleRedirectPopularProduct}
+              >
+                See All
+              </Button>
+            </View>
+            <ListProduct
+              data={productHasDiscount}
+              isLoading={isLoadingProductHasDiscount}
+              horizontal={true}
+              onNavigateProductDetail={handleNavigateProductDetail}
+            />
           </View>
-          <ListProduct
-            data={productHasDiscount}
-            isLoading={isLoadingProductHasDiscount}
-            horizontal={true}
-            onNavigateProductDetail={handleNavigateProductDetail}
-          />
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </PerformanceMeasureView>
   );
 };

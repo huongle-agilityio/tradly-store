@@ -6,6 +6,7 @@ import {
   ScrollView,
   View,
 } from 'react-native';
+import { PerformanceMeasureView } from '@shopify/react-native-performance';
 import { styles } from './styles';
 
 // Mocks
@@ -75,78 +76,83 @@ export const Onboarding = ({
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerWrapper} />
-      <View
-        style={[
-          styles.content,
-          {
-            width: widthContainer,
-          },
-        ]}
-      >
-        <View style={styles.slideWrapper}>
-          <ScrollView
-            ref={scrollViewRef}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            scrollEventThrottle={16}
-            onScroll={handleScroll}
-            onMomentumScrollEnd={handleScrollEnd}
-            style={styles.scroll}
-          >
-            {ONBOARDING_STEPS_IMAGES.map(({ image, title, alt }, index) => (
-              <View
-                key={index}
-                style={[styles.imageWrapper, { width: widthContainer }]}
-              >
-                <Animated.Image
-                  source={image}
-                  alt={alt}
-                  resizeMode="contain"
-                  width={width - 80}
-                />
-                <Text
-                  fontSize="xl"
-                  fontWeight="normal"
-                  color="primary"
-                  textStyle={styles.title}
+    <PerformanceMeasureView interactive={true} screenName={SCREENS.ONBOARDING}>
+      <View style={styles.container}>
+        <View style={styles.headerWrapper} />
+        <View
+          style={[
+            styles.content,
+            {
+              width: widthContainer,
+            },
+          ]}
+        >
+          <View style={styles.slideWrapper}>
+            <ScrollView
+              ref={scrollViewRef}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              scrollEventThrottle={16}
+              onScroll={handleScroll}
+              onMomentumScrollEnd={handleScrollEnd}
+              style={styles.scroll}
+            >
+              {ONBOARDING_STEPS_IMAGES.map(({ image, title, alt }, index) => (
+                <View
+                  key={index}
+                  style={[styles.imageWrapper, { width: widthContainer }]}
                 >
-                  {title}
-                </Text>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
-
-        <View style={styles.wrapper}>
-          <View style={styles.dotWrapper}>
-            {ONBOARDING_STEPS_IMAGES.map((_, index) => {
-              const opacity = interpolateValue(
-                scrollX,
-                index,
-                widthContainer,
-                [0.4, 1, 0.4],
-              );
-
-              return (
-                <Animated.View key={index} style={[styles.dot, { opacity }]} />
-              );
-            })}
+                  <Animated.Image
+                    source={image}
+                    alt={alt}
+                    resizeMode="contain"
+                    width={width - 80}
+                  />
+                  <Text
+                    fontSize="xl"
+                    fontWeight="normal"
+                    color="primary"
+                    textStyle={styles.title}
+                  >
+                    {title}
+                  </Text>
+                </View>
+              ))}
+            </ScrollView>
           </View>
 
-          <Button
-            size="full"
-            onPress={handleOnboardingStep}
-            textSize="xl"
-            buttonStyles={{ height: spacing[12] }}
-            textStyles={styles.button}
-          >
-            {buttonText}
-          </Button>
+          <View style={styles.wrapper}>
+            <View style={styles.dotWrapper}>
+              {ONBOARDING_STEPS_IMAGES.map((_, index) => {
+                const opacity = interpolateValue(
+                  scrollX,
+                  index,
+                  widthContainer,
+                  [0.4, 1, 0.4],
+                );
+
+                return (
+                  <Animated.View
+                    key={index}
+                    style={[styles.dot, { opacity }]}
+                  />
+                );
+              })}
+            </View>
+
+            <Button
+              size="full"
+              onPress={handleOnboardingStep}
+              textSize="xl"
+              buttonStyles={{ height: spacing[12] }}
+              textStyles={styles.button}
+            >
+              {buttonText}
+            </Button>
+          </View>
         </View>
       </View>
-    </View>
+    </PerformanceMeasureView>
   );
 };
