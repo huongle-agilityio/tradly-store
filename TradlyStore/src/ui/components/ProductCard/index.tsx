@@ -57,12 +57,12 @@ export const ProductCard = memo(
         style={[styles.container, styleWrapper]}
         onPress={onPress}
       >
-        <View style={styles.imageWrapper}>
+        <View style={[styles.imageWrapper, styles.imageRadius]}>
           <Image
             source={{ uri: source }}
             testID="category-card-image"
             alt={`product-${title}`}
-            style={[styles.image]}
+            style={[styles.image, styles.imageRadius]}
           />
 
           {hasAction && (

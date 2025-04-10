@@ -78,7 +78,6 @@ export const ListProduct = memo(
         showsVerticalScrollIndicator: false,
         contentContainerStyle: {
           gap: isTablet ? 20 : spacing['2.5'],
-          minWidth: isLoadMore ? 330 : ('100%' as const),
           paddingVertical: !horizontal ? spacing[5] : undefined,
           ...(isLoading && {
             opacity: 0,
@@ -92,7 +91,6 @@ export const ListProduct = memo(
         ...(!horizontal && {
           numColumns: 2,
           columnWrapperStyle: {
-            justifyContent: 'center' as const,
             gap: isTablet ? 20 : spacing['2.5'],
           },
         }),

@@ -11,12 +11,14 @@ export const getStyles = (discount: number | undefined) =>
       borderWidth: 1,
       borderColor: colors.categoryCard.border,
     },
+    imageRadius: {
+      borderTopLeftRadius: radius.lg,
+      borderTopRightRadius: radius.lg,
+    },
     image: {
       height: 125,
       position: 'relative',
       width: '100%',
-      borderTopLeftRadius: radius.lg,
-      borderTopRightRadius: radius.lg,
       elevation: 2,
     },
     imageWrapper: {
