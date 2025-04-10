@@ -12,7 +12,9 @@
     "prepare": "cd .. && husky ./TradlyStore/.husky",
     "storybook-generate": "sb-rn-get-stories",
     "eslint:fix": "eslint --fix .",
-    "build:apk": "cd android && ./gradlew assembleRelease"
+    "build:apk": "cd android && ./gradlew assembleRelease",
+    "install:release": "adb install -r android/app/build/outputs/apk/release/app-release.apk",
+    "install:debug": "adb install -r android/app/build/outputs/apk/debug/app-debug.apk"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

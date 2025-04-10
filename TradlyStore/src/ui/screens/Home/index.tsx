@@ -30,7 +30,7 @@ export const Home = ({
       hasDiscount: true,
     });
 
-  const handleRedirectNewProduct = () => {
+  const handleRedirectNewProduct = useCallback(() => {
     navigation.push(SCREENS.PRIVATE, {
       screen: SCREENS.PRODUCT_STACK,
       params: {
@@ -41,9 +41,9 @@ export const Home = ({
         },
       },
     });
-  };
+  }, [navigation]);
 
-  const handleRedirectPopularProduct = () => {
+  const handleRedirectPopularProduct = useCallback(() => {
     navigation.push(SCREENS.PRIVATE, {
       screen: SCREENS.PRODUCT_STACK,
       params: {
@@ -54,7 +54,7 @@ export const Home = ({
         },
       },
     });
-  };
+  }, [navigation]);
 
   const handleRedirectProductCategory = useCallback(
     (name: string, query: string) => {
@@ -89,9 +89,7 @@ export const Home = ({
 
   return (
     <PerformanceMeasureView
-      interactive={
-        productSorted !== undefined && productHasDiscount !== undefined
-      }
+      interactive={!!productSorted.length && !!productHasDiscount}
       screenName={SCREENS.HOME}
     >
       <ScrollView style={styles.container}>
@@ -114,6 +112,11 @@ export const Home = ({
               data={productSorted}
               isLoading={isLoadingProductSorted}
               horizontal={true}
+              getItemLayout={(_, index) => ({
+                length: 203,
+                offset: 203 * index,
+                index,
+              })}
               onNavigateProductDetail={handleNavigateProductDetail}
             />
           </View>
@@ -134,6 +137,11 @@ export const Home = ({
             <ListProduct
               data={productHasDiscount}
               isLoading={isLoadingProductHasDiscount}
+              getItemLayout={(_, index) => ({
+                length: 203,
+                offset: 203 * index,
+                index,
+              })}
               horizontal={true}
               onNavigateProductDetail={handleNavigateProductDetail}
             />

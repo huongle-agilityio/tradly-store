@@ -58,7 +58,7 @@ export const ProductCategory = ({
 
   return (
     <PerformanceMeasureView
-      interactive={data !== undefined}
+      interactive={!!data.length}
       screenName={SCREENS.PRODUCT_LIST}
     >
       <View style={styles.container}>
