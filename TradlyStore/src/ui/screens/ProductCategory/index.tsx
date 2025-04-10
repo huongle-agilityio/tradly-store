@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { PerformanceMeasureView } from '@shopify/react-native-performance';
 
 // Apis
 import { useGetProductByParams } from '@/apis';
@@ -56,17 +57,22 @@ export const ProductCategory = ({
   );
 
   return (
-    <View style={styles.container}>
-      <ListProduct
-        isLoadMore
-        refetch={refetch}
-        isFetchingNextPage={isFetchingNextPage}
-        isLoading={isLoading}
-        data={data}
-        onEndReached={handleEndReached}
-        onNavigateProductDetail={handleNavigateProductDetail}
-      />
-    </View>
+    <PerformanceMeasureView
+      interactive={data !== undefined}
+      screenName={SCREENS.PRODUCT_LIST}
+    >
+      <View style={styles.container}>
+        <ListProduct
+          isLoadMore
+          refetch={refetch}
+          isFetchingNextPage={isFetchingNextPage}
+          isLoading={isLoading}
+          data={data}
+          onEndReached={handleEndReached}
+          onNavigateProductDetail={handleNavigateProductDetail}
+        />
+      </View>
+    </PerformanceMeasureView>
   );
 };
 

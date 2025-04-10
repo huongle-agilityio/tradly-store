@@ -8,5 +8,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "jest.config.js"]
+  "include": ["**/*.ts", "**/*.tsx", "jest.config.js", "reactotronConfig.js"]
 }

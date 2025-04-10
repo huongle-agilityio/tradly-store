@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { PerformanceMeasureView } from '@shopify/react-native-performance';
 import { styles } from './styles';
 
 // Apis
@@ -97,37 +98,39 @@ export const Login = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <KeyboardAwareScrollView
-        extraKeyboardSpace={50}
-        contentContainerStyle={styles.content}
-      >
-        <View style={[styles.title, styles.textWrapper]}>
-          <Text color="light" fontSize="xxl" fontWeight="normal">
-            Welcome to {BRAND.NAME}
-          </Text>
-          <Text color="light" fontSize="md" fontWeight="light">
-            Login to your account
-          </Text>
-        </View>
-        <FormLogin
-          error={error}
-          isLoading={isPending}
-          onSubmit={handleSubmit}
-        />
-
-        <View style={[styles.subtitle, styles.textWrapper]}>
-          <Text color="light" fontSize="lg" fontWeight="light">
-            Forgot your password?
-          </Text>
-          <Text color="light" fontSize="lg" fontWeight="light">
-            Don’t have an account?{' '}
-            <Text color="light" fontSize="lg" fontWeight="medium">
-              Sign up
+    <PerformanceMeasureView interactive={true} screenName={SCREENS.LOGIN}>
+      <View style={styles.container}>
+        <KeyboardAwareScrollView
+          extraKeyboardSpace={50}
+          contentContainerStyle={styles.content}
+        >
+          <View style={[styles.title, styles.textWrapper]}>
+            <Text color="light" fontSize="xxl" fontWeight="normal">
+              Welcome to {BRAND.NAME}
             </Text>
-          </Text>
-        </View>
-      </KeyboardAwareScrollView>
-    </View>
+            <Text color="light" fontSize="md" fontWeight="light">
+              Login to your account
+            </Text>
+          </View>
+          <FormLogin
+            error={error}
+            isLoading={isPending}
+            onSubmit={handleSubmit}
+          />
+
+          <View style={[styles.subtitle, styles.textWrapper]}>
+            <Text color="light" fontSize="lg" fontWeight="light">
+              Forgot your password?
+            </Text>
+            <Text color="light" fontSize="lg" fontWeight="light">
+              Don’t have an account?{' '}
+              <Text color="light" fontSize="lg" fontWeight="medium">
+                Sign up
+              </Text>
+            </Text>
+          </View>
+        </KeyboardAwareScrollView>
+      </View>
+    </PerformanceMeasureView>
   );
 };

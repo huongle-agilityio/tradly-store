@@ -4,4 +4,6 @@ export const STORAGE_KEY = {
   TOKEN: 'token',
   CART: 'cart',
   ADDRESS: 'address',
+
+  PERFORMANCE_KEY: 'performanceLogs',
 };

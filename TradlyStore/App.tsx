@@ -1,73 +1,50 @@
-import { useEffect, useState } from 'react';
-import BootSplash from 'react-native-bootsplash';
-import * as Keychain from 'react-native-keychain';
-import crashlytics from '@react-native-firebase/crashlytics';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { memo, useState } from 'react';
 
 // Navigation
 import { Navigation } from '@/navigation';
 
 // Constants
-import { ENABLE_STORYBOOK, SCREENS, STORAGE_KEY } from '@/constants';
+import { SCREENS } from '@/constants';
 
-// Stores
-import { useAuthStore } from '@/stores';
+// Hooks
+import { useAppInit, useToggleStorybook } from '@/hooks';
 
 // Utils
-import { registerNotificationHandlers } from '@/utils';
+import { logPerformanceReport } from '@/utils';
+
+__DEV__ && require('./reactotronConfig.js');
+
+const PerformanceProfiler = __DEV__
+  ? require('@shopify/react-native-performance').PerformanceProfiler
+  : null;
+
+type InitScreenPublic = typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING;
+
+const AppContent = memo(
+  ({ initialScreenPublic }: { initialScreenPublic: InitScreenPublic }) => (
+    <Navigation initialScreenPublic={initialScreenPublic} />
+  ),
+);
 
 const App = () => {
-  const [initialScreenPublic, setInitialScreenPublic] = useState<
-    typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING
-  >(SCREENS.LOGIN);
+  const [initialScreenPublic, setInitialScreenPublic] =
+    useState<InitScreenPublic>(SCREENS.LOGIN);
+  useAppInit(setInitialScreenPublic);
 
-  // Stores
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const showStorybook = __DEV__ ? useToggleStorybook() : false;
 
-  useEffect(() => {
-    /**
-     * Checks if the user is authenticated by retrieving the user's token from the device's
-     * Keychain.
-     * If the token is found, the user is considered authenticated
-     * If the token is not found, the user is considered not authenticated
-     */
-    const init = async () => {
-      const token = await Keychain.getGenericPassword({
-        service: STORAGE_KEY.TOKEN,
-      });
-      const firstLogin = await Keychain.getGenericPassword({
-        service: STORAGE_KEY.FIRST_LOGIN,
-      });
-
-      if (typeof token !== 'boolean') {
-        setAuthenticated(!!token.password);
-      } else {
-        setAuthenticated(false);
-        if (typeof firstLogin !== 'boolean') {
-          setInitialScreenPublic(SCREENS.LOGIN);
-        } else {
-          setInitialScreenPublic(SCREENS.ONBOARDING);
-        }
-      }
-    };
-
-    init().finally(async () => {
-      await BootSplash.hide({ fade: true });
-    });
-    registerNotificationHandlers();
-    crashlytics().log('App mounted.');
-  }, [setAuthenticated]);
-
-  if (ENABLE_STORYBOOK === 'true') {
+  if (showStorybook) {
     const StorybookUI = require('./.storybook').default;
-
     return <StorybookUI />;
   }
 
-  return (
-    <KeyboardProvider>
-      <Navigation initialScreenPublic={initialScreenPublic} />
-    </KeyboardProvider>
+  return __DEV__ ? (
+    <PerformanceProfiler onReportPrepared={logPerformanceReport}>
+      <AppContent initialScreenPublic={initialScreenPublic} />
+    </PerformanceProfiler>
+  ) : (
+    <AppContent initialScreenPublic={initialScreenPublic} />
   );
 };
 
