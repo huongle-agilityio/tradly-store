@@ -48,3 +48,28 @@ jest.mock('@react-native-firebase/messaging', () => {
     },
   );
 });
+
+jest.mock('@react-native-firebase/perf', () => {
+  const startTraceMock = jest.fn(async () => ({
+    stop: jest.fn(),
+  }));
+
+  const perfMock = jest.fn(() => ({
+    startTrace: startTraceMock,
+    newHttpMetric: jest.fn(() => ({
+      start: jest.fn(),
+      stop: jest.fn(),
+      setHttpResponseCode: jest.fn(),
+      setRequestPayloadSize: jest.fn(),
+      setResponseContentType: jest.fn(),
+      setResponsePayloadSize: jest.fn(),
+      putAttribute: jest.fn(),
+    })),
+  }));
+
+  return {
+    __esModule: true,
+    default: perfMock,
+    FirebasePerformanceTypes: {},
+  };
+});

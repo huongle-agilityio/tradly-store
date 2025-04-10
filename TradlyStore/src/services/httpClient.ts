@@ -1,3 +1,6 @@
+import perf from '@react-native-firebase/perf';
+
+// Constants
 import { BASE_API, ERROR_MESSAGES, ERROR_STATUS } from '@/constants';
 
 enum HttpMethod {
@@ -56,6 +59,7 @@ class HttpService {
     options,
   }: IApiClient<TPayload>): Promise<TResponse> {
     const baseUrl = this.apiUrl;
+    const url = `${baseUrl}api/${endpoint}`;
 
     const initOptions: globalThis.RequestInit = {
       method,
@@ -70,14 +74,24 @@ class HttpService {
       initOptions.body = JSON.stringify(payload);
     }
 
+    const metric = await perf().newHttpMetric(url, method as any);
+    await metric.start();
+
     try {
-      const response = await fetch(`${baseUrl}api/${endpoint}`, initOptions);
+      const response = await fetch(url, initOptions);
+
+      metric.setHttpResponseCode(response.status);
+      metric.setResponseContentType(response.headers.get('Content-Type'));
+      metric.setResponsePayloadSize(
+        Number(response.headers.get('Content-Length')),
+      );
 
       if (!response.ok) {
         const error = await response.json();
 
         throw new Error(
-          error.error.message ||
+          error?.error?.message ||
+            error?.message ||
             `Error: ${response.status} - ${response.statusText}`,
         );
       }
@@ -88,11 +102,14 @@ class HttpService {
 
       return await response?.json();
     } catch (error) {
+      metric.putAttribute('error', 'true');
       if (error instanceof Error) {
         throw error;
       }
 
       throw new Error(ERROR_MESSAGES.DEFAULT_API_ERROR);
+    } finally {
+      await metric.stop();
     }
   }
 
