@@ -6,6 +6,7 @@ import {
   buildDeepLinkFromNotificationData,
   createNotificationChannel,
   handleForegroundNotifications,
+  handleGetDeviceToken,
   handleNotificationOpen,
   registerNotificationHandlers,
 } from '../notification';
@@ -34,17 +35,21 @@ jest.mock('@react-native-firebase/messaging', () => {
   const mockOnMessage = jest.fn();
   const mockOnNotificationOpenedApp = jest.fn();
   const mockGetInitialNotification = jest.fn(() => Promise.resolve(undefined));
+  const mockGetToken = jest.fn();
 
   return () => ({
     onMessage: mockOnMessage,
     onNotificationOpenedApp: mockOnNotificationOpenedApp,
     getInitialNotification: mockGetInitialNotification,
+    getToken: mockGetToken,
   });
 });
 
 jest.mock('react-native/Libraries/Linking/Linking', () => ({
   openURL: jest.fn(),
 }));
+
+const mockConsoleLog = jest.spyOn(console, 'log').mockImplementation();
 
 describe('notification utilities', () => {
   afterEach(() => {
@@ -242,6 +247,27 @@ describe('notification utilities', () => {
       expect(messaging().onMessage).toHaveBeenCalled();
       expect(messaging().onNotificationOpenedApp).toHaveBeenCalled();
       expect(notifee.onForegroundEvent).toHaveBeenCalled();
+    });
+  });
+
+  describe('handleGetDeviceToken', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should get device token and log it', async () => {
+      const mockToken = 'mocked-device-token';
+      (messaging().getToken as jest.Mock).mockResolvedValueOnce(mockToken);
+
+      await handleGetDeviceToken();
+
+      expect(mockConsoleLog).toHaveBeenCalledWith(
+        '==============Device Token==============',
+      );
+      expect(mockConsoleLog).toHaveBeenCalledWith('= ', mockToken);
+      expect(mockConsoleLog).toHaveBeenCalledWith(
+        '========================================',
+      );
     });
   });
 });

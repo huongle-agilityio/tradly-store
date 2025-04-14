@@ -6,6 +6,7 @@ export const API_ENDPOINT = {
   PRODUCT: 'products',
   STORE: 'stores',
   ORDER: 'orders',
+  REPORT: 'reports',
 
   IMAGE: `${UPLOAD_IMAGE_URL}?key=${KEY_UPLOAD_IMAGE}`,
 };

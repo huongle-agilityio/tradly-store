@@ -1,4 +1,8 @@
 import { memo, useState } from 'react';
+import {
+  PerformanceProfiler,
+  RenderPassReport,
+} from '@shopify/react-native-performance';
 
 // Navigation
 import { Navigation } from '@/navigation';
@@ -10,13 +14,9 @@ import { SCREENS } from '@/constants';
 import { useAppInit, useToggleStorybook } from '@/hooks';
 
 // Utils
-import { logPerformanceReport } from '@/utils';
+import { createReport } from '@/apis/report';
 
 __DEV__ && require('./reactotronConfig.js');
-
-const PerformanceProfiler = __DEV__
-  ? require('@shopify/react-native-performance').PerformanceProfiler
-  : null;
 
 type InitScreenPublic = typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING;
 
@@ -39,12 +39,33 @@ const App = () => {
     return <StorybookUI />;
   }
 
-  return __DEV__ ? (
-    <PerformanceProfiler onReportPrepared={logPerformanceReport}>
+  const handleReport = async (report: RenderPassReport) => {
+    if (__DEV__) {
+      console.log('[Performance Report]', report);
+
+      return;
+    }
+
+    if (report.renderPassName !== 'interactive') {
+      return;
+    }
+
+    const payload = {
+      date: new Date().toISOString(),
+      time: new Date().toLocaleTimeString(),
+      report: {
+        timeToRenderMillis: report.timeToRenderMillis || 0,
+        timeToBootJsMillis: report.timeToBootJsMillis || 0,
+      },
+    };
+
+    await createReport(payload);
+  };
+
+  return (
+    <PerformanceProfiler onReportPrepared={handleReport}>
       <AppContent initialScreenPublic={initialScreenPublic} />
     </PerformanceProfiler>
-  ) : (
-    <AppContent initialScreenPublic={initialScreenPublic} />
   );
 };
 

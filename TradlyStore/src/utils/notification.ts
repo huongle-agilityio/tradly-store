@@ -156,3 +156,22 @@ export const registerNotificationHandlers = async () => {
   handleForegroundNotifications();
   handleNotificationOpen();
 };
+
+/**
+ * Retrieves the device token for the app.
+ *
+ * This function returns a promise that resolves with the device token as a
+ * string. It is used to obtain the device token for the app, which is required
+ * for Firebase Cloud Messaging (FCM) to deliver notifications.
+ *
+ * The device token is logged to the console for convenience.
+ *
+ * @returns {Promise<string>} - A promise that resolves with the device token.
+ */
+export const handleGetDeviceToken = async () => {
+  const token = await messaging().getToken();
+
+  console.log('==============Device Token==============');
+  console.log('= ', token);
+  console.log('========================================');
+};

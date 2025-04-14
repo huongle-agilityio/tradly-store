@@ -23,16 +23,10 @@ export const PrivateNavigation = () => {
 
   const headerOrder = ({ navigation }: NativeStackHeaderProps) => {
     const handleClose = () => {
-      navigation.navigate(SCREENS.HOME);
+      navigation.navigate(SCREENS.TABS, { screen: SCREENS.HOME });
     };
 
-    return (
-      <HeaderWithTitle
-        navigation={navigation}
-        onClose={handleClose}
-        title="Order Details"
-      />
-    );
+    return <HeaderWithTitle onClose={handleClose} title="Order Details" />;
   };
 
   return (

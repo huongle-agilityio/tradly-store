@@ -1,7 +1,6 @@
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
-    process.env.NODE_ENV === 'production' && 'transform-remove-console',
     [
       'module-resolver',
       {
@@ -12,5 +11,10 @@ module.exports = {
       },
     ],
     'react-native-reanimated/plugin',
-  ].filter(Boolean),
+  ],
+  env: {
+    production: {
+      plugins: ['transform-remove-console'],
+    },
+  },
 };
