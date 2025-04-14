@@ -53,29 +53,48 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
       ]
     }
   >
-    <Image
-      alt="product-Product Title"
-      source={
-        {
-          "uri": "image-url",
-        }
-      }
+    <View
       style={
         [
           {
-            "elevation": 2,
-            "height": 125,
-            "position": "relative",
-            "width": "100%",
+            "overflow": "hidden",
           },
-          {
-            "borderTopLeftRadius": 8,
-            "borderTopRightRadius": 8,
-          },
+          [
+            {
+              "elevation": 2,
+              "height": 125,
+              "position": "relative",
+              "width": "100%",
+            },
+            {
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+            },
+          ],
         ]
       }
-      testID="category-card-image"
-    />
+    >
+      <FastImageView
+        defaultSource={null}
+        resizeMode="cover"
+        source={
+          {
+            "priority": "normal",
+            "uri": "image-url",
+          }
+        }
+        style={
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          }
+        }
+        testID="category-card-image"
+      />
+    </View>
   </View>
   <View
     style={

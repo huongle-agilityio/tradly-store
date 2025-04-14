@@ -7,6 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { getStyles, productActions } from './styles';
+import FastImage from 'react-native-fast-image';
 
 // Components
 import { Text } from '../Text';
@@ -58,11 +59,14 @@ export const ProductCard = memo(
         onPress={onPress}
       >
         <View style={[styles.imageWrapper, styles.imageRadius]}>
-          <Image
-            source={{ uri: source }}
-            testID="category-card-image"
-            alt={`product-${title}`}
+          <FastImage
             style={[styles.image, styles.imageRadius]}
+            testID="category-card-image"
+            source={{
+              uri: source,
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
           />
 
           {hasAction && (

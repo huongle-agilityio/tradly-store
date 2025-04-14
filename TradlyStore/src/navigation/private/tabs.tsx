@@ -1,4 +1,3 @@
-// Screens
 import {
   BottomTabHeaderProps,
   createBottomTabNavigator,

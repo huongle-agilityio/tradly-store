@@ -12,7 +12,6 @@ const meta = {
   component: ProductCarousel,
   args: {
     images: LIST_IMAGES,
-    name: 'Beverages',
   },
   decorators: [
     (Story) => (

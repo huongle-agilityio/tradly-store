@@ -21,51 +21,108 @@ exports[`ProductCarousel Should renders correct number of images 1`] = `
     testID="product-carousel-scroll"
   >
     <View>
-      <Image
-        alt="Product image of Test Product - View 1"
-        source={
-          {
-            "uri": "image1.jpg",
-          }
-        }
+      <View
         style={
-          {
-            "resizeMode": "cover",
-            "width": 0,
-          }
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "resizeMode": "cover",
+              "width": 0,
+            },
+          ]
         }
-        testID="product-carousel-image"
-      />
-      <Image
-        alt="Product image of Test Product - View 2"
-        source={
-          {
-            "uri": "image2.jpg",
+      >
+        <FastImageView
+          defaultSource={null}
+          resizeMode="cover"
+          source={
+            {
+              "priority": "normal",
+              "uri": "image1.jpg",
+            }
           }
-        }
+          style={
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+          testID="product-carousel-image"
+        />
+      </View>
+      <View
         style={
-          {
-            "resizeMode": "cover",
-            "width": 0,
-          }
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "resizeMode": "cover",
+              "width": 0,
+            },
+          ]
         }
-        testID="product-carousel-image"
-      />
-      <Image
-        alt="Product image of Test Product - View 3"
-        source={
-          {
-            "uri": "image3.jpg",
+      >
+        <FastImageView
+          defaultSource={null}
+          resizeMode="cover"
+          source={
+            {
+              "priority": "normal",
+              "uri": "image2.jpg",
+            }
           }
-        }
+          style={
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+          testID="product-carousel-image"
+        />
+      </View>
+      <View
         style={
-          {
-            "resizeMode": "cover",
-            "width": 0,
-          }
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "resizeMode": "cover",
+              "width": 0,
+            },
+          ]
         }
-        testID="product-carousel-image"
-      />
+      >
+        <FastImageView
+          defaultSource={null}
+          resizeMode="cover"
+          source={
+            {
+              "priority": "normal",
+              "uri": "image3.jpg",
+            }
+          }
+          style={
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+          testID="product-carousel-image"
+        />
+      </View>
     </View>
   </RCTScrollView>
   <View
