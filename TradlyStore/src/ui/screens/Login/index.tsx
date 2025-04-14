@@ -3,7 +3,11 @@ import { View } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { PerformanceMeasureView } from '@shopify/react-native-performance';
+import {
+  GestureResponderEvent,
+  PerformanceMeasureView,
+  useStartProfiler,
+} from '@shopify/react-native-performance';
 import { styles } from './styles';
 
 // Apis
@@ -29,6 +33,8 @@ import { AuthPayload } from '@/interfaces';
 import { checkAndRequestNotificationPermission, customTrace } from '@/utils';
 
 export const Login = () => {
+  const startNavigationTTITimer = useStartProfiler();
+
   useScreenTrace(SCREENS.LOGIN);
   const [error, setError] = useState<string>('');
 
@@ -42,7 +48,7 @@ export const Login = () => {
   const { mutate, isPending } = useAuthLogin();
 
   const handleSubmit = useCallback(
-    async (payload: AuthPayload) => {
+    async (payload: AuthPayload, uiEvent?: GestureResponderEvent) => {
       crashlytics().log('User login attempt.');
       const { trace, traceStop } = await customTrace(SCREENS.LOGIN);
 
@@ -50,6 +56,11 @@ export const Login = () => {
 
       mutate(payload, {
         onSuccess: async ({ jwt, user }) => {
+          startNavigationTTITimer({
+            source: SCREENS.LOGIN,
+            uiEvent,
+          });
+
           // Set the user's token and first login in Keychain
           await Promise.all([
             Keychain.setGenericPassword(STORAGE_KEY.TOKEN, jwt, {
@@ -94,7 +105,7 @@ export const Login = () => {
         },
       });
     },
-    [error, mutate, setIsAuthenticated, setUser],
+    [error, mutate, setIsAuthenticated, setUser, startNavigationTTITimer],
   );
 
   return (

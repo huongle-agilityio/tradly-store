@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { memo, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { valibotResolver } from '@hookform/resolvers/valibot';
+import { GestureResponderEvent } from '@shopify/react-native-performance';
 
 // Components
 import { Button, InputController, Text } from '@/ui/components';
@@ -23,7 +24,7 @@ interface FormData {
 interface FormLoginProps {
   error?: string;
   isLoading?: boolean;
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: FormData, uiEvent?: GestureResponderEvent) => void;
 }
 
 export const FormLogin = memo(

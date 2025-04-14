@@ -6,7 +6,11 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import { PerformanceMeasureView } from '@shopify/react-native-performance';
+import {
+  GestureResponderEvent,
+  PerformanceMeasureView,
+  useStartProfiler,
+} from '@shopify/react-native-performance';
 import { styles } from './styles';
 
 // Mocks
@@ -33,6 +37,8 @@ import { interpolateValue } from '@/utils';
 export const Onboarding = ({
   navigation,
 }: PublicScreenProps<typeof SCREENS.ONBOARDING>) => {
+  const startNavigationTTITimer = useStartProfiler();
+
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -46,17 +52,24 @@ export const Onboarding = ({
     [currentIndex],
   );
 
-  const handleOnboardingStep = useCallback(() => {
-    if (currentIndex < ONBOARDING_STEPS_IMAGES.length - 1) {
-      scrollViewRef.current?.scrollTo({
-        // scroll to next step
-        x: (currentIndex + 1) * widthContainer,
-        animated: true,
-      });
-    } else {
-      navigation.navigate(SCREENS.LOGIN);
-    }
-  }, [currentIndex, navigation, widthContainer]);
+  const handleOnboardingStep = useCallback(
+    (uiEvent?: GestureResponderEvent) => {
+      if (currentIndex < ONBOARDING_STEPS_IMAGES.length - 1) {
+        scrollViewRef.current?.scrollTo({
+          // scroll to next step
+          x: (currentIndex + 1) * widthContainer,
+          animated: true,
+        });
+      } else {
+        startNavigationTTITimer({
+          source: SCREENS.ONBOARDING,
+          uiEvent,
+        });
+        navigation.navigate(SCREENS.LOGIN);
+      }
+    },
+    [currentIndex, navigation, startNavigationTTITimer, widthContainer],
+  );
 
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { x: scrollX } } }],

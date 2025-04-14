@@ -21,6 +21,10 @@ export const deliveryAddressStyles = StyleSheet.create({
 
 export const orderSuccessStyles = StyleSheet.create({
   contentContainerStyle: { paddingBottom: 50 },
+  image: {
+    width: 160,
+    height: 100,
+  },
   imageWrapper: {
     height: 200,
     width: '100%',

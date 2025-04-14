@@ -1,6 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { ScrollView, TouchableOpacity, Image, View } from 'react-native';
-import { PerformanceMeasureView } from '@shopify/react-native-performance';
+import {
+  PerformanceMeasureView,
+  useStartProfiler,
+} from '@shopify/react-native-performance';
 import { styles } from './styles';
 
 // Apis
@@ -44,6 +47,7 @@ export const ProductDetail = ({
   navigation,
   route,
 }: ProductScreenProps<typeof SCREENS.PRODUCT_DETAIL>) => {
+  const startNavigationTTITimer = useStartProfiler();
   const { id } = route.params;
 
   // Stores
@@ -89,6 +93,9 @@ export const ProductDetail = ({
   }, [addNewCart, discount, documentId, image, price, showToast, title]);
 
   const handleBack = () => {
+    startNavigationTTITimer({
+      source: SCREENS.PRODUCT_DETAIL,
+    });
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {
@@ -120,7 +127,7 @@ export const ProductDetail = ({
         <ScrollView contentContainerStyle={styles.contentContainerStyle}>
           <View>
             <View style={styles.headerWrapper}>
-              <ProductCarousel images={slideImages} name={title} />
+              <ProductCarousel images={slideImages} />
 
               <View style={styles.header}>
                 <TouchableOpacity style={styles.icon} onPress={handleBack}>
