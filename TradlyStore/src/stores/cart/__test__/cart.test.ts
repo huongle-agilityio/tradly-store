@@ -1,6 +1,6 @@
 import { act } from '@testing-library/react-native';
 
-import useCartStore, { INITIAL_CART } from '..';
+import { useCartStore, INITIAL_CART } from '..';
 
 // Interfaces
 import { Cart } from '@/interfaces';

@@ -1,17 +1,32 @@
 import '@testing-library/react-native';
 
-jest.mock('@react-native-async-storage/async-storage', () =>
-  require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
-);
-
+// Mock Notifee
 jest.mock('@notifee/react-native', () => ({
+  requestPermission: jest.fn(),
   createChannel: jest.fn(),
   displayNotification: jest.fn(),
   onForegroundEvent: jest.fn(),
-  AndroidImportance: { DEFAULT: 3 },
-  EventType: { PRESS: 'PRESS' },
+  getNotificationSettings: jest.fn(() =>
+    Promise.resolve({
+      authorizationStatus: 1,
+    }),
+  ),
+  AuthorizationStatus: {
+    AUTHORIZED: 1,
+    PROVISIONAL: 2,
+    DENIED: 3,
+    NOT_DETERMINED: 0,
+  },
+  AndroidImportance: {
+    HIGH: 'high',
+  },
+  EventType: {
+    DISMISSED: 0,
+    PRESS: 1,
+  },
 }));
 
+// Mock Firebase
 jest.mock('@react-native-firebase/messaging', () => {
   return () => ({
     requestPermission: jest.fn(),
@@ -41,7 +56,7 @@ jest.mock('@react-native-firebase/messaging', () => {
       onMessage: jest.fn(),
       setBackgroundMessageHandler: jest.fn(),
       onNotificationOpenedApp: jest.fn(),
-      getInitialNotification: jest.fn(),
+      getInitialNotification: jest.fn(() => Promise.resolve(undefined)),
     }),
     {
       AuthorizationStatus: {
@@ -53,6 +68,7 @@ jest.mock('@react-native-firebase/messaging', () => {
   );
 });
 
+// Mock Firebase Performance
 jest.mock('@react-native-firebase/perf', () => {
   const startTraceMock = jest.fn(async () => ({
     stop: jest.fn(),
@@ -77,3 +93,27 @@ jest.mock('@react-native-firebase/perf', () => {
     FirebasePerformanceTypes: {},
   };
 });
+
+// Mock AsyncStorage
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  setItem: jest.fn(),
+  getItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+}));
+
+// Mock Linking
+jest.mock('react-native/Libraries/Linking/Linking', () => ({
+  openURL: jest.fn(),
+}));
+
+// Mock Platform
+jest.mock('react-native/Libraries/Utilities/Platform', () => ({
+  OS: 'android',
+  select: jest.fn(),
+}));
+
+// Mock Alert
+jest.mock('react-native/Libraries/Alert/Alert', () => ({
+  alert: jest.fn(),
+}));

@@ -1,6 +1,7 @@
 import { Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import notifee, { EventType } from '@notifee/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   buildDeepLinkFromNotificationData,
@@ -10,25 +11,13 @@ import {
   handleNotificationOpen,
   registerNotificationHandlers,
 } from '../notification';
+import { checkAndRequestNotificationPermission } from '../permission';
 
 // Constants
 import { LINKING_URL } from '@/constants';
 
-jest.mock('@notifee/react-native', () => ({
-  __esModule: true,
-  default: {
-    requestPermission: jest.fn(),
-    createChannel: jest.fn(),
-    displayNotification: jest.fn(),
-    onForegroundEvent: jest.fn(),
-  },
-  AndroidImportance: {
-    HIGH: 'high',
-  },
-  EventType: {
-    DISMISSED: 0,
-    PRESS: 1,
-  },
+jest.mock('../permission', () => ({
+  checkAndRequestNotificationPermission: jest.fn(),
 }));
 
 jest.mock('@react-native-firebase/messaging', () => {
@@ -239,10 +228,31 @@ describe('notification utilities', () => {
   });
 
   describe('registerNotificationHandlers', () => {
-    it('Should call requestPermission and register handlers', async () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('Should call requestPermission and register handlers when isFirstLogin is not "false"', async () => {
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValue('true');
+
       await registerNotificationHandlers();
 
       expect(notifee.requestPermission).toHaveBeenCalled();
+      expect(notifee.createChannel).toHaveBeenCalled();
+      expect(messaging().onMessage).toHaveBeenCalled();
+      expect(messaging().onNotificationOpenedApp).toHaveBeenCalled();
+      expect(notifee.onForegroundEvent).toHaveBeenCalled();
+    });
+
+    it('Should call checkAndRequestNotificationPermission instead of requestPermission when isFirstLogin is "false"', async () => {
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValue('false');
+      (checkAndRequestNotificationPermission as jest.Mock).mockReturnValue(
+        jest.fn(),
+      );
+
+      await registerNotificationHandlers();
+
+      expect(notifee.requestPermission).not.toHaveBeenCalled();
       expect(notifee.createChannel).toHaveBeenCalled();
       expect(messaging().onMessage).toHaveBeenCalled();
       expect(messaging().onNotificationOpenedApp).toHaveBeenCalled();

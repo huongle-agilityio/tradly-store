@@ -162,7 +162,7 @@ export const handleNotificationOpen = () => {
 export const registerNotificationHandlers = async () => {
   const isFirstLogin = await AsyncStorage.getItem(STORAGE_KEY.FIRST_LOGIN);
 
-  if (isFirstLogin) {
+  if (isFirstLogin !== 'false') {
     await notifee.requestPermission();
   } else {
     await checkAndRequestNotificationPermission();
