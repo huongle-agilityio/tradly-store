@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import {
   Alert,
   FlatList,
-  Linking,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -20,11 +19,14 @@ import { Text, ImageUpload } from '@/ui/components';
 // Icons
 import { PlusIcon } from '@/ui/icons';
 
+// Interfaces
+import { PermissionType } from '@/interfaces';
+
 // Themes
 import { colors, radius, spacing } from '@/ui/themes';
 
 // Utils
-import { requestCameraPermission, requestGalleryPermission } from '@/utils';
+import { requestPermission } from '@/utils';
 
 interface ProductPhotosUploadProps {
   error?: string;
@@ -60,7 +62,7 @@ export const ProductPhotosUpload = ({
    * gallery.
    */
   const openGallery = useCallback(async () => {
-    const galleryGranted = await requestGalleryPermission();
+    const galleryGranted = await requestPermission(PermissionType.gallery);
 
     if (galleryGranted) {
       const options = {
@@ -79,16 +81,6 @@ export const ProductPhotosUpload = ({
           ]);
         }
       });
-    } else {
-      Alert.alert(
-        'Camera Gallery Needed',
-        'To select images, this app requires access to your photo library. Please grant the permission.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Go to Settings', onPress: () => Linking.openSettings() },
-        ],
-        { cancelable: false },
-      );
     }
   }, [onSelectImage, selectedImages]);
 
@@ -99,7 +91,7 @@ export const ProductPhotosUpload = ({
    * camera.
    */
   const openCamera = useCallback(async () => {
-    const cameraGranted = await requestCameraPermission();
+    const cameraGranted = await requestPermission(PermissionType.camera);
     if (cameraGranted) {
       const options = {
         mediaType: 'photo' as const,
@@ -117,16 +109,6 @@ export const ProductPhotosUpload = ({
           onSelectImage([...newImages, ...selectedImages]);
         }
       });
-    } else {
-      Alert.alert(
-        'Camera Access Needed',
-        'To take photos, this app requires access to your camera. Please grant the permission.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Go to Settings', onPress: () => Linking.openSettings() },
-        ],
-        { cancelable: false },
-      );
     }
   }, [onSelectImage, selectedImages]);
 

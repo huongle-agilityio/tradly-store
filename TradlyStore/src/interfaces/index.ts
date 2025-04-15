@@ -8,3 +8,4 @@ export * from './cart';
 export * from './order';
 export * from './navigation';
 export * from './images';
+export * from './permission';
