@@ -92,5 +92,3 @@ export const useCartStore = createWithEqualityFn<CartStore>()(
   ),
   shallow,
 );
-
-export default useCartStore;

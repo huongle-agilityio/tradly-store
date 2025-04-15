@@ -1,6 +1,6 @@
 import { act } from '@testing-library/react-native';
 
-import useToast from '..';
+import { useToast } from '..';
 
 // Constants
 import { TIMING } from '@/constants';

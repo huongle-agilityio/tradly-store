@@ -6,25 +6,6 @@ import { checkAndRequestNotificationPermission, requestPermission } from '..';
 // Interfaces
 import { PermissionType } from '@/interfaces';
 
-jest.mock('react-native/Libraries/Utilities/Platform', () => ({
-  OS: 'android',
-  select: jest.fn(),
-}));
-
-jest.mock('react-native/Libraries/Linking/Linking', () => ({
-  openURL: jest.fn(),
-}));
-
-jest.mock('react-native/Libraries/Alert/Alert', () => ({
-  alert: jest.fn(),
-}));
-
-jest.mock('@react-native-async-storage/async-storage', () => ({
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-}));
-
 jest.mock(
   'react-native/Libraries/PermissionsAndroid/PermissionsAndroid',
   () => ({

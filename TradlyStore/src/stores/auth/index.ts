@@ -1,8 +1,8 @@
 import { shallow } from 'zustand/shallow';
+import * as Keychain from 'react-native-keychain';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Keychain from 'react-native-keychain';
 
 // Constants
 import { STORAGE_KEY } from '@/constants';
@@ -50,7 +50,7 @@ export const useAuthStore = createWithEqualityFn<AuthStore>()(
        * This function is used when the user logs out of the application.
        */
       clearAuth: async () => {
-        await AsyncStorage.clear();
+        await AsyncStorage.removeItem(STORAGE_KEY.USER);
         await Keychain.resetGenericPassword({ service: STORAGE_KEY.TOKEN });
         set({ ...INITIAL_AUTH_STATE });
       },
@@ -58,9 +58,11 @@ export const useAuthStore = createWithEqualityFn<AuthStore>()(
     {
       name: STORAGE_KEY.USER,
       storage: createJSONStorage(() => AsyncStorage),
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
     },
   ),
   shallow,
 );
-
-export default useAuthStore;

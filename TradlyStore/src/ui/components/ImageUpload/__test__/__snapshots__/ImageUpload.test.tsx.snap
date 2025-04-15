@@ -73,7 +73,7 @@ exports[`ImageUpload Component renders correctly with given image 1`] = `
     }
     testID="close-button"
   >
-    <RNSVGSvgView
+    <RNSVGSvgViewAndroid
       align="xMidYMid"
       bbHeight={9}
       bbWidth={9}
@@ -103,7 +103,7 @@ exports[`ImageUpload Component renders correctly with given image 1`] = `
       <RNSVGGroup
         fill={
           {
-            "payload": 4278190080,
+            "payload": -16777216,
             "type": 0,
           }
         }
@@ -125,7 +125,7 @@ exports[`ImageUpload Component renders correctly with given image 1`] = `
           }
         />
       </RNSVGGroup>
-    </RNSVGSvgView>
+    </RNSVGSvgViewAndroid>
   </View>
 </View>
 `;

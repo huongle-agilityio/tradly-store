@@ -3,15 +3,13 @@ import { useEffect, useState } from 'react';
 import * as Keychain from 'react-native-keychain';
 import BootSplash from 'react-native-bootsplash';
 import crashlytics from '@react-native-firebase/crashlytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Constants
-import { SCREENS, STORAGE_KEY } from '@/constants';
+import { STORAGE_KEY } from '@/constants';
 
 // Store
 import { useAuthStore } from '@/stores';
-
-// Utils
-import { registerNotificationHandlers } from '@/utils';
 
 /**
  * Initializes the app, checking if a token exists and setting the initial screen
@@ -24,9 +22,7 @@ import { registerNotificationHandlers } from '@/utils';
  *   of the app to either the login screen or the onboarding screen.
  */
 export const useAppInit = (
-  setInitialScreenPublic: (
-    name: typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING,
-  ) => void,
+  setIsFirstLogin: (isFirstLogin: boolean) => void,
 ) => {
   // Stores
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
@@ -44,27 +40,18 @@ export const useAppInit = (
         const token = await Keychain.getGenericPassword({
           service: STORAGE_KEY.TOKEN,
         });
-        const firstLogin = await Keychain.getGenericPassword({
-          service: STORAGE_KEY.FIRST_LOGIN,
-        });
+        const isFirstLogin = await AsyncStorage.getItem(
+          STORAGE_KEY.FIRST_LOGIN,
+        );
 
         if (typeof token !== 'boolean') {
           setAuthenticated(!!token.password);
         } else {
           setAuthenticated(false);
-
-          // Check if the user has logged in before
-          if (typeof firstLogin !== 'boolean') {
-            setInitialScreenPublic(SCREENS.LOGIN);
-          } else {
-            setInitialScreenPublic(SCREENS.ONBOARDING);
-          }
         }
 
+        setIsFirstLogin(isFirstLogin !== 'false');
         crashlytics().log('App mounted.');
-
-        // Setup notification handlers
-        registerNotificationHandlers();
 
         // Hide SplashScreen
         await BootSplash.hide({ fade: true });
@@ -74,7 +61,7 @@ export const useAppInit = (
     };
 
     init();
-  }, [setAuthenticated, setInitialScreenPublic]);
+  }, [setAuthenticated, setIsFirstLogin]);
 };
 
 /**

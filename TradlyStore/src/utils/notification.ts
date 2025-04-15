@@ -1,9 +1,16 @@
 import { Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
+import { checkAndRequestNotificationPermission } from './permission';
 
 // Constants
-import { CHANNEL_NOTIFICATION, LINKING_URL, SCREENS } from '@/constants';
+import {
+  CHANNEL_NOTIFICATION,
+  LINKING_URL,
+  SCREENS,
+  STORAGE_KEY,
+} from '@/constants';
 
 /**
  * Builds a deep link URL from the provided notification data.
@@ -101,6 +108,7 @@ export const handleForegroundNotifications = () => {
  * using the Linking module.
  */
 export const handleNotificationOpen = () => {
+  // Handle when the app is in the background
   messaging().onNotificationOpenedApp((remoteMessage) => {
     if (remoteMessage?.data) {
       const url = buildDeepLinkFromNotificationData(remoteMessage.data);
@@ -110,6 +118,7 @@ export const handleNotificationOpen = () => {
     }
   });
 
+  // Handle when the app is killed
   messaging()
     .getInitialNotification()
     .then((remoteMessage) => {
@@ -121,6 +130,7 @@ export const handleNotificationOpen = () => {
       }
     });
 
+  // Handle when the app is in the foreground
   notifee.onForegroundEvent(({ type, detail }) => {
     if (type === EventType.PRESS && detail.notification) {
       const url = buildDeepLinkFromNotificationData(
@@ -150,7 +160,13 @@ export const handleNotificationOpen = () => {
  * using the Linking module.
  */
 export const registerNotificationHandlers = async () => {
-  await notifee.requestPermission();
+  const isFirstLogin = await AsyncStorage.getItem(STORAGE_KEY.FIRST_LOGIN);
+
+  if (isFirstLogin !== 'false') {
+    await notifee.requestPermission();
+  } else {
+    await checkAndRequestNotificationPermission();
+  }
 
   createNotificationChannel();
   handleForegroundNotifications();

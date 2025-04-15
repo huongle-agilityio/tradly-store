@@ -1,8 +1,7 @@
 import * as Keychain from 'react-native-keychain';
 import { act } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import useAuthStore from '..';
+import { useAuthStore } from '..';
 
 // Mocks
 import { USER } from '@/mocks';
@@ -55,7 +54,7 @@ describe('useAuthStore', () => {
       await clearAuth();
     });
 
-    expect(AsyncStorage.clear).toHaveBeenCalled();
+    expect(AsyncStorage.removeItem).toHaveBeenCalled();
     expect(Keychain.resetGenericPassword).toHaveBeenCalledWith({
       service: STORAGE_KEY.TOKEN,
     });
