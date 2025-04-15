@@ -1,3 +1,4 @@
+import { lazy, ReactNode, Suspense, useState } from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -5,14 +6,21 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+
 // Components
 import { Text } from '../Text';
 
 // Themes
 import { colors, spacing } from '@/ui/themes';
-import { SingleSelectModal } from '../DropdownModal/SingleSelectModal';
-import { ReactNode, useState } from 'react';
+
+// Interfaces
 import { Option } from '@/interfaces';
+
+const SingleSelectModal = lazy(() =>
+  import('../DropdownModal/SingleSelectModal').then((module) => ({
+    default: module.SingleSelectModal,
+  })),
+);
 
 interface DropdownProps {
   disabled?: boolean;
@@ -52,6 +60,7 @@ export const Dropdown = ({
     <View style={style}>
       {label && <Text style={styles.label}>{label}</Text>}
       <TouchableOpacity
+        accessibilityRole="button"
         testID="single-select-modal"
         disabled={disabled}
         style={styles.selectBox}
@@ -71,13 +80,15 @@ export const Dropdown = ({
         </Text>
       )}
 
-      <SingleSelectModal
-        isModalVisible={isModalVisible}
-        data={options}
-        selectedItem={value || ''}
-        handleCloseModal={handleCloseModal}
-        onItemSelect={handleSelect}
-      />
+      <Suspense fallback={null}>
+        <SingleSelectModal
+          isModalVisible={isModalVisible}
+          data={options}
+          selectedItem={value || ''}
+          handleCloseModal={handleCloseModal}
+          onItemSelect={handleSelect}
+        />
+      </Suspense>
     </View>
   );
 };

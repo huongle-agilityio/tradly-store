@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import {
   createNativeStackNavigator,
   NativeStackHeaderProps,
@@ -6,13 +7,33 @@ import {
 // Screens
 import { ProductNavigation } from './product';
 import { HeaderWithTitle } from '@/ui/sections';
-import { Address, Cart, OrderSuccess } from '@/ui/screens';
 
 // Constants
 import { SCREENS } from '@/constants';
 
+// HOCs
+import { withSuspense } from '@/hocs';
+
 // Interfaces
 import { PrivateStackParamList } from '@/interfaces';
+
+const Cart = lazy(() =>
+  import('@/ui/screens/Cart').then((module) => ({
+    default: module.Cart,
+  })),
+);
+
+const Address = lazy(() =>
+  import('@/ui/screens/Address').then((module) => ({
+    default: module.Address,
+  })),
+);
+
+const OrderSuccess = lazy(() =>
+  import('@/ui/screens/Order/OrderSuccess').then((module) => ({
+    default: module.OrderSuccess,
+  })),
+);
 
 const Stack = createNativeStackNavigator<PrivateStackParamList>();
 
@@ -37,19 +58,19 @@ export const PrivateNavigation = () => {
     >
       <Stack.Screen
         name={SCREENS.CART}
-        component={Cart}
+        component={withSuspense(Cart)}
         options={{ title: 'My Cart' }}
       />
       <Stack.Screen
         name={SCREENS.ADDRESS}
-        component={Address}
+        component={withSuspense(Address)}
         options={{
           title: 'Add a new address',
         }}
       />
       <Stack.Screen
         name={SCREENS.ORDER_SUCCESS}
-        component={OrderSuccess}
+        component={withSuspense(OrderSuccess)}
         options={{
           header: headerOrder,
         }}

@@ -1,5 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
-
 // Sections
 import { FormAddress } from '@/ui/sections';
 
@@ -15,9 +13,9 @@ import { useToast } from '@/stores';
 // Interfaces
 import { PrivateScreenProps } from '@/interfaces';
 
-export const Address = () => {
-  const { navigation } =
-    useNavigation<PrivateScreenProps<typeof SCREENS.ADDRESS>>();
+export const Address = ({
+  navigation,
+}: PrivateScreenProps<typeof SCREENS.ADDRESS>) => {
   const [form, setForm] = useAddressForm((state) => [
     state.form,
     state.setForm,
@@ -30,6 +28,7 @@ export const Address = () => {
       description: 'Address saved successfully',
       variant: 'success',
     });
+
     navigation.goBack();
   };
 

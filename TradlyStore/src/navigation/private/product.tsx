@@ -5,17 +5,32 @@ import {
 
 // Screens
 import { HeaderWithFilterButton, HeaderWithTitle } from '@/ui/sections';
-import {
-  FormCreateOrUpdateProduct,
-  ProductCategory,
-  ProductDetail,
-} from '@/ui/screens';
 
 // Constants
 import { SCREENS } from '@/constants';
 
 // Interfaces
 import { ProductStackParamList } from '@/interfaces';
+import { lazy } from 'react';
+import { withSuspense } from '@/hocs';
+
+const ProductCategory = lazy(() =>
+  import('@/ui/screens/ProductCategory').then((module) => ({
+    default: module.ProductCategory,
+  })),
+);
+
+const FormCreateOrUpdateProduct = lazy(() =>
+  import('@/ui/screens/FormCreateOrUpdateProduct').then((module) => ({
+    default: module.FormCreateOrUpdateProduct,
+  })),
+);
+
+const ProductDetail = lazy(() =>
+  import('@/ui/screens/ProductDetail').then((module) => ({
+    default: module.ProductDetail,
+  })),
+);
 
 const Stack = createNativeStackNavigator<ProductStackParamList>();
 
@@ -36,21 +51,21 @@ export const ProductNavigation = () => {
     <Stack.Navigator>
       <Stack.Screen
         name={SCREENS.PRODUCT_LIST}
-        component={ProductCategory}
+        component={withSuspense(ProductCategory)}
         options={{
           header: headerProductList,
         }}
       />
       <Stack.Screen
         name={SCREENS.FORM_PRODUCT}
-        component={FormCreateOrUpdateProduct}
+        component={withSuspense(FormCreateOrUpdateProduct)}
         options={{
           header: headerStack,
         }}
       />
       <Stack.Screen
         name={SCREENS.PRODUCT_DETAIL}
-        component={ProductDetail}
+        component={withSuspense(ProductDetail)}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
