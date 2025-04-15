@@ -1,10 +1,10 @@
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
 import notifee, { AuthorizationStatus } from '@notifee/react-native';
-import {
-  checkAndRequestNotificationPermission,
-  requestCameraPermission,
-  requestGalleryPermission,
-} from '..';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { checkAndRequestNotificationPermission, requestPermission } from '..';
+
+// Interfaces
+import { PermissionType } from '@/interfaces';
 
 jest.mock('react-native/Libraries/Utilities/Platform', () => ({
   OS: 'android',
@@ -18,6 +18,29 @@ jest.mock('react-native/Libraries/Linking/Linking', () => ({
 jest.mock('react-native/Libraries/Alert/Alert', () => ({
   alert: jest.fn(),
 }));
+
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+}));
+
+jest.mock(
+  'react-native/Libraries/PermissionsAndroid/PermissionsAndroid',
+  () => ({
+    check: jest.fn(),
+    request: jest.fn(),
+    PERMISSIONS: {
+      CAMERA: 'android.permission.camera',
+      READ_MEDIA_IMAGES: 'android.permission.READ_MEDIA_IMAGES',
+    },
+    RESULTS: {
+      GRANTED: 'granted',
+      DENIED: 'denied',
+      NEVER_ASK_AGAIN: 'never_ask_again',
+    },
+  }),
+);
 
 jest.mock('@notifee/react-native', () => ({
   getNotificationSettings: jest.fn(),
@@ -35,92 +58,104 @@ describe('Permissions', () => {
     jest.clearAllMocks();
   });
 
-  describe('requestCameraPermission', () => {
-    it('Should return true when permission granted', async () => {
-      jest.spyOn(PermissionsAndroid, 'request').mockResolvedValue('granted');
-
-      const result = await requestCameraPermission();
-      expect(result).toBe(true);
-    });
-
-    it('Should return false when permission denied', async () => {
-      jest.spyOn(PermissionsAndroid, 'request').mockResolvedValueOnce('denied');
-
-      const result = await requestCameraPermission();
-      expect(result).toBe(false);
-    });
-
-    it('Should return true on iOS', async () => {
-      const originalPlatform = Platform.OS;
-      Platform.OS = 'ios';
-
-      const result = await requestCameraPermission();
-      expect(result).toBe(true);
-
-      Platform.OS = originalPlatform; // restore
-    });
-
-    it('Should return false when request throws error', async () => {
-      jest
-        .spyOn(PermissionsAndroid, 'request')
-        .mockRejectedValue(new Error('error'));
-
-      const result = await requestCameraPermission();
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('requestGalleryPermission', () => {
-    it('Should return true when permission granted', async () => {
-      jest.spyOn(PermissionsAndroid, 'requestMultiple').mockImplementation(
-        async () =>
-          ({
-            'android.permission.READ_MEDIA_IMAGES': 'granted',
-          } as any),
-      );
-
-      const result = await requestGalleryPermission();
-      expect(result).toBe(true);
-    });
-
-    it('Should return false when permission denied', async () => {
-      jest.spyOn(PermissionsAndroid, 'requestMultiple').mockImplementation(
-        async () =>
-          ({
-            'android.permission.READ_MEDIA_IMAGES': 'denied',
-          } as any),
-      );
-
-      const result = await requestGalleryPermission();
-      expect(result).toBe(false);
-    });
-
-    it('Should return true on iOS', async () => {
-      const originalPlatform = Platform.OS;
-      Platform.OS = 'ios';
-
-      const result = await requestGalleryPermission();
-      expect(result).toBe(true);
-
-      Platform.OS = originalPlatform;
-    });
-
-    it('Should return false when requestMultiple throws error', async () => {
-      jest
-        .spyOn(PermissionsAndroid, 'requestMultiple')
-        .mockRejectedValue(new Error('error'));
-
-      const result = await requestGalleryPermission();
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('checkAndRequestNotificationPermission', () => {
+  describe('requestPermission', () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
 
-    it('Should return true if permission is already authorized', async () => {
+    it('Should return true if permission already granted', async () => {
+      (PermissionsAndroid.check as jest.Mock).mockResolvedValue(true);
+
+      const result = await requestPermission(PermissionType.camera);
+
+      expect(result).toBe(true);
+      expect(PermissionsAndroid.check).toHaveBeenCalledWith(
+        'android.permission.camera',
+      );
+    });
+
+    it('Should return true if permission granted after request', async () => {
+      (PermissionsAndroid.check as jest.Mock).mockResolvedValue(false);
+      (PermissionsAndroid.request as jest.Mock).mockResolvedValue('granted');
+
+      const result = await requestPermission(PermissionType.camera);
+
+      expect(result).toBe(true);
+      expect(PermissionsAndroid.request).toHaveBeenCalledWith(
+        'android.permission.camera',
+      );
+      expect(AsyncStorage.removeItem).toHaveBeenCalledWith('camera_denied');
+    });
+
+    it('Should return false and store denied if permission denied after request', async () => {
+      (PermissionsAndroid.check as jest.Mock).mockResolvedValue(false);
+      (PermissionsAndroid.request as jest.Mock).mockResolvedValue('denied');
+
+      const result = await requestPermission(PermissionType.camera);
+
+      expect(result).toBe(false);
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'camera_denied',
+        'true',
+      );
+    });
+
+    it('Should show alert if permission never ask again and deniedStatus !== "true"', async () => {
+      (PermissionsAndroid.check as jest.Mock).mockResolvedValue(false);
+      (PermissionsAndroid.request as jest.Mock).mockResolvedValue(
+        'never_ask_again',
+      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+
+      const result = await requestPermission(PermissionType.camera);
+
+      expect(result).toBe(false);
+      expect(Alert.alert).toHaveBeenCalled();
+    });
+
+    it('Should not show alert if permission never ask again but deniedStatus === "true"', async () => {
+      (PermissionsAndroid.check as jest.Mock).mockResolvedValue(false);
+      (PermissionsAndroid.request as jest.Mock).mockResolvedValue(
+        'never_ask_again',
+      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValue('true');
+
+      const result = await requestPermission(PermissionType.camera);
+
+      expect(result).toBeFalsy();
+      expect(Alert.alert).not.toHaveBeenCalled();
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'camera_denied',
+        'false',
+      );
+    });
+
+    it('Should return false if request permission throws error', async () => {
+      (PermissionsAndroid.check as jest.Mock).mockResolvedValue(false);
+      (PermissionsAndroid.request as jest.Mock).mockRejectedValue(
+        new Error('request failed'),
+      );
+
+      const result = await requestPermission(PermissionType.camera);
+
+      expect(result).toBe(false);
+    });
+
+    it('Should return true on iOS (skip android permission flow)', async () => {
+      (Platform.OS as any) = 'ios';
+
+      const result = await requestPermission(PermissionType.camera);
+
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('checkAndRequestNotificationPermission', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('Should return true if notifications are already authorized', async () => {
       (notifee.getNotificationSettings as jest.Mock).mockResolvedValue({
         authorizationStatus: AuthorizationStatus.AUTHORIZED,
       });
@@ -128,10 +163,21 @@ describe('Permissions', () => {
       const result = await checkAndRequestNotificationPermission();
 
       expect(result).toBe(true);
-      expect(Alert.alert).not.toHaveBeenCalled();
+      expect(notifee.getNotificationSettings).toHaveBeenCalled();
     });
 
-    it('Should show alert and return false if permission is denied', async () => {
+    it('Should return true if notifications are provisionally authorized', async () => {
+      (notifee.getNotificationSettings as jest.Mock).mockResolvedValue({
+        authorizationStatus: AuthorizationStatus.PROVISIONAL,
+      });
+
+      const result = await checkAndRequestNotificationPermission();
+
+      expect(result).toBe(false);
+      expect(notifee.getNotificationSettings).toHaveBeenCalled();
+    });
+
+    it('Should show alert and return false if notifications are denied', async () => {
       (notifee.getNotificationSettings as jest.Mock).mockResolvedValue({
         authorizationStatus: AuthorizationStatus.DENIED,
       });
@@ -140,69 +186,59 @@ describe('Permissions', () => {
 
       expect(result).toBe(false);
       expect(Alert.alert).toHaveBeenCalledWith(
-        'Notification permission denied',
-        'Please enable notifications in the app settings to receive notifications.',
+        'Notifications disabled',
+        'To receive important updates, please enable notifications in your device settings.',
         [
           { text: 'Cancel', style: 'cancel' },
-          { text: 'Go to Settings', onPress: expect.any(Function) },
+          { text: 'Open Settings', onPress: expect.any(Function) },
         ],
-        { cancelable: false },
+        { cancelable: true },
       );
     });
 
-    it('Should request permission if not determined and return true if authorized', async () => {
+    it('Should request permission if not determined and succeed', async () => {
       (notifee.getNotificationSettings as jest.Mock).mockResolvedValue({
         authorizationStatus: AuthorizationStatus.NOT_DETERMINED,
       });
+
       (notifee.requestPermission as jest.Mock).mockResolvedValue({
         authorizationStatus: AuthorizationStatus.AUTHORIZED,
       });
 
       const result = await checkAndRequestNotificationPermission();
 
+      expect(notifee.requestPermission).toHaveBeenCalled();
       expect(result).toBe(true);
-      expect(notifee.requestPermission).toHaveBeenCalled();
     });
 
-    it('Should request permission if not determined and return true if provisional', async () => {
+    it('Should request permission if not determined and fail', async () => {
       (notifee.getNotificationSettings as jest.Mock).mockResolvedValue({
         authorizationStatus: AuthorizationStatus.NOT_DETERMINED,
       });
-      (notifee.requestPermission as jest.Mock).mockResolvedValue({
-        authorizationStatus: AuthorizationStatus.PROVISIONAL,
-      });
 
-      const result = await checkAndRequestNotificationPermission();
-
-      expect(result).toBe(false);
-      expect(notifee.requestPermission).toHaveBeenCalled();
-    });
-
-    it('Should request permission and return false if still unauthorized', async () => {
-      (notifee.getNotificationSettings as jest.Mock).mockResolvedValue({
-        authorizationStatus: AuthorizationStatus.NOT_DETERMINED,
-      });
       (notifee.requestPermission as jest.Mock).mockResolvedValue({
         authorizationStatus: AuthorizationStatus.DENIED,
       });
 
       const result = await checkAndRequestNotificationPermission();
 
-      expect(result).toBe(false);
       expect(notifee.requestPermission).toHaveBeenCalled();
+      expect(result).toBe(false);
     });
 
-    it('Should return false if requestPermission throws error', async () => {
+    it('Should handle error when requesting permission', async () => {
       (notifee.getNotificationSettings as jest.Mock).mockResolvedValue({
         authorizationStatus: AuthorizationStatus.NOT_DETERMINED,
       });
+
       (notifee.requestPermission as jest.Mock).mockRejectedValue(
-        new Error('Request error'),
+        new Error('Some error'),
       );
 
       const result = await checkAndRequestNotificationPermission();
-      expect(result).toBe(false);
+
       expect(notifee.requestPermission).toHaveBeenCalled();
+      expect(result).toBe(false);
     });
   });
 });
