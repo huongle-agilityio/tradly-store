@@ -1,6 +1,10 @@
 import { useCallback } from 'react';
 import { View, ScrollView } from 'react-native';
-import { PerformanceMeasureView } from '@shopify/react-native-performance';
+import {
+  GestureResponderEvent,
+  PerformanceMeasureView,
+  useStartProfiler,
+} from '@shopify/react-native-performance';
 import { styles } from './styles';
 
 // Apis
@@ -19,6 +23,8 @@ import { BottomTabsScreenProps } from '@/interfaces';
 export const Home = ({
   navigation,
 }: BottomTabsScreenProps<typeof SCREENS.HOME>) => {
+  const startNavigationTTITimer = useStartProfiler();
+
   // Apis
   const { data: productSorted, isLoading: isLoadingProductSorted } =
     useGetProduct({
@@ -73,7 +79,11 @@ export const Home = ({
   );
 
   const handleNavigateProductDetail = useCallback(
-    (id: string) => {
+    (id: string, uiEvent?: GestureResponderEvent) => {
+      startNavigationTTITimer({
+        source: SCREENS.HOME,
+        uiEvent,
+      });
       navigation.push(SCREENS.PRIVATE, {
         screen: SCREENS.PRODUCT_STACK,
         params: {
@@ -84,12 +94,12 @@ export const Home = ({
         },
       });
     },
-    [navigation],
+    [navigation, startNavigationTTITimer],
   );
 
   return (
     <PerformanceMeasureView
-      interactive={!!productSorted.length && !!productHasDiscount}
+      interactive={!!productSorted.length && !!productHasDiscount.length}
       screenName={SCREENS.HOME}
     >
       <ScrollView style={styles.container}>
@@ -112,11 +122,6 @@ export const Home = ({
               data={productSorted}
               isLoading={isLoadingProductSorted}
               horizontal={true}
-              getItemLayout={(_, index) => ({
-                length: 203,
-                offset: 203 * index,
-                index,
-              })}
               onNavigateProductDetail={handleNavigateProductDetail}
             />
           </View>
@@ -137,11 +142,6 @@ export const Home = ({
             <ListProduct
               data={productHasDiscount}
               isLoading={isLoadingProductHasDiscount}
-              getItemLayout={(_, index) => ({
-                length: 203,
-                offset: 203 * index,
-                index,
-              })}
               horizontal={true}
               onNavigateProductDetail={handleNavigateProductDetail}
             />

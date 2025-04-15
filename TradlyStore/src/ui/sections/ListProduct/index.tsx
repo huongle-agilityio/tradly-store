@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { GestureResponderEvent } from '@shopify/react-native-performance';
 
 // Components
 import { EmptyList } from '../EmptyList';
@@ -33,7 +34,10 @@ interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {
   isFetchingNextPage?: boolean;
   refetch?: () => void;
   onEndReached?: () => void;
-  onNavigateProductDetail?: (id: string) => void;
+  onNavigateProductDetail?: (
+    id: string,
+    uiEvent?: GestureResponderEvent,
+  ) => void;
   onEditProduct?: (id: string) => void;
   onDeleteProduct?: (id: string) => void;
 }
@@ -106,6 +110,15 @@ export const ListProduct = memo(
       ],
     );
 
+    const getItemLayout = useCallback(
+      (_: any, index: number) => ({
+        length: 203,
+        offset: 203 * index,
+        index,
+      }),
+      [],
+    );
+
     const renderItem = useCallback(
       ({ item, index }: RenderItemProps) => (
         <ProductListItem
@@ -146,6 +159,12 @@ export const ListProduct = memo(
               <ListFooter style={styles.loadingNextPage} />
             ) : null
           }
+          initialNumToRender={8}
+          maxToRenderPerBatch={8}
+          updateCellsBatchingPeriod={50}
+          windowSize={5}
+          removeClippedSubviews={true}
+          getItemLayout={getItemLayout}
           renderItem={renderItem}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

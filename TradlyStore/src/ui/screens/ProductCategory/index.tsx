@@ -1,6 +1,11 @@
 import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { PerformanceMeasureView } from '@shopify/react-native-performance';
+import { useRoute } from '@react-navigation/native';
+import {
+  GestureResponderEvent,
+  PerformanceMeasureView,
+  useStartProfiler,
+} from '@shopify/react-native-performance';
 
 // Apis
 import { useGetProductByParams } from '@/apis';
@@ -22,6 +27,9 @@ export const ProductCategory = ({
   navigation,
   route: { params },
 }: ProductCategoryProps) => {
+  const route = useRoute();
+  const startNavigationTTITimer = useStartProfiler();
+
   // Apis
   const {
     data,
@@ -33,7 +41,6 @@ export const ProductCategory = ({
   } = useGetProductByParams({
     params: params || {},
   });
-
   const handleEndReached = useCallback(() => {
     // fetch next page
     if (hasNextPage && !isFetchingNextPage) {
@@ -42,7 +49,11 @@ export const ProductCategory = ({
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const handleNavigateProductDetail = useCallback(
-    (id: string) => {
+    (id: string, uiEvent?: GestureResponderEvent) => {
+      startNavigationTTITimer({
+        source: route.name,
+        uiEvent,
+      });
       navigation.push(SCREENS.PRIVATE, {
         screen: SCREENS.PRODUCT_STACK,
         params: {
@@ -53,13 +64,13 @@ export const ProductCategory = ({
         },
       });
     },
-    [navigation],
+    [navigation, route.name, startNavigationTTITimer],
   );
 
   return (
     <PerformanceMeasureView
       interactive={!!data.length}
-      screenName={SCREENS.PRODUCT_LIST}
+      screenName={SCREENS.BROWSE}
     >
       <View style={styles.container}>
         <ListProduct

@@ -35,10 +35,7 @@ export const OrderSuccess = ({
         <Image
           source={IMAGE_DETAILS.SUCCESS.src}
           alt={IMAGE_DETAILS.SUCCESS.alt}
-          style={{
-            width: 160,
-            height: 100,
-          }}
+          style={orderSuccessStyles.image}
         />
         <Text fontWeight="bold" fontSize="xxl" color="placeholder">
           Thanks for Order
