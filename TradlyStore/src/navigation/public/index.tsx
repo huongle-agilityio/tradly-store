@@ -12,12 +12,12 @@ import { PublicStackParamList } from '@/interfaces';
 const Stack = createNativeStackNavigator<PublicStackParamList>();
 
 interface PublicNavigationProps {
-  initScreen: typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING;
+  isFirstLogin: boolean;
 }
 
-export const PublicNavigation = ({ initScreen }: PublicNavigationProps) => (
+export const PublicNavigation = ({ isFirstLogin }: PublicNavigationProps) => (
   <Stack.Navigator
-    initialRouteName={initScreen}
+    initialRouteName={isFirstLogin ? SCREENS.ONBOARDING : SCREENS.LOGIN}
     screenOptions={{ headerShown: false }}
   >
     <Stack.Screen name={SCREENS.LOGIN} component={Login} />

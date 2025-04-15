@@ -33,5 +33,3 @@ export const useToast = create<ToastStore>()((set) => ({
     set({ toast: null });
   },
 }));
-
-export default useToast;

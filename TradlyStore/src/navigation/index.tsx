@@ -31,10 +31,10 @@ import { colors } from '@/ui/themes';
 const App = createNativeStackNavigator<AppParamList>();
 
 interface NavigationProps {
-  initialScreenPublic: typeof SCREENS.LOGIN | typeof SCREENS.ONBOARDING;
+  isFirstLogin: boolean;
 }
 
-export const Navigation = ({ initialScreenPublic }: NavigationProps) => {
+export const Navigation = ({ isFirstLogin }: NavigationProps) => {
   const queryClient = new QueryClient();
 
   // Stores
@@ -42,7 +42,7 @@ export const Navigation = ({ initialScreenPublic }: NavigationProps) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const PublicNavigateStack = () => (
-    <PublicNavigation initScreen={initialScreenPublic} />
+    <PublicNavigation isFirstLogin={isFirstLogin} />
   );
 
   return (

@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import crashlytics from '@react-native-firebase/crashlytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import {
   GestureResponderEvent,
@@ -30,7 +31,7 @@ import { useScreenTrace } from '@/hooks';
 import { AuthPayload } from '@/interfaces';
 
 // Utils
-import { checkAndRequestNotificationPermission, customTrace } from '@/utils';
+import { customTrace, registerNotificationHandlers } from '@/utils';
 
 export const Login = () => {
   const startNavigationTTITimer = useStartProfiler();
@@ -66,18 +67,13 @@ export const Login = () => {
             Keychain.setGenericPassword(STORAGE_KEY.TOKEN, jwt, {
               service: STORAGE_KEY.TOKEN,
             }),
-            Keychain.setGenericPassword(
-              STORAGE_KEY.FIRST_LOGIN,
-              STORAGE_KEY.FIRST_LOGIN,
-              {
-                service: STORAGE_KEY.FIRST_LOGIN,
-              },
-            ),
+            AsyncStorage.setItem(STORAGE_KEY.FIRST_LOGIN, 'false'),
           ]);
-
           setUser(user);
           setIsAuthenticated(true);
-          await checkAndRequestNotificationPermission();
+
+          // Setup notification handlers
+          await registerNotificationHandlers();
 
           // custom trace
           trace.putAttribute('login_status', 'success');
