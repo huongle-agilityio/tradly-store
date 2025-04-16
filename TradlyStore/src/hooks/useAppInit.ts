@@ -11,6 +11,9 @@ import { STORAGE_KEY } from '@/constants';
 // Store
 import { useAuthStore } from '@/stores';
 
+// Utils
+import { clearImagePickerFiles } from '@/utils';
+
 /**
  * Initializes the app, checking if a token exists and setting the initial screen
  * accordingly. If a token exists, the user is considered authenticated. If not, the
@@ -28,6 +31,8 @@ export const useAppInit = (
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
 
   useEffect(() => {
+    clearImagePickerFiles();
+
     /**
      * Initializes the app, checking if a token exists and setting the initial screen
      * accordingly. If a token exists, the user is considered authenticated. If not, the

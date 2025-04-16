@@ -29,6 +29,7 @@ export const OptionItem = memo(
 
     return (
       <TouchableOpacity
+        accessibilityRole="button"
         testID="option-item"
         style={[styles.item, !isLastItem && styles.borderCommon]}
         onPress={handleSelect}

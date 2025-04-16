@@ -41,6 +41,7 @@ export const MultipleSelectModal = ({
       onRequestClose={handleCloseModal}
     >
       <TouchableOpacity
+        accessibilityRole="button"
         testID="modal-backdrop"
         style={styles.modalBackdrop}
         onPress={handleCloseModal}

@@ -1,11 +1,12 @@
+import { lazy } from 'react';
 import {
   BottomTabHeaderProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 
 // Screens
+import { Home, ProductCategory, Store } from '@/ui/screens';
 import { HeaderWithSearchInput, HeaderWithTitle } from '@/ui/sections';
-import { Home, ProductCategory, Profile, Store, UpComing } from '@/ui/screens';
 
 // Icons
 import {
@@ -19,11 +20,26 @@ import {
 // Constants
 import { SCREENS } from '@/constants';
 
+// HOCs
+import { withSuspense } from '@/hocs';
+
 // Interfaces
 import { TabsStackParamList } from '@/interfaces';
 
 // Themes
 import { colors, fontsFamily, fontSizes, fontWeights } from '@/ui/themes';
+
+const Profile = lazy(() =>
+  import('@/ui/screens/Profile').then((module) => ({
+    default: module.Profile,
+  })),
+);
+
+const UpComing = lazy(() =>
+  import('@/ui/screens/Upcoming').then((module) => ({
+    default: module.UpComing,
+  })),
+);
 
 const Tabs = createBottomTabNavigator<TabsStackParamList>();
 
@@ -58,6 +74,7 @@ export const TabsNavigation = () => {
   return (
     <Tabs.Navigator
       screenOptions={{
+        lazy: true,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.placeholder,
         tabBarStyle: {
@@ -112,7 +129,7 @@ export const TabsNavigation = () => {
       />
       <Tabs.Screen
         name={SCREENS.ORDER_HISTORY}
-        component={UpComing}
+        component={withSuspense(UpComing)}
         options={{
           title: 'Order History',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.ORDER_HISTORY),
@@ -120,7 +137,7 @@ export const TabsNavigation = () => {
       />
       <Tabs.Screen
         name={SCREENS.PROFILE}
-        component={Profile}
+        component={withSuspense(Profile)}
         options={{
           title: 'Profile',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.PROFILE),
