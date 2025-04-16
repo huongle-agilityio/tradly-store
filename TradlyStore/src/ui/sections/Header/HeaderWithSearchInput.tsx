@@ -72,6 +72,8 @@ export const HeaderWithSearchInput = ({
         <View style={styles.iconWrapper}>
           <HeartIcon size={24} color={colors.light} />
           <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Button to navigate to cart screen"
             onPress={handlerRedirectMyCart}
             style={{ position: 'relative', opacity: carts.length ? 1 : 0.7 }}
             disabled={!carts.length}
@@ -84,7 +86,11 @@ export const HeaderWithSearchInput = ({
 
       {hasSearchInput && (
         <View style={styles.inputWrapper}>
-          <TouchableOpacity onPress={handleRedirectBrowse}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Input navigate to browse tab"
+            onPress={handleRedirectBrowse}
+          >
             <Input
               variant="outlined"
               placeholder="Search Product"

@@ -57,7 +57,8 @@ export const CartItem = memo(
             source={{
               uri: image,
             }}
-            alt={`image of ${name} product`}
+            accessibilityRole="image"
+            accessibilityLabel={`image of ${name} product`}
             style={{
               width: spacing[30],
               height: spacing[30],
@@ -108,6 +109,7 @@ export const CartItem = memo(
 
         {onRemoveItem && (
           <TouchableOpacity
+            accessibilityRole="button"
             style={styles.buttonWrapper}
             onPress={handleRemoveItem}
           >

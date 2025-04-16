@@ -60,6 +60,7 @@ export const Dropdown = ({
     <View style={style}>
       {label && <Text style={styles.label}>{label}</Text>}
       <TouchableOpacity
+        accessibilityLabel="Dropdown button"
         accessibilityRole="button"
         testID="single-select-modal"
         disabled={disabled}

@@ -160,6 +160,7 @@ export const ProductPhotosUpload = ({
   const listHeaderComponent = useCallback(
     () => (
       <TouchableOpacity
+        accessibilityRole="button"
         onPress={openGalleryWithCameraOption}
         style={styles.addImage}
       >

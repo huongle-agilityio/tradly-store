@@ -33,8 +33,10 @@ export const OrderSuccess = ({
     >
       <View style={orderSuccessStyles.imageWrapper}>
         <Image
+          accessibilityRole="image"
           source={IMAGE_DETAILS.SUCCESS.src}
           alt={IMAGE_DETAILS.SUCCESS.alt}
+          accessibilityLabel={IMAGE_DETAILS.SUCCESS.alt}
           style={orderSuccessStyles.image}
         />
         <Text fontWeight="bold" fontSize="xxl" color="placeholder">

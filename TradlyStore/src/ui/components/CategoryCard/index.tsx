@@ -39,14 +39,16 @@ export const CategoryCard = memo(
 
     return (
       <TouchableOpacity
+        accessibilityRole="button"
         testID="category-card"
         onPress={handlePress}
         style={styleWrapper}
       >
         <ImageBackground
+          accessibilityRole="image"
           testID="category-card-image"
           source={source}
-          alt={`category-${title}`}
+          accessibilityLabel={`image of ${title} category`}
         >
           <View style={[styles.container, style]}>
             <Text

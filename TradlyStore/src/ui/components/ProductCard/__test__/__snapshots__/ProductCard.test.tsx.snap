@@ -2,6 +2,7 @@
 
 exports[`ProductCard Component Should renders correctly with required props 1`] = `
 <View
+  accessibilityRole="button"
   accessibilityState={
     {
       "busy": undefined,
@@ -149,6 +150,8 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
         }
       >
         <Image
+          accessibilityLabel="avatar of Store Name store"
+          accessibilityRole="image"
           alt="store-Store Name-logo"
           source={
             {

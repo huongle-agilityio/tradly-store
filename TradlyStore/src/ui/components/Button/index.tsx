@@ -61,6 +61,7 @@ export const Button = memo(
     return (
       <TouchableOpacity
         testID="button"
+        accessibilityRole="button"
         style={[
           styles.button,
           sizes[size],

@@ -54,6 +54,7 @@ export const ProductCard = memo(
 
     return (
       <TouchableOpacity
+        accessibilityRole="button"
         testID="product-card"
         style={[styles.container, styleWrapper]}
         onPress={onPress}
@@ -71,10 +72,18 @@ export const ProductCard = memo(
 
           {hasAction && (
             <View style={productActions.container}>
-              <TouchableOpacity style={productActions.icon} onPress={onEdit}>
+              <TouchableOpacity
+                accessibilityRole="button"
+                style={productActions.icon}
+                onPress={onEdit}
+              >
                 <EditIcon />
               </TouchableOpacity>
-              <TouchableOpacity style={productActions.icon} onPress={onDelete}>
+              <TouchableOpacity
+                accessibilityRole="button"
+                style={productActions.icon}
+                onPress={onDelete}
+              >
                 <TrashIcon />
               </TouchableOpacity>
             </View>
@@ -92,9 +101,11 @@ export const ProductCard = memo(
           <View style={styles.informationWrapper}>
             <View style={styles.textWrapper}>
               <Image
+                accessibilityRole="image"
                 source={{ uri: storeSource }}
                 alt={`store-${storeName}-logo`}
                 style={styles.storeImage}
+                accessibilityLabel={`avatar of ${storeName} store`}
               />
               <Text
                 color="placeholder"

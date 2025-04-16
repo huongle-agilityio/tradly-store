@@ -130,7 +130,11 @@ export const ProductDetail = ({
               <ProductCarousel images={slideImages} />
 
               <View style={styles.header}>
-                <TouchableOpacity style={styles.icon} onPress={handleBack}>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  style={styles.icon}
+                  onPress={handleBack}
+                >
                   <ArrowLeftIcon size={18} color={colors.light} />
                   <View style={styles.backgroundIcon} />
                 </TouchableOpacity>
@@ -207,9 +211,10 @@ export const ProductDetail = ({
               ) : (
                 <>
                   <Image
+                    accessibilityRole="image"
                     source={{ uri: store.image }}
-                    alt={`store-${store.username}-image`}
                     style={styles.image}
+                    accessibilityLabel={`avatar of ${store.username} store`}
                   />
                   <Text fontWeight="normal" color="placeholder">
                     {store.username}

@@ -32,11 +32,14 @@ export const ImageUpload = memo(
     return (
       <View style={[styles.container, styleContainer]}>
         <Image
+          accessibilityRole="image"
           testID="uploaded-image"
           source={{ uri: image }}
           style={[styles.image, style]}
+          accessibilityLabel="image uploaded"
         />
         <TouchableOpacity
+          accessibilityRole="button"
           testID="close-button"
           style={styles.closeIcon}
           onPress={handleDelete}

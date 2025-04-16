@@ -1,13 +1,22 @@
-import { Option } from '@/interfaces';
-import { colors, spacing } from '@/ui/themes';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 // Components
 import { Text } from '../Text';
 import { Input } from '../Input';
 import { DropdownChip } from './DropdownChip';
-import { MultipleSelectModal } from '../DropdownModal/MultipleSelectModal';
+
+// Interfaces
+import { Option } from '@/interfaces';
+
+// Themes
+import { colors, spacing } from '@/ui/themes';
+
+const MultipleSelectModal = lazy(() =>
+  import('../DropdownModal/MultipleSelectModal').then((module) => ({
+    default: module.MultipleSelectModal,
+  })),
+);
 
 interface SelectWithChipsProps {
   label: string;
@@ -87,13 +96,20 @@ export const MultipleDropdown = ({
             })}
           </View>
           <TouchableOpacity
+            accessibilityLabel="Multiple dropdown button"
+            accessibilityRole="button"
             disabled={disabled}
             onPress={handleOpenModal}
             style={styles.touchModal}
           />
         </View>
       ) : (
-        <TouchableOpacity disabled={disabled} onPress={handleOpenModal}>
+        <TouchableOpacity
+          accessibilityLabel="Multiple dropdown button"
+          accessibilityRole="button"
+          disabled={disabled}
+          onPress={handleOpenModal}
+        >
           <Input
             label={label}
             variant="underlined"
@@ -108,13 +124,15 @@ export const MultipleDropdown = ({
         </Text>
       )}
 
-      <MultipleSelectModal
-        data={options}
-        handleCloseModal={handleCloseModal}
-        isModalVisible={isModalVisible}
-        selectedItems={selectedItems}
-        onItemSelect={handleItemSelect}
-      />
+      <Suspense fallback={null}>
+        <MultipleSelectModal
+          data={options}
+          handleCloseModal={handleCloseModal}
+          isModalVisible={isModalVisible}
+          selectedItems={selectedItems}
+          onItemSelect={handleItemSelect}
+        />
+      </Suspense>
     </View>
   );
 };

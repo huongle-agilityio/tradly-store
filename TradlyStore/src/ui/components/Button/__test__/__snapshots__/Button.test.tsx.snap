@@ -2,6 +2,7 @@
 
 exports[`Button Component Should Should renders correctly when variant is not solid 1`] = `
 <View
+  accessibilityRole="button"
   accessibilityState={
     {
       "busy": undefined,
@@ -84,6 +85,7 @@ exports[`Button Component Should Should renders correctly when variant is not so
 
 exports[`Button Component Should Should renders correctly when variant is not solid and color is secondary 1`] = `
 <View
+  accessibilityRole="button"
   accessibilityState={
     {
       "busy": undefined,
@@ -166,6 +168,7 @@ exports[`Button Component Should Should renders correctly when variant is not so
 
 exports[`Button Component Should Should renders correctly when variant is solid and color is secondary 1`] = `
 <View
+  accessibilityRole="button"
   accessibilityState={
     {
       "busy": undefined,
@@ -250,6 +253,7 @@ exports[`Button Component Should Should renders correctly when variant is solid 
 
 exports[`Button Component Should Should renders correctly with children 1`] = `
 <View
+  accessibilityRole="button"
   accessibilityState={
     {
       "busy": undefined,

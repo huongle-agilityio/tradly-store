@@ -12,6 +12,8 @@ exports[`ImageUpload Component renders correctly with given image 1`] = `
   }
 >
   <Image
+    accessibilityLabel="image uploaded"
+    accessibilityRole="image"
     source={
       {
         "uri": "https://path-to-image.jpg",
@@ -30,6 +32,7 @@ exports[`ImageUpload Component renders correctly with given image 1`] = `
     testID="uploaded-image"
   />
   <View
+    accessibilityRole="button"
     accessibilityState={
       {
         "busy": undefined,

@@ -20,7 +20,8 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
     }
   >
     <Image
-      alt="image of Test Product product"
+      accessibilityLabel="image of Test Product product"
+      accessibilityRole="image"
       source={
         {
           "uri": "https://example.com/image.jpg",
@@ -182,6 +183,8 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
           }
         >
           <View
+            accessibilityLabel="Dropdown button"
+            accessibilityRole="button"
             accessibilityState={
               {
                 "busy": undefined,
@@ -299,6 +302,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
     </View>
   </View>
   <View
+    accessibilityRole="button"
     accessibilityState={
       {
         "busy": undefined,
@@ -380,7 +384,8 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
     }
   >
     <Image
-      alt="image of Test Product product"
+      accessibilityLabel="image of Test Product product"
+      accessibilityRole="image"
       source={
         {
           "uri": "https://example.com/image.jpg",
@@ -542,6 +547,8 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
           }
         >
           <View
+            accessibilityLabel="Dropdown button"
+            accessibilityRole="button"
             accessibilityState={
               {
                 "busy": undefined,

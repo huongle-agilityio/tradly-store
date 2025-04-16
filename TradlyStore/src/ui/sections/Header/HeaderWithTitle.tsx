@@ -31,7 +31,12 @@ export const HeaderWithTitle = ({
     <View style={styles.container}>
       <View style={[styles.titleWrapper, navigation && styles.hasBackButton]}>
         {navigation && (
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Button to go previous screen"
+            onPress={handleBack}
+            style={styles.backButton}
+          >
             <ArrowLeftIcon size={24} color={colors.light} />
           </TouchableOpacity>
         )}
@@ -41,7 +46,12 @@ export const HeaderWithTitle = ({
         </Text>
 
         {onClose && (
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Button close current screen"
+            onPress={onClose}
+            style={styles.closeButton}
+          >
             <CloseIcon size={16} color={colors.light} />
           </TouchableOpacity>
         )}

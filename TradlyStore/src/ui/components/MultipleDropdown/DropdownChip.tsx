@@ -31,6 +31,7 @@ export const DropdownChip = memo(
 
     return (
       <TouchableOpacity
+        accessibilityRole="button"
         testID="close-icon-option"
         onPress={handlePress}
         style={style}

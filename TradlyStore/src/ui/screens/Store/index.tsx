@@ -128,7 +128,10 @@ export const Store = ({
           Products
         </Text>
         {!!data.length && (
-          <TouchableOpacity onPress={handleNavigateAddProduct}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            onPress={handleNavigateAddProduct}
+          >
             <PlusCircleIcon color={colors.primary} />
           </TouchableOpacity>
         )}

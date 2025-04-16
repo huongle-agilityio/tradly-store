@@ -19,8 +19,10 @@ export const UpComing = () => {
   return (
     <View style={styles.container}>
       <Image
+        accessibilityRole="image"
         source={IMAGE_DETAILS.UPCOMING.src}
         alt={IMAGE_DETAILS.UPCOMING.alt}
+        accessibilityLabel={IMAGE_DETAILS.UPCOMING.alt}
         resizeMode="contain"
         style={{
           width: width * 0.8,

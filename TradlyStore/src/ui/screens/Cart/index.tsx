@@ -136,6 +136,7 @@ export const Cart = ({
     >
       {isEmptyObject(formAddress) ? (
         <TouchableOpacity
+          accessibilityRole="button"
           style={styles.buttonAddressWrapper}
           onPress={handleAddNewAddress}
         >
