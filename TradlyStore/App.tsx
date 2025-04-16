@@ -12,7 +12,6 @@ import { useAppInit, useToggleStorybook } from '@/hooks';
 
 // Utils
 import { createReport } from '@/apis/report';
-import { CrashlyticsTestButton } from '@/ui/Test';
 
 __DEV__ && require('./reactotronConfig.js');
 
@@ -53,7 +52,6 @@ const App = () => {
 
   return (
     <PerformanceProfiler onReportPrepared={handleReport}>
-      <CrashlyticsTestButton />
       <Navigation isFirstLogin={isFirstLogin} />
     </PerformanceProfiler>
   );

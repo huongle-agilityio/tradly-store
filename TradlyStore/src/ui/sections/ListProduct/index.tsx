@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import {
   FlatList,
   FlatListProps,
@@ -73,42 +73,26 @@ export const ListProduct = memo(
     );
 
     // Render
-    const listProps = useMemo(
-      () => ({
-        horizontal,
-        data,
-        keyExtractor,
-        showsHorizontalScrollIndicator: false,
-        showsVerticalScrollIndicator: false,
-        contentContainerStyle: {
-          gap: isTablet ? 20 : spacing['2.5'],
-          paddingVertical: !horizontal ? spacing[5] : undefined,
-          ...(isLoading && {
-            opacity: 0,
-            pointerEvents: 'none' as const,
-          }),
-        },
-        ...(isLoadMore && {
-          onEndReached,
-          onEndReachedThreshold: 0.1,
+    const listProps = {
+      contentContainerStyle: {
+        gap: isTablet ? 20 : spacing['2.5'],
+        paddingVertical: !horizontal ? spacing[5] : undefined,
+        ...(isLoading && {
+          opacity: 0,
+          pointerEvents: 'none' as const,
         }),
-        ...(!horizontal && {
-          numColumns: 2,
-          columnWrapperStyle: {
-            gap: isTablet ? 20 : spacing['2.5'],
-          },
-        }),
-      }),
-      [
-        data,
-        horizontal,
-        isLoadMore,
-        isLoading,
-        isTablet,
-        keyExtractor,
+      },
+      ...(isLoadMore && {
         onEndReached,
-      ],
-    );
+        onEndReachedThreshold: 0.1,
+      }),
+      ...(!horizontal && {
+        numColumns: 2,
+        columnWrapperStyle: {
+          gap: isTablet ? 20 : spacing['2.5'],
+        },
+      }),
+    };
 
     const getItemLayout = useCallback(
       (_: any, index: number) => ({
@@ -117,6 +101,14 @@ export const ListProduct = memo(
         index,
       }),
       [],
+    );
+
+    const renderFooter = useCallback(
+      () =>
+        isFetchingNextPage ? (
+          <ListFooter style={styles.loadingNextPage} />
+        ) : null,
+      [isFetchingNextPage],
     );
 
     const renderItem = useCallback(
@@ -153,12 +145,13 @@ export const ListProduct = memo(
         {isLoading ? <ListFooter style={styles.loading} /> : null}
         <FlatList
           {...listProps}
+          horizontal={horizontal}
+          data={data}
+          keyExtractor={keyExtractor}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           ListEmptyComponent={<EmptyList />}
-          ListFooterComponent={
-            isFetchingNextPage ? (
-              <ListFooter style={styles.loadingNextPage} />
-            ) : null
-          }
+          ListFooterComponent={renderFooter}
           initialNumToRender={8}
           maxToRenderPerBatch={8}
           updateCellsBatchingPeriod={50}
