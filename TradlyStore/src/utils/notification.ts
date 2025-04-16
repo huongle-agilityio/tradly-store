@@ -1,16 +1,9 @@
 import { Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
-import { checkAndRequestNotificationPermission } from './permission';
 
 // Constants
-import {
-  CHANNEL_NOTIFICATION,
-  LINKING_URL,
-  SCREENS,
-  STORAGE_KEY,
-} from '@/constants';
+import { CHANNEL_NOTIFICATION, LINKING_URL, SCREENS } from '@/constants';
 
 /**
  * Builds a deep link URL from the provided notification data.
@@ -160,14 +153,6 @@ export const handleNotificationOpen = () => {
  * using the Linking module.
  */
 export const registerNotificationHandlers = async () => {
-  const isFirstLogin = await AsyncStorage.getItem(STORAGE_KEY.FIRST_LOGIN);
-
-  if (isFirstLogin !== 'false') {
-    await notifee.requestPermission();
-  } else {
-    await checkAndRequestNotificationPermission();
-  }
-
   createNotificationChannel();
   handleForegroundNotifications();
   handleNotificationOpen();

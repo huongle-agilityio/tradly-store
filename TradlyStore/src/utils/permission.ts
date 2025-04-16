@@ -2,6 +2,7 @@ import notifee from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthorizationStatus } from '@react-native-firebase/messaging';
 import { Alert, Linking, PermissionsAndroid, Platform } from 'react-native';
+import { registerNotificationHandlers } from './notification';
 
 // Constants
 import { PERMISSION_MESSAGES, PERMISSION_TYPES } from '@/constants';
@@ -100,6 +101,7 @@ export const checkAndRequestNotificationPermission = async () => {
   switch (settings.authorizationStatus) {
     case AuthorizationStatus.AUTHORIZED:
       //  User has fully authorized notifications
+      await registerNotificationHandlers();
       return true;
 
     case AuthorizationStatus.PROVISIONAL:

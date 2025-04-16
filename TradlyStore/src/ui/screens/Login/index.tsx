@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
+import notifee from '@notifee/react-native';
 import * as Keychain from 'react-native-keychain';
 import crashlytics from '@react-native-firebase/crashlytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,7 +32,11 @@ import { useScreenTrace } from '@/hooks';
 import { AuthPayload } from '@/interfaces';
 
 // Utils
-import { customTrace, registerNotificationHandlers } from '@/utils';
+import {
+  checkAndRequestNotificationPermission,
+  customTrace,
+  registerNotificationHandlers,
+} from '@/utils';
 
 export const Login = () => {
   const startNavigationTTITimer = useStartProfiler();
@@ -62,8 +67,17 @@ export const Login = () => {
             uiEvent,
           });
 
+          const isFirstLogin = await AsyncStorage.getItem(
+            STORAGE_KEY.FIRST_LOGIN,
+          );
+
           // Setup notification handlers
-          await registerNotificationHandlers();
+          if (isFirstLogin !== 'false') {
+            await notifee.requestPermission();
+            await registerNotificationHandlers();
+          } else {
+            await checkAndRequestNotificationPermission();
+          }
 
           // Set the user's token and first login in Keychain
           await Promise.all([

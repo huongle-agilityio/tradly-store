@@ -12,7 +12,7 @@ import { STORAGE_KEY } from '@/constants';
 import { useAuthStore } from '@/stores';
 
 // Utils
-import { clearImagePickerFiles } from '@/utils';
+import { clearImagePickerFiles, registerNotificationHandlers } from '@/utils';
 
 /**
  * Initializes the app, checking if a token exists and setting the initial screen
@@ -45,6 +45,7 @@ export const useAppInit = (
         const token = await Keychain.getGenericPassword({
           service: STORAGE_KEY.TOKEN,
         });
+
         const isFirstLogin = await AsyncStorage.getItem(
           STORAGE_KEY.FIRST_LOGIN,
         );
@@ -54,6 +55,9 @@ export const useAppInit = (
         } else {
           setAuthenticated(false);
         }
+
+        // Setup notification handlers
+        await registerNotificationHandlers();
 
         setIsFirstLogin(isFirstLogin !== 'false');
         crashlytics().log('App mounted.');
