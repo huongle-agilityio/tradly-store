@@ -112,10 +112,11 @@ Make sure you install packages with correct version below:
     - `$ git clone https://gitlab.asoft-python.com/huong.le/react-native-training.git`
   - With SSH:
     - `$ git clone git@gitlab.asoft-python.com:huong.le/react-native-training.git`
-- Step 2: Move to branch feature/practice-advanced
-  - `$ git checkout feature/practice-advanced`
-- Step 3: `cd TradlyStore`
-- Step 4: Install all dependencies
+- Step 2: `cd react-native-training`
+- Step 3: Move to branch feature/practice-advanced
+  - `$ gt checkout feature/practice-advanced`
+- Step 4: `cd TradlyStore`
+- Step 5: Install all dependencies
   - `$ yarn install`
 
 ### Build and Run app
@@ -124,9 +125,9 @@ Make sure you install packages with correct version below:
 | :------------------------- | :------------------------------------------------------ | :--- |
 | `$ yarn android`           | Install the app on an Android emulator/device           | N/A  |
 | `$ yarn ios`               | Install the app on an iOS simulator/device              | N/A  |
+| `$ yarn start`             | Run app on an emulator/device                           | N/A  |
 | `$ yarn storybook:android` | Install the storybook app on an Android emulator/device | N/A  |
 | `$ yarn storybook:ios`     | Install the storybook app on an iOS simulator/device    | N/A  |
-| `$ yarn start`             | Run app on an emulator/device                           | N/A  |
 | `$ yarn test`              | Run unit tests                                          | N/A  |
 | `$ yarn coverage`          | Generate test coverage report                           | N/A  |
 | `$ yarn build:apk`         | Build a production-ready APK file                       | N/A  |

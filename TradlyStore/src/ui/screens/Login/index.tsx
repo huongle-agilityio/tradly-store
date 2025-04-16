@@ -62,6 +62,9 @@ export const Login = () => {
             uiEvent,
           });
 
+          // Setup notification handlers
+          await registerNotificationHandlers();
+
           // Set the user's token and first login in Keychain
           await Promise.all([
             Keychain.setGenericPassword(STORAGE_KEY.TOKEN, jwt, {
@@ -71,9 +74,6 @@ export const Login = () => {
           ]);
           setUser(user);
           setIsAuthenticated(true);
-
-          // Setup notification handlers
-          await registerNotificationHandlers();
 
           // custom trace
           trace.putAttribute('login_status', 'success');
