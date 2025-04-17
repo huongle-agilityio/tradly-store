@@ -1,12 +1,11 @@
-import { lazy } from 'react';
 import {
   BottomTabHeaderProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 
 // Screens
-import { Home, ProductCategory, Store } from '@/ui/screens';
-import { HeaderWithSearchInput, HeaderWithTitle } from '@/ui/sections';
+import { Browse, Home, OrderHistory, Profile, Store } from '@/screens';
+import { HeaderWithSearchInput, HeaderWithTitle } from '@/components/shared';
 
 // Icons
 import {
@@ -15,43 +14,28 @@ import {
   SearchIcon,
   StoreIcon,
   UserIcon,
-} from '@/ui/icons';
+} from '@/components/icons';
 
 // Constants
 import { SCREENS } from '@/constants';
-
-// HOCs
-import { withSuspense } from '@/hocs';
 
 // Interfaces
 import { TabsStackParamList } from '@/interfaces';
 
 // Themes
-import { colors, fontsFamily, fontSizes, fontWeights } from '@/ui/themes';
-
-const Profile = lazy(() =>
-  import('@/ui/screens/Profile').then((module) => ({
-    default: module.Profile,
-  })),
-);
-
-const UpComing = lazy(() =>
-  import('@/ui/screens/Upcoming').then((module) => ({
-    default: module.UpComing,
-  })),
-);
+import { colors, fontsFamily, fontSizes, fontWeights } from '@/themes';
 
 const Tabs = createBottomTabNavigator<TabsStackParamList>();
 
+const HeaderTitle = ({ options }: BottomTabHeaderProps) => (
+  <HeaderWithTitle title={options.title || ''} />
+);
+
+const HeaderInput = ({ options }: BottomTabHeaderProps) => (
+  <HeaderWithSearchInput title={options.title || ''} />
+);
+
 export const TabsNavigation = () => {
-  const headerTitle = ({ options }: BottomTabHeaderProps) => (
-    <HeaderWithTitle title={options.title || ''} />
-  );
-
-  const headerInput = ({ options }: BottomTabHeaderProps) => (
-    <HeaderWithSearchInput title={options.title || ''} />
-  );
-
   const handleRenderTabBarIcon =
     (screen: keyof TabsStackParamList) =>
     ({ color }: { color: string }) => {
@@ -96,7 +80,7 @@ export const TabsNavigation = () => {
           fontWeight: fontWeights.bold,
           fontSize: fontSizes.xxl,
         },
-        header: headerTitle,
+        header: HeaderTitle,
         tabBarHideOnKeyboard: true,
       }}
     >
@@ -105,13 +89,13 @@ export const TabsNavigation = () => {
         component={Home}
         options={{
           title: 'Groceries',
-          header: headerInput,
+          header: HeaderInput,
           tabBarIcon: handleRenderTabBarIcon(SCREENS.HOME),
         }}
       />
       <Tabs.Screen
         name={SCREENS.BROWSE}
-        component={ProductCategory}
+        component={Browse}
         options={{
           header: () => <HeaderWithSearchInput hasFilter title="Browse" />,
           tabBarIcon: handleRenderTabBarIcon(SCREENS.BROWSE),
@@ -129,7 +113,7 @@ export const TabsNavigation = () => {
       />
       <Tabs.Screen
         name={SCREENS.ORDER_HISTORY}
-        component={withSuspense(UpComing)}
+        component={OrderHistory}
         options={{
           title: 'Order History',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.ORDER_HISTORY),
@@ -137,7 +121,7 @@ export const TabsNavigation = () => {
       />
       <Tabs.Screen
         name={SCREENS.PROFILE}
-        component={withSuspense(Profile)}
+        component={Profile}
         options={{
           title: 'Profile',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.PROFILE),
