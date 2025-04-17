@@ -25,7 +25,8 @@ export type ProductStackParamList = {
     name?: string;
     category?: string;
   };
-  [SCREENS.FORM_PRODUCT]: { title: string; id?: string };
+  [SCREENS.ADD_PRODUCT]: undefined;
+  [SCREENS.EDIT_PRODUCT]: { id?: string };
   [SCREENS.PRODUCT_DETAIL]: { id: string };
 };
 

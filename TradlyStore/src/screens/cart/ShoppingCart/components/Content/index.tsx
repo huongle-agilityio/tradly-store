@@ -1,0 +1,171 @@
+import { memo, useCallback } from 'react';
+import { FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
+
+// Components
+import { PriceDetails } from '../PriceDetails';
+import { StickyFooter, EmptyList } from '@/components/shared';
+import { Button, CartItem, Text } from '@/components/common';
+
+// Stores
+import { useCartStore } from '@/stores';
+
+// Hooks
+import { useAddressForm } from '@/hooks';
+
+// Interfaces
+import { Cart, Order } from '@/interfaces';
+
+// Themes
+import { colors, spacing } from '@/themes';
+
+// Utils
+import { getTotalCarts, isEmptyObject } from '@/utils';
+
+interface RenderItemProps {
+  item: Cart;
+}
+
+interface ContentProps {
+  isPending: boolean;
+  onNavigateAddNewAddress: () => void;
+  onSubmit: (payload: Order) => void;
+}
+
+export const Content = memo(
+  ({ isPending, onNavigateAddNewAddress, onSubmit }: ContentProps) => {
+    // Stores
+    const formAddress = useAddressForm((state) => state.form);
+    const [carts, updateQuantityItem, removeCart] = useCartStore((state) => [
+      state.carts,
+      state.updateQuantityItem,
+      state.removeCart,
+    ]);
+
+    const { username, city, state, zipCode, phone, streetAddress } =
+      formAddress;
+    const isDisabled = !carts?.length || isEmptyObject(formAddress);
+    const { total, totalQuantity } = getTotalCarts(carts || []);
+
+    const handleQuantityChange = useCallback(
+      (id: string, value: string) => {
+        updateQuantityItem(id, Number(value));
+      },
+      [updateQuantityItem],
+    );
+
+    const handlePayment = useCallback(() => {
+      const payload = {
+        username,
+        phone,
+        address: `${streetAddress}, ${city}, ${state}`,
+        zipCode,
+        total: total,
+      };
+
+      onSubmit(payload);
+    }, [city, onSubmit, phone, state, streetAddress, total, username, zipCode]);
+
+    const keyExtractor = useCallback((item: Cart) => item.id, []);
+
+    const renderItem = useCallback(
+      ({
+        item: { id, name, image, quantity, price, discount },
+      }: RenderItemProps) => (
+        <CartItem
+          key={id}
+          id={id}
+          name={name}
+          image={image}
+          quantity={quantity}
+          price={price}
+          discount={discount}
+          onRemoveItem={removeCart}
+          onUpdateQuantityItem={handleQuantityChange}
+        />
+      ),
+      [handleQuantityChange, removeCart],
+    );
+
+    return (
+      <StickyFooter
+        isLoading={isPending}
+        disabled={isDisabled}
+        content={<PriceDetails total={total} totalQuantity={totalQuantity} />}
+        buttonText="Continue to Payment"
+        onPress={handlePayment}
+      >
+        {isEmptyObject(formAddress) ? (
+          <TouchableOpacity
+            accessibilityRole="button"
+            style={styles.buttonAddressWrapper}
+            onPress={onNavigateAddNewAddress}
+          >
+            <Text fontWeight="normal" color="placeholder">
+              + Add New Address
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.addressWrapper}>
+            <View style={styles.textDelivery}>
+              <Text color="placeholder" numberOfLines={1}>
+                Deliver to {username}, {zipCode}
+              </Text>
+              <Text
+                color="placeholder"
+                textStyle={styles.text}
+                numberOfLines={1}
+              >
+                {city}, {state}
+              </Text>
+            </View>
+            <Button
+              textSize="xs"
+              buttonStyles={styles.button}
+              onPress={onNavigateAddNewAddress}
+            >
+              Change
+            </Button>
+          </View>
+        )}
+
+        <FlatList
+          data={carts}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={keyExtractor}
+          contentContainerStyle={styles.contentContainerStyle}
+          ListEmptyComponent={<EmptyList text="Your cart is empty." />}
+          renderItem={renderItem}
+        />
+      </StickyFooter>
+    );
+  },
+);
+
+const styles = StyleSheet.create({
+  contentContainerStyle: {
+    gap: spacing['2.5'],
+    paddingTop: spacing['2.5'],
+    paddingBottom: spacing[7],
+  },
+  buttonAddressWrapper: {
+    width: '100%',
+    paddingVertical: spacing['4.5'],
+    alignItems: 'center',
+    backgroundColor: colors.light,
+  },
+  addressWrapper: {
+    width: '100%',
+    paddingVertical: 15,
+    paddingHorizontal: spacing[5],
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.light,
+  },
+  textDelivery: { gap: spacing[1.5], width: '70%' },
+  text: { opacity: 0.7 },
+  button: {
+    width: 100,
+    height: 23,
+  },
+});

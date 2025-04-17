@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
-import { Login, Onboarding } from '@/ui/screens';
+import { Login, Welcome } from '@/screens';
 
 // Constants
 import { SCREENS } from '@/constants';
@@ -21,6 +21,6 @@ export const PublicNavigation = ({ isFirstLogin }: PublicNavigationProps) => (
     screenOptions={{ headerShown: false }}
   >
     <Stack.Screen name={SCREENS.LOGIN} component={Login} />
-    <Stack.Screen name={SCREENS.ONBOARDING} component={Onboarding} />
+    <Stack.Screen name={SCREENS.ONBOARDING} component={Welcome} />
   </Stack.Navigator>
 );

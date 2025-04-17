@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { useCallback } from 'react';
 import {
   createNativeStackNavigator,
   NativeStackHeaderProps,
@@ -6,73 +6,53 @@ import {
 
 // Screens
 import { ProductNavigation } from './product';
-import { HeaderWithTitle } from '@/ui/sections';
+import { HeaderWithTitle } from '@/components/shared';
+import { Address, OrderSuccess, ShoppingCart } from '@/screens';
 
 // Constants
 import { SCREENS } from '@/constants';
 
-// HOCs
-import { withSuspense } from '@/hocs';
-
 // Interfaces
 import { PrivateStackParamList } from '@/interfaces';
 
-const Cart = lazy(() =>
-  import('@/ui/screens/Cart').then((module) => ({
-    default: module.Cart,
-  })),
-);
-
-const Address = lazy(() =>
-  import('@/ui/screens/Address').then((module) => ({
-    default: module.Address,
-  })),
-);
-
-const OrderSuccess = lazy(() =>
-  import('@/ui/screens/Order/OrderSuccess').then((module) => ({
-    default: module.OrderSuccess,
-  })),
-);
-
 const Stack = createNativeStackNavigator<PrivateStackParamList>();
 
+const HeaderStack = ({ navigation, options }: NativeStackHeaderProps) => (
+  <HeaderWithTitle navigation={navigation} title={options.title || ''} />
+);
+
+const HeaderOrder = ({ navigation }: NativeStackHeaderProps) => {
+  const handleClose = useCallback(() => {
+    navigation.navigate(SCREENS.TABS, { screen: SCREENS.HOME });
+  }, [navigation]);
+
+  return <HeaderWithTitle onClose={handleClose} title="Order Details" />;
+};
+
 export const PrivateNavigation = () => {
-  const headerStack = ({ navigation, options }: NativeStackHeaderProps) => (
-    <HeaderWithTitle navigation={navigation} title={options.title || ''} />
-  );
-
-  const headerOrder = ({ navigation }: NativeStackHeaderProps) => {
-    const handleClose = () => {
-      navigation.navigate(SCREENS.TABS, { screen: SCREENS.HOME });
-    };
-
-    return <HeaderWithTitle onClose={handleClose} title="Order Details" />;
-  };
-
   return (
     <Stack.Navigator
       screenOptions={{
-        header: headerStack,
+        header: HeaderStack,
       }}
     >
       <Stack.Screen
         name={SCREENS.CART}
-        component={withSuspense(Cart)}
+        component={ShoppingCart}
         options={{ title: 'My Cart' }}
       />
       <Stack.Screen
         name={SCREENS.ADDRESS}
-        component={withSuspense(Address)}
+        component={Address}
         options={{
           title: 'Add a new address',
         }}
       />
       <Stack.Screen
         name={SCREENS.ORDER_SUCCESS}
-        component={withSuspense(OrderSuccess)}
+        component={OrderSuccess}
         options={{
-          header: headerOrder,
+          header: HeaderOrder,
         }}
       />
       <Stack.Screen

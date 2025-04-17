@@ -19,7 +19,8 @@ export const SCREENS = {
   PRODUCT_LIST: 'productList',
   PRODUCT_CATEGORY: 'productCategory',
   PRODUCT_DETAIL: 'productDetail',
-  FORM_PRODUCT: 'formProduct',
+  EDIT_PRODUCT: 'editProduct',
+  ADD_PRODUCT: 'addProduct',
 
   // Private Stack
   CART: 'cart',

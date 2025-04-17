@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Components
-import { Toast } from '@/ui/components';
+import { Toast } from '@/components/common';
 
 // Navigation
 import { PublicNavigation } from './public';
@@ -26,7 +26,7 @@ import { useAuthStore, useToast } from '@/stores';
 import { AppParamList } from '@/interfaces';
 
 // Themes
-import { colors } from '@/ui/themes';
+import { colors } from '@/themes';
 
 const App = createNativeStackNavigator<AppParamList>();
 
