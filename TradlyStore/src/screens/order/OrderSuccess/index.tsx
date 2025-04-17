@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Image, ScrollView, View, StyleSheet } from 'react-native';
+import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 
 // Components
 import { Button, CartItem, Text } from '@/components/common';
@@ -10,18 +11,27 @@ import { DeliveryAddress } from './components/DeliveryAddress';
 import { IMAGE_DETAILS, SCREENS } from '@/constants';
 
 // Interfaces
-import { Cart, PrivateScreenProps } from '@/interfaces';
-
-type OrderSuccessProps = PrivateScreenProps<typeof SCREENS.ORDER_SUCCESS>;
+import { Cart, OrderScreenProps } from '@/interfaces';
 
 export const OrderSuccess = ({
   navigation,
   route: { params },
-}: OrderSuccessProps) => {
+}: NativeStackHeaderProps & OrderScreenProps<typeof SCREENS.ORDER_SUCCESS>) => {
   const carts: Cart[] = params.carts ? JSON.parse(params.carts as string) : [];
 
   const handleRedirectHome = useCallback(() => {
-    navigation.navigate(SCREENS.TABS, { screen: SCREENS.HOME });
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: SCREENS.TABS,
+          state: {
+            index: 0,
+            routes: [{ name: SCREENS.HOME }],
+          },
+        },
+      ],
+    });
   }, [navigation]);
 
   return (

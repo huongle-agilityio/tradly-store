@@ -7,13 +7,13 @@ import { Content } from './components/Content';
 import { SCREENS } from '@/constants';
 
 // Interfaces
-import { PublicScreenProps } from '@/interfaces';
+import { OnboardingScreenProps } from '@/interfaces';
 
 export const Welcome = ({
   navigation,
-}: PublicScreenProps<typeof SCREENS.ONBOARDING>) => {
+}: OnboardingScreenProps<typeof SCREENS.WELCOME>) => {
   const handleNavigationLogin = useCallback(() => {
-    navigation.navigate(SCREENS.LOGIN);
+    navigation.navigate(SCREENS.AUTH, { screen: SCREENS.LOGIN });
   }, [navigation]);
 
   return <Content onNavigationLogin={handleNavigationLogin} />;

@@ -12,10 +12,21 @@ import { SortType } from './api';
 // Constants
 import { SCREENS } from '@/constants';
 
-// Create Types
-export type PublicStackParamList = {
-  [SCREENS.ONBOARDING]: undefined;
+export type AuthStackParamList = {
   [SCREENS.LOGIN]: undefined;
+};
+
+export type OnboardingStackParamList = {
+  [SCREENS.WELCOME]: undefined;
+};
+
+export type CartStackParamList = {
+  [SCREENS.SHOPPING_CART]: undefined;
+};
+
+export type OrderStackParamList = {
+  [SCREENS.ADDRESS]: undefined;
+  [SCREENS.ORDER_SUCCESS]: { carts: string };
 };
 
 export type ProductStackParamList = {
@@ -28,13 +39,6 @@ export type ProductStackParamList = {
   [SCREENS.ADD_PRODUCT]: undefined;
   [SCREENS.EDIT_PRODUCT]: { id?: string };
   [SCREENS.PRODUCT_DETAIL]: { id: string };
-};
-
-export type PrivateStackParamList = {
-  [SCREENS.CART]: undefined;
-  [SCREENS.ADDRESS]: undefined;
-  [SCREENS.ORDER_SUCCESS]: { carts: string };
-  [SCREENS.PRODUCT_STACK]: NavigatorScreenParams<ProductStackParamList>;
 };
 
 export type TabsStackParamList = {
@@ -51,8 +55,11 @@ export type TabsStackParamList = {
 };
 
 export type AppParamList = {
-  [SCREENS.PUBLIC]: NavigatorScreenParams<PublicStackParamList>;
-  [SCREENS.PRIVATE]: NavigatorScreenParams<PrivateStackParamList>;
+  [SCREENS.AUTH]: NavigatorScreenParams<AuthStackParamList>;
+  [SCREENS.ONBOARDING]: NavigatorScreenParams<OnboardingStackParamList>;
+  [SCREENS.CART]: NavigatorScreenParams<CartStackParamList>;
+  [SCREENS.ORDER]: NavigatorScreenParams<OrderStackParamList>;
+  [SCREENS.PRODUCT]: NavigatorScreenParams<ProductStackParamList>;
   [SCREENS.TABS]: NavigatorScreenParams<TabsStackParamList>;
 };
 
@@ -60,15 +67,28 @@ export type AppParamList = {
 export type AppScreenProps<Screen extends keyof AppParamList> =
   NativeStackScreenProps<AppParamList, Screen>;
 
-export type PublicScreenProps<Screen extends keyof PublicStackParamList> =
+export type AuthScreenProps<Screen extends keyof AuthStackParamList> =
   CompositeScreenProps<
-    NativeStackScreenProps<PublicStackParamList, Screen>,
+    NativeStackScreenProps<AuthStackParamList, Screen>,
     NativeStackScreenProps<AppParamList>
   >;
 
-export type PrivateScreenProps<Screen extends keyof PrivateStackParamList> =
+export type CartScreenProps<Screen extends keyof CartStackParamList> =
   CompositeScreenProps<
-    NativeStackScreenProps<PrivateStackParamList, Screen>,
+    NativeStackScreenProps<CartStackParamList, Screen>,
+    NativeStackScreenProps<AppParamList>
+  >;
+
+export type OnboardingScreenProps<
+  Screen extends keyof OnboardingStackParamList,
+> = CompositeScreenProps<
+  NativeStackScreenProps<OnboardingStackParamList, Screen>,
+  NativeStackScreenProps<AppParamList>
+>;
+
+export type OrderScreenProps<Screen extends keyof OrderStackParamList> =
+  CompositeScreenProps<
+    NativeStackScreenProps<OrderStackParamList, Screen>,
     NativeStackScreenProps<AppParamList>
   >;
 

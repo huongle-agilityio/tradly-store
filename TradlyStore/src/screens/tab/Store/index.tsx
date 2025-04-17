@@ -35,23 +35,17 @@ export const Store = ({
   });
 
   const handleNavigateAddProduct = useCallback(() => {
-    navigation.navigate(SCREENS.PRIVATE, {
-      screen: SCREENS.PRODUCT_STACK,
-      params: {
-        screen: SCREENS.ADD_PRODUCT,
-      },
+    navigation.navigate(SCREENS.PRODUCT, {
+      screen: SCREENS.ADD_PRODUCT,
     });
   }, [navigation]);
 
   const handleEditProduct = useCallback(
     (id: string) => {
-      navigation.navigate(SCREENS.PRIVATE, {
-        screen: SCREENS.PRODUCT_STACK,
+      navigation.navigate(SCREENS.PRODUCT, {
+        screen: SCREENS.EDIT_PRODUCT,
         params: {
-          screen: SCREENS.EDIT_PRODUCT,
-          params: {
-            id,
-          },
+          id,
         },
       });
     },

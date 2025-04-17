@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/native-stack';
 
 // Screens
-import { AddProduct, EditProduct, ProductDetail, ProductList } from '@/screens';
+import { ProductDetail, ProductList } from '@/screens';
 import { HeaderWithFilterButton, HeaderWithTitle } from '@/components/shared';
 
 // Constants
@@ -29,7 +29,7 @@ const HeaderEditProduct = ({ navigation }: NativeStackHeaderProps) => (
   <HeaderWithTitle navigation={navigation} title="Edit Product" />
 );
 
-export const ProductNavigation = () => (
+export const ProductStack = () => (
   <Stack.Navigator>
     <Stack.Screen
       name={SCREENS.PRODUCT_LIST}
@@ -40,14 +40,14 @@ export const ProductNavigation = () => (
     />
     <Stack.Screen
       name={SCREENS.EDIT_PRODUCT}
-      component={EditProduct}
+      getComponent={() => require('@/screens/product/EditProduct').EditProduct}
       options={{
         header: HeaderEditProduct,
       }}
     />
     <Stack.Screen
       name={SCREENS.ADD_PRODUCT}
-      component={AddProduct}
+      getComponent={() => require('@/screens/product/AddProduct').AddProduct}
       options={{
         header: HeaderAddProduct,
       }}

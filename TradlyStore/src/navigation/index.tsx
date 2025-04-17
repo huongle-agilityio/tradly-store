@@ -9,9 +9,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Toast } from '@/components/common';
 
 // Navigation
-import { PublicNavigation } from './public';
-import { PrivateNavigation } from './private';
-import { TabsNavigation } from './private/tabs';
+import { TabsStack } from './tabs';
+import { AuthStack } from './auth';
+import { CartStack } from './cart';
+import { OrderStack } from './order';
+import { ProductStack } from './product';
+import { OnboardingStack } from './onboarding';
 
 // Constants
 import { SCREENS } from '@/constants';
@@ -41,10 +44,6 @@ export const Navigation = ({ isFirstLogin }: NavigationProps) => {
   const toast = useToast((state) => state.toast);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  const PublicNavigateStack = () => (
-    <PublicNavigation isFirstLogin={isFirstLogin} />
-  );
-
   return (
     <KeyboardProvider>
       <QueryClientProvider client={queryClient}>
@@ -61,17 +60,25 @@ export const Navigation = ({ isFirstLogin }: NavigationProps) => {
             >
               {isAuthenticated ? (
                 <App.Group>
-                  <App.Screen name={SCREENS.TABS} component={TabsNavigation} />
-                  <App.Screen
-                    name={SCREENS.PRIVATE}
-                    component={PrivateNavigation}
-                  />
+                  <App.Screen name={SCREENS.TABS} component={TabsStack} />
+                  <App.Screen name={SCREENS.CART} component={CartStack} />
+                  <App.Screen name={SCREENS.ORDER} component={OrderStack} />
+                  <App.Screen name={SCREENS.PRODUCT} component={ProductStack} />
                 </App.Group>
               ) : (
-                <App.Screen
-                  name={SCREENS.PUBLIC}
-                  component={PublicNavigateStack}
-                />
+                <App.Group>
+                  {isFirstLogin ? (
+                    <App.Group>
+                      <App.Screen
+                        name={SCREENS.ONBOARDING}
+                        component={OnboardingStack}
+                      />
+                      <App.Screen name={SCREENS.AUTH} component={AuthStack} />
+                    </App.Group>
+                  ) : (
+                    <App.Screen name={SCREENS.AUTH} component={AuthStack} />
+                  )}
+                </App.Group>
               )}
             </App.Navigator>
 

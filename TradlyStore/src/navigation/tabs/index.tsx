@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 
 // Screens
-import { Browse, Home, OrderHistory, Profile, Store } from '@/screens';
+import { Browse, Home, Store } from '@/screens';
 import { HeaderWithSearchInput, HeaderWithTitle } from '@/components/shared';
 
 // Icons
@@ -35,7 +35,7 @@ const HeaderInput = ({ options }: BottomTabHeaderProps) => (
   <HeaderWithSearchInput title={options.title || ''} />
 );
 
-export const TabsNavigation = () => {
+export const TabsStack = () => {
   const handleRenderTabBarIcon =
     (screen: keyof TabsStackParamList) =>
     ({ color }: { color: string }) => {
@@ -113,7 +113,7 @@ export const TabsNavigation = () => {
       />
       <Tabs.Screen
         name={SCREENS.ORDER_HISTORY}
-        component={OrderHistory}
+        getComponent={() => require('@/screens/tab/OrderHistory').OrderHistory}
         options={{
           title: 'Order History',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.ORDER_HISTORY),
@@ -121,7 +121,7 @@ export const TabsNavigation = () => {
       />
       <Tabs.Screen
         name={SCREENS.PROFILE}
-        component={Profile}
+        getComponent={() => require('@/screens/tab/Profile').Profile}
         options={{
           title: 'Profile',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.PROFILE),

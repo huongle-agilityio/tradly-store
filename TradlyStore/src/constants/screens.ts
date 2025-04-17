@@ -3,6 +3,8 @@ export const SCREENS = {
   TABS: 'tabs',
   PRIVATE: 'private',
 
+  AUTH: 'auth',
+  ORDER: 'order',
   // Public stack
   ONBOARDING: 'onboarding',
   LOGIN: 'login',
@@ -15,6 +17,7 @@ export const SCREENS = {
   PROFILE: 'profile',
 
   // Product Stack
+  PRODUCT: 'product',
   PRODUCT_STACK: 'productStack',
   PRODUCT_LIST: 'productList',
   PRODUCT_CATEGORY: 'productCategory',
@@ -24,6 +27,8 @@ export const SCREENS = {
 
   // Private Stack
   CART: 'cart',
+  WELCOME: 'welcome',
+  SHOPPING_CART: 'shoppingCart',
   ADDRESS: 'address',
   ORDER_SUCCESS: 'orderSuccess',
 } as const;
