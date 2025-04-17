@@ -9,7 +9,10 @@ import {
   REGEX_ZIPCODE,
 } from '@/constants';
 
-export const validateRequired = v.string(ERROR_MESSAGES.REQUIRED);
+export const validateRequired = v.pipe(
+  v.string(ERROR_MESSAGES.REQUIRED),
+  v.check((value) => value.length > 0, ERROR_MESSAGES.REQUIRED),
+);
 
 export const validateRequiredArray = v.pipe(
   v.array(v.any(), ERROR_MESSAGES.REQUIRED),
