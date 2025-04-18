@@ -94,6 +94,12 @@ jest.mock('@react-native-firebase/perf', () => {
   };
 });
 
+// Mock Keychain
+jest.mock('react-native-keychain', () => ({
+  getGenericPassword: jest.fn(),
+  resetGenericPassword: jest.fn(),
+}));
+
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),
