@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   PerformanceProfiler,
   RenderPassReport,
@@ -16,8 +15,7 @@ import { createReport } from '@/apis/report';
 __DEV__ && require('./reactotronConfig.js');
 
 const App = () => {
-  const [isFirstLogin, setIsFirstLogin] = useState<boolean>(false);
-  useAppInit(setIsFirstLogin);
+  useAppInit();
 
   const handleReport = async (report: RenderPassReport) => {
     if (__DEV__) {
@@ -52,7 +50,7 @@ const App = () => {
 
   return (
     <PerformanceProfiler onReportPrepared={handleReport}>
-      <Navigation isFirstLogin={isFirstLogin} />
+      <Navigation />
     </PerformanceProfiler>
   );
 };

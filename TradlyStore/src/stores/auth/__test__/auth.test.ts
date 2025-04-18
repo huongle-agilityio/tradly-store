@@ -9,19 +9,6 @@ import { USER } from '@/mocks';
 // Constants
 import { STORAGE_KEY } from '@/constants';
 
-// Mock AsyncStorage
-jest.mock('@react-native-async-storage/async-storage', () => ({
-  setItem: jest.fn(),
-  getItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
-}));
-
-// Mock Keychain
-jest.mock('react-native-keychain', () => ({
-  resetGenericPassword: jest.fn(),
-}));
-
 describe('useAuthStore', () => {
   beforeEach(() => {
     jest.clearAllMocks();

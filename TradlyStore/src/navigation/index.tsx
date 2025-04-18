@@ -23,7 +23,7 @@ import { SCREENS } from '@/constants';
 import { linking } from '@/configs';
 
 // Stores
-import { useAuthStore, useToast } from '@/stores';
+import { useAuthStore, useToast, useIniStore } from '@/stores';
 
 // Interfaces
 import { AppParamList } from '@/interfaces';
@@ -33,16 +33,13 @@ import { colors } from '@/themes';
 
 const App = createNativeStackNavigator<AppParamList>();
 
-interface NavigationProps {
-  isFirstLogin: boolean;
-}
-
-export const Navigation = ({ isFirstLogin }: NavigationProps) => {
+export const Navigation = () => {
   const queryClient = new QueryClient();
 
   // Stores
   const toast = useToast((state) => state.toast);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isFirstLogin = useIniStore((state) => state.isFirstLogin);
 
   return (
     <KeyboardProvider>

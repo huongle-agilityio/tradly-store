@@ -3,32 +3,32 @@ import { useEffect, useState } from 'react';
 import * as Keychain from 'react-native-keychain';
 import BootSplash from 'react-native-bootsplash';
 import crashlytics from '@react-native-firebase/crashlytics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useHydration } from './useHydration';
 
 // Constants
 import { STORAGE_KEY } from '@/constants';
 
 // Store
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useIniStore } from '@/stores';
 
 // Utils
 import { clearImagePickerFiles, registerNotificationHandlers } from '@/utils';
 
 /**
- * Initializes the app, checking if a token exists and setting the initial screen
- * accordingly. If a token exists, the user is considered authenticated. If not, the
- * app checks if the user has logged in before. If they have, the login screen is shown.
- * If not, the onboarding screen is shown. Finally, the SplashScreen is hidden and
- * notification handlers are registered.
+ * Custom hook to initialize the app's authentication and onboarding state.
  *
- * @param {Function} setInitialScreenPublic - A function that sets the initial screen
- *   of the app to either the login screen or the onboarding screen.
+ * This hook sets up the initial authentication state based on a stored token.
+ * If a token is found, the user is marked as authenticated. Otherwise, it checks
+ * if the user is logging in for the first time and displays the appropriate screen
+ * (login or onboarding). It also handles the cleanup of image picker files, registers
+ * notification handlers, and hides the splash screen once the app is ready.
  */
-export const useAppInit = (
-  setIsFirstLogin: (isFirstLogin: boolean) => void,
-) => {
+export const useAppInit = () => {
+  const hydrated = useHydration();
+
   // Stores
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
+  const isFirstLogin = useIniStore((state) => state.isFirstLogin);
 
   useEffect(() => {
     clearImagePickerFiles();
@@ -46,10 +46,6 @@ export const useAppInit = (
           service: STORAGE_KEY.TOKEN,
         });
 
-        const isFirstLogin = await AsyncStorage.getItem(
-          STORAGE_KEY.FIRST_LOGIN,
-        );
-
         if (typeof token !== 'boolean') {
           setAuthenticated(!!token.password);
         } else {
@@ -59,18 +55,18 @@ export const useAppInit = (
         // Setup notification handlers
         await registerNotificationHandlers();
 
-        setIsFirstLogin(isFirstLogin !== 'false');
-        crashlytics().log('App mounted.');
-
         // Hide SplashScreen
-        await BootSplash.hide({ fade: true });
+        if (hydrated) {
+          crashlytics().log('App mounted.');
+          await BootSplash.hide({ fade: true });
+        }
       } catch (error) {
         crashlytics().recordError(error as Error);
       }
     };
 
     init();
-  }, [setAuthenticated, setIsFirstLogin]);
+  }, [hydrated, isFirstLogin, setAuthenticated]);
 };
 
 /**

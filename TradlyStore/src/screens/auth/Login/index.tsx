@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import notifee from '@notifee/react-native';
 import * as Keychain from 'react-native-keychain';
 import crashlytics from '@react-native-firebase/crashlytics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   GestureResponderEvent,
   useStartProfiler,
@@ -18,7 +17,7 @@ import { Content } from './components/Content';
 import { ERROR_MESSAGES, SCREENS, STORAGE_KEY } from '@/constants';
 
 // Stores
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useIniStore } from '@/stores';
 
 // Hooks
 import { useScreenTrace } from '@/hooks';
@@ -40,6 +39,10 @@ export const Login = () => {
   const [error, setError] = useState<string>('');
 
   // Stores
+  const [isFirstLogin, setIsFirstLogin] = useIniStore((state) => [
+    state.isFirstLogin,
+    state.setIsFirstLogin,
+  ]);
   const [setUser, setIsAuthenticated] = useAuthStore((state) => [
     state.setUser,
     state.setAuthenticated,
@@ -62,12 +65,8 @@ export const Login = () => {
             uiEvent,
           });
 
-          const isFirstLogin = await AsyncStorage.getItem(
-            STORAGE_KEY.FIRST_LOGIN,
-          );
-
           // Setup notification handlers
-          if (isFirstLogin !== 'false') {
+          if (isFirstLogin) {
             await notifee.requestPermission();
             await registerNotificationHandlers();
           } else {
@@ -75,14 +74,12 @@ export const Login = () => {
           }
 
           // Set the user's token and first login in Keychain
-          await Promise.all([
-            Keychain.setGenericPassword(STORAGE_KEY.TOKEN, jwt, {
-              service: STORAGE_KEY.TOKEN,
-            }),
-            AsyncStorage.setItem(STORAGE_KEY.FIRST_LOGIN, 'false'),
-          ]);
+          await Keychain.setGenericPassword(STORAGE_KEY.TOKEN, jwt, {
+            service: STORAGE_KEY.TOKEN,
+          });
           setUser(user);
           setIsAuthenticated(true);
+          setIsFirstLogin(false);
 
           // custom trace
           trace.putAttribute('login_status', 'success');
@@ -110,7 +107,15 @@ export const Login = () => {
         },
       });
     },
-    [error, mutate, setIsAuthenticated, setUser, startNavigationTTITimer],
+    [
+      error,
+      isFirstLogin,
+      mutate,
+      setIsAuthenticated,
+      setIsFirstLogin,
+      setUser,
+      startNavigationTTITimer,
+    ],
   );
 
   return (
