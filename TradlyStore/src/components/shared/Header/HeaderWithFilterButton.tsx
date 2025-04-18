@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 // Components
@@ -10,7 +9,7 @@ import { HeaderWithTitle } from './HeaderWithTitle';
 
 interface HeaderWithFilterButtonProps {
   title: string;
-  navigation?: NativeStackNavigationProp<ParamListBase, string, undefined>;
+  navigation?: NativeStackNavigationProp<Record<string, object | undefined>>;
   onClose?: () => void;
 }
 
