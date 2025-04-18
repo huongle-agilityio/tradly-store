@@ -13,11 +13,11 @@ import { ERROR_MESSAGES, SCREENS } from '@/constants';
 import { useCartStore, useToast } from '@/stores';
 
 // Interfaces
-import { Order, PrivateScreenProps } from '@/interfaces';
+import { Order, CartScreenProps } from '@/interfaces';
 
 export const ShoppingCart = ({
   navigation,
-}: PrivateScreenProps<typeof SCREENS.CART>) => {
+}: CartScreenProps<typeof SCREENS.SHOPPING_CART>) => {
   // Stores
   const showToast = useToast((state) => state.showToast);
   const [carts, clearCart] = useCartStore((state) => [
@@ -36,8 +36,11 @@ export const ShoppingCart = ({
             description: 'Order successfully',
             variant: 'success',
           });
-          navigation.navigate(SCREENS.ORDER_SUCCESS, {
-            carts: JSON.stringify(carts),
+          navigation.navigate(SCREENS.ORDER, {
+            screen: SCREENS.ORDER_SUCCESS,
+            params: {
+              carts: JSON.stringify(carts),
+            },
           });
           clearCart();
         },
@@ -53,7 +56,7 @@ export const ShoppingCart = ({
   );
 
   const handleAddNewAddress = useCallback(() => {
-    navigation.push(SCREENS.ADDRESS);
+    navigation.push(SCREENS.ORDER, { screen: SCREENS.ADDRESS });
   }, [navigation]);
 
   return (

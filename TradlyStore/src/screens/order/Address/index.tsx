@@ -13,11 +13,11 @@ import { AddressState, useAddressForm } from '@/hooks';
 import { useToast } from '@/stores';
 
 // Interfaces
-import { PrivateScreenProps } from '@/interfaces';
+import { OrderScreenProps } from '@/interfaces';
 
 export const Address = ({
   navigation,
-}: PrivateScreenProps<typeof SCREENS.ADDRESS>) => {
+}: OrderScreenProps<typeof SCREENS.ADDRESS>) => {
   const [form, setForm] = useAddressForm((state) => [
     state.form,
     state.setForm,

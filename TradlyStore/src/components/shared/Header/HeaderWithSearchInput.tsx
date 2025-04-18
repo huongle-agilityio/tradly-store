@@ -55,7 +55,7 @@ export const HeaderWithSearchInput = memo(
     };
 
     const handlerRedirectMyCart = () => {
-      navigation.navigate(SCREENS.PRIVATE, { screen: SCREENS.CART });
+      navigation.navigate(SCREENS.CART, { screen: SCREENS.SHOPPING_CART });
     };
 
     useEffect(() => {

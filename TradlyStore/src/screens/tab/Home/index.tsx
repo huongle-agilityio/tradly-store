@@ -33,41 +33,32 @@ export const Home = ({
     });
 
   const handleRedirectNewProduct = useCallback(() => {
-    navigation.push(SCREENS.PRIVATE, {
-      screen: SCREENS.PRODUCT_STACK,
+    navigation.push(SCREENS.PRODUCT, {
+      screen: SCREENS.PRODUCT_LIST,
       params: {
-        screen: SCREENS.PRODUCT_LIST,
-        params: {
-          sortCreatedAt: 'desc',
-          name: 'New Product',
-        },
+        sortCreatedAt: 'desc',
+        name: 'New Product',
       },
     });
   }, [navigation]);
 
   const handleRedirectPopularProduct = useCallback(() => {
-    navigation.push(SCREENS.PRIVATE, {
-      screen: SCREENS.PRODUCT_STACK,
+    navigation.push(SCREENS.PRODUCT, {
+      screen: SCREENS.PRODUCT_LIST,
       params: {
-        screen: SCREENS.PRODUCT_LIST,
-        params: {
-          hasDiscount: true,
-          name: 'Popular Product',
-        },
+        hasDiscount: true,
+        name: 'Popular Product',
       },
     });
   }, [navigation]);
 
   const handleRedirectProductCategory = useCallback(
     (name: string, query: string) => {
-      navigation.push(SCREENS.PRIVATE, {
-        screen: SCREENS.PRODUCT_STACK,
+      navigation.push(SCREENS.PRODUCT, {
+        screen: SCREENS.PRODUCT_LIST,
         params: {
-          screen: SCREENS.PRODUCT_LIST,
-          params: {
-            category: query,
-            name,
-          },
+          category: query,
+          name,
         },
       });
     },
@@ -80,13 +71,10 @@ export const Home = ({
         source: SCREENS.HOME,
         uiEvent,
       });
-      navigation.push(SCREENS.PRIVATE, {
-        screen: SCREENS.PRODUCT_STACK,
+      navigation.push(SCREENS.PRODUCT, {
+        screen: SCREENS.PRODUCT_DETAIL,
         params: {
-          screen: SCREENS.PRODUCT_DETAIL,
-          params: {
-            id,
-          },
+          id,
         },
       });
     },

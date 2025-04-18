@@ -30,13 +30,10 @@ export const Browse = ({
 
   const handleProductDetail = useCallback(
     (id: string) => {
-      navigation.push(SCREENS.PRIVATE, {
-        screen: SCREENS.PRODUCT_STACK,
+      navigation.push(SCREENS.PRODUCT, {
+        screen: SCREENS.PRODUCT_DETAIL,
         params: {
-          screen: SCREENS.PRODUCT_DETAIL,
-          params: {
-            id,
-          },
+          id,
         },
       });
     },
