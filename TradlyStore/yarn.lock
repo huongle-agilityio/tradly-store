@@ -2614,14 +2614,6 @@
   dependencies:
     nanoid "3.3.8"
 
-"@react-navigation/stack@^7.2.3":
-  version "7.2.3"
-  resolved "https://registry.yarnpkg.com/@react-navigation/stack/-/stack-7.2.3.tgz#51bb566acc4b8867f84fccecb033795e314cdbe3"
-  integrity sha512-pjW8Li2D4AkRz86OIBJQ3U2sWC2oxK82jihjMdui1pp/S/rj0gUCqxTICJI+/PwtC5Xl3IIXZSXB2aDxXwo3dg==
-  dependencies:
-    "@react-navigation/elements" "^2.3.1"
-    color "^4.2.3"
-
 "@shopify/react-native-performance@^4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@shopify/react-native-performance/-/react-native-performance-4.1.2.tgz#bd111af291b85ee125feaccd54c8e5f237a76ce7"
