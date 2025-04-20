@@ -20,7 +20,7 @@ module.exports = {
     'src/utils/**/*.{ts,tsx}',
     '!**/*.stories.{ts,tsx}',
   ],
-  setupFilesAfterEnv: ['./jest.setup.ts'],
+  setupFilesAfterEnv: ['./jest.setup.js'],
   moduleDirectories: [
     'node_modules',
     // add the directory with the test-utils.js file, for example:

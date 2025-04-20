@@ -1,4 +1,57 @@
+/* eslint-disable no-undef */
 import '@testing-library/react-native';
+
+// Mock react-native-gesture-handler
+jest.mock('react-native-gesture-handler', () => {
+  return {
+    GestureHandlerRootView: ({ children }) => children,
+    Swipeable: jest.fn(),
+    PanGestureHandler: jest.fn(),
+    State: {},
+  };
+});
+
+jest.mock('@gorhom/portal', () => {
+  return {
+    PortalProvider: ({ children }) => <>{children}</>,
+    PortalHost: ({ children }) => <>{children}</>,
+    Portal: ({ children }) => <>{children}</>,
+  };
+});
+
+// Mock @gorhom/bottom-sheet
+jest.mock('@gorhom/bottom-sheet', () => {
+  const React = require('react');
+  const { View, FlatList } = require('react-native');
+
+  const BottomSheet = React.forwardRef((props, ref) => {
+    React.useImperativeHandle(ref, () => ({
+      snapToIndex: jest.fn(),
+      close: jest.fn(),
+    }));
+
+    return (
+      <View testID="bottom-sheet" {...props}>
+        {props.children}
+      </View>
+    );
+  });
+
+  const BottomSheetFlatList = ({ children, ...props }) => {
+    return (
+      <FlatList testID="bottom-sheet-flatlist" {...props}>
+        {children}
+      </FlatList>
+    );
+  };
+
+  return {
+    __esModule: true,
+    default: BottomSheet,
+    BottomSheet,
+    BottomSheetFlatList,
+  };
+});
 
 // Mock Notifee
 jest.mock('@notifee/react-native', () => ({
@@ -61,8 +114,8 @@ jest.mock('@react-native-firebase/messaging', () => {
     {
       AuthorizationStatus: {
         AUTHORIZED: 1,
-        DENIED: 2,
-        NOT_DETERMINED: 0,
+        DENIED: 0,
+        NOT_DETERMINED: -1,
       },
     },
   );
@@ -117,9 +170,4 @@ jest.mock('react-native/Libraries/Linking/Linking', () => ({
 jest.mock('react-native/Libraries/Utilities/Platform', () => ({
   OS: 'android',
   select: jest.fn(),
-}));
-
-// Mock Alert
-jest.mock('react-native/Libraries/Alert/Alert', () => ({
-  alert: jest.fn(),
 }));

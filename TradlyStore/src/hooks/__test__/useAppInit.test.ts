@@ -83,7 +83,7 @@ describe('useAppInit', () => {
 
   it('Should setAuthenticated to false if no token exists', async () => {
     (Keychain.getGenericPassword as jest.Mock).mockResolvedValue(false);
-    (useHydrationModule.useHydration as jest.Mock).mockReturnValue(true);
+    (useHydrationModule.useHydration as jest.Mock).mockReturnValue(false);
 
     await renderHook(() => useAppInit());
 
