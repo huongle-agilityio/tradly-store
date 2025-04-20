@@ -1,11 +1,11 @@
 import notifee from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthorizationStatus } from '@react-native-firebase/messaging';
-import { Alert, Linking, PermissionsAndroid, Platform } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import { registerNotificationHandlers } from './notification';
 
 // Constants
-import { PERMISSION_MESSAGES, PERMISSION_TYPES } from '@/constants';
+import { PERMISSION_TYPES } from '@/constants';
 
 /**
  * Requests a permission from the user and handles the response accordingly.
@@ -23,7 +23,6 @@ export const requestPermission = async (
   permissionType: keyof typeof PERMISSION_TYPES,
 ) => {
   const permission = PERMISSION_TYPES[permissionType];
-  const messages = PERMISSION_MESSAGES[permissionType];
 
   if (Platform.OS === 'android') {
     const alreadyGranted = await PermissionsAndroid.check(permission);
@@ -32,41 +31,29 @@ export const requestPermission = async (
       return true;
     }
 
-    const deniedStatus = await AsyncStorage.getItem(`${permissionType}_denied`);
+    const deniedStatus = await AsyncStorage.getItem(permissionType);
 
     try {
       const granted = await PermissionsAndroid.request(permission);
 
       switch (granted) {
         case PermissionsAndroid.RESULTS.GRANTED:
-          await AsyncStorage.removeItem(`${permissionType}_denied`);
+          await AsyncStorage.removeItem(permissionType);
           // User granted the permission
           return true;
 
         case PermissionsAndroid.RESULTS.DENIED:
           // User denied the permission (but can be asked again later)
-          await AsyncStorage.setItem(`${permissionType}_denied`, 'true');
+          await AsyncStorage.setItem(permissionType, 'true');
           return false;
 
         case PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN:
           // User denied permanently ("Don't ask again")
           if (deniedStatus === 'true') {
-            return await AsyncStorage.setItem(
-              `${permissionType}_denied`,
-              'false',
-            );
+            return await AsyncStorage.setItem(permissionType, 'false');
           }
 
-          Alert.alert(
-            `${messages.title} blocked`,
-            messages.blocked,
-            [
-              { text: 'Cancel', style: 'cancel' },
-              { text: 'Open Settings', onPress: () => Linking.openSettings() },
-            ],
-            { cancelable: false },
-          );
-          return false;
+          return PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN;
 
         default:
           return false;
@@ -76,7 +63,7 @@ export const requestPermission = async (
     }
   }
 
-  // iOS devices: permission is handled by the system automatically
+  // IOS devices: permission is handled by the system automatically
   return true;
 };
 
@@ -111,16 +98,7 @@ export const checkAndRequestNotificationPermission = async () => {
 
     case AuthorizationStatus.DENIED:
       //  User has denied notifications - suggest going to settings
-      Alert.alert(
-        'Notifications disabled',
-        'To receive important updates, please enable notifications in your device settings.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Open Settings', onPress: () => Linking.openSettings() },
-        ],
-        { cancelable: true },
-      );
-      return false;
+      return AuthorizationStatus.DENIED;
 
     case AuthorizationStatus.NOT_DETERMINED:
       // Permission has not been requested yet - request it now

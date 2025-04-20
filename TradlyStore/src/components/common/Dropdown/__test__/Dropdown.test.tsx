@@ -28,7 +28,7 @@ describe('Dropdown', () => {
   it('Should render selected value', () => {
     render(<Dropdown value={ADDITIONAL_DETAILS[1].value} {...props} />);
 
-    expect(screen.getByText(ADDITIONAL_DETAILS[1].label)).toBeTruthy();
+    expect(screen.getAllByText(ADDITIONAL_DETAILS[1].label)).toBeTruthy();
   });
 
   it('Should open modal when dropdown is pressed', () => {

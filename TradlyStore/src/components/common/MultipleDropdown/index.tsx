@@ -1,5 +1,6 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useCallback, useRef } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 // Components
 import { Text } from '../Text';
@@ -12,9 +13,9 @@ import { Option } from '@/interfaces';
 // Themes
 import { colors, spacing } from '@/themes';
 
-const MultipleSelectModal = lazy(() =>
-  import('../DropdownModal/MultipleSelectModal').then((module) => ({
-    default: module.MultipleSelectModal,
+const MultipleSelectSheet = lazy(() =>
+  import('../DropdownModal/MultipleSelectSheet').then((module) => ({
+    default: module.MultipleSelectSheet,
   })),
 );
 
@@ -37,7 +38,7 @@ export const MultipleDropdown = ({
   onChange,
   disabled,
 }: SelectWithChipsProps) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const sheetRef = useRef<BottomSheet>(null);
 
   /**
    * Handles the selection of an item in the dropdown list. If the item is
@@ -64,8 +65,9 @@ export const MultipleDropdown = ({
     onChange(chips);
   };
 
-  const handleOpenModal = () => setIsModalVisible(true);
-  const handleCloseModal = () => setIsModalVisible(false);
+  const handleOpenSheetOptions = useCallback(() => {
+    sheetRef.current?.snapToIndex(0);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -99,7 +101,7 @@ export const MultipleDropdown = ({
             accessibilityLabel="Multiple dropdown button"
             accessibilityRole="button"
             disabled={disabled}
-            onPress={handleOpenModal}
+            onPress={handleOpenSheetOptions}
             style={styles.touchModal}
           />
         </View>
@@ -108,7 +110,7 @@ export const MultipleDropdown = ({
           accessibilityLabel="Multiple dropdown button"
           accessibilityRole="button"
           disabled={disabled}
-          onPress={handleOpenModal}
+          onPress={handleOpenSheetOptions}
         >
           <Input
             label={label}
@@ -125,10 +127,9 @@ export const MultipleDropdown = ({
       )}
 
       <Suspense fallback={null}>
-        <MultipleSelectModal
+        <MultipleSelectSheet
           data={options}
-          handleCloseModal={handleCloseModal}
-          isModalVisible={isModalVisible}
+          sheetRef={sheetRef}
           selectedItems={selectedItems}
           onItemSelect={handleItemSelect}
         />
