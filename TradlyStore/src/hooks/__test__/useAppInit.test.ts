@@ -20,7 +20,7 @@ jest.mock('react-native-bootsplash', () => ({
 
 jest.mock('@/utils', () => ({
   clearImagePickerFiles: jest.fn(),
-  registerNotificationHandlers: jest.fn(),
+  createNotificationChannel: jest.fn(),
 }));
 
 jest.mock('../useHydration', () => ({
@@ -78,7 +78,7 @@ describe('useAppInit', () => {
     await renderHook(() => useAppInit());
 
     expect(mockSetAuthenticated).toHaveBeenCalledWith(true);
-    expect(Utils.registerNotificationHandlers).toHaveBeenCalled();
+    expect(Utils.createNotificationChannel).toHaveBeenCalled();
   });
 
   it('Should setAuthenticated to false if no token exists', async () => {

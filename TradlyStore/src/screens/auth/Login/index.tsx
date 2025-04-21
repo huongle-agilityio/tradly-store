@@ -29,11 +29,7 @@ import { useScreenTrace } from '@/hooks';
 import { AuthPayload } from '@/interfaces';
 
 // Utils
-import {
-  checkAndRequestNotificationPermission,
-  customTrace,
-  registerNotificationHandlers,
-} from '@/utils';
+import { checkAndRequestNotificationPermission, customTrace } from '@/utils';
 
 export const Login = () => {
   const sheetRef = useRef<BottomSheet>(null);
@@ -73,12 +69,15 @@ export const Login = () => {
           // Setup notification handlers
           if (isFirstLogin) {
             await notifee.requestPermission();
-            await registerNotificationHandlers();
+            setIsAuthenticated(true);
+            setIsFirstLogin(false);
           } else {
             const permission = await checkAndRequestNotificationPermission();
 
             if (permission === AuthorizationStatus.DENIED) {
               sheetRef.current?.snapToIndex(0);
+            } else {
+              setIsAuthenticated(true);
             }
           }
 
@@ -114,23 +113,27 @@ export const Login = () => {
         },
       });
     },
-    [error, isFirstLogin, mutate, setUser, startNavigationTTITimer],
+    [
+      error,
+      isFirstLogin,
+      mutate,
+      setIsAuthenticated,
+      setIsFirstLogin,
+      setUser,
+      startNavigationTTITimer,
+    ],
   );
 
   const handleCloseSheet = useCallback(() => {
     setIsAuthenticated(true);
-    setIsFirstLogin(false);
-
     sheetRef.current?.close();
-  }, [setIsAuthenticated, setIsFirstLogin]);
+  }, [setIsAuthenticated]);
 
   const handleConfirmSheet = useCallback(() => {
     setIsAuthenticated(true);
-    setIsFirstLogin(false);
-
     Linking.openSettings();
     sheetRef.current?.close();
-  }, [setIsAuthenticated, setIsFirstLogin]);
+  }, [setIsAuthenticated]);
 
   return (
     <Content

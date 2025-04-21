@@ -2,6 +2,10 @@ import {
   PerformanceProfiler,
   RenderPassReport,
 } from '@shopify/react-native-performance';
+import messaging from '@react-native-firebase/messaging';
+
+// Apis
+import { createReport } from '@/apis';
 
 // Navigation
 import { Navigation } from '@/navigation';
@@ -10,7 +14,7 @@ import { Navigation } from '@/navigation';
 import { useAppInit, useToggleStorybook } from '@/hooks';
 
 // Utils
-import { createReport } from '@/apis/report';
+import { handleGetDeviceToken } from '@/utils';
 
 __DEV__ && require('./reactotronConfig.js');
 
@@ -20,6 +24,7 @@ const App = () => {
   const handleReport = async (report: RenderPassReport) => {
     if (__DEV__) {
       console.log('[Performance Report]', report);
+      console.log('getMessaging().getToken()', await handleGetDeviceToken());
 
       return;
     }
@@ -31,6 +36,7 @@ const App = () => {
     const payload = {
       date: new Date().toISOString(),
       time: new Date().toLocaleTimeString(),
+      deviceToken: await messaging().getToken(),
       report: {
         timeToRenderMillis: report.timeToRenderMillis || 0,
         timeToBootJsMillis: report.timeToBootJsMillis || 0,
