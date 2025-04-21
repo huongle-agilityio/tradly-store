@@ -1,60 +1,79 @@
-import { render, fireEvent, screen } from '@testing-library/react-native';
+import { Ref } from 'react';
+import { render, screen, fireEvent } from '@testing-library/react-native';
+import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 
 // Components
-import { SingleSelectModal } from '../SingleSelectModal';
+import { SingleSelectSheet } from '../SingleSelectSheet';
 
 // Mocks
-import { ADDITIONAL_DETAILS } from '@/mocks';
+import { CART_QUANTITY } from '@/mocks';
 
-describe('SingleSelectModal', () => {
-  const selectedItem = ADDITIONAL_DETAILS[0].value;
-  const onItemSelect = jest.fn();
-  const handleCloseModal = jest.fn();
+// Mock OptionItem
+jest.mock('../OptionItem', () => {
+  const { Text } = require('react-native');
 
-  const setup = () =>
-    render(
-      <SingleSelectModal
-        isModalVisible
-        data={ADDITIONAL_DETAILS}
-        selectedItem={selectedItem}
-        onItemSelect={onItemSelect}
-        handleCloseModal={handleCloseModal}
-      />,
-    );
+  return {
+    OptionItem: ({
+      value,
+      label,
+      onItemSelect,
+    }: {
+      value: string;
+      label: string;
+      onItemSelect: (value: string) => void;
+    }) => (
+      <Text testID={`option-${value}`} onPress={() => onItemSelect(value)}>
+        {label}
+      </Text>
+    ),
+  };
+});
+
+describe('SingleSelectSheet', () => {
+  const sheetRef = { current: null } as Ref<BottomSheetMethods>;
+  const mockOnItemSelect = jest.fn();
+  const mockHandleCloseModal = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('Should renders modal when visible', () => {
-    setup();
+  it('Should renders correctly with options', () => {
+    render(
+      <SingleSelectSheet
+        sheetRef={sheetRef}
+        data={CART_QUANTITY}
+        selectedItem="a"
+        onItemSelect={mockOnItemSelect}
+        handleCloseModal={mockHandleCloseModal}
+      />,
+    );
 
-    expect(screen.getByTestId('modal-backdrop')).toBeTruthy();
+    expect(screen.getByTestId('bottom-sheet')).toBeTruthy();
+    expect(screen.getByTestId('bottom-sheet-flatlist')).toBeTruthy();
+
+    // Expect all option items to be rendered
+    CART_QUANTITY.forEach((item) => {
+      expect(screen.getByTestId(`option-${item.value}`)).toBeTruthy();
+      expect(screen.getByText(item.label)).toBeTruthy();
+    });
   });
 
-  it('Should renders all options', () => {
-    setup();
-    const options = screen.getAllByTestId('option-item');
+  it('Should calls onItemSelect and handleCloseModal when an option is pressed', () => {
+    render(
+      <SingleSelectSheet
+        sheetRef={sheetRef}
+        data={CART_QUANTITY}
+        selectedItem="a"
+        onItemSelect={mockOnItemSelect}
+        handleCloseModal={mockHandleCloseModal}
+      />,
+    );
 
-    expect(options.length).toBe(ADDITIONAL_DETAILS.length);
-  });
+    const option = screen.getByTestId('option-1');
+    fireEvent.press(option);
 
-  it('Should calls onItemSelect and handleCloseModal when option is pressed', () => {
-    setup();
-    const optionItems = screen.getAllByTestId('option-item');
-
-    fireEvent.press(optionItems[1]);
-
-    expect(onItemSelect).toHaveBeenCalledWith(ADDITIONAL_DETAILS[1].value);
-    expect(handleCloseModal).toHaveBeenCalled();
-  });
-
-  it('Should calls handleCloseModal when backdrop is pressed', () => {
-    setup();
-
-    const backdrop = screen.getByTestId('modal-backdrop');
-    fireEvent.press(backdrop);
-
-    expect(handleCloseModal).toHaveBeenCalled();
+    expect(mockOnItemSelect).toHaveBeenCalledWith('1');
+    expect(mockHandleCloseModal).toHaveBeenCalled();
   });
 });

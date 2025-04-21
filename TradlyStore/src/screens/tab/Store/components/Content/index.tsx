@@ -1,5 +1,6 @@
-import { memo, useCallback } from 'react';
-import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { lazy, memo, Suspense, useCallback, useRef, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 // Components
 import { Text } from '@/components/common';
@@ -14,6 +15,12 @@ import { Product } from '@/interfaces';
 
 // Themes
 import { colors } from '@/themes';
+
+const ConfirmSheet = lazy(() =>
+  import('@/components/shared/ConfirmSheet').then((module) => ({
+    default: module.ConfirmSheet,
+  })),
+);
 
 interface ContentProps {
   isLoading: boolean;
@@ -39,6 +46,17 @@ export const Content = memo(
     isLoading,
     refetch,
   }: ContentProps) => {
+    const [id, setId] = useState<string>('');
+    const sheetRef = useRef<BottomSheet>(null);
+
+    const handleCloseSheet = useCallback(() => {
+      sheetRef.current?.close();
+    }, []);
+
+    const handleOpenSheetOptions = useCallback(() => {
+      sheetRef.current?.snapToIndex(0);
+    }, []);
+
     const handleEndReached = useCallback(() => {
       // fetch next page
       if (hasNextPage && !isFetchingNextPage) {
@@ -48,26 +66,16 @@ export const Content = memo(
 
     const handleDeleteProduct = useCallback(
       (id: string) => {
-        Alert.alert(
-          'Delete Product',
-          'Are you sure you want to delete this product?',
-          [
-            {
-              text: 'Cancel',
-              style: 'cancel',
-            },
-            {
-              text: 'OK',
-              onPress: () => onDelete(id),
-            },
-          ],
-          {
-            cancelable: true,
-          },
-        );
+        setId(id);
+        handleOpenSheetOptions();
       },
-      [onDelete],
+      [handleOpenSheetOptions],
     );
+
+    const handleConfirmDeleteProduct = useCallback(() => {
+      onDelete(id);
+      handleCloseSheet();
+    }, [handleCloseSheet, id, onDelete]);
 
     return (
       <View style={styles.container}>
@@ -97,6 +105,17 @@ export const Content = memo(
             <EmptyContent onAddNewProduct={onNavigateAddProduct} />
           }
         />
+
+        <Suspense fallback={null}>
+          <ConfirmSheet
+            title="Delete Product"
+            description="Are you sure you want to delete this product?"
+            buttonConfirmText="Confirm"
+            sheetRef={sheetRef}
+            onConfirm={handleConfirmDeleteProduct}
+            onCancel={handleCloseSheet}
+          />
+        </Suspense>
       </View>
     );
   },

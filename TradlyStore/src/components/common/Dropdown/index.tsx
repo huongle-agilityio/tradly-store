@@ -1,4 +1,4 @@
-import { lazy, ReactNode, Suspense, useState } from 'react';
+import { lazy, ReactNode, Suspense, useCallback, useRef } from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 // Components
 import { Text } from '../Text';
@@ -16,9 +17,9 @@ import { colors, spacing } from '@/themes';
 // Interfaces
 import { Option } from '@/interfaces';
 
-const SingleSelectModal = lazy(() =>
-  import('../DropdownModal/SingleSelectModal').then((module) => ({
-    default: module.SingleSelectModal,
+const SingleSelectSheet = lazy(() =>
+  import('../DropdownModal/SingleSelectSheet').then((module) => ({
+    default: module.SingleSelectSheet,
   })),
 );
 
@@ -44,17 +45,25 @@ export const Dropdown = ({
   style,
   onChange,
 }: DropdownProps) => {
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const sheetRef = useRef<BottomSheet>(null);
 
   const selectedLabel = options.find((option) => option.value === value)?.label;
 
-  const handleCloseModal = () => setIsModalVisible(false);
-  const handleOpenModal = () => setIsModalVisible(true);
+  const handleCloseModal = useCallback(() => {
+    sheetRef.current?.close();
+  }, []);
 
-  const handleSelect = (selectedValue: string) => {
-    onChange(selectedValue);
-    handleCloseModal();
-  };
+  const handleSelect = useCallback(
+    (selectedValue: string) => {
+      onChange(selectedValue);
+      handleCloseModal();
+    },
+    [handleCloseModal, onChange],
+  );
+
+  const handleOpenSheetOptions = useCallback(() => {
+    sheetRef.current?.snapToIndex(0);
+  }, []);
 
   return (
     <View style={style}>
@@ -65,7 +74,7 @@ export const Dropdown = ({
         testID="single-select-modal"
         disabled={disabled}
         style={styles.selectBox}
-        onPress={handleOpenModal}
+        onPress={handleOpenSheetOptions}
         activeOpacity={0.8}
       >
         <Text fontSize="sm" color="placeholder">
@@ -82,8 +91,8 @@ export const Dropdown = ({
       )}
 
       <Suspense fallback={null}>
-        <SingleSelectModal
-          isModalVisible={isModalVisible}
+        <SingleSelectSheet
+          sheetRef={sheetRef}
           data={options}
           selectedItem={value || ''}
           handleCloseModal={handleCloseModal}

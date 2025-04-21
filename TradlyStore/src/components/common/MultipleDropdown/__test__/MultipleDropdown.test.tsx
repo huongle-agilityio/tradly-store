@@ -46,8 +46,8 @@ describe('MultipleDropdown', () => {
       />,
     );
 
-    expect(screen.getByText(ADDITIONAL_DETAILS[0].label)).toBeTruthy();
-    expect(screen.getByText(ADDITIONAL_DETAILS[1].label)).toBeTruthy();
+    expect(screen.getAllByText(ADDITIONAL_DETAILS[0].label)).toBeTruthy();
+    expect(screen.getAllByText(ADDITIONAL_DETAILS[1].label)).toBeTruthy();
   });
 
   it('Should opens modal and selects an item', async () => {
@@ -86,7 +86,7 @@ describe('MultipleDropdown', () => {
       />,
     );
 
-    fireEvent.press(screen.getByText(ADDITIONAL_DETAILS[0].label));
+    fireEvent.press(screen.getAllByText(ADDITIONAL_DETAILS[0].label)[0]);
 
     expect(mockOnChange).toHaveBeenCalledWith([]);
   });

@@ -1,7 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import notifee from '@notifee/react-native';
 import * as Keychain from 'react-native-keychain';
 import crashlytics from '@react-native-firebase/crashlytics';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { Linking } from 'react-native';
+import { AuthorizationStatus } from '@react-native-firebase/messaging';
 import {
   GestureResponderEvent,
   useStartProfiler,
@@ -33,6 +36,8 @@ import {
 } from '@/utils';
 
 export const Login = () => {
+  const sheetRef = useRef<BottomSheet>(null);
+
   const startNavigationTTITimer = useStartProfiler();
 
   useScreenTrace(SCREENS.LOGIN);
@@ -70,7 +75,11 @@ export const Login = () => {
             await notifee.requestPermission();
             await registerNotificationHandlers();
           } else {
-            await checkAndRequestNotificationPermission();
+            const permission = await checkAndRequestNotificationPermission();
+
+            if (permission === AuthorizationStatus.DENIED) {
+              sheetRef.current?.snapToIndex(0);
+            }
           }
 
           // Set the user's token and first login in Keychain
@@ -78,8 +87,6 @@ export const Login = () => {
             service: STORAGE_KEY.TOKEN,
           });
           setUser(user);
-          setIsAuthenticated(true);
-          setIsFirstLogin(false);
 
           // custom trace
           trace.putAttribute('login_status', 'success');
@@ -107,18 +114,32 @@ export const Login = () => {
         },
       });
     },
-    [
-      error,
-      isFirstLogin,
-      mutate,
-      setIsAuthenticated,
-      setIsFirstLogin,
-      setUser,
-      startNavigationTTITimer,
-    ],
+    [error, isFirstLogin, mutate, setUser, startNavigationTTITimer],
   );
 
+  const handleCloseSheet = useCallback(() => {
+    setIsAuthenticated(true);
+    setIsFirstLogin(false);
+
+    sheetRef.current?.close();
+  }, [setIsAuthenticated, setIsFirstLogin]);
+
+  const handleConfirmSheet = useCallback(() => {
+    setIsAuthenticated(true);
+    setIsFirstLogin(false);
+
+    Linking.openSettings();
+    sheetRef.current?.close();
+  }, [setIsAuthenticated, setIsFirstLogin]);
+
   return (
-    <Content isPending={isPending} error={error} onSubmit={handleSubmit} />
+    <Content
+      sheetRef={sheetRef}
+      isPending={isPending}
+      error={error}
+      onSubmit={handleSubmit}
+      onCloseSheet={handleCloseSheet}
+      onConfirmSheet={handleConfirmSheet}
+    />
   );
 };

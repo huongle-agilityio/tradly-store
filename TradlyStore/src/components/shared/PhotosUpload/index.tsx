@@ -1,11 +1,12 @@
-import { useCallback } from 'react';
+import { lazy, Suspense, useCallback, useRef, useState } from 'react';
 import {
-  Alert,
   FlatList,
+  Linking,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
+import BottomSheet from '@gorhom/bottom-sheet';
 import {
   Asset,
   launchCamera,
@@ -15,6 +16,9 @@ import {
 
 // Components
 import { Text, ImageUpload } from '@/components/common';
+
+// Constants
+import { PERMISSION_MESSAGES } from '@/constants';
 
 // Icons
 import { PlusIcon } from '@/components/icons';
@@ -28,6 +32,18 @@ import { colors, radius, spacing } from '@/themes';
 // Utils
 import { requestPermission } from '@/utils';
 
+const ConfirmSheet = lazy(() =>
+  import('../ConfirmSheet').then((module) => ({
+    default: module.ConfirmSheet,
+  })),
+);
+
+const CameraGalleryOptions = lazy(() =>
+  import('./CameraGalleryOptions').then((module) => ({
+    default: module.CameraGalleryOptions,
+  })),
+);
+
 interface PhotosUploadProps {
   error?: string;
   selectedImages: Asset[];
@@ -39,6 +55,12 @@ export const PhotosUpload = ({
   selectedImages,
   onSelectImage,
 }: PhotosUploadProps) => {
+  const permissionSheetRef = useRef<BottomSheet>(null);
+  const cameraGallerySheetRef = useRef<BottomSheet>(null);
+  const [permission, setPermission] = useState<PermissionType>(
+    PermissionType.camera,
+  );
+
   const MAX_IMAGES = 4;
   const hasButtonAddImage = selectedImages.length < MAX_IMAGES;
 
@@ -55,6 +77,14 @@ export const PhotosUpload = ({
     [onSelectImage, selectedImages],
   );
 
+  const handleCloseSettingSheet = useCallback(() => {
+    permissionSheetRef.current?.close();
+  }, []);
+
+  const handleCloseSheet = useCallback(() => {
+    cameraGallerySheetRef.current?.close();
+  }, []);
+
   /**
    * Opens the gallery to select up to 4 images. If the user does not
    * have permission to access the gallery, an alert will be shown
@@ -62,9 +92,16 @@ export const PhotosUpload = ({
    * gallery.
    */
   const openGallery = useCallback(async () => {
+    cameraGallerySheetRef.current?.close();
     const galleryGranted = await requestPermission(PermissionType.gallery);
 
+    if (typeof galleryGranted === 'string') {
+      setPermission(PermissionType.gallery);
+      return permissionSheetRef.current?.snapToIndex(0);
+    }
+
     if (galleryGranted) {
+      handleCloseSheet();
       const options = {
         mediaType: 'photo' as const,
         selectionLimit: MAX_IMAGES - selectedImages.length,
@@ -82,7 +119,7 @@ export const PhotosUpload = ({
         }
       });
     }
-  }, [onSelectImage, selectedImages]);
+  }, [handleCloseSheet, onSelectImage, selectedImages]);
 
   /**
    * Opens the camera app to take a photo. If the user does not
@@ -90,9 +127,17 @@ export const PhotosUpload = ({
    * with a prompt to go to the settings to allow access to the
    * camera.
    */
-  const openCamera = useCallback(async () => {
+  const handleCamera = useCallback(async () => {
+    cameraGallerySheetRef.current?.close();
     const cameraGranted = await requestPermission(PermissionType.camera);
+
+    if (typeof cameraGranted === 'string') {
+      setPermission(PermissionType.camera);
+      return permissionSheetRef.current?.snapToIndex(0);
+    }
+
     if (cameraGranted) {
+      handleCloseSheet();
       const options = {
         mediaType: 'photo' as const,
         includeBase64: false,
@@ -110,25 +155,16 @@ export const PhotosUpload = ({
         }
       });
     }
-  }, [onSelectImage, selectedImages]);
+  }, [handleCloseSheet, onSelectImage, selectedImages]);
 
-  /**
-   * Displays an alert with options to open the gallery or camera.
-   * The user can choose to select an image from the gallery, take a
-   * new photo using the camera, or cancel the action.
-   */
-  const openGalleryWithCameraOption = useCallback(() => {
-    Alert.alert(
-      'Please choose an option',
-      'Choice images from gallery or camera',
-      [
-        { text: 'From Gallery', onPress: openGallery },
-        { text: 'Take Photo', onPress: openCamera },
-        { text: 'Cancel', style: 'cancel' },
-      ],
-      { cancelable: true },
-    );
-  }, [openCamera, openGallery]);
+  const handleOpenSheetOptions = useCallback(() => {
+    cameraGallerySheetRef.current?.snapToIndex(0);
+  }, []);
+
+  const handleOpenPermission = useCallback(() => {
+    permissionSheetRef.current?.snapToIndex(0);
+    Linking.openSettings();
+  }, []);
 
   // Render list item
   const renderItem = useCallback(
@@ -161,7 +197,7 @@ export const PhotosUpload = ({
     () => (
       <TouchableOpacity
         accessibilityRole="button"
-        onPress={openGalleryWithCameraOption}
+        onPress={handleOpenSheetOptions}
         style={styles.addImage}
       >
         <PlusIcon />
@@ -177,7 +213,7 @@ export const PhotosUpload = ({
         </Text>
       </TouchableOpacity>
     ),
-    [openGalleryWithCameraOption],
+    [handleOpenSheetOptions],
   );
 
   return (
@@ -209,6 +245,25 @@ export const PhotosUpload = ({
       >
         Max. 4 photos per product
       </Text>
+
+      <Suspense fallback={null}>
+        <CameraGalleryOptions
+          sheetRef={cameraGallerySheetRef}
+          onCamera={handleCamera}
+          openGallery={openGallery}
+          onCloseSheet={handleCloseSheet}
+        />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ConfirmSheet
+          title={PERMISSION_MESSAGES[permission].title}
+          description={PERMISSION_MESSAGES[permission].blocked}
+          buttonConfirmText="Open Settings"
+          sheetRef={permissionSheetRef}
+          onConfirm={handleOpenPermission}
+          onCancel={handleCloseSettingSheet}
+        />
+      </Suspense>
     </View>
   );
 };
