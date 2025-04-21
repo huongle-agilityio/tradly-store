@@ -6,7 +6,6 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import { PerformanceMeasureView } from '@shopify/react-native-performance';
 
 // Components
 import { StickyFooter } from '@/components/shared';
@@ -21,11 +20,8 @@ import {
   ShareIcon,
 } from '@/components/icons';
 
-// Constants
-import { SCREENS } from '@/constants';
-
 // Interfaces
-import { Product, Store } from '@/interfaces';
+import { Store } from '@/interfaces';
 
 // Themes
 import { colors, lineHeights, radius, spacing } from '@/themes';
@@ -45,7 +41,6 @@ interface ContentProps {
   slideImages: string[];
   description?: string;
   store?: Store;
-  data?: Product;
   handleBack: () => void;
   handleAddToCart: () => void;
 }
@@ -59,7 +54,6 @@ export const Content = memo(
     title,
     quantity,
     price,
-    data,
     isLoading,
     handleAddToCart,
     handleBack,
@@ -77,166 +71,161 @@ export const Content = memo(
     const isSoldOut = quantity <= 0;
 
     return (
-      <PerformanceMeasureView
-        interactive={data !== undefined}
-        screenName={SCREENS.PRODUCT_DETAIL}
+      <StickyFooter
+        isLoading={isLoading}
+        disabled={isSoldOut}
+        buttonText="Add to Cart"
+        onPress={handleAddToCart}
       >
-        <StickyFooter
-          isLoading={isLoading}
-          disabled={isSoldOut}
-          buttonText="Add to Cart"
-          onPress={handleAddToCart}
-        >
-          <ScrollView contentContainerStyle={styles.contentContainerStyle}>
-            <View>
-              <View style={styles.headerWrapper}>
-                <ProductCarousel images={slideImages} />
+        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+          <View>
+            <View style={styles.headerWrapper}>
+              <ProductCarousel images={slideImages} />
 
-                <View style={styles.header}>
-                  <TouchableOpacity
-                    accessibilityRole="button"
-                    style={styles.icon}
-                    onPress={handleBack}
-                  >
-                    <ArrowLeftIcon size={18} color={colors.light} />
+              <View style={styles.header}>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  style={styles.icon}
+                  onPress={handleBack}
+                >
+                  <ArrowLeftIcon size={18} color={colors.light} />
+                  <View style={styles.backgroundIcon} />
+                </TouchableOpacity>
+
+                <View style={styles.iconWrapper}>
+                  <View style={styles.icon}>
+                    <ShareIcon size={18} color={colors.light} />
                     <View style={styles.backgroundIcon} />
-                  </TouchableOpacity>
-
-                  <View style={styles.iconWrapper}>
-                    <View style={styles.icon}>
-                      <ShareIcon size={18} color={colors.light} />
-                      <View style={styles.backgroundIcon} />
-                    </View>
-                    <View style={styles.icon}>
-                      <OutlineHeartIcon size={18} color={colors.light} />
-                      <View style={styles.backgroundIcon} />
-                    </View>
-                    <View style={styles.icon}>
-                      <MenuDotIcon size={18} color={colors.light} />
-                      <View style={styles.backgroundIcon} />
-                    </View>
+                  </View>
+                  <View style={styles.icon}>
+                    <OutlineHeartIcon size={18} color={colors.light} />
+                    <View style={styles.backgroundIcon} />
+                  </View>
+                  <View style={styles.icon}>
+                    <MenuDotIcon size={18} color={colors.light} />
+                    <View style={styles.backgroundIcon} />
                   </View>
                 </View>
               </View>
-
-              <View style={[styles.productWrapper, styles.contentWrapper]}>
-                {isLoading ? (
-                  <View style={styles.loading}>
-                    <Skeleton width="60%" height={20} borderRadius={4} />
-                    <Skeleton width="40%" height={20} borderRadius={4} />
-                  </View>
-                ) : (
-                  <>
-                    <Text
-                      color="placeholder"
-                      fontSize="lg"
-                      fontWeight="bold"
-                      textStyle={{ lineHeight: lineHeights.md }}
-                    >
-                      {title}
-                    </Text>
-                    <View style={styles.price}>
-                      <Text fontSize="lg" fontWeight="bold" color="secondary">
-                        ${calculateDiscountedPrice(price, discount)}
-                      </Text>
-                      {!!discount && (
-                        <>
-                          <Text
-                            fontWeight="normal"
-                            color="placeholder"
-                            textStyle={styles.textPrice}
-                          >
-                            ${price}
-                          </Text>
-                          <Text fontWeight="normal" color="placeholder">
-                            {discount}% off
-                          </Text>
-                        </>
-                      )}
-                      {isSoldOut && (
-                        <Text color="light" textStyle={styles.banner}>
-                          SOLD OUT
-                        </Text>
-                      )}
-                    </View>
-                  </>
-                )}
-              </View>
             </View>
 
-            <View style={[styles.storeWrapper, styles.contentWrapper]}>
-              <View style={styles.storeTitle}>
-                {isLoading ? (
-                  <>
-                    <Skeleton width={32} height={32} style={styles.image} />
-                    <Skeleton width={100} height={20} borderRadius={4} />
-                  </>
-                ) : (
-                  <>
-                    <Image
-                      accessibilityRole="image"
-                      source={{ uri: store?.image }}
-                      style={styles.image}
-                      accessibilityLabel={`avatar of ${store?.username} store`}
-                    />
-                    <Text fontWeight="normal" color="placeholder">
-                      {store?.username}
-                    </Text>
-                  </>
-                )}
-              </View>
-
-              <View style={styles.button}>
-                <Button textSize="xs">Follow</Button>
-              </View>
-            </View>
-
-            <View style={[styles.description, styles.contentWrapper]}>
+            <View style={[styles.productWrapper, styles.contentWrapper]}>
               {isLoading ? (
-                <Skeleton width="100%" height={100} borderRadius={4} />
+                <View style={styles.loading}>
+                  <Skeleton width="60%" height={20} borderRadius={4} />
+                  <Skeleton width="40%" height={20} borderRadius={4} />
+                </View>
               ) : (
-                <Text
-                  fontWeight="light"
-                  color="placeholder"
-                  textStyle={{ lineHeight: lineHeights.md }}
-                >
-                  {description}
-                </Text>
+                <>
+                  <Text
+                    color="placeholder"
+                    fontSize="lg"
+                    fontWeight="bold"
+                    textStyle={{ lineHeight: lineHeights.md }}
+                  >
+                    {title}
+                  </Text>
+                  <View style={styles.price}>
+                    <Text fontSize="lg" fontWeight="bold" color="secondary">
+                      ${calculateDiscountedPrice(price, discount)}
+                    </Text>
+                    {!!discount && (
+                      <>
+                        <Text
+                          fontWeight="normal"
+                          color="placeholder"
+                          textStyle={styles.textPrice}
+                        >
+                          ${price}
+                        </Text>
+                        <Text fontWeight="normal" color="placeholder">
+                          {discount}% off
+                        </Text>
+                      </>
+                    )}
+                    {isSoldOut && (
+                      <Text color="light" textStyle={styles.banner}>
+                        SOLD OUT
+                      </Text>
+                    )}
+                  </View>
+                </>
+              )}
+            </View>
+          </View>
+
+          <View style={[styles.storeWrapper, styles.contentWrapper]}>
+            <View style={styles.storeTitle}>
+              {isLoading ? (
+                <>
+                  <Skeleton width={32} height={32} style={styles.image} />
+                  <Skeleton width={100} height={20} borderRadius={4} />
+                </>
+              ) : (
+                <>
+                  <Image
+                    accessibilityRole="image"
+                    source={{ uri: store?.image }}
+                    style={styles.image}
+                    accessibilityLabel={`avatar of ${store?.username} store`}
+                  />
+                  <Text fontWeight="normal" color="placeholder">
+                    {store?.username}
+                  </Text>
+                </>
               )}
             </View>
 
-            <View style={[styles.content, styles.contentWrapper]}>
-              <Text
-                fontWeight="medium"
-                fontSize="lg"
-                textStyle={{ lineHeight: lineHeights.md }}
-              >
-                Details
-              </Text>
-              <View style={{ gap: spacing[2], paddingTop: spacing[5] }}>
-                <ProductInformation isLoading={isLoading} data={productInfo} />
-              </View>
+            <View style={styles.button}>
+              <Button textSize="xs">Follow</Button>
             </View>
+          </View>
 
-            <View style={[styles.content, styles.contentWrapper]}>
+          <View style={[styles.description, styles.contentWrapper]}>
+            {isLoading ? (
+              <Skeleton width="100%" height={100} borderRadius={4} />
+            ) : (
               <Text
-                fontWeight="medium"
-                fontSize="lg"
+                fontWeight="light"
+                color="placeholder"
                 textStyle={{ lineHeight: lineHeights.md }}
               >
-                Additional Details
+                {description}
               </Text>
-              <ProductInformation
-                isLoading={isLoading}
-                data={productAdditional}
-                style={{
-                  paddingTop: spacing[5],
-                }}
-              />
+            )}
+          </View>
+
+          <View style={[styles.content, styles.contentWrapper]}>
+            <Text
+              fontWeight="medium"
+              fontSize="lg"
+              textStyle={{ lineHeight: lineHeights.md }}
+            >
+              Details
+            </Text>
+            <View style={{ gap: spacing[2], paddingTop: spacing[5] }}>
+              <ProductInformation isLoading={isLoading} data={productInfo} />
             </View>
-          </ScrollView>
-        </StickyFooter>
-      </PerformanceMeasureView>
+          </View>
+
+          <View style={[styles.content, styles.contentWrapper]}>
+            <Text
+              fontWeight="medium"
+              fontSize="lg"
+              textStyle={{ lineHeight: lineHeights.md }}
+            >
+              Additional Details
+            </Text>
+            <ProductInformation
+              isLoading={isLoading}
+              data={productAdditional}
+              style={{
+                paddingTop: spacing[5],
+              }}
+            />
+          </View>
+        </ScrollView>
+      </StickyFooter>
     );
   },
 );

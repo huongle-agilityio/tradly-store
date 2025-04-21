@@ -6,7 +6,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { GestureResponderEvent } from '@shopify/react-native-performance';
 
 // Components
 import { Item } from './Item';
@@ -34,10 +33,7 @@ interface Props extends Omit<FlatListProps<Product>, 'data' | 'renderItem'> {
   isFetchingNextPage?: boolean;
   refetch?: () => void;
   onEndReached?: () => void;
-  onNavigateProductDetail?: (
-    id: string,
-    uiEvent?: GestureResponderEvent,
-  ) => void;
+  onNavigateProductDetail?: (id: string) => void;
   onEditProduct?: (id: string) => void;
   onDeleteProduct?: (id: string) => void;
 }

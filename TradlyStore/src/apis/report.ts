@@ -8,12 +8,7 @@ import { API_ENDPOINT } from '@/constants';
 import { getErrorMessage } from '@/utils';
 
 interface Report {
-  date: string;
-  time: string;
-  report: {
-    timeToRenderMillis: number;
-    timeToBootJsMillis: number;
-  };
+  deviceToken: string;
 }
 
 export interface ReportResponse {
