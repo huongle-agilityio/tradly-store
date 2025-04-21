@@ -1,3 +1,9 @@
+import {
+  getMessaging,
+  setBackgroundMessageHandler,
+} from '@react-native-firebase/messaging';
+import { getApp } from '@react-native-firebase/app';
+
 // Navigation
 import { Navigation } from '@/navigation';
 
@@ -5,6 +11,10 @@ import { Navigation } from '@/navigation';
 import { useAppInit, useToggleStorybook } from '@/hooks';
 
 __DEV__ && require('./reactotronConfig.js');
+
+const messaging = getMessaging(getApp());
+
+setBackgroundMessageHandler(messaging, async () => {});
 
 const App = () => {
   useAppInit();
