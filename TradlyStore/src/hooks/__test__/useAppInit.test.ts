@@ -102,7 +102,9 @@ describe('useAppInit', () => {
 
     await renderHook(() => useAppInit());
 
-    expect(mockRecordError).toHaveBeenCalledWith(error);
+    await waitFor(() => {
+      expect(mockRecordError).toHaveBeenCalledWith(error);
+    });
   });
 });
 
