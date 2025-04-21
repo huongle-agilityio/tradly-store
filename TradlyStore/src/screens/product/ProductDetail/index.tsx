@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from 'react';
-import { useStartProfiler } from '@shopify/react-native-performance';
 
 // Apis
 import { useGetProductById } from '@/apis';
@@ -23,7 +22,6 @@ export const ProductDetail = ({
   navigation,
   route,
 }: ProductScreenProps<typeof SCREENS.PRODUCT_DETAIL>) => {
-  const startNavigationTTITimer = useStartProfiler();
   const { id } = route.params;
 
   // Stores
@@ -60,9 +58,6 @@ export const ProductDetail = ({
   }, [addNewCart, discount, documentId, image, price, showToast, title]);
 
   const handleBack = useCallback(() => {
-    startNavigationTTITimer({
-      source: SCREENS.PRODUCT_DETAIL,
-    });
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {
@@ -70,7 +65,7 @@ export const ProductDetail = ({
         screen: SCREENS.HOME,
       });
     }
-  }, [navigation, startNavigationTTITimer]);
+  }, [navigation]);
 
   useEffect(() => {
     if (!isLoading && isEmptyObject(data)) {
@@ -89,7 +84,6 @@ export const ProductDetail = ({
       title={title}
       quantity={quantity}
       price={price}
-      data={data}
       isLoading={isLoading}
       handleAddToCart={handleAddToCart}
       handleBack={handleBack}

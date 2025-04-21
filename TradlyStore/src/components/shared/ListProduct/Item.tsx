@@ -1,6 +1,5 @@
 import { memo, useCallback } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { GestureResponderEvent } from '@shopify/react-native-performance';
 
 // Components
 import { ProductCard } from '@/components/common';
@@ -18,7 +17,7 @@ interface ItemProps {
   horizontal?: boolean | null | undefined;
   item: Product;
   style?: StyleProp<ViewStyle>;
-  onNavigate?: (id: string, uiEvent?: GestureResponderEvent) => void;
+  onNavigate?: (id: string) => void;
   onEditProduct?: (id: string) => void;
   onDeleteProduct?: (id: string) => void;
 }
@@ -46,16 +45,13 @@ export const Item = memo(
     const isFirstItem = index === 0;
     const isLastItem = index === dataLength - 1;
 
-    const handleProductDetail = useCallback(
-      (uiEvent?: GestureResponderEvent) => {
-        if (!documentId || !onNavigate) {
-          return;
-        }
+    const handleProductDetail = useCallback(() => {
+      if (!documentId || !onNavigate) {
+        return;
+      }
 
-        onNavigate(documentId, uiEvent);
-      },
-      [documentId, onNavigate],
-    );
+      onNavigate(documentId);
+    }, [documentId, onNavigate]);
 
     const handleEdit = useCallback(() => {
       if (!documentId || onNavigate) {

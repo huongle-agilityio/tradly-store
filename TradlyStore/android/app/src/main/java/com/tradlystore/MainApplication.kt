@@ -11,7 +11,6 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
-import com.shopify.reactnativeperformance.ReactNativePerformance
 
 class MainApplication : Application(), ReactApplication {
 
@@ -35,7 +34,6 @@ class MainApplication : Application(), ReactApplication {
     get() = getDefaultReactHost(applicationContext, reactNativeHost)
 
   override fun onCreate() {
-    ReactNativePerformance.onAppStarted()
     super.onCreate()
     SoLoader.init(this, OpenSourceMergedSoMapping)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {

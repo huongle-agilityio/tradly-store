@@ -5,10 +5,6 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { Linking } from 'react-native';
 import { AuthorizationStatus } from '@react-native-firebase/messaging';
-import {
-  GestureResponderEvent,
-  useStartProfiler,
-} from '@shopify/react-native-performance';
 
 // Apis
 import { useAuthLogin } from '@/apis';
@@ -34,7 +30,7 @@ import { checkAndRequestNotificationPermission, customTrace } from '@/utils';
 export const Login = () => {
   const sheetRef = useRef<BottomSheet>(null);
 
-  const startNavigationTTITimer = useStartProfiler();
+  // const startNavigationTTITimer = useStartProfiler();
 
   useScreenTrace(SCREENS.LOGIN);
   const [error, setError] = useState<string>('');
@@ -53,7 +49,7 @@ export const Login = () => {
   const { mutate, isPending } = useAuthLogin();
 
   const handleSubmit = useCallback(
-    async (payload: AuthPayload, uiEvent?: GestureResponderEvent) => {
+    async (payload: AuthPayload) => {
       crashlytics().log('User login attempt.');
       const { trace, traceStop } = await customTrace(SCREENS.LOGIN);
 
@@ -61,11 +57,6 @@ export const Login = () => {
 
       mutate(payload, {
         onSuccess: async ({ jwt, user }) => {
-          startNavigationTTITimer({
-            source: SCREENS.LOGIN,
-            uiEvent,
-          });
-
           // Setup notification handlers
           if (isFirstLogin) {
             await notifee.requestPermission();
@@ -113,15 +104,7 @@ export const Login = () => {
         },
       });
     },
-    [
-      error,
-      isFirstLogin,
-      mutate,
-      setIsAuthenticated,
-      setIsFirstLogin,
-      setUser,
-      startNavigationTTITimer,
-    ],
+    [error, isFirstLogin, mutate, setIsAuthenticated, setIsFirstLogin, setUser],
   );
 
   const handleCloseSheet = useCallback(() => {

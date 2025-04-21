@@ -1,8 +1,4 @@
 import { useCallback } from 'react';
-import {
-  GestureResponderEvent,
-  useStartProfiler,
-} from '@shopify/react-native-performance';
 
 // Apis
 import { useGetProduct } from '@/apis';
@@ -19,8 +15,6 @@ import { BottomTabsScreenProps } from '@/interfaces';
 export const Home = ({
   navigation,
 }: BottomTabsScreenProps<typeof SCREENS.HOME>) => {
-  const startNavigationTTITimer = useStartProfiler();
-
   // Apis
   const { data: productSorted, isLoading: isLoadingProductSorted } =
     useGetProduct({
@@ -66,11 +60,7 @@ export const Home = ({
   );
 
   const handleNavigateProductDetail = useCallback(
-    (id: string, uiEvent?: GestureResponderEvent) => {
-      startNavigationTTITimer({
-        source: SCREENS.HOME,
-        uiEvent,
-      });
+    (id: string) => {
       navigation.push(SCREENS.PRODUCT, {
         screen: SCREENS.PRODUCT_DETAIL,
         params: {
@@ -78,7 +68,7 @@ export const Home = ({
         },
       });
     },
-    [navigation, startNavigationTTITimer],
+    [navigation],
   );
 
   return (

@@ -162,7 +162,7 @@ export const PhotosUpload = ({
   }, []);
 
   const handleOpenPermission = useCallback(() => {
-    permissionSheetRef.current?.snapToIndex(0);
+    permissionSheetRef.current?.close();
     Linking.openSettings();
   }, []);
 

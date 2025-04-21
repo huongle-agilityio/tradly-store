@@ -1,14 +1,10 @@
 import { memo } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { PerformanceMeasureView } from '@shopify/react-native-performance';
 
 // Components
 import { Categories } from '../Categories';
 import { ListProduct } from '@/components/shared';
 import { Button, Text } from '@/components/common';
-
-// Constants
-import { SCREENS } from '@/constants';
 
 // Interfaces
 import { Product } from '@/interfaces';
@@ -38,57 +34,52 @@ export const Content = memo(
     onRedirectProductCategory,
     onNavigateProductDetail,
   }: ContentProps) => (
-    <PerformanceMeasureView
-      interactive={!!productSorted.length && !!productHasDiscount.length}
-      screenName={SCREENS.HOME}
-    >
-      <ScrollView style={styles.container}>
-        <View style={styles.wrapper}>
-          <Categories onPress={onRedirectProductCategory} />
-          <View style={styles.contentWrapper}>
-            <View style={styles.content}>
-              <Text fontWeight="bold" fontSize="lg" color="placeholder">
-                New Product
-              </Text>
-              <Button
-                textSize="xs"
-                buttonStyles={styles.button}
-                onPress={onRedirectNewProduct}
-              >
-                See All
-              </Button>
-            </View>
-            <ListProduct
-              data={productSorted}
-              isLoading={isLoadingProductSorted}
-              horizontal={true}
-              onNavigateProductDetail={onNavigateProductDetail}
-            />
+    <ScrollView style={styles.container}>
+      <View style={styles.wrapper}>
+        <Categories onPress={onRedirectProductCategory} />
+        <View style={styles.contentWrapper}>
+          <View style={styles.content}>
+            <Text fontWeight="bold" fontSize="lg" color="placeholder">
+              New Product
+            </Text>
+            <Button
+              textSize="xs"
+              buttonStyles={styles.button}
+              onPress={onRedirectNewProduct}
+            >
+              See All
+            </Button>
           </View>
-
-          <View style={styles.contentWrapper}>
-            <View style={styles.content}>
-              <Text fontWeight="bold" fontSize="lg" color="placeholder">
-                Popular Product
-              </Text>
-              <Button
-                textSize="xs"
-                buttonStyles={styles.button}
-                onPress={onRedirectPopularProduct}
-              >
-                See All
-              </Button>
-            </View>
-            <ListProduct
-              data={productHasDiscount}
-              isLoading={isLoadingProductHasDiscount}
-              horizontal={true}
-              onNavigateProductDetail={onNavigateProductDetail}
-            />
-          </View>
+          <ListProduct
+            data={productSorted}
+            isLoading={isLoadingProductSorted}
+            horizontal={true}
+            onNavigateProductDetail={onNavigateProductDetail}
+          />
         </View>
-      </ScrollView>
-    </PerformanceMeasureView>
+
+        <View style={styles.contentWrapper}>
+          <View style={styles.content}>
+            <Text fontWeight="bold" fontSize="lg" color="placeholder">
+              Popular Product
+            </Text>
+            <Button
+              textSize="xs"
+              buttonStyles={styles.button}
+              onPress={onRedirectPopularProduct}
+            >
+              See All
+            </Button>
+          </View>
+          <ListProduct
+            data={productHasDiscount}
+            isLoading={isLoadingProductHasDiscount}
+            horizontal={true}
+            onNavigateProductDetail={onNavigateProductDetail}
+          />
+        </View>
+      </View>
+    </ScrollView>
   ),
 );
 

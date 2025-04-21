@@ -2,17 +2,13 @@ import { lazy, memo, RefObject, Suspense } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import {
-  GestureResponderEvent,
-  PerformanceMeasureView,
-} from '@shopify/react-native-performance';
 
 // Components
 import { Form } from '../Form';
 import { Text } from '@/components/common';
 
 // Constants
-import { BRAND, SCREENS } from '@/constants';
+import { BRAND } from '@/constants';
 
 // Interfaces
 import { AuthPayload } from '@/interfaces';
@@ -32,10 +28,7 @@ interface ContentProps {
   sheetRef: RefObject<BottomSheetMethods | null>;
   onCloseSheet: () => void;
   onConfirmSheet: () => void;
-  onSubmit: (
-    payload: AuthPayload,
-    uiEvent?: GestureResponderEvent,
-  ) => Promise<void>;
+  onSubmit: (payload: AuthPayload) => Promise<void>;
 }
 
 export const Content = memo(
@@ -47,48 +40,46 @@ export const Content = memo(
     onCloseSheet,
     onConfirmSheet,
   }: ContentProps) => (
-    <PerformanceMeasureView interactive={true} screenName={SCREENS.LOGIN}>
-      <View style={styles.container}>
-        <KeyboardAwareScrollView
-          extraKeyboardSpace={50}
-          contentContainerStyle={styles.content}
-        >
-          <View style={[styles.title, styles.textWrapper]}>
-            <Text color="light" fontSize="xxl" fontWeight="normal">
-              Welcome to {BRAND.NAME}
-            </Text>
-            <Text color="light" fontSize="md" fontWeight="light">
-              Login to your account
-            </Text>
-          </View>
-          <Form error={error} isLoading={isPending} onSubmit={onSubmit} />
+    <View style={styles.container}>
+      <KeyboardAwareScrollView
+        extraKeyboardSpace={50}
+        contentContainerStyle={styles.content}
+      >
+        <View style={[styles.title, styles.textWrapper]}>
+          <Text color="light" fontSize="xxl" fontWeight="normal">
+            Welcome to {BRAND.NAME}
+          </Text>
+          <Text color="light" fontSize="md" fontWeight="light">
+            Login to your account
+          </Text>
+        </View>
+        <Form error={error} isLoading={isPending} onSubmit={onSubmit} />
 
-          <View style={[styles.subtitle, styles.textWrapper]}>
-            <Text color="light" fontSize="lg" fontWeight="light">
-              Forgot your password?
+        <View style={[styles.subtitle, styles.textWrapper]}>
+          <Text color="light" fontSize="lg" fontWeight="light">
+            Forgot your password?
+          </Text>
+          <Text color="light" fontSize="lg" fontWeight="light">
+            Don’t have an account?{' '}
+            <Text color="light" fontSize="lg" fontWeight="medium">
+              Sign up
             </Text>
-            <Text color="light" fontSize="lg" fontWeight="light">
-              Don’t have an account?{' '}
-              <Text color="light" fontSize="lg" fontWeight="medium">
-                Sign up
-              </Text>
-            </Text>
-          </View>
+          </Text>
+        </View>
 
-          <Suspense fallback={null}>
-            <ConfirmSheet
-              title="Notifications disabled"
-              description="To receive important updates, please enable notifications in your device settings."
-              buttonConfirmText="Open Settings"
-              backdropPress="none"
-              sheetRef={sheetRef}
-              onConfirm={onConfirmSheet}
-              onCancel={onCloseSheet}
-            />
-          </Suspense>
-        </KeyboardAwareScrollView>
-      </View>
-    </PerformanceMeasureView>
+        <Suspense fallback={null}>
+          <ConfirmSheet
+            title="Notifications disabled"
+            description="To receive important updates, please enable notifications in your device settings."
+            buttonConfirmText="Open Settings"
+            backdropPress="none"
+            sheetRef={sheetRef}
+            onConfirm={onConfirmSheet}
+            onCancel={onCloseSheet}
+          />
+        </Suspense>
+      </KeyboardAwareScrollView>
+    </View>
   ),
 );
 

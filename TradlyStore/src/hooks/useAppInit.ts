@@ -12,7 +12,11 @@ import { STORAGE_KEY } from '@/constants';
 import { useAuthStore, useIniStore } from '@/stores';
 
 // Utils
-import { clearImagePickerFiles, createNotificationChannel } from '@/utils';
+import {
+  clearImagePickerFiles,
+  createNotificationChannel,
+  handleGetDeviceToken,
+} from '@/utils';
 
 /**
  * Custom hook to initialize the app's authentication and onboarding state.
@@ -52,6 +56,7 @@ export const useAppInit = () => {
         } else {
           setAuthenticated(false);
         }
+        console.log(handleGetDeviceToken());
 
         // Hide SplashScreen
         if (hydrated) {

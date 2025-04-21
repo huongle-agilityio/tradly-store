@@ -1,17 +1,8 @@
 import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import {
-  GestureResponderEvent,
-  PerformanceMeasureView,
-  useStartProfiler,
-} from '@shopify/react-native-performance';
 
 // Sections
 import { ListProduct } from '../ListProduct';
-
-// Constants
-import { SCREENS } from '@/constants';
 
 // Interfaces
 import { Product } from '@/interfaces';
@@ -35,9 +26,6 @@ export const ProductListContent = ({
   fetchNextPage,
   onProductDetail,
 }: ProductListContentProps) => {
-  const route = useRoute();
-  const startNavigationTTITimer = useStartProfiler();
-
   const handleEndReached = useCallback(() => {
     // fetch next page
     if (hasNextPage && !isFetchingNextPage) {
@@ -46,33 +34,24 @@ export const ProductListContent = ({
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const handleNavigateProductDetail = useCallback(
-    (id: string, uiEvent?: GestureResponderEvent) => {
-      startNavigationTTITimer({
-        source: route.name,
-        uiEvent,
-      });
+    (id: string) => {
       onProductDetail(id);
     },
-    [onProductDetail, route.name, startNavigationTTITimer],
+    [onProductDetail],
   );
 
   return (
-    <PerformanceMeasureView
-      interactive={!!data.length}
-      screenName={SCREENS.BROWSE}
-    >
-      <View style={styles.container}>
-        <ListProduct
-          isLoadMore
-          refetch={refetch}
-          isFetchingNextPage={isFetchingNextPage}
-          isLoading={isLoading}
-          data={data}
-          onEndReached={handleEndReached}
-          onNavigateProductDetail={handleNavigateProductDetail}
-        />
-      </View>
-    </PerformanceMeasureView>
+    <View style={styles.container}>
+      <ListProduct
+        isLoadMore
+        refetch={refetch}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoading={isLoading}
+        data={data}
+        onEndReached={handleEndReached}
+        onNavigateProductDetail={handleNavigateProductDetail}
+      />
+    </View>
   );
 };
 
