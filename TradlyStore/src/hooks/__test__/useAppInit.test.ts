@@ -1,6 +1,6 @@
 import { DevSettings } from 'react-native';
 import * as Keychain from 'react-native-keychain';
-import { act, renderHook } from '@testing-library/react-native';
+import { act, renderHook, waitFor } from '@testing-library/react-native';
 import { useAppInit, useToggleStorybook } from '../useAppInit';
 import * as useHydrationModule from '../useHydration';
 
@@ -20,7 +20,7 @@ jest.mock('react-native-bootsplash', () => ({
 
 jest.mock('@/utils', () => ({
   clearImagePickerFiles: jest.fn(),
-  registerNotificationHandlers: jest.fn(),
+  createNotificationChannel: jest.fn(),
 }));
 
 jest.mock('../useHydration', () => ({
@@ -77,8 +77,11 @@ describe('useAppInit', () => {
 
     await renderHook(() => useAppInit());
 
-    expect(mockSetAuthenticated).toHaveBeenCalledWith(true);
-    expect(Utils.registerNotificationHandlers).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(mockSetAuthenticated).toHaveBeenCalledWith(true);
+    });
+
+    expect(Utils.createNotificationChannel).toHaveBeenCalled();
   });
 
   it('Should setAuthenticated to false if no token exists', async () => {
@@ -87,7 +90,9 @@ describe('useAppInit', () => {
 
     await renderHook(() => useAppInit());
 
-    expect(mockSetAuthenticated).toHaveBeenCalledWith(false);
+    await waitFor(() => {
+      expect(mockSetAuthenticated).toHaveBeenCalledWith(false);
+    });
   });
 
   it('Should log and record error if something fails', async () => {
@@ -97,7 +102,9 @@ describe('useAppInit', () => {
 
     await renderHook(() => useAppInit());
 
-    expect(mockRecordError).toHaveBeenCalledWith(error);
+    await waitFor(() => {
+      expect(mockRecordError).toHaveBeenCalledWith(error);
+    });
   });
 });
 

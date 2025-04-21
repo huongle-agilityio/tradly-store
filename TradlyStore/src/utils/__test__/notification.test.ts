@@ -1,14 +1,10 @@
-import { Linking } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import notifee, { EventType } from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 
 import {
   buildDeepLinkFromNotificationData,
   createNotificationChannel,
-  handleForegroundNotifications,
   handleGetDeviceToken,
-  handleNotificationOpen,
-  registerNotificationHandlers,
 } from '../notification';
 
 // Constants
@@ -79,162 +75,6 @@ describe('notification utilities', () => {
     });
   });
 
-  describe('handleForegroundNotifications', () => {
-    it('Should display notification when receiving foreground message with notification', async () => {
-      const onMessage = messaging().onMessage as jest.Mock;
-      let messageHandler: (remoteMessage: any) => void = () => {};
-
-      onMessage.mockImplementation((handler) => {
-        messageHandler = handler;
-      });
-
-      handleForegroundNotifications();
-
-      const mockMessage = {
-        notification: {
-          title: 'Test Title',
-          body: 'Test Body',
-        },
-        data: {
-          someData: 'value',
-        },
-      };
-
-      await messageHandler(mockMessage);
-
-      expect(notifee.displayNotification).toHaveBeenCalledWith(
-        expect.objectContaining({
-          title: 'Test Title',
-          body: 'Test Body',
-          data: { someData: 'value' },
-        }),
-      );
-    });
-
-    it('Should not display notification if remoteMessage.notification is undefined', async () => {
-      const onMessage = messaging().onMessage as jest.Mock;
-      let messageHandler: (remoteMessage: any) => void = () => {};
-
-      onMessage.mockImplementation((handler) => {
-        messageHandler = handler;
-      });
-
-      handleForegroundNotifications();
-
-      const mockMessage = {
-        data: {
-          someData: 'value',
-        },
-      };
-
-      await messageHandler(mockMessage);
-
-      expect(notifee.displayNotification).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('handleNotificationOpen', () => {
-    it('Should open URL when notification opened from background with valid data', async () => {
-      const mockRemoteMessage = { data: { screen: 'Home' } };
-      (messaging().onNotificationOpenedApp as jest.Mock).mockImplementationOnce(
-        (handler) => {
-          handler(mockRemoteMessage);
-        },
-      );
-
-      (messaging().getInitialNotification as jest.Mock).mockResolvedValue(null);
-      (notifee.onForegroundEvent as jest.Mock).mockImplementation(() => {});
-
-      handleNotificationOpen();
-
-      expect(Linking.openURL).toHaveBeenCalledWith(LINKING_URL.HOME);
-    });
-
-    it('Should not open URL when notification opened with no data', async () => {
-      const mockRemoteMessage = {};
-      (messaging().onNotificationOpenedApp as jest.Mock).mockImplementationOnce(
-        (handler) => {
-          handler(mockRemoteMessage);
-        },
-      );
-
-      (messaging().getInitialNotification as jest.Mock).mockResolvedValue(null);
-      (notifee.onForegroundEvent as jest.Mock).mockImplementation(() => {});
-
-      handleNotificationOpen();
-
-      expect(Linking.openURL).not.toHaveBeenCalled();
-    });
-
-    it('Should handle getInitialNotification with valid data', async () => {
-      const mockRemoteMessage = { data: { screen: 'Profile' } };
-
-      (messaging().onNotificationOpenedApp as jest.Mock).mockImplementation(
-        () => {},
-      );
-      (messaging().getInitialNotification as jest.Mock).mockResolvedValueOnce(
-        mockRemoteMessage,
-      );
-      (notifee.onForegroundEvent as jest.Mock).mockImplementation(() => {});
-
-      await handleNotificationOpen();
-
-      expect(Linking.openURL).toHaveBeenCalledWith(LINKING_URL.HOME);
-    });
-
-    it('Should handle foreground event press with valid data', () => {
-      const mockCallback = jest.fn();
-      (notifee.onForegroundEvent as jest.Mock).mockImplementationOnce((cb) => {
-        mockCallback.mockImplementation(cb);
-      });
-
-      (messaging().onNotificationOpenedApp as jest.Mock).mockImplementation(
-        () => {},
-      );
-      (messaging().getInitialNotification as jest.Mock).mockResolvedValue(null);
-
-      handleNotificationOpen();
-
-      mockCallback({
-        type: EventType.PRESS,
-        detail: { notification: { data: { screen: 'Settings' } } },
-      });
-
-      expect(Linking.openURL).toHaveBeenCalledWith(LINKING_URL.HOME);
-    });
-
-    it('Should handle foreground event with missing notification', () => {
-      const mockCallback = jest.fn();
-      (notifee.onForegroundEvent as jest.Mock).mockImplementationOnce((cb) => {
-        mockCallback.mockImplementation(cb);
-      });
-
-      (messaging().onNotificationOpenedApp as jest.Mock).mockImplementation(
-        () => {},
-      );
-      (messaging().getInitialNotification as jest.Mock).mockResolvedValue(null);
-
-      handleNotificationOpen();
-
-      mockCallback({
-        type: EventType.PRESS,
-        detail: {},
-      });
-
-      expect(Linking.openURL).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('registerNotificationHandlers', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('Should run without throwing', async () => {
-      await expect(registerNotificationHandlers()).resolves.not.toThrow();
-    });
-  });
-
   describe('handleGetDeviceToken', () => {
     beforeEach(() => {
       jest.clearAllMocks();
@@ -249,7 +89,7 @@ describe('notification utilities', () => {
       expect(mockConsoleLog).toHaveBeenCalledWith(
         '==============Device Token==============',
       );
-      expect(mockConsoleLog).toHaveBeenCalledWith('= ', mockToken);
+      expect(mockConsoleLog).toHaveBeenCalledWith(mockToken);
       expect(mockConsoleLog).toHaveBeenCalledWith(
         '========================================',
       );

@@ -12,7 +12,7 @@ import { STORAGE_KEY } from '@/constants';
 import { useAuthStore, useIniStore } from '@/stores';
 
 // Utils
-import { clearImagePickerFiles, registerNotificationHandlers } from '@/utils';
+import { clearImagePickerFiles, createNotificationChannel } from '@/utils';
 
 /**
  * Custom hook to initialize the app's authentication and onboarding state.
@@ -42,6 +42,7 @@ export const useAppInit = () => {
      */
     const init = async () => {
       try {
+        await createNotificationChannel();
         const token = await Keychain.getGenericPassword({
           service: STORAGE_KEY.TOKEN,
         });
@@ -51,9 +52,6 @@ export const useAppInit = () => {
         } else {
           setAuthenticated(false);
         }
-
-        // Setup notification handlers
-        await registerNotificationHandlers();
 
         // Hide SplashScreen
         if (hydrated) {
