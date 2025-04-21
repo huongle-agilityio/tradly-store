@@ -89,7 +89,7 @@ describe('notification utilities', () => {
       expect(mockConsoleLog).toHaveBeenCalledWith(
         '==============Device Token==============',
       );
-      expect(mockConsoleLog).toHaveBeenCalledWith('= ', mockToken);
+      expect(mockConsoleLog).toHaveBeenCalledWith(mockToken);
       expect(mockConsoleLog).toHaveBeenCalledWith(
         '========================================',
       );

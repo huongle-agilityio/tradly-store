@@ -1,6 +1,6 @@
 import { DevSettings } from 'react-native';
 import * as Keychain from 'react-native-keychain';
-import { act, renderHook } from '@testing-library/react-native';
+import { act, renderHook, waitFor } from '@testing-library/react-native';
 import { useAppInit, useToggleStorybook } from '../useAppInit';
 import * as useHydrationModule from '../useHydration';
 
@@ -77,7 +77,10 @@ describe('useAppInit', () => {
 
     await renderHook(() => useAppInit());
 
-    expect(mockSetAuthenticated).toHaveBeenCalledWith(true);
+    await waitFor(() => {
+      expect(mockSetAuthenticated).toHaveBeenCalledWith(true);
+    });
+
     expect(Utils.createNotificationChannel).toHaveBeenCalled();
   });
 
@@ -87,7 +90,9 @@ describe('useAppInit', () => {
 
     await renderHook(() => useAppInit());
 
-    expect(mockSetAuthenticated).toHaveBeenCalledWith(false);
+    await waitFor(() => {
+      expect(mockSetAuthenticated).toHaveBeenCalledWith(false);
+    });
   });
 
   it('Should log and record error if something fails', async () => {
