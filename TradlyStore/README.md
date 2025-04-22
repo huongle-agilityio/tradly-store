@@ -142,6 +142,10 @@ Make sure you install packages with correct version below:
 ├── src
 │   ├── apis                        # Contain APIs
 │   ├── assets                      # Contain images, fonts, and other assets
+│   ├── components                  # React components
+│       ├── commons                 # Common components
+│       ├── icons                   # Icons folder
+│       ├── shared                  # Shared components
 │   ├── configs                     # App config
 │   ├── constants                   # App constants
 │   ├── hocs                        # High order components
@@ -152,13 +156,7 @@ Make sure you install packages with correct version below:
 │   ├── schemas                     # Schemas validate data
 │   ├── services                    # Handle data with API: GET, POST, PUT, DELETE
 │   ├── stores                      # Stores
-│   ├── ui                          # Folder contain ui of app
-│       ├── components              # React components
-│       ├── icons                   # Icons folder
-│       ├── layouts                 # React components for app layout
-│       ├── screens                 # Screens components
-│       ├── sections                # Sections components
-│       ├── themes                  # Custom themes styles
+│   ├── themes                      # App themes
 │   ├── utils                       # Utilities folder
 ├── .eslintrc.js                    # ESLint configuration
 ├── .lintstagedrc                   # Lint-stage
