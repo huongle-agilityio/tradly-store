@@ -74,6 +74,7 @@ export const FormProduct = memo(
       control,
       clearErrors,
       reset,
+      setError,
       formState: { isDirty },
       handleSubmit: submitForm,
     } = useForm<ProductFormData>({
@@ -102,6 +103,7 @@ export const FormProduct = memo(
             name="slideImages"
             clearErrors={clearErrors}
             control={control}
+            setError={setError}
           />
           <View style={styles.formWrapper}>
             <InputController
