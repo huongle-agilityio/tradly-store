@@ -48,12 +48,14 @@ interface PhotosUploadProps {
   error?: string;
   selectedImages: Asset[];
   onSelectImage: (images: Asset[]) => void;
+  onSetError: (error: string) => void;
 }
 
 export const PhotosUpload = ({
   error,
   selectedImages,
   onSelectImage,
+  onSetError,
 }: PhotosUploadProps) => {
   const permissionSheetRef = useRef<BottomSheet>(null);
   const cameraGallerySheetRef = useRef<BottomSheet>(null);
@@ -111,6 +113,10 @@ export const PhotosUpload = ({
 
       // Open the image library to select images
       launchImageLibrary(options, (response) => {
+        if (response.errorMessage) {
+          return onSetError(response.errorMessage);
+        }
+
         if (!response.didCancel && response.assets) {
           onSelectImage([
             ...response.assets.slice(0, MAX_IMAGES - selectedImages.length),
@@ -119,7 +125,7 @@ export const PhotosUpload = ({
         }
       });
     }
-  }, [handleCloseSheet, onSelectImage, selectedImages]);
+  }, [handleCloseSheet, onSelectImage, selectedImages, onSetError]);
 
   /**
    * Opens the camera app to take a photo. If the user does not
@@ -146,6 +152,10 @@ export const PhotosUpload = ({
 
       // Open the camera to take a photo
       launchCamera(options, (response) => {
+        if (response.errorMessage) {
+          return onSetError(response.errorMessage);
+        }
+
         if (!response.didCancel && response.assets) {
           const newImages = response.assets.slice(
             0,
@@ -155,7 +165,7 @@ export const PhotosUpload = ({
         }
       });
     }
-  }, [handleCloseSheet, onSelectImage, selectedImages]);
+  }, [handleCloseSheet, onSelectImage, selectedImages, onSetError]);
 
   const handleOpenSheetOptions = useCallback(() => {
     cameraGallerySheetRef.current?.snapToIndex(0);

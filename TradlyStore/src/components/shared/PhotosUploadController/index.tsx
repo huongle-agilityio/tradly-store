@@ -6,21 +6,21 @@ import {
   FieldValues,
   Path,
   UseFormClearErrors,
+  UseFormSetError,
 } from 'react-hook-form';
 
 // Components
 import { PhotosUpload } from '../PhotosUpload';
 
-interface MultipleDropdownControllerProps<
-  T extends FieldValues,
-  K extends Path<T>,
-> extends Omit<
+interface PhotosUploadControllerProps<T extends FieldValues, K extends Path<T>>
+  extends Omit<
     ComponentProps<typeof PhotosUpload>,
-    'onSelectImage' | 'selectedImages'
+    'onSelectImage' | 'selectedImages' | 'onSetError'
   > {
   name: K;
   control: Control<T>;
   clearErrors: UseFormClearErrors<T>;
+  setError: UseFormSetError<T>;
 }
 
 export const PhotosUploadController = <
@@ -30,7 +30,8 @@ export const PhotosUploadController = <
   name,
   control,
   clearErrors,
-}: MultipleDropdownControllerProps<T, K>) => {
+  setError,
+}: PhotosUploadControllerProps<T, K>) => {
   const {
     field,
     fieldState: { error },
@@ -50,11 +51,19 @@ export const PhotosUploadController = <
     [clearErrors, name, onChange],
   );
 
+  const handleSetError = useCallback(
+    (error: string) => {
+      setError(name, { message: error });
+    },
+    [name, setError],
+  );
+
   return (
     <PhotosUpload
       onSelectImage={handleOnChange}
       error={error?.message}
       selectedImages={value}
+      onSetError={handleSetError}
     />
   );
 };
