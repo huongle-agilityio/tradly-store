@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
+import { pick } from '@react-native-documents/picker';
 import {
   Asset,
   launchCamera,
@@ -16,6 +17,7 @@ import {
 
 // Components
 import { Text, ImageUpload } from '@/components/common';
+import { CameraGalleryOptions } from './CameraGalleryOptions';
 
 // Constants
 import { PERMISSION_MESSAGES } from '@/constants';
@@ -30,17 +32,15 @@ import { PermissionType } from '@/interfaces';
 import { colors, radius, spacing } from '@/themes';
 
 // Utils
-import { requestPermission } from '@/utils';
+import {
+  convertToAssets,
+  getErrorMessageFromDocumentPicker,
+  requestPermission,
+} from '@/utils';
 
 const ConfirmSheet = lazy(() =>
   import('../ConfirmSheet').then((module) => ({
     default: module.ConfirmSheet,
-  })),
-);
-
-const CameraGalleryOptions = lazy(() =>
-  import('./CameraGalleryOptions').then((module) => ({
-    default: module.CameraGalleryOptions,
   })),
 );
 
@@ -167,6 +167,25 @@ export const PhotosUpload = ({
     }
   }, [handleCloseSheet, onSelectImage, selectedImages, onSetError]);
 
+  const handleFiles = useCallback(async () => {
+    handleCloseSheet();
+    try {
+      const pickResult = await pick({
+        mode: 'import',
+        allowMultiSelection: true,
+        allowVirtualFiles: false,
+      });
+      const images = convertToAssets(pickResult);
+
+      onSelectImage([
+        ...images.slice(0, MAX_IMAGES - selectedImages.length),
+        ...selectedImages,
+      ]);
+    } catch (err) {
+      onSetError(getErrorMessageFromDocumentPicker(err));
+    }
+  }, [handleCloseSheet, onSelectImage, onSetError, selectedImages]);
+
   const handleOpenSheetOptions = useCallback(() => {
     cameraGallerySheetRef.current?.snapToIndex(0);
   }, []);
@@ -260,6 +279,7 @@ export const PhotosUpload = ({
         <CameraGalleryOptions
           sheetRef={cameraGallerySheetRef}
           onCamera={handleCamera}
+          openFiles={handleFiles}
           openGallery={openGallery}
           onCloseSheet={handleCloseSheet}
         />
