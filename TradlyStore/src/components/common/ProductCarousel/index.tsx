@@ -1,5 +1,5 @@
-import { memo, useRef, useState } from 'react';
-import { View, ScrollView, Animated } from 'react-native';
+import { memo, useCallback, useRef, useState } from 'react';
+import { View, ScrollView, Animated, LayoutChangeEvent } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Components
@@ -28,14 +28,16 @@ export const ProductCarousel = memo(({ images }: ProductCarouselProps) => {
     },
   );
 
+  const handleLayout = useCallback((event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setContainerWidth(width);
+  }, []);
+
   return (
     <View
       testID="product-carousel-container"
       style={styles.container}
-      onLayout={(event) => {
-        const { width } = event.nativeEvent.layout;
-        setContainerWidth(width);
-      }}
+      onLayout={handleLayout}
     >
       <ScrollView
         testID="product-carousel-scroll"
