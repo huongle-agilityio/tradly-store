@@ -15,6 +15,7 @@ interface CameraGalleryOptionsProps {
   openGallery: () => void;
   onCamera: () => void;
   onCloseSheet: () => void;
+  openFiles: () => void;
 }
 
 export const CameraGalleryOptions = memo(
@@ -23,12 +24,13 @@ export const CameraGalleryOptions = memo(
     openGallery,
     onCamera,
     onCloseSheet,
+    openFiles,
   }: CameraGalleryOptionsProps) => (
     <Portal>
       <BottomSheet
         ref={sheetRef}
         index={-1}
-        snapPoints={['25%']}
+        snapPoints={['50%']}
         enablePanDownToClose
         backdropComponent={SheetBackDrop}
       >
@@ -38,6 +40,12 @@ export const CameraGalleryOptions = memo(
             style={[styles.buttonSheet, styles.borderButtonSheet]}
           >
             <Text fontWeight="medium">From Gallery</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={openFiles}
+            style={[styles.buttonSheet, styles.borderButtonSheet]}
+          >
+            <Text fontWeight="medium">From Files</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={onCamera}
