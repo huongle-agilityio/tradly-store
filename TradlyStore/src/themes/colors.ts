@@ -45,6 +45,91 @@ const baseColors = {
   ...blackPallet,
 } as const;
 
+export const darkColors = {
+  transparent: 'transparent',
+  primary: 'red',
+  secondary: baseColors.grey1,
+  tertiary: baseColors.whiteBlue1,
+  light: baseColors.white1,
+  placeholder: baseColors.grey1,
+  error: baseColors.red2,
+  success: baseColors.green2,
+  opacity: baseColors.greyTranslucent,
+  link: baseColors.blue1,
+  dotNotification: baseColors.red4,
+  border: baseColors.grey5,
+  text: {
+    default: baseColors.black1,
+    light: baseColors.white1,
+    primary: baseColors.green2,
+    secondary: baseColors.green1,
+    tertiary: baseColors.grey2,
+    quaternary: baseColors.black2,
+    placeholder: baseColors.grey1,
+    fade: baseColors.grey4,
+    link: baseColors.blue1,
+    error: baseColors.red1,
+    success: baseColors.green3,
+  },
+  skeleton: {
+    backgroundPrimary: baseColors.grey4,
+    backgroundSecondary: baseColors.greyTranslucent,
+  },
+  button: {
+    backgroundPrimary: 'red',
+    backgroundSecondary: baseColors.white1,
+    success: baseColors.green3,
+    error: baseColors.red1,
+    textPrimary: baseColors.green2,
+    textSecondary: baseColors.white1,
+    textDark: baseColors.black2,
+  },
+  toast: {
+    default: baseColors.black3,
+    success: baseColors.green3,
+    error: baseColors.red4,
+  },
+  input: {
+    backgroundPrimary: baseColors.white1,
+    borderPrimary: baseColors.white1,
+    borderSecondary: baseColors.grey3,
+    textPrimary: baseColors.white1,
+    textSecondary: baseColors.grey1,
+    textTertiary: baseColors.black3,
+    textQuaternary: baseColors.black2,
+  },
+  select: {
+    backgroundPrimary: baseColors.white1,
+    badge: baseColors.grey6,
+    textPrimary: baseColors.grey1,
+  },
+  productCard: {
+    background: baseColors.white1,
+    border: baseColors.grey3,
+    textSecondary: baseColors.grey1,
+    textPrimary: baseColors.grey2,
+    textTertiary: baseColors.green1,
+  },
+  storeCard: {
+    background: baseColors.white1,
+    text: baseColors.grey2,
+  },
+  categoryCard: {
+    background: baseColors.greyTranslucent,
+    border: baseColors.grey3,
+    text: baseColors.white1,
+  },
+  tabItem: {
+    textPrimary: baseColors.green1,
+    textSecondary: baseColors.grey1,
+  },
+  cartItem: {
+    background: baseColors.white1,
+    textPrimary: baseColors.green1,
+    textSecondary: baseColors.grey1,
+  },
+};
+
 export const colors = {
   transparent: 'transparent',
   primary: baseColors.green1,
@@ -128,4 +213,4 @@ export const colors = {
     textPrimary: baseColors.green1,
     textSecondary: baseColors.grey1,
   },
-} as const;
+};

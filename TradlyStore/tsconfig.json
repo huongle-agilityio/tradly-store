@@ -3,10 +3,17 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": ".",
-    "types": ["react-native", "jest", "node"],
+    "types": ["jest", "node"],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "jest.config.js", "reactotronConfig.js"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "jest.config.js",
+    "reactotronConfig.js",
+    "src",
+    "global.d.ts"
+  ]
 }
