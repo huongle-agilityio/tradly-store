@@ -9,6 +9,7 @@ import { ThemeState, ThemeStore } from './type';
 import { STORAGE_KEY, THEME } from '@/constants';
 
 const INITIAL_THEME_STATE: ThemeState = {
+  isDark: false,
   appScheme: undefined,
   systemScheme: THEME.LIGHT,
 };
@@ -18,7 +19,8 @@ export const useThemeStore = createWithEqualityFn<ThemeStore>()(
     (set) => ({
       ...INITIAL_THEME_STATE,
 
-      setAppScheme: (scheme: ColorSchemeName) => set({ appScheme: scheme }),
+      setAppScheme: (scheme: ColorSchemeName) =>
+        set({ appScheme: scheme, isDark: scheme === THEME.DARK }),
 
       /**
        * Sets the system color scheme to the specified scheme.
@@ -26,7 +28,7 @@ export const useThemeStore = createWithEqualityFn<ThemeStore>()(
        * @param {ColorSchemeName} scheme - The color scheme to set as the system scheme.
        */
       setSystemScheme: (scheme: ColorSchemeName) =>
-        set({ systemScheme: scheme }),
+        set({ systemScheme: scheme, isDark: scheme === THEME.DARK }),
     }),
     {
       name: STORAGE_KEY.THEME,

@@ -1,6 +1,7 @@
 import { ColorSchemeName } from 'react-native';
 
 export interface ThemeState {
+  isDark?: boolean;
   appScheme: ColorSchemeName;
   systemScheme: ColorSchemeName;
   theme?: ColorSchemeName;
