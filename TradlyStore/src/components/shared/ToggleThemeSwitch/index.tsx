@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import switchTheme from 'react-native-theme-switch-animation';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -35,14 +36,30 @@ export const ToggleThemeSwitch = () => {
     backgroundColor: colors.toggleTheme.dotBackground,
   }));
 
+  const changeTheme = () => {
+    switchTheme({
+      switchThemeFunction: () => {
+        toggleTheme();
+      },
+      animationConfig: {
+        type: 'circular',
+        duration: 900,
+        startingPoint: {
+          cxRatio: 3,
+          cyRatio: 1,
+        },
+      },
+    });
+  };
+
   const tapGesture = Gesture.Tap().onEnd(() => {
     const next = progress.value === 1 ? 0 : 1;
-    progress.value = withTiming(next, { duration: 250 });
-    runOnJS(toggleTheme)();
+    progress.value = withTiming(next, { duration: 900 });
+    runOnJS(changeTheme)();
   });
 
   useEffect(() => {
-    progress.value = withTiming(isDark ? 1 : 0, { duration: 250 });
+    progress.value = withTiming(isDark ? 1 : 0, { duration: 900 });
   }, [progress, isDark]);
 
   return (
