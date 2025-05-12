@@ -61,6 +61,8 @@ export const ProductCard = memo(
           },
           imageWrapper: {
             backgroundColor: colors.opacity,
+            borderBottomWidth: 0.5,
+            borderBottomColor: colors.productCard.border,
           },
           content: {
             backgroundColor: colors.productCard.background,
@@ -170,6 +172,7 @@ const styles = StyleSheet.create({
     width: spacing[40],
     borderRadius: radius.lg,
     borderWidth: 1,
+    elevation: 5,
   },
   imageRadius: {
     borderTopLeftRadius: radius.lg,
@@ -179,7 +182,6 @@ const styles = StyleSheet.create({
     height: 125,
     position: 'relative',
     width: '100%',
-    elevation: 2,
   },
   storeImage: {
     width: spacing[5],
