@@ -9,6 +9,9 @@ import { Dropdown } from '../Dropdown';
 // Icons
 import { ArrowDownIcon } from '@/components/icons';
 
+// Stores
+import { useThemeStore } from '@/stores';
+
 // Mocks
 import { CART_QUANTITY } from '@/mocks';
 
@@ -41,6 +44,7 @@ export const CartItem = memo(
     onUpdateQuantityItem,
   }: CartItemProps) => {
     const { colors } = useTheme();
+    const isDark = useThemeStore((state) => state.isDark);
 
     const stylesDynamic = useMemo(
       () =>
@@ -51,7 +55,10 @@ export const CartItem = memo(
               ? { paddingBottom: spacing[3], paddingTop: spacing['7.5'] }
               : { paddingVertical: 25 }),
           },
-          cartWrapper: { backgroundColor: colors.backgroundSecondary },
+          cartWrapper: {
+            backgroundColor: colors.backgroundSecondary,
+            elevation: 2,
+          },
           buttonBorder: {
             borderTopColor: colors.productCard.border,
           },
@@ -117,7 +124,12 @@ export const CartItem = memo(
                 value={quantity.toString()}
                 disabled={!onUpdateQuantityItem}
                 onChange={handleUpdateQuantity}
-                renderRightIcon={<ArrowDownIcon size={10} />}
+                renderRightIcon={
+                  <ArrowDownIcon
+                    size={10}
+                    {...(isDark && { color: colors.input.textPlaceholder })}
+                  />
+                }
                 style={{ width: 60 }}
               />
             </View>

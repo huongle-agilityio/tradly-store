@@ -55,7 +55,6 @@ export const StickyFooter = memo(
               disabled={disabled}
               isLoading={isLoading}
               textSize="xl"
-              color="secondary"
               buttonStyles={styles.button}
               onPress={onPress}
             >

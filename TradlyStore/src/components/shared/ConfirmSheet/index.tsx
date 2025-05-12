@@ -1,5 +1,6 @@
 import { memo, Ref, useCallback } from 'react';
 import { Portal } from '@gorhom/portal';
+import { useTheme } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 import BottomSheet, {
   BottomSheetBackdropProps,
@@ -31,6 +32,8 @@ export const ConfirmSheet = memo(
     onCancel,
     backdropPress,
   }: ConfirmSheetProps) => {
+    const { colors } = useTheme();
+
     const backdropComponent = useCallback(
       (props: BottomSheetBackdropProps) => {
         return <SheetBackDrop pressBehavior={backdropPress} {...props} />;
@@ -46,6 +49,7 @@ export const ConfirmSheet = memo(
           snapPoints={['50%']}
           enablePanDownToClose={backdropPress !== 'none'}
           backdropComponent={backdropComponent}
+          backgroundStyle={{ backgroundColor: colors.bottomSheet.background }}
         >
           <BottomSheetView style={styles.bottomSheetView}>
             <View style={styles.contentWrapper}>

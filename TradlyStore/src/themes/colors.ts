@@ -108,6 +108,7 @@ export const darkColors = {
     textSecondary: baseColors.grey1,
     textTertiary: baseColors.white3,
     textQuaternary: baseColors.black2,
+    textPlaceholder: baseColors.white3,
   },
   select: {
     backgroundPrimary: baseColors.white1,
@@ -144,6 +145,9 @@ export const darkColors = {
     dotBackground: baseColors.white1,
     background: baseColors.grey2,
     backgroundActive: baseColors.grey8,
+  },
+  bottomSheet: {
+    background: baseColors.grey2,
   },
 };
 
@@ -202,6 +206,7 @@ export const colors = {
     textSecondary: baseColors.grey1,
     textTertiary: baseColors.black3,
     textQuaternary: baseColors.black2,
+    textPlaceholder: baseColors.grey1,
   },
   select: {
     backgroundPrimary: baseColors.white1,
@@ -238,5 +243,8 @@ export const colors = {
     dotBackground: baseColors.white1,
     background: baseColors.grey2,
     backgroundActive: baseColors.grey8,
+  },
+  bottomSheet: {
+    background: baseColors.white1,
   },
 };

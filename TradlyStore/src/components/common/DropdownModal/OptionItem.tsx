@@ -1,9 +1,9 @@
 import { memo, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 // Components
 import { Text } from '../Text';
-import { useTheme } from '@react-navigation/native';
 
 interface OptionItemProps {
   isLastItem: boolean;
@@ -52,7 +52,7 @@ export const OptionItem = memo(
         ]}
         onPress={handleSelect}
       >
-        <Text style={styles.itemText}>{label}</Text>
+        <Text textStyle={styles.itemText}>{label}</Text>
 
         {selectedItems.includes(value) && (
           <Text style={[styles.selectedText, stylesDynamic.selectedText]}>

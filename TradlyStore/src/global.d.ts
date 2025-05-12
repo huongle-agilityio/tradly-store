@@ -60,6 +60,7 @@ declare module '@react-navigation/native' {
         textSecondary: string;
         textTertiary: string;
         textQuaternary: string;
+        textPlaceholder: string;
       };
       select: {
         backgroundPrimary: string;
@@ -96,6 +97,9 @@ declare module '@react-navigation/native' {
         dotBackground: string;
         background: string;
         backgroundActive: string;
+      };
+      bottomSheet: {
+        background: string;
       };
     };
   };

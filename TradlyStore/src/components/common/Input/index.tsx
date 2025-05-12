@@ -98,12 +98,12 @@ export const Input = forwardRef(
       () => ({
         default: colors.input.textPrimary,
         outlined: colors.input.textSecondary,
-        underlined: colors.placeholder,
+        underlined: colors.input.textPlaceholder,
       }),
       [
         colors.input.textPrimary,
         colors.input.textSecondary,
-        colors.placeholder,
+        colors.input.textPlaceholder,
       ],
     );
 

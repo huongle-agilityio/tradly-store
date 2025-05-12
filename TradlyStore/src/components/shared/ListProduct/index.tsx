@@ -73,9 +73,7 @@ export const ListProduct = memo(
       contentContainerStyle: {
         gap: isTablet ? 20 : spacing['2.5'],
         paddingVertical: !horizontal ? spacing[5] : undefined,
-        ...(!data.length && {
-          margin: 'auto' as const,
-        }),
+        margin: 'auto' as const,
         ...(isLoading && {
           opacity: 0,
           pointerEvents: 'none' as const,
@@ -86,7 +84,7 @@ export const ListProduct = memo(
         onEndReachedThreshold: 0.1,
       }),
       ...(!horizontal && {
-        numColumns: 2,
+        numColumns: isTablet ? Math.floor((width - 50 + 20) / (160 + 20)) : 2,
         columnWrapperStyle: {
           gap: isTablet ? 20 : spacing['2.5'],
         },
@@ -118,7 +116,9 @@ export const ListProduct = memo(
           index={index}
           style={
             !horizontal && {
-              width: Math.round((width - 50) / (listProps?.numColumns ?? 1)),
+              width: isTablet
+                ? 160
+                : Math.round((width - 50) / (listProps?.numColumns ?? 1)),
             }
           }
           hasAction={!onNavigateProductDetail}
@@ -131,6 +131,7 @@ export const ListProduct = memo(
       [
         data.length,
         horizontal,
+        isTablet,
         listProps?.numColumns,
         onDeleteProduct,
         onEditProduct,

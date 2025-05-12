@@ -8,7 +8,7 @@ import { StickyFooter, EmptyList } from '@/components/shared';
 import { Button, CartItem, Text } from '@/components/common';
 
 // Stores
-import { useCartStore } from '@/stores';
+import { useCartStore, useThemeStore } from '@/stores';
 
 // Hooks
 import { useAddressForm } from '@/hooks';
@@ -35,6 +35,7 @@ interface ContentProps {
 export const Content = memo(
   ({ isPending, onNavigateAddNewAddress, onSubmit }: ContentProps) => {
     const { colors } = useTheme();
+    const isDark = useThemeStore((state) => state.isDark);
 
     // Stores
     const formAddress = useAddressForm((state) => state.form);
@@ -65,9 +66,15 @@ export const Content = memo(
             alignItems: 'center',
             justifyContent: 'space-between',
             backgroundColor: colors.backgroundSecondary,
+            elevation: 2,
+          },
+          contentContainerStyle: {
+            backgroundColor: isDark
+              ? colors.backgroundSecondary
+              : colors.tertiary,
           },
         }),
-      [colors.backgroundSecondary],
+      [colors.backgroundSecondary, colors.tertiary, isDark],
     );
 
     const handleQuantityChange = useCallback(
@@ -156,7 +163,10 @@ export const Content = memo(
           data={carts}
           showsVerticalScrollIndicator={false}
           keyExtractor={keyExtractor}
-          contentContainerStyle={styles.contentContainerStyle}
+          contentContainerStyle={[
+            styles.contentContainerStyle,
+            stylesDynamic.contentContainerStyle,
+          ]}
           ListEmptyComponent={<EmptyList text="Your cart is empty." />}
           renderItem={renderItem}
         />

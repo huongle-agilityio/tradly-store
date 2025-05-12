@@ -31,6 +31,9 @@ import { spacing } from '@/themes';
 // Mocks
 import { ADDITIONAL_DETAILS } from '@/mocks';
 
+// Stores
+import { useThemeStore } from '@/stores';
+
 // Utils
 import { isEmptyObject } from '@/utils';
 
@@ -45,14 +48,16 @@ export const FormProduct = memo(
     const { focusNextInput, refs } = useFocusInput(8);
     const { colors } = useTheme();
 
+    const isDark = useThemeStore((state) => state.isDark);
+
     const stylesDynamic = useMemo(
       () =>
         StyleSheet.create({
           formWrapper: {
-            backgroundColor: colors.light,
+            backgroundColor: colors.backgroundSecondary,
           },
         }),
-      [colors.light],
+      [colors.backgroundSecondary],
     );
 
     const initForm = useMemo(
@@ -152,7 +157,11 @@ export const FormProduct = memo(
                 placeholder="Enter the price"
                 clearErrors={clearErrors}
                 control={control}
-                icon={<MoneyIcon />}
+                icon={
+                  <MoneyIcon
+                    {...(isDark && { color: colors.input.textPlaceholder })}
+                  />
+                }
                 styleContainer={styles.price}
               />
               <InputController
@@ -166,7 +175,11 @@ export const FormProduct = memo(
                 placeholder="Enter percentage"
                 clearErrors={clearErrors}
                 control={control}
-                icon={<MoneyIcon />}
+                icon={
+                  <MoneyIcon
+                    {...(isDark && { color: colors.input.textPlaceholder })}
+                  />
+                }
                 styleContainer={styles.price}
               />
             </View>

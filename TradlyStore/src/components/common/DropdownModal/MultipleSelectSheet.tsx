@@ -1,5 +1,6 @@
 import { Ref, useCallback, useMemo } from 'react';
 import { Portal } from '@gorhom/portal';
+import { useTheme } from '@react-navigation/native';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { SheetBackDrop } from '../SheetBackDrop';
@@ -24,6 +25,7 @@ export const MultipleSelectSheet = ({
   data,
   onItemSelect,
 }: MultipleSelectModalProps) => {
+  const { colors } = useTheme();
   const snapPoints = useMemo(() => ['25%', '50%'], []);
 
   const keyExtractor = useCallback((item: Option) => item.value.toString(), []);
@@ -54,6 +56,7 @@ export const MultipleSelectSheet = ({
         enablePanDownToClose
         enableDynamicSizing={false}
         backdropComponent={SheetBackDrop}
+        backgroundStyle={{ backgroundColor: colors.bottomSheet.background }}
       >
         <BottomSheetFlatList
           data={data}

@@ -1,4 +1,5 @@
 import { lazy, ReactNode, Suspense, useCallback, useMemo, useRef } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   StyleProp,
   StyleSheet,
@@ -16,7 +17,6 @@ import { spacing } from '@/themes';
 
 // Interfaces
 import { Option } from '@/interfaces';
-import { useTheme } from '@react-navigation/native';
 
 const SingleSelectSheet = lazy(() =>
   import('../DropdownModal/SingleSelectSheet').then((module) => ({
