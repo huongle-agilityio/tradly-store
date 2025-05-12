@@ -15,3 +15,4 @@ export * from './mediaScreen';
 export * from './linking';
 export * from './notifications';
 export * from './permission';
+export * from './theme';

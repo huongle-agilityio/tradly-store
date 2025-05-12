@@ -1,4 +1,4 @@
-import { DevSettings } from 'react-native';
+import { Appearance, DevSettings } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Keychain from 'react-native-keychain';
 import BootSplash from 'react-native-bootsplash';
@@ -9,7 +9,7 @@ import { useHydration } from './useHydration';
 import { STORAGE_KEY } from '@/constants';
 
 // Store
-import { useAuthStore, useIniStore } from '@/stores';
+import { useAuthStore, useThemeStore } from '@/stores';
 
 // Utils
 import {
@@ -32,7 +32,7 @@ export const useAppInit = () => {
 
   // Stores
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
-  const isFirstLogin = useIniStore((state) => state.isFirstLogin);
+  const setSystemScheme = useThemeStore((state) => state.setSystemScheme);
 
   useEffect(() => {
     clearImagePickerFiles();
@@ -69,7 +69,20 @@ export const useAppInit = () => {
     };
 
     init();
-  }, [hydrated, isFirstLogin, setAuthenticated]);
+
+    const initialScheme =
+      Appearance.getColorScheme() === 'dark' ? 'dark' : 'light';
+
+    setSystemScheme(initialScheme);
+
+    const listener = Appearance.addChangeListener(({ colorScheme }) => {
+      setSystemScheme(colorScheme === 'dark' ? 'dark' : 'light');
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, [hydrated, setAuthenticated, setSystemScheme]);
 };
 
 /**
