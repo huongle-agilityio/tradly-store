@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useTheme } from '@react-navigation/native';
 import { Image, ScrollView, View, StyleSheet } from 'react-native';
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 
@@ -10,6 +11,9 @@ import { DeliveryAddress } from './components/DeliveryAddress';
 // Constants
 import { IMAGE_DETAILS, SCREENS } from '@/constants';
 
+// Stores
+import { useThemeStore } from '@/stores';
+
 // Interfaces
 import { Cart, OrderScreenProps } from '@/interfaces';
 
@@ -17,6 +21,9 @@ export const OrderSuccess = ({
   navigation,
   route: { params },
 }: NativeStackHeaderProps & OrderScreenProps<typeof SCREENS.ORDER_SUCCESS>) => {
+  const { colors } = useTheme();
+
+  const isDark = useThemeStore((state) => state.isDark);
   const carts: Cart[] = params.carts ? JSON.parse(params.carts as string) : [];
 
   const handleRedirectHome = useCallback(() => {
@@ -67,9 +74,11 @@ export const OrderSuccess = ({
 
       <Button
         variant="ghost"
-        color="dark"
         textSize="lg"
         buttonStyles={styles.button}
+        textStyles={{
+          color: isDark ? colors.button.textSecondary : colors.text.default,
+        }}
         onPress={handleRedirectHome}
       >
         Back to Home

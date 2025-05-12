@@ -1,4 +1,5 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   StyleProp,
   StyleSheet,
@@ -14,7 +15,7 @@ import { Text } from '../Text';
 import { CloseIcon } from '@/components/icons';
 
 // Themes
-import { colors, fontsFamily, spacing } from '@/themes';
+import { fontsFamily, spacing } from '@/themes';
 
 interface DropdownChipProps {
   value: string;
@@ -25,6 +26,20 @@ interface DropdownChipProps {
 
 export const DropdownChip = memo(
   ({ value, label, style, onRemove }: DropdownChipProps) => {
+    const { colors } = useTheme();
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          text: {
+            color: colors.secondary,
+          },
+          selectedStyle: {
+            backgroundColor: colors.select.badge,
+          },
+        }),
+      [colors.secondary, colors.select.badge],
+    );
+
     const handlePress = () => {
       onRemove?.(value);
     };
@@ -36,8 +51,8 @@ export const DropdownChip = memo(
         onPress={handlePress}
         style={style}
       >
-        <View style={styles.selectedStyle}>
-          <Text style={styles.text}>{label}</Text>
+        <View style={[styles.selectedStyle, stylesDynamic.selectedStyle]}>
+          <Text style={[styles.text, stylesDynamic.text]}>{label}</Text>
           <CloseIcon size={9} />
         </View>
       </TouchableOpacity>
@@ -47,7 +62,6 @@ export const DropdownChip = memo(
 
 const styles = StyleSheet.create({
   text: {
-    color: colors.secondary,
     fontFamily: fontsFamily.regular,
     lineHeight: spacing[6],
   },
@@ -58,7 +72,6 @@ const styles = StyleSheet.create({
     gap: spacing['2.5'],
     alignItems: 'center',
     paddingHorizontal: spacing[3],
-    backgroundColor: colors.select.badge,
     marginRight: spacing[3],
     marginBottom: spacing[3],
   },

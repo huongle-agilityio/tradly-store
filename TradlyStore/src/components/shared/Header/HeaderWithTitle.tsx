@@ -1,5 +1,5 @@
-import { memo, ReactNode } from 'react';
-import { ParamListBase } from '@react-navigation/native';
+import { memo, ReactNode, useMemo } from 'react';
+import { ParamListBase, useTheme } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 // Components
@@ -9,7 +9,8 @@ import { Text } from '@/components/common';
 import { ArrowLeftIcon, CloseIcon } from '@/components/icons';
 
 // Themes
-import { colors, spacing } from '@/themes';
+import { spacing } from '@/themes';
+
 interface HeaderWithFilterButtonProps {
   title: string;
   children?: ReactNode;
@@ -19,12 +20,22 @@ interface HeaderWithFilterButtonProps {
 
 export const HeaderWithTitle = memo(
   ({ navigation, title, children, onClose }: HeaderWithFilterButtonProps) => {
+    const { colors } = useTheme();
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          container: { backgroundColor: colors.primary, paddingHorizontal: 16 },
+        }),
+      [colors.primary],
+    );
+
     const handleBack = () => {
       navigation?.goBack();
     };
 
     return (
-      <View style={styles.container}>
+      <View style={stylesDynamic.container}>
         <View style={[styles.titleWrapper, navigation && styles.hasBackButton]}>
           {navigation && (
             <TouchableOpacity
@@ -60,7 +71,6 @@ export const HeaderWithTitle = memo(
 );
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: colors.primary, paddingHorizontal: 16 },
   titleWrapper: {
     paddingTop: spacing['2.5'],
     paddingBottom: 23,

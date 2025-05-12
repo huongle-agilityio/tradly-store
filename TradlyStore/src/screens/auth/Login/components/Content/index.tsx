@@ -1,5 +1,6 @@
-import { lazy, memo, RefObject, Suspense } from 'react';
+import { lazy, memo, RefObject, Suspense, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 
@@ -14,7 +15,7 @@ import { BRAND } from '@/constants';
 import { AuthPayload } from '@/interfaces';
 
 // Themes
-import { colors, spacing } from '@/themes';
+import { spacing } from '@/themes';
 
 const ConfirmSheet = lazy(() =>
   import('@/components/shared/ConfirmSheet').then((module) => ({
@@ -39,56 +40,67 @@ export const Content = memo(
     onSubmit,
     onCloseSheet,
     onConfirmSheet,
-  }: ContentProps) => (
-    <View style={styles.container}>
-      <KeyboardAwareScrollView
-        extraKeyboardSpace={50}
-        contentContainerStyle={styles.content}
-      >
-        <View style={[styles.title, styles.textWrapper]}>
-          <Text color="light" fontSize="xxl" fontWeight="normal">
-            Welcome to {BRAND.NAME}
-          </Text>
-          <Text color="light" fontSize="md" fontWeight="light">
-            Login to your account
-          </Text>
-        </View>
-        <Form error={error} isLoading={isPending} onSubmit={onSubmit} />
+  }: ContentProps) => {
+    const { colors } = useTheme();
 
-        <View style={[styles.subtitle, styles.textWrapper]}>
-          <Text color="light" fontSize="lg" fontWeight="light">
-            Forgot your password?
-          </Text>
-          <Text color="light" fontSize="lg" fontWeight="light">
-            Don’t have an account?{' '}
-            <Text color="light" fontSize="lg" fontWeight="medium">
-              Sign up
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          container: {
+            flex: 1,
+            backgroundColor: colors.primary,
+            justifyContent: 'center',
+          },
+        }),
+      [colors.primary],
+    );
+
+    return (
+      <View style={stylesDynamic.container}>
+        <KeyboardAwareScrollView
+          extraKeyboardSpace={50}
+          contentContainerStyle={styles.content}
+        >
+          <View style={[styles.title, styles.textWrapper]}>
+            <Text color="light" fontSize="xxl" fontWeight="normal">
+              Welcome to {BRAND.NAME}
             </Text>
-          </Text>
-        </View>
+            <Text color="light" fontSize="md" fontWeight="light">
+              Login to your account
+            </Text>
+          </View>
+          <Form error={error} isLoading={isPending} onSubmit={onSubmit} />
 
-        <Suspense fallback={null}>
-          <ConfirmSheet
-            title="Notifications disabled"
-            description="To receive important updates, please enable notifications in your device settings."
-            buttonConfirmText="Open Settings"
-            backdropPress="none"
-            sheetRef={sheetRef}
-            onConfirm={onConfirmSheet}
-            onCancel={onCloseSheet}
-          />
-        </Suspense>
-      </KeyboardAwareScrollView>
-    </View>
-  ),
+          <View style={[styles.subtitle, styles.textWrapper]}>
+            <Text color="light" fontSize="lg" fontWeight="light">
+              Forgot your password?
+            </Text>
+            <Text color="light" fontSize="lg" fontWeight="light">
+              Don’t have an account?{' '}
+              <Text color="light" fontSize="lg" fontWeight="medium">
+                Sign up
+              </Text>
+            </Text>
+          </View>
+
+          <Suspense fallback={null}>
+            <ConfirmSheet
+              title="Notifications disabled"
+              description="To receive important updates, please enable notifications in your device settings."
+              buttonConfirmText="Open Settings"
+              backdropPress="none"
+              sheetRef={sheetRef}
+              onConfirm={onConfirmSheet}
+              onCancel={onCloseSheet}
+            />
+          </Suspense>
+        </KeyboardAwareScrollView>
+      </View>
+    );
+  },
 );
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-  },
   content: {
     flexGrow: 1,
     width: 320,

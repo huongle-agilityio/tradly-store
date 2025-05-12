@@ -1,6 +1,7 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
@@ -18,7 +19,7 @@ import { AddressState, useFocusInput } from '@/hooks';
 import { addressSchema } from '@/schemas';
 
 // Themes
-import { colors, spacing } from '@/themes';
+import { spacing } from '@/themes';
 
 interface FormProps {
   form: AddressState;
@@ -26,7 +27,18 @@ interface FormProps {
 }
 
 export const Form = memo(({ form, onSubmit }: FormProps) => {
+  const { colors } = useTheme();
   const { focusNextInput, refs } = useFocusInput(6);
+
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        currentLocationWrapper: {
+          backgroundColor: colors.backgroundSecondary,
+        },
+      }),
+    [colors.backgroundSecondary],
+  );
 
   const {
     control,
@@ -48,7 +60,12 @@ export const Form = memo(({ form, onSubmit }: FormProps) => {
         buttonText="Save"
         onPress={submitForm(onSubmit)}
       >
-        <View style={styles.currentLocationWrapper}>
+        <View
+          style={[
+            styles.currentLocationWrapper,
+            stylesDynamic.currentLocationWrapper,
+          ]}
+        >
           <TargetLocationIcon size={24} color={colors.link} />
           <Text
             fontWeight="normal"
@@ -135,7 +152,6 @@ export const Form = memo(({ form, onSubmit }: FormProps) => {
 });
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.light },
   locationWrapper: { lineHeight: 24 },
   contentContainerStyle: { flexGrow: 1 },
   currentLocationWrapper: {
@@ -144,7 +160,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing[2],
     paddingVertical: spacing[5],
-    backgroundColor: colors.light,
     elevation: spacing['2.5'],
   },
   formWrapper: {

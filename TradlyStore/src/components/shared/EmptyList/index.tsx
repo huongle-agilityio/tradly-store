@@ -11,7 +11,7 @@ interface EmptyListProps {
 export const EmptyList = memo(
   ({ text = 'No results found.' }: EmptyListProps) => (
     <View style={styles.container}>
-      <Text fontSize="md" fontWeight="bold">
+      <Text color="tertiary" fontSize="md" fontWeight="bold">
         {text}
       </Text>
     </View>

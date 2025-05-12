@@ -1,5 +1,6 @@
 import { lazy, memo, Suspense, useCallback, useRef, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import BottomSheet from '@gorhom/bottom-sheet';
 
 // Components
@@ -12,9 +13,6 @@ import { PlusCircleIcon } from '@/components/icons';
 
 // Interfaces
 import { Product } from '@/interfaces';
-
-// Themes
-import { colors } from '@/themes';
 
 const ConfirmSheet = lazy(() =>
   import('@/components/shared/ConfirmSheet').then((module) => ({
@@ -46,6 +44,7 @@ export const Content = memo(
     isLoading,
     refetch,
   }: ContentProps) => {
+    const { colors } = useTheme();
     const [id, setId] = useState<string>('');
     const sheetRef = useRef<BottomSheet>(null);
 

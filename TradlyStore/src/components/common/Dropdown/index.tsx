@@ -1,4 +1,4 @@
-import { lazy, ReactNode, Suspense, useCallback, useRef } from 'react';
+import { lazy, ReactNode, Suspense, useCallback, useMemo, useRef } from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -12,10 +12,11 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import { Text } from '../Text';
 
 // Themes
-import { colors, spacing } from '@/themes';
+import { spacing } from '@/themes';
 
 // Interfaces
 import { Option } from '@/interfaces';
+import { useTheme } from '@react-navigation/native';
 
 const SingleSelectSheet = lazy(() =>
   import('../DropdownModal/SingleSelectSheet').then((module) => ({
@@ -45,7 +46,18 @@ export const Dropdown = ({
   style,
   onChange,
 }: DropdownProps) => {
+  const { colors } = useTheme();
   const sheetRef = useRef<BottomSheet>(null);
+
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        label: {
+          color: colors.text.primary,
+        },
+      }),
+    [colors.text.primary],
+  );
 
   const selectedLabel = options.find((option) => option.value === value)?.label;
 
@@ -67,7 +79,9 @@ export const Dropdown = ({
 
   return (
     <View style={style}>
-      {label && <Text style={styles.label}>{label}</Text>}
+      {label && (
+        <Text style={[styles.label, stylesDynamic.label]}>{label}</Text>
+      )}
       <TouchableOpacity
         accessibilityLabel="Dropdown button"
         accessibilityRole="button"
@@ -106,7 +120,6 @@ export const Dropdown = ({
 const styles = StyleSheet.create({
   label: {
     marginBottom: 8,
-    color: colors.text.primary,
     fontSize: 14,
     fontWeight: '500',
   },
@@ -118,10 +131,6 @@ const styles = StyleSheet.create({
   },
   selectText: {
     fontSize: 16,
-    color: colors.text.primary,
-  },
-  placeholderText: {
-    color: colors.text.secondary,
   },
   error: {
     paddingTop: spacing[3],

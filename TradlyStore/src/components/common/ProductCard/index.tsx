@@ -1,12 +1,13 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   Image,
   StyleProp,
+  StyleSheet,
   TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
-import { getStyles, productActions } from './styles';
 import FastImage from 'react-native-fast-image';
 
 // Components
@@ -16,7 +17,7 @@ import { Text } from '../Text';
 import { EditIcon, TrashIcon } from '@/components/icons';
 
 // Themes
-import { lineHeights } from '@/themes';
+import { lineHeights, radius, spacing } from '@/themes';
 
 // Utils
 import { calculateDiscountedPrice } from '@/utils';
@@ -49,17 +50,46 @@ export const ProductCard = memo(
     onDelete,
     onPress,
   }: ProductCardProps) => {
-    const styles = getStyles(discount);
+    const { colors } = useTheme();
     const priceDiscount = calculateDiscountedPrice(price, discount);
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          container: {
+            borderColor: colors.productCard.border,
+          },
+          imageWrapper: {
+            backgroundColor: colors.opacity,
+          },
+          content: {
+            backgroundColor: colors.productCard.background,
+          },
+          store: {
+            width: discount ? 40 : 65,
+          },
+          icon: {
+            width: 32,
+            height: 32,
+            borderRadius: radius.full,
+            backgroundColor: colors.backgroundOpacity,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: colors.light,
+          },
+        }),
+      [colors, discount],
+    );
 
     return (
       <TouchableOpacity
         accessibilityRole="button"
         testID="product-card"
-        style={[styles.container, styleWrapper]}
+        style={[styles.container, styleWrapper, stylesDynamic.container]}
         onPress={onPress}
       >
-        <View style={[styles.imageWrapper, styles.imageRadius]}>
+        <View style={[styles.imageRadius, stylesDynamic.imageWrapper]}>
           <FastImage
             style={[styles.image, styles.imageRadius]}
             testID="category-card-image"
@@ -74,14 +104,14 @@ export const ProductCard = memo(
             <View style={productActions.container}>
               <TouchableOpacity
                 accessibilityRole="button"
-                style={productActions.icon}
+                style={stylesDynamic.icon}
                 onPress={onEdit}
               >
                 <EditIcon />
               </TouchableOpacity>
               <TouchableOpacity
                 accessibilityRole="button"
-                style={productActions.icon}
+                style={stylesDynamic.icon}
                 onPress={onDelete}
               >
                 <TrashIcon />
@@ -89,7 +119,7 @@ export const ProductCard = memo(
             </View>
           )}
         </View>
-        <View style={styles.content}>
+        <View style={[styles.content, stylesDynamic.content]}>
           <Text
             color="tertiary"
             textStyle={{ lineHeight: lineHeights.sm }}
@@ -109,7 +139,7 @@ export const ProductCard = memo(
               />
               <Text
                 color="placeholder"
-                textStyle={styles.store}
+                textStyle={[styles.store, stylesDynamic.store]}
                 numberOfLines={1}
               >
                 {storeName}
@@ -134,3 +164,60 @@ export const ProductCard = memo(
     );
   },
 );
+
+const styles = StyleSheet.create({
+  container: {
+    width: spacing[40],
+    borderRadius: radius.lg,
+    borderWidth: 1,
+  },
+  imageRadius: {
+    borderTopLeftRadius: radius.lg,
+    borderTopRightRadius: radius.lg,
+  },
+  image: {
+    height: 125,
+    position: 'relative',
+    width: '100%',
+    elevation: 2,
+  },
+  storeImage: {
+    width: spacing[5],
+    height: spacing[5],
+    borderRadius: radius.full,
+  },
+  content: {
+    gap: spacing['3.5'],
+    padding: spacing[3],
+    borderBottomLeftRadius: radius.lg,
+    borderBottomRightRadius: radius.lg,
+  },
+  textWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing['1.5'],
+  },
+  informationWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 5,
+  },
+  store: {
+    lineHeight: lineHeights.sm,
+  },
+  price: {
+    textDecorationLine: 'line-through',
+  },
+});
+
+const productActions = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 44,
+  },
+});

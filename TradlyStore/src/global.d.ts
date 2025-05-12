@@ -10,6 +10,9 @@ declare module '@react-navigation/native' {
       secondary: string;
       tertiary: string;
       light: string;
+      background: string;
+      backgroundSecondary: string;
+      backgroundOpacity: string;
       placeholder: string;
       error: string;
       success: string;
@@ -79,14 +82,20 @@ declare module '@react-navigation/native' {
         border: string;
         text: string;
       };
-      tabItem: {
-        textPrimary: string;
-        textSecondary: string;
+      tabs: {
+        tabBackground: string;
+        tabActiveIColor: string;
+        tabBarInactiveTintColor: string;
       };
       cartItem: {
         background: string;
         textPrimary: string;
         textSecondary: string;
+      };
+      toggleTheme: {
+        dotBackground: string;
+        background: string;
+        backgroundActive: string;
       };
     };
   };

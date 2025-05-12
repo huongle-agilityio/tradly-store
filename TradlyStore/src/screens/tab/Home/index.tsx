@@ -61,6 +61,8 @@ export const Home = ({
 
   const handleNavigateProductDetail = useCallback(
     (id: string) => {
+      console.log('123123123');
+
       navigation.push(SCREENS.PRODUCT, {
         screen: SCREENS.PRODUCT_DETAIL,
         params: {

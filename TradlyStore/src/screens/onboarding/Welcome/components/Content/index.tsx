@@ -1,4 +1,5 @@
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   Animated,
   NativeScrollEvent,
@@ -18,23 +19,24 @@ import { Button, Text } from '@/components/common';
 import { useMedia } from '@/hooks';
 
 // Themes
-import { colors, radius, spacing } from '@/themes';
+import { radius, spacing } from '@/themes';
 
 // Utils
 import { interpolateValue } from '@/utils';
+import { useThemeStore } from '@/stores';
 
 interface ContentProps {
   onNavigationLogin: () => void;
 }
 
 export const Content = memo(({ onNavigationLogin }: ContentProps) => {
-  // const startNavigationTTITimer = useStartProfiler();
-
+  const { colors } = useTheme();
+  const { isTablet, width } = useMedia();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
-
-  const { isTablet, width } = useMedia();
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const isDark = useThemeStore((state) => state.isDark);
 
   const widthContainer = isTablet ? width - 200 : width - 74;
   const buttonText = useMemo(
@@ -60,6 +62,33 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
     { useNativeDriver: false },
   );
 
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: isDark ? colors.background : colors.primary,
+        },
+        headerWrapper: {
+          backgroundColor: colors.primary,
+          width: '100%',
+          height: '40%',
+        },
+        scroll: {
+          paddingTop: 57,
+          backgroundColor: isDark ? colors.background : colors.primary,
+          borderRadius: radius.lg,
+        },
+        dot: {
+          width: spacing[3],
+          height: spacing[3],
+          borderRadius: radius.full,
+          backgroundColor: isDark ? colors.light : colors.primary,
+        },
+      }),
+    [colors, isDark],
+  );
+
   /**
    * Function check scroll end and set current index for dots
    */
@@ -73,8 +102,8 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerWrapper} />
+    <View style={stylesDynamic.container}>
+      <View style={stylesDynamic.headerWrapper} />
       <View
         style={[
           styles.content,
@@ -92,7 +121,7 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
             scrollEventThrottle={16}
             onScroll={handleScroll}
             onMomentumScrollEnd={handleScrollEnd}
-            style={styles.scroll}
+            style={stylesDynamic.scroll}
           >
             {ONBOARDING_STEPS_IMAGES.map(({ image, title, alt }, index) => (
               <View
@@ -129,7 +158,10 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
               );
 
               return (
-                <Animated.View key={index} style={[styles.dot, { opacity }]} />
+                <Animated.View
+                  key={index}
+                  style={[stylesDynamic.dot, { opacity }]}
+                />
               );
             })}
           </View>
@@ -137,6 +169,7 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
           <Button
             size="full"
             onPress={handleOnboardingStep}
+            color="secondary"
             textSize="xl"
             buttonStyles={{ height: spacing[12] }}
             textStyles={styles.button}
@@ -150,20 +183,6 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
 });
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.light,
-  },
-  headerWrapper: {
-    backgroundColor: colors.primary,
-    width: '100%',
-    height: '40%',
-  },
-  scroll: {
-    paddingTop: 57,
-    backgroundColor: colors.light,
-    borderRadius: radius.lg,
-  },
   content: {
     alignSelf: 'center',
     height: '60%',
@@ -183,12 +202,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing['2.5'],
     justifyContent: 'center',
-  },
-  dot: {
-    width: spacing[3],
-    height: spacing[3],
-    borderRadius: radius.full,
-    backgroundColor: colors.primary,
   },
   title: {
     textAlign: 'center',

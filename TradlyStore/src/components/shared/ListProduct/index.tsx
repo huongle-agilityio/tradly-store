@@ -73,6 +73,9 @@ export const ListProduct = memo(
       contentContainerStyle: {
         gap: isTablet ? 20 : spacing['2.5'],
         paddingVertical: !horizontal ? spacing[5] : undefined,
+        ...(!data.length && {
+          margin: 'auto' as const,
+        }),
         ...(isLoading && {
           opacity: 0,
           pointerEvents: 'none' as const,

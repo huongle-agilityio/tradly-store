@@ -1,5 +1,5 @@
-import { memo, useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { memo, useEffect, useMemo, useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -23,7 +23,7 @@ import { useCartStore } from '@/stores';
 import { SCREENS, TIMING } from '@/constants';
 
 // Themes
-import { colors, radius, spacing } from '@/themes';
+import { radius, spacing } from '@/themes';
 
 interface HeaderWithSearchInputProps {
   title: string;
@@ -37,10 +37,24 @@ export const HeaderWithSearchInput = memo(
     hasSearchInput = true,
     title,
   }: HeaderWithSearchInputProps) => {
+    const { colors } = useTheme();
     const navigation = useNavigation<NativeStackNavigationProp<AppParamList>>();
     const [filter, setFilter] = useState<string>('');
     const debouncedSearchTerm = useDebounce(filter, TIMING.DEBOUNCE_DEFAULT);
     const carts = useCartStore((state) => state.carts);
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          container: {
+            backgroundColor: colors.primary,
+          },
+          cartDot: {
+            backgroundColor: colors.dotNotification,
+          },
+        }),
+      [colors.primary, colors.dotNotification],
+    );
 
     const handleFilter = (value: string) => {
       setFilter(value);
@@ -65,7 +79,7 @@ export const HeaderWithSearchInput = memo(
     }, [debouncedSearchTerm, navigation]);
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, stylesDynamic.container]}>
         <View style={styles.headerWrapper}>
           <Text fontSize="xxl" fontWeight="bold" color="light">
             {title}
@@ -80,7 +94,9 @@ export const HeaderWithSearchInput = memo(
               disabled={!carts.length}
             >
               <CartIcon size={24} color={colors.light} />
-              {!!carts.length && <View style={styles.cartDot} />}
+              {!!carts.length && (
+                <View style={[styles.cartDot, stylesDynamic.cartDot]} />
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -114,7 +130,6 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: spacing[5],
     paddingHorizontal: spacing[4],
-    backgroundColor: colors.primary,
   },
   headerWrapper: {
     paddingBottom: 23,
@@ -129,7 +144,6 @@ const styles = StyleSheet.create({
     width: spacing['3.5'],
     height: spacing['3.5'],
     borderRadius: radius.full,
-    backgroundColor: colors.dotNotification,
     position: 'absolute',
     right: -6,
     top: -2,

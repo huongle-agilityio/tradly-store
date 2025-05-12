@@ -1,5 +1,12 @@
-import { memo, useCallback, useRef, useState } from 'react';
-import { View, ScrollView, Animated, LayoutChangeEvent } from 'react-native';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import {
+  View,
+  ScrollView,
+  Animated,
+  LayoutChangeEvent,
+  StyleSheet,
+} from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
 // Components
@@ -8,18 +15,28 @@ import { DotItem } from './DotItem';
 // Constants
 import { IMAGES } from '@/constants';
 
-// Themes
-import { getStyles } from './styles';
-
 interface ProductCarouselProps {
   images: string[];
 }
 
 export const ProductCarousel = memo(({ images }: ProductCarouselProps) => {
   const [containerWidth, setContainerWidth] = useState(0);
-
   const scrollX = useRef(new Animated.Value(0)).current;
-  const styles = getStyles(containerWidth);
+  const { colors } = useTheme();
+
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          backgroundColor: colors.opacity,
+        },
+        image: {
+          width: containerWidth,
+          resizeMode: 'cover',
+        },
+      }),
+    [colors.opacity, containerWidth],
+  );
 
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
@@ -36,7 +53,7 @@ export const ProductCarousel = memo(({ images }: ProductCarouselProps) => {
   return (
     <View
       testID="product-carousel-container"
-      style={styles.container}
+      style={[styles.container, stylesDynamic.container]}
       onLayout={handleLayout}
     >
       <ScrollView
@@ -51,7 +68,7 @@ export const ProductCarousel = memo(({ images }: ProductCarouselProps) => {
           <FastImage
             testID="product-carousel-image"
             key={`product-carousel-image-${index}`}
-            style={styles.image}
+            style={stylesDynamic.image}
             source={{
               uri: image || IMAGES.BLUR_HASH,
               priority: FastImage.priority.normal,
@@ -73,4 +90,20 @@ export const ProductCarousel = memo(({ images }: ProductCarouselProps) => {
       </View>
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    height: '100%',
+  },
+  dotWrapper: {
+    flexDirection: 'row',
+    position: 'absolute',
+    alignSelf: 'center',
+    alignItems: 'center',
+    bottom: 15,
+    zIndex: 999,
+    gap: 5,
+  },
 });

@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 // Mocks
 import { ORDER_TRACKING } from '@/mocks';
@@ -8,40 +10,57 @@ import { Text } from '@/components/common';
 import { TrackingOrderItem } from '../TrackingOrderItem';
 
 // Themes
-import { colors, radius, spacing, lineHeights } from '@/themes';
+import { radius, spacing, lineHeights } from '@/themes';
 
-export const TrackingOrder = () => (
-  <View style={styles.container}>
-    <View>
-      <Text fontWeight="medium" fontSize="md" color="quaternary">
-        Track Order
-      </Text>
-      <Text
-        fontWeight="normal"
-        color="fade"
-        textStyle={{ lineHeight: lineHeights.sm }}
-      >
-        Order ID - 123455
-      </Text>
-      <View style={styles.underline} />
-    </View>
+export const TrackingOrder = () => {
+  const { colors } = useTheme();
 
-    <View style={styles.listOrder}>
-      {ORDER_TRACKING.map(
-        ({ date, title, description, time, isActive }, index) => (
-          <TrackingOrderItem
-            key={`tracking-order-${index}`}
-            date={date}
-            title={title}
-            description={description}
-            time={time}
-            isActive={isActive}
-          />
-        ),
-      )}
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          backgroundColor: colors.backgroundSecondary,
+        },
+        underline: {
+          backgroundColor: colors.primary,
+        },
+      }),
+    [colors],
+  );
+
+  return (
+    <View style={[styles.container, stylesDynamic.container]}>
+      <View>
+        <Text fontWeight="medium" fontSize="md" color="quaternary">
+          Track Order
+        </Text>
+        <Text
+          fontWeight="normal"
+          color="fade"
+          textStyle={{ lineHeight: lineHeights.sm }}
+        >
+          Order ID - 123455
+        </Text>
+        <View style={[styles.underline, stylesDynamic.underline]} />
+      </View>
+
+      <View style={styles.listOrder}>
+        {ORDER_TRACKING.map(
+          ({ date, title, description, time, isActive }, index) => (
+            <TrackingOrderItem
+              key={`tracking-order-${index}`}
+              date={date}
+              title={title}
+              description={description}
+              time={time}
+              isActive={isActive}
+            />
+          ),
+        )}
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -51,12 +70,10 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: spacing[6],
     borderRadius: radius.lg,
-    backgroundColor: colors.light,
   },
   underline: {
     width: '20%',
     height: 2,
-    backgroundColor: colors.primary,
     borderRadius: radius.sm,
     marginTop: spacing[3],
   },

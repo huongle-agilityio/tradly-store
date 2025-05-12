@@ -39,29 +39,31 @@ export const Navigation = () => {
   const queryClient = new QueryClient();
 
   // Stores
-  const theme = useThemeStore((state) => state.appScheme ?? state.systemScheme);
+  const isDark = useThemeStore((state) => state.isDark);
   const toast = useToast((state) => state.toast);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isFirstLogin = useIniStore((state) => state.isFirstLogin);
 
   const customTheme = {
     ...DefaultTheme,
-    colors: theme === 'dark' ? darkColors : colors,
+    colors: isDark ? darkColors : colors,
   } as unknown as ReactNavigation.Theme;
 
   return (
     <KeyboardProvider>
       <QueryClientProvider client={queryClient}>
         <GestureHandlerRootView>
-          <PortalProvider>
-            <SafeAreaProvider>
-              <NavigationContainer linking={linking} theme={customTheme}>
+          <SafeAreaProvider>
+            <NavigationContainer linking={linking} theme={customTheme}>
+              <PortalProvider>
                 <App.Navigator
                   screenOptions={{
                     headerShown: false,
                     contentStyle: {
                       paddingTop: 50,
-                      backgroundColor: colors.primary,
+                      backgroundColor: isDark
+                        ? darkColors.primary
+                        : colors.primary,
                     },
                   }}
                 >
@@ -102,9 +104,9 @@ export const Navigation = () => {
                     variant={toast.variant}
                   />
                 )}
-              </NavigationContainer>
-            </SafeAreaProvider>
-          </PortalProvider>
+              </PortalProvider>
+            </NavigationContainer>
+          </SafeAreaProvider>
         </GestureHandlerRootView>
       </QueryClientProvider>
     </KeyboardProvider>

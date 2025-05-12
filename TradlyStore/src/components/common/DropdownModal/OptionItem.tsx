@@ -1,11 +1,9 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 // Components
 import { Text } from '../Text';
-
-// Themes
-import { colors } from '@/themes';
+import { useTheme } from '@react-navigation/native';
 
 interface OptionItemProps {
   isLastItem: boolean;
@@ -23,6 +21,21 @@ export const OptionItem = memo(
     value,
     label,
   }: OptionItemProps) => {
+    const { colors } = useTheme();
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          selectedText: {
+            color: colors.success,
+          },
+          borderCommon: {
+            borderBottomColor: colors.input.borderSecondary,
+          },
+        }),
+      [colors.success, colors.input.borderSecondary],
+    );
+
     const handleSelect = () => {
       onItemSelect(value);
     };
@@ -31,13 +44,20 @@ export const OptionItem = memo(
       <TouchableOpacity
         accessibilityRole="button"
         testID="option-item"
-        style={[styles.item, !isLastItem && styles.borderCommon]}
+        style={[
+          styles.item,
+          ...(!isLastItem
+            ? [styles.borderCommon, stylesDynamic.borderCommon]
+            : []),
+        ]}
         onPress={handleSelect}
       >
         <Text style={styles.itemText}>{label}</Text>
 
         {selectedItems.includes(value) && (
-          <Text style={styles.selectedText}>✔</Text>
+          <Text style={[styles.selectedText, stylesDynamic.selectedText]}>
+            ✔
+          </Text>
         )}
       </TouchableOpacity>
     );
@@ -55,10 +75,8 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     fontSize: 16,
-    color: colors.success,
   },
   borderCommon: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.input.borderSecondary,
   },
 });

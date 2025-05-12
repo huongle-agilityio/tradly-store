@@ -1,6 +1,7 @@
 import { memo, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
@@ -25,7 +26,7 @@ import { Product, ProductFormData } from '@/interfaces';
 import { productSchema } from '@/schemas';
 
 // Themes
-import { colors, spacing } from '@/themes';
+import { spacing } from '@/themes';
 
 // Mocks
 import { ADDITIONAL_DETAILS } from '@/mocks';
@@ -42,6 +43,17 @@ interface FormAddressProps {
 export const FormProduct = memo(
   ({ isLoading, product, onSubmit }: FormAddressProps) => {
     const { focusNextInput, refs } = useFocusInput(8);
+    const { colors } = useTheme();
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          formWrapper: {
+            backgroundColor: colors.light,
+          },
+        }),
+      [colors.light],
+    );
 
     const initForm = useMemo(
       () => ({
@@ -105,7 +117,7 @@ export const FormProduct = memo(
             control={control}
             setError={setError}
           />
-          <View style={styles.formWrapper}>
+          <View style={[styles.formWrapper, stylesDynamic.formWrapper]}>
             <InputController
               index={0}
               refs={refs}
@@ -222,21 +234,9 @@ export const FormProduct = memo(
 );
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.light },
-  locationWrapper: { lineHeight: 24 },
   contentContainerStyle: { flexGrow: 1 },
-  currentLocationWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing[2],
-    paddingVertical: spacing[5],
-    backgroundColor: colors.light,
-    elevation: spacing['2.5'],
-  },
   opacity: { opacity: 0.7 },
   formWrapper: {
-    backgroundColor: colors.light,
     paddingHorizontal: spacing[7],
     paddingTop: spacing[9],
     paddingBottom: 50,

@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
-import { View, Animated, Easing, ViewStyle } from 'react-native';
-import { styles } from './styles';
+import { View, Animated, Easing, ViewStyle, StyleSheet } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 interface SkeletonProps {
   width: number | string;
@@ -15,7 +15,21 @@ export const Skeleton = ({
   borderRadius = 8,
   style,
 }: SkeletonProps) => {
+  const { colors } = useTheme();
+
   const shimmerAnim = useMemo(() => new Animated.Value(0), []);
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          backgroundColor: colors.skeleton.backgroundPrimary,
+        },
+        overlay: {
+          backgroundColor: colors.skeleton.backgroundSecondary,
+        },
+      }),
+    [colors.skeleton.backgroundPrimary, colors.skeleton.backgroundSecondary],
+  );
 
   useEffect(() => {
     Animated.loop(
@@ -42,12 +56,25 @@ export const Skeleton = ({
         styles.container,
         { width, height, borderRadius } as ViewStyle,
         style,
+        stylesDynamic.container,
       ]}
     >
       <Animated.View
         testID="skeleton-shimmer"
-        style={[styles.overlay, shimmerStyle]}
+        style={[styles.overlay, shimmerStyle, stylesDynamic.overlay]}
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    opacity: 0.4,
+    overflow: 'hidden',
+  },
+  overlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+});
