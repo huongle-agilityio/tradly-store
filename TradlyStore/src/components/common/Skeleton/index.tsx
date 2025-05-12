@@ -55,8 +55,8 @@ export const Skeleton = ({
       style={[
         styles.container,
         { width, height, borderRadius } as ViewStyle,
-        style,
         stylesDynamic.container,
+        style,
       ]}
     >
       <Animated.View

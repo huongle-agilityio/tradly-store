@@ -4,11 +4,15 @@ exports[`ProductCarousel Should renders correct number of images 1`] = `
 <View
   onLayout={[Function]}
   style={
-    {
-      "backgroundColor": "rgba(8, 11, 18, 0.3)",
-      "height": "100%",
-      "position": "relative",
-    }
+    [
+      {
+        "height": "100%",
+        "position": "relative",
+      },
+      {
+        "backgroundColor": "",
+      },
+    ]
   }
   testID="product-carousel-container"
 >

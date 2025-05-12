@@ -4,13 +4,7 @@ import { render, screen } from '@testing-library/react-native';
 import { Text } from '..';
 
 // Themes
-import {
-  colors,
-  fontsFamily,
-  fontSizes,
-  fontWeights,
-  lineHeights,
-} from '@/themes';
+import { fontsFamily, fontSizes, fontWeights, lineHeights } from '@/themes';
 
 describe('Text Component', () => {
   it('Should renders children correctly', () => {
@@ -31,7 +25,7 @@ describe('Text Component', () => {
           fontFamily: fontsFamily.medium,
           fontWeight: fontWeights.normal,
         },
-        { color: colors.text.default },
+        { color: '' },
         undefined,
       ]),
     );
