@@ -5,6 +5,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
   style={
     {
       "backgroundColor": "",
+      "elevation": 2,
     }
   }
 >
@@ -376,6 +377,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
   style={
     {
       "backgroundColor": "",
+      "elevation": 2,
     }
   }
 >
@@ -675,6 +677,11 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
           </View>
           <View
             backdropComponent={[Function]}
+            backgroundStyle={
+              {
+                "backgroundColor": "",
+              }
+            }
             enableDynamicSizing={false}
             enablePanDownToClose={true}
             index={-1}
@@ -803,9 +810,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       1
@@ -860,9 +880,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       2
@@ -931,9 +964,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       3
@@ -988,9 +1034,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       4
@@ -1045,9 +1104,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       5
@@ -1102,9 +1174,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       6
@@ -1159,9 +1244,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       7
@@ -1216,9 +1314,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       8
@@ -1273,9 +1384,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       9
@@ -1328,9 +1452,22 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   >
                     <Text
                       style={
-                        {
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 14,
+                            "lineHeight": 16,
+                          },
+                          {
+                            "fontFamily": "Montserrat-Medium",
+                            "fontWeight": "500",
+                          },
+                          {
+                            "color": "",
+                          },
+                          {
+                            "fontSize": 16,
+                          },
+                        ]
                       }
                     >
                       10

@@ -233,6 +233,7 @@ jest.mock('@react-navigation/native', () => {
           textSecondary: '',
           textTertiary: '',
           textQuaternary: '',
+          textPlaceholder: '',
         },
         select: {
           backgroundPrimary: '',
@@ -269,6 +270,9 @@ jest.mock('@react-navigation/native', () => {
           dotBackground: '',
           background: '',
           backgroundActive: '',
+        },
+        bottomSheet: {
+          background: '',
         },
       },
     }),
