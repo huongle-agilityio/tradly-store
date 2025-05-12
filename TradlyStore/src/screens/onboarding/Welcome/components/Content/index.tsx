@@ -67,7 +67,7 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
       StyleSheet.create({
         container: {
           flex: 1,
-          backgroundColor: isDark ? colors.background : colors.primary,
+          backgroundColor: isDark ? colors.background : colors.light,
         },
         headerWrapper: {
           backgroundColor: colors.primary,
@@ -76,7 +76,7 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
         },
         scroll: {
           paddingTop: 57,
-          backgroundColor: isDark ? colors.background : colors.primary,
+          backgroundColor: isDark ? colors.background : colors.light,
           borderRadius: radius.lg,
         },
         dot: {
@@ -169,7 +169,6 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
           <Button
             size="full"
             onPress={handleOnboardingStep}
-            color="secondary"
             textSize="xl"
             buttonStyles={{ height: spacing[12] }}
             textStyles={styles.button}

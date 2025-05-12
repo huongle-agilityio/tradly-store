@@ -48,6 +48,8 @@ export const HeaderFilter = memo(({ style }: HeaderFilterProps) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: spacing[2],
     paddingVertical: spacing[3],
   },
