@@ -1,6 +1,5 @@
-import { memo, useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
-import { colorMap, styles } from './styles';
+import { memo, useEffect, useMemo, useRef } from 'react';
+import { Animated, StyleSheet } from 'react-native';
 
 // Components
 import { Text } from '../Text';
@@ -11,8 +10,12 @@ import { TIMING } from '@/constants';
 // Stores
 import { useToast } from '@/stores';
 
+// Themes
+import { radius, spacing } from '@/themes';
+
 // Interfaces
 import { ToastColor } from '@/interfaces';
+import { useTheme } from '@react-navigation/native';
 
 interface ToastProps {
   description: string;
@@ -23,6 +26,16 @@ export const Toast = memo(
   ({ description, variant = 'default' }: ToastProps) => {
     const closeToast = useToast((state) => state.closeToast);
     const animatedValue = useRef(new Animated.Value(100)).current;
+
+    const { colors } = useTheme();
+    const colorMap = useMemo(
+      () => ({
+        default: colors.toast.default,
+        success: colors.toast.success,
+        error: colors.toast.error,
+      }),
+      [colors.toast.default, colors.toast.success, colors.toast.error],
+    );
 
     // Animation from bottom to top
     useEffect(() => {
@@ -65,3 +78,15 @@ export const Toast = memo(
     );
   },
 );
+
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: spacing['2.5'],
+    paddingHorizontal: spacing[4],
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: '12%',
+    borderRadius: radius.full,
+    elevation: 5,
+  },
+});

@@ -1,8 +1,9 @@
 import { memo } from 'react';
 import { Animated } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 // Themes
-import { colors, radius } from '@/themes';
+import { radius } from '@/themes';
 
 // Utils
 import { interpolateValue } from '@/utils';
@@ -14,6 +15,8 @@ interface DotItemProps {
 }
 
 export const DotItem = memo(({ scrollX, index, width }: DotItemProps) => {
+  const { colors } = useTheme();
+
   const dotOpacity = interpolateValue(scrollX, index, width, [0.4, 1, 0.4]);
   const dotColor = interpolateValue(scrollX, index, width, [
     colors.light,

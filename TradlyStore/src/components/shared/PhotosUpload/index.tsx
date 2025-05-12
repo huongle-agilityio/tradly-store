@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import {
   FlatList,
   Linking,
@@ -29,7 +29,7 @@ import { PlusIcon } from '@/components/icons';
 import { PermissionType } from '@/interfaces';
 
 // Themes
-import { colors, radius, spacing } from '@/themes';
+import { radius, spacing } from '@/themes';
 
 // Utils
 import {
@@ -37,6 +37,7 @@ import {
   getErrorMessageFromDocumentPicker,
   requestPermission,
 } from '@/utils';
+import { useTheme } from '@react-navigation/native';
 
 const ConfirmSheet = lazy(() =>
   import('../ConfirmSheet').then((module) => ({
@@ -57,10 +58,31 @@ export const PhotosUpload = ({
   onSelectImage,
   onSetError,
 }: PhotosUploadProps) => {
+  const { colors } = useTheme();
   const permissionSheetRef = useRef<BottomSheet>(null);
   const cameraGallerySheetRef = useRef<BottomSheet>(null);
   const [permission, setPermission] = useState<PermissionType>(
     PermissionType.camera,
+  );
+
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        addImage: {
+          width: 140,
+          height: 108,
+          marginLeft: spacing[5],
+          borderRadius: radius.lg,
+          borderStyle: 'dashed',
+          borderWidth: 1,
+          opacity: 0.7,
+          borderColor: colors.secondary,
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 5,
+        },
+      }),
+    [colors.secondary],
   );
 
   const MAX_IMAGES = 4;
@@ -227,7 +249,7 @@ export const PhotosUpload = ({
       <TouchableOpacity
         accessibilityRole="button"
         onPress={handleOpenSheetOptions}
-        style={styles.addImage}
+        style={stylesDynamic.addImage}
       >
         <PlusIcon />
         <Text
@@ -242,7 +264,7 @@ export const PhotosUpload = ({
         </Text>
       </TouchableOpacity>
     ),
-    [handleOpenSheetOptions],
+    [handleOpenSheetOptions, stylesDynamic.addImage],
   );
 
   return (
@@ -309,19 +331,6 @@ const styles = StyleSheet.create({
   },
   lastItem: { marginRight: spacing[5] },
   firstItem: { marginLeft: spacing[5] },
-  addImage: {
-    width: 140,
-    height: 108,
-    marginLeft: spacing[5],
-    borderRadius: radius.lg,
-    borderStyle: 'dashed',
-    borderWidth: 1,
-    opacity: 0.7,
-    borderColor: colors.secondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 5,
-  },
   textOpacity: { opacity: 0.5 },
   placeholder: {
     marginTop: 15,

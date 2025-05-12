@@ -1,14 +1,12 @@
-import { memo, Ref } from 'react';
+import { memo, Ref, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Portal } from '@gorhom/portal';
+import { useTheme } from '@react-navigation/native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 
 // Components
 import { SheetBackDrop, Text } from '@/components/common';
-
-// Themes
-import { colors } from '@/themes';
 
 interface CameraGalleryOptionsProps {
   sheetRef: Ref<BottomSheetMethods>;
@@ -25,43 +23,58 @@ export const CameraGalleryOptions = memo(
     onCamera,
     onCloseSheet,
     openFiles,
-  }: CameraGalleryOptionsProps) => (
-    <Portal>
-      <BottomSheet
-        ref={sheetRef}
-        index={-1}
-        snapPoints={['50%']}
-        enablePanDownToClose
-        backdropComponent={SheetBackDrop}
-      >
-        <BottomSheetView style={styles.bottomSheetView}>
-          <TouchableOpacity
-            onPress={openGallery}
-            style={[styles.buttonSheet, styles.borderButtonSheet]}
-          >
-            <Text fontWeight="medium">From Gallery</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={openFiles}
-            style={[styles.buttonSheet, styles.borderButtonSheet]}
-          >
-            <Text fontWeight="medium">From Files</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={onCamera}
-            style={[styles.buttonSheet, styles.borderButtonSheet]}
-          >
-            <Text fontWeight="medium">Take Photo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onCloseSheet} style={styles.buttonSheet}>
-            <Text fontWeight="medium" color="error">
-              Cancel
-            </Text>
-          </TouchableOpacity>
-        </BottomSheetView>
-      </BottomSheet>
-    </Portal>
-  ),
+  }: CameraGalleryOptionsProps) => {
+    const { colors } = useTheme();
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          borderButtonSheet: {
+            borderColor: colors.placeholder,
+            borderBottomWidth: 0.2,
+          },
+        }),
+      [colors.placeholder],
+    );
+
+    return (
+      <Portal>
+        <BottomSheet
+          ref={sheetRef}
+          index={-1}
+          snapPoints={['50%']}
+          enablePanDownToClose
+          backdropComponent={SheetBackDrop}
+        >
+          <BottomSheetView style={styles.bottomSheetView}>
+            <TouchableOpacity
+              onPress={openGallery}
+              style={[styles.buttonSheet, stylesDynamic.borderButtonSheet]}
+            >
+              <Text fontWeight="medium">From Gallery</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={openFiles}
+              style={[styles.buttonSheet, stylesDynamic.borderButtonSheet]}
+            >
+              <Text fontWeight="medium">From Files</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onCamera}
+              style={[styles.buttonSheet, stylesDynamic.borderButtonSheet]}
+            >
+              <Text fontWeight="medium">Take Photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onCloseSheet} style={styles.buttonSheet}>
+              <Text fontWeight="medium" color="error">
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </BottomSheetView>
+        </BottomSheet>
+      </Portal>
+    );
+  },
 );
 
 const styles = StyleSheet.create({
@@ -72,9 +85,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
-  },
-  borderButtonSheet: {
-    borderColor: colors.placeholder,
-    borderBottomWidth: 0.2,
   },
 });

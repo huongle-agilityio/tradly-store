@@ -1,6 +1,6 @@
-import { memo } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
-import { getStyles } from './styles';
+import { memo, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
+import { Image, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 // Components
 import { Text } from '../Text';
@@ -40,7 +40,24 @@ export const CartItem = memo(
     onRemoveItem,
     onUpdateQuantityItem,
   }: CartItemProps) => {
-    const styles = getStyles(!!onRemoveItem);
+    const { colors } = useTheme();
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          gapContent: {
+            gap: 15,
+            ...(onRemoveItem
+              ? { paddingBottom: spacing[3], paddingTop: spacing['7.5'] }
+              : { paddingVertical: 25 }),
+          },
+          cartWrapper: { backgroundColor: colors.backgroundSecondary },
+          buttonBorder: {
+            borderTopColor: colors.productCard.border,
+          },
+        }),
+      [colors, onRemoveItem],
+    );
 
     const handleRemoveItem = () => {
       onRemoveItem?.(id);
@@ -51,8 +68,8 @@ export const CartItem = memo(
     };
 
     return (
-      <View style={styles.cartWrapper}>
-        <View style={styles.content}>
+      <View style={stylesDynamic.cartWrapper}>
+        <View style={[[styles.content, stylesDynamic.gapContent]]}>
           <Image
             source={{
               uri: image,
@@ -110,7 +127,7 @@ export const CartItem = memo(
         {onRemoveItem && (
           <TouchableOpacity
             accessibilityRole="button"
-            style={styles.buttonWrapper}
+            style={[styles.buttonWrapper, stylesDynamic.buttonBorder]}
             onPress={handleRemoveItem}
           >
             <Text fontWeight="normal" color="placeholder">
@@ -122,3 +139,27 @@ export const CartItem = memo(
     );
   },
 );
+
+const styles = StyleSheet.create({
+  content: {
+    paddingHorizontal: spacing[4],
+    flexDirection: 'row',
+  },
+  textWrapper: {
+    justifyContent: 'space-between',
+    paddingTop: spacing['3.5'],
+    paddingBottom: spacing['2.5'],
+  },
+  priceWrapper: { flexDirection: 'row', gap: spacing['3.5'] },
+  quantityWrapper: { flexDirection: 'row', alignItems: 'center' },
+  buttonWrapper: {
+    width: '100%',
+    paddingVertical: spacing[3],
+    alignItems: 'center',
+    borderTopWidth: 0.5,
+  },
+  discountWrapper: { flexDirection: 'row', gap: 5 },
+  discountText: {
+    textDecorationLine: 'line-through',
+  },
+});

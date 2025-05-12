@@ -33,8 +33,8 @@ exports[`Button Component Should Should renders correctly when variant is not so
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "transparent",
-      "borderColor": "#33907c",
+      "backgroundColor": "",
+      "borderColor": "",
       "borderRadius": 24,
       "borderWidth": 2,
       "flexDirection": "row",
@@ -49,12 +49,16 @@ exports[`Button Component Should Should renders correctly when variant is not so
 >
   <View
     style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "gap": 5,
-        "opacity": 1,
-      }
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 5,
+        },
+        {
+          "opacity": 1,
+        },
+      ]
     }
   >
     <Text
@@ -71,7 +75,7 @@ exports[`Button Component Should Should renders correctly when variant is not so
             "lineHeight": 21,
           },
           {
-            "color": "#33907c",
+            "color": "",
           },
           undefined,
         ]
@@ -116,8 +120,8 @@ exports[`Button Component Should Should renders correctly when variant is not so
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "transparent",
-      "borderColor": "#fff",
+      "backgroundColor": "",
+      "borderColor": "",
       "borderRadius": 24,
       "borderWidth": 2,
       "flexDirection": "row",
@@ -132,12 +136,16 @@ exports[`Button Component Should Should renders correctly when variant is not so
 >
   <View
     style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "gap": 5,
-        "opacity": 1,
-      }
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 5,
+        },
+        {
+          "opacity": 1,
+        },
+      ]
     }
   >
     <Text
@@ -199,8 +207,8 @@ exports[`Button Component Should Should renders correctly when variant is solid 
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "#fff",
-      "borderColor": "#fff",
+      "backgroundColor": "",
+      "borderColor": "",
       "borderRadius": 24,
       "borderWidth": 0,
       "flexDirection": "row",
@@ -215,12 +223,16 @@ exports[`Button Component Should Should renders correctly when variant is solid 
 >
   <View
     style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "gap": 5,
-        "opacity": 1,
-      }
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 5,
+        },
+        {
+          "opacity": 1,
+        },
+      ]
     }
   >
     <Text
@@ -230,7 +242,7 @@ exports[`Button Component Should Should renders correctly when variant is solid 
             "fontFamily": "Montserrat",
           },
           {
-            "color": "#fff",
+            "color": "",
           },
           {
             "fontFamily": "Montserrat-SemiBold",
@@ -239,7 +251,7 @@ exports[`Button Component Should Should renders correctly when variant is solid 
             "lineHeight": 21,
           },
           {
-            "color": "#33907c",
+            "color": "",
           },
           undefined,
         ]
@@ -284,8 +296,8 @@ exports[`Button Component Should Should renders correctly with children 1`] = `
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "#33907c",
-      "borderColor": "#33907c",
+      "backgroundColor": "",
+      "borderColor": "",
       "borderRadius": 24,
       "borderWidth": 0,
       "flexDirection": "row",
@@ -300,12 +312,16 @@ exports[`Button Component Should Should renders correctly with children 1`] = `
 >
   <View
     style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "gap": 5,
-        "opacity": 1,
-      }
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 5,
+        },
+        {
+          "opacity": 1,
+        },
+      ]
     }
   >
     <Text
@@ -315,7 +331,7 @@ exports[`Button Component Should Should renders correctly with children 1`] = `
             "fontFamily": "Montserrat",
           },
           {
-            "color": "#fff",
+            "color": "",
           },
           {
             "fontFamily": "Montserrat-SemiBold",
@@ -324,7 +340,7 @@ exports[`Button Component Should Should renders correctly with children 1`] = `
             "lineHeight": 21,
           },
           {
-            "color": "#fff",
+            "color": "",
           },
           undefined,
         ]

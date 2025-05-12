@@ -16,11 +16,13 @@ exports[`Input Component Should match snapshot 1`] = `
     style={
       [
         {
-          "borderColor": "#fff",
           "borderRadius": 24,
           "borderWidth": 1,
           "paddingHorizontal": 16,
           "paddingVertical": 13,
+        },
+        {
+          "borderColor": "",
         },
         {
           "width": "100%",
@@ -32,15 +34,19 @@ exports[`Input Component Should match snapshot 1`] = `
       editable={true}
       onChangeText={[MockFunction]}
       placeholder="Enter text"
-      placeholderTextColor="#fff"
-      selectionColor="#fff"
+      placeholderTextColor=""
+      selectionColor=""
       style={
-        {
-          "color": "#fff",
-          "fontFamily": "Montserrat",
-          "fontSize": 18,
-          "lineHeight": 22,
-        }
+        [
+          {
+            "fontFamily": "Montserrat",
+            "fontSize": 18,
+            "lineHeight": 22,
+          },
+          {
+            "color": "",
+          },
+        ]
       }
       value="Test"
     />
@@ -64,11 +70,13 @@ exports[`Input Component Should render error message 1`] = `
     style={
       [
         {
-          "borderColor": "#fff",
           "borderRadius": 24,
           "borderWidth": 1,
           "paddingHorizontal": 16,
           "paddingVertical": 13,
+        },
+        {
+          "borderColor": "",
         },
         {
           "width": "100%",
@@ -80,15 +88,19 @@ exports[`Input Component Should render error message 1`] = `
       editable={true}
       onChangeText={[MockFunction]}
       placeholder="Enter text"
-      placeholderTextColor="#fff"
-      selectionColor="#fff"
+      placeholderTextColor=""
+      selectionColor=""
       style={
-        {
-          "color": "#fff",
-          "fontFamily": "Montserrat",
-          "fontSize": 18,
-          "lineHeight": 22,
-        }
+        [
+          {
+            "fontFamily": "Montserrat",
+            "fontSize": 18,
+            "lineHeight": 22,
+          },
+          {
+            "color": "",
+          },
+        ]
       }
       value="Test"
     />
@@ -105,7 +117,7 @@ exports[`Input Component Should render error message 1`] = `
           "fontWeight": "400",
         },
         {
-          "color": "#901f2e",
+          "color": "",
         },
         {
           "paddingTop": 12,

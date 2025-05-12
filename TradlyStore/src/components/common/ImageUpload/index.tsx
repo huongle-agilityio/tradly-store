@@ -1,4 +1,5 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   Image,
   ImageStyle,
@@ -13,7 +14,7 @@ import {
 import { CloseIcon } from '@/components/icons';
 
 // Themes
-import { colors, radius } from '@/themes';
+import { radius } from '@/themes';
 
 interface ImageUploadProps {
   id: number;
@@ -25,6 +26,17 @@ interface ImageUploadProps {
 
 export const ImageUpload = memo(
   ({ id, image, style, styleContainer, onPress }: ImageUploadProps) => {
+    const { colors } = useTheme();
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          closeIcon: {
+            backgroundColor: colors.placeholder,
+          },
+        }),
+      [colors.placeholder],
+    );
+
     const handleDelete = () => {
       onPress(id);
     };
@@ -41,7 +53,7 @@ export const ImageUpload = memo(
         <TouchableOpacity
           accessibilityRole="button"
           testID="close-button"
-          style={styles.closeIcon}
+          style={[styles.closeIcon, stylesDynamic.closeIcon]}
           onPress={handleDelete}
         >
           <CloseIcon size={9} color={colors.light} />
@@ -63,7 +75,6 @@ const styles = StyleSheet.create({
   closeIcon: {
     width: 19,
     height: 19,
-    backgroundColor: colors.placeholder,
     borderRadius: radius.full,
     alignItems: 'center',
     justifyContent: 'center',

@@ -32,7 +32,7 @@ export const useAppInit = () => {
 
   // Stores
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
-  const setSystemScheme = useThemeStore((state) => state.setSystemScheme);
+  const setSystemTheme = useThemeStore((state) => state.setSystemTheme);
 
   useEffect(() => {
     clearImagePickerFiles();
@@ -73,16 +73,16 @@ export const useAppInit = () => {
     const initialScheme =
       Appearance.getColorScheme() === 'dark' ? 'dark' : 'light';
 
-    setSystemScheme(initialScheme);
+    setSystemTheme(initialScheme);
 
     const listener = Appearance.addChangeListener(({ colorScheme }) => {
-      setSystemScheme(colorScheme === 'dark' ? 'dark' : 'light');
+      setSystemTheme(colorScheme === 'dark' ? 'dark' : 'light');
     });
 
     return () => {
       listener.remove();
     };
-  }, [hydrated, setAuthenticated, setSystemScheme]);
+  }, [hydrated, setAuthenticated, setSystemTheme]);
 };
 
 /**

@@ -11,3 +11,4 @@ export * from './Header/HeaderWithSearchInput';
 export * from './Header/HeaderWithTitle';
 export * from './Header/HeaderFilter';
 export * from './ConfirmSheet';
+export * from './ToggleThemeSwitch';

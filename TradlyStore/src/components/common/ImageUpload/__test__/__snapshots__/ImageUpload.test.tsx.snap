@@ -63,7 +63,7 @@ exports[`ImageUpload Component renders correctly with given image 1`] = `
     style={
       {
         "alignItems": "center",
-        "backgroundColor": "#4f4f4f",
+        "backgroundColor": "",
         "borderRadius": 9999,
         "height": 19,
         "justifyContent": "center",

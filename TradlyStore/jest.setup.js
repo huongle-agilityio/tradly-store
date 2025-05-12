@@ -171,3 +171,107 @@ jest.mock('react-native/Libraries/Utilities/Platform', () => ({
   OS: 'android',
   select: jest.fn(),
 }));
+
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useNavigation: () => ({ navigate: jest.fn() }),
+    useTheme: () => ({
+      colors: {
+        transparent: '',
+        primary: '#000',
+        background: '',
+        backgroundSecondary: '',
+        backgroundOpacity: '',
+        secondary: '',
+        tertiary: '',
+        light: '#fff',
+        placeholder: '',
+        error: '',
+        success: '',
+        opacity: '',
+        link: '',
+        dotNotification: '',
+        border: '',
+        text: {
+          default: '',
+          light: '',
+          primary: '',
+          secondary: '',
+          tertiary: '',
+          quaternary: '',
+          placeholder: '',
+          fade: '',
+          link: '',
+          error: '',
+          success: '',
+        },
+        skeleton: {
+          backgroundPrimary: '',
+          backgroundSecondary: '',
+        },
+        button: {
+          backgroundPrimary: '',
+          backgroundSecondary: '',
+          success: '',
+          error: '',
+          textPrimary: '',
+          textSecondary: '',
+          textDark: '',
+        },
+        toast: {
+          default: '',
+          success: '',
+          error: '',
+        },
+        input: {
+          backgroundPrimary: '',
+          borderPrimary: '',
+          borderSecondary: '',
+          textPrimary: '',
+          textSecondary: '',
+          textTertiary: '',
+          textQuaternary: '',
+        },
+        select: {
+          backgroundPrimary: '',
+          badge: '',
+          textPrimary: '',
+        },
+        productCard: {
+          background: '',
+          border: '',
+          textSecondary: '',
+          textPrimary: '',
+          textTertiary: '',
+        },
+        storeCard: {
+          background: '',
+          text: '',
+        },
+        categoryCard: {
+          background: '',
+          border: '',
+          text: '',
+        },
+        tabs: {
+          tabBackground: '',
+          tabActiveIColor: '',
+          tabBarInactiveTintColor: '',
+        },
+        cartItem: {
+          background: '',
+          textPrimary: '',
+          textSecondary: '',
+        },
+        toggleTheme: {
+          dotBackground: '',
+          background: '',
+          backgroundActive: '',
+        },
+      },
+    }),
+    NavigationContainer: ({ children }) => <>{children}</>,
+  };
+});

@@ -13,7 +13,7 @@ exports[`Text Component Should renders children correctly 1`] = `
         "fontWeight": "500",
       },
       {
-        "color": "#000",
+        "color": "",
       },
       undefined,
     ]

@@ -1,5 +1,6 @@
-import { lazy, Suspense, useCallback, useRef } from 'react';
+import { lazy, Suspense, useCallback, useMemo, useRef } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import BottomSheet from '@gorhom/bottom-sheet';
 
 // Components
@@ -11,7 +12,7 @@ import { DropdownChip } from './DropdownChip';
 import { Option } from '@/interfaces';
 
 // Themes
-import { colors, spacing } from '@/themes';
+import { spacing } from '@/themes';
 
 const MultipleSelectSheet = lazy(() =>
   import('../DropdownModal/MultipleSelectSheet').then((module) => ({
@@ -39,6 +40,16 @@ export const MultipleDropdown = ({
   disabled,
 }: SelectWithChipsProps) => {
   const sheetRef = useRef<BottomSheet>(null);
+  const { colors } = useTheme();
+  const stylesDynamic = useMemo(
+    () =>
+      StyleSheet.create({
+        borderCommon: {
+          borderBottomColor: colors.input.borderSecondary,
+        },
+      }),
+    [colors.input.borderSecondary],
+  );
 
   /**
    * Handles the selection of an item in the dropdown list. If the item is
@@ -72,7 +83,13 @@ export const MultipleDropdown = ({
   return (
     <View style={styles.container}>
       {selectedItems.length > 0 ? (
-        <View style={[styles.borderCommon, styles.inputWithChip]}>
+        <View
+          style={[
+            styles.borderCommon,
+            styles.inputWithChip,
+            stylesDynamic.borderCommon,
+          ]}
+        >
           <Text
             color="placeholder"
             fontWeight="light"
@@ -154,7 +171,6 @@ const styles = StyleSheet.create({
   dropdownChip: { zIndex: 2 },
   borderCommon: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.input.borderSecondary,
   },
   chipsContainer: {
     flexDirection: 'row',

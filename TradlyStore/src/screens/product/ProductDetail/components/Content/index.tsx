@@ -1,4 +1,5 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   ScrollView,
   TouchableOpacity,
@@ -24,7 +25,7 @@ import {
 import { Store } from '@/interfaces';
 
 // Themes
-import { colors, lineHeights, radius, spacing } from '@/themes';
+import { lineHeights, radius, spacing } from '@/themes';
 
 // Utils
 import { calculateDiscountedPrice, getProductDetails } from '@/utils';
@@ -61,6 +62,8 @@ export const Content = memo(
     discount,
     store,
   }: ContentProps) => {
+    const { colors } = useTheme();
+
     const productInfo = getProductDetails({ priceType, category, location });
     const productAdditional = [
       {
@@ -69,6 +72,43 @@ export const Content = memo(
       },
     ];
     const isSoldOut = quantity <= 0;
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          backgroundIcon: {
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backgroundColor: colors.backgroundSecondary,
+            borderRadius: radius.full,
+            opacity: 0.5,
+          },
+          contentWrapper: {
+            borderRadius: radius.lg,
+            backgroundColor: colors.backgroundSecondary,
+          },
+          banner: {
+            marginLeft: 10,
+            backgroundColor: colors.error,
+            borderRadius: 8,
+            paddingVertical: 2,
+            paddingHorizontal: 6,
+          },
+          icon: {
+            position: 'relative',
+            width: 32,
+            height: 32,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: radius.full,
+            backgroundColor: colors.backgroundOpacity,
+            borderWidth: 1,
+            borderColor: colors.light,
+          },
+        }),
+      [colors],
+    );
 
     return (
       <StickyFooter
@@ -85,31 +125,31 @@ export const Content = memo(
               <View style={styles.header}>
                 <TouchableOpacity
                   accessibilityRole="button"
-                  style={styles.icon}
+                  style={stylesDynamic.icon}
                   onPress={handleBack}
                 >
                   <ArrowLeftIcon size={18} color={colors.light} />
-                  <View style={styles.backgroundIcon} />
+                  <View style={stylesDynamic.backgroundIcon} />
                 </TouchableOpacity>
 
                 <View style={styles.iconWrapper}>
-                  <View style={styles.icon}>
+                  <View style={stylesDynamic.icon}>
                     <ShareIcon size={18} color={colors.light} />
-                    <View style={styles.backgroundIcon} />
+                    <View style={stylesDynamic.backgroundIcon} />
                   </View>
-                  <View style={styles.icon}>
+                  <View style={stylesDynamic.icon}>
                     <OutlineHeartIcon size={18} color={colors.light} />
-                    <View style={styles.backgroundIcon} />
+                    <View style={stylesDynamic.backgroundIcon} />
                   </View>
-                  <View style={styles.icon}>
+                  <View style={stylesDynamic.icon}>
                     <MenuDotIcon size={18} color={colors.light} />
-                    <View style={styles.backgroundIcon} />
+                    <View style={stylesDynamic.backgroundIcon} />
                   </View>
                 </View>
               </View>
             </View>
 
-            <View style={[styles.productWrapper, styles.contentWrapper]}>
+            <View style={[styles.productWrapper, stylesDynamic.contentWrapper]}>
               {isLoading ? (
                 <View style={styles.loading}>
                   <Skeleton width="60%" height={20} borderRadius={4} />
@@ -144,7 +184,7 @@ export const Content = memo(
                       </>
                     )}
                     {isSoldOut && (
-                      <Text color="light" textStyle={styles.banner}>
+                      <Text color="light" textStyle={stylesDynamic.banner}>
                         SOLD OUT
                       </Text>
                     )}
@@ -154,7 +194,7 @@ export const Content = memo(
             </View>
           </View>
 
-          <View style={[styles.storeWrapper, styles.contentWrapper]}>
+          <View style={[styles.storeWrapper, stylesDynamic.contentWrapper]}>
             <View style={styles.storeTitle}>
               {isLoading ? (
                 <>
@@ -177,11 +217,13 @@ export const Content = memo(
             </View>
 
             <View style={styles.button}>
-              <Button textSize="xs">Follow</Button>
+              <Button color="secondary" textSize="xs">
+                Follow
+              </Button>
             </View>
           </View>
 
-          <View style={[styles.description, styles.contentWrapper]}>
+          <View style={[styles.description, stylesDynamic.contentWrapper]}>
             {isLoading ? (
               <Skeleton width="100%" height={100} borderRadius={4} />
             ) : (
@@ -195,7 +237,7 @@ export const Content = memo(
             )}
           </View>
 
-          <View style={[styles.content, styles.contentWrapper]}>
+          <View style={[styles.content, stylesDynamic.contentWrapper]}>
             <Text
               fontWeight="medium"
               fontSize="lg"
@@ -208,7 +250,7 @@ export const Content = memo(
             </View>
           </View>
 
-          <View style={[styles.content, styles.contentWrapper]}>
+          <View style={[styles.content, stylesDynamic.contentWrapper]}>
             <Text
               fontWeight="medium"
               fontSize="lg"
@@ -248,25 +290,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     top: 0,
   },
-  icon: {
-    position: 'relative',
-    width: 32,
-    height: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: radius.full,
-    backgroundColor: 'rgba(181, 185, 185, 0.6)',
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-  backgroundIcon: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: colors.light,
-    borderRadius: radius.full,
-    opacity: 0.5,
-  },
+
   price: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -291,17 +315,6 @@ export const styles = StyleSheet.create({
   content: {
     paddingVertical: 15,
     paddingHorizontal: spacing['7.5'],
-  },
-  contentWrapper: {
-    borderRadius: radius.lg,
-    backgroundColor: colors.light,
-  },
-  banner: {
-    marginLeft: 10,
-    backgroundColor: colors.error,
-    borderRadius: 8,
-    paddingVertical: 2,
-    paddingHorizontal: 6,
   },
   textPrice: {
     marginLeft: 15,

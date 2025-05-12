@@ -2,12 +2,12 @@ import { ColorSchemeName } from 'react-native';
 
 export interface ThemeState {
   isDark?: boolean;
-  appScheme: ColorSchemeName;
-  systemScheme: ColorSchemeName;
-  theme?: ColorSchemeName;
+  appTheme: ColorSchemeName;
+  systemTheme: ColorSchemeName;
 }
 
 export interface ThemeStore extends ThemeState {
-  setAppScheme: (scheme: ColorSchemeName) => void;
-  setSystemScheme: (scheme: ColorSchemeName) => void;
+  toggleTheme: () => void;
+  setAppTheme: (scheme: ColorSchemeName) => void;
+  setSystemTheme: (scheme: ColorSchemeName) => void;
 }

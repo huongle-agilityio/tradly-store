@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
-import { ColorSchemeName } from 'react-native';
 import { shallow } from 'zustand/shallow';
 import { ThemeState, ThemeStore } from './type';
 
@@ -10,32 +9,49 @@ import { STORAGE_KEY, THEME } from '@/constants';
 
 const INITIAL_THEME_STATE: ThemeState = {
   isDark: false,
-  appScheme: undefined,
-  systemScheme: THEME.LIGHT,
+  appTheme: undefined,
+  systemTheme: THEME.LIGHT,
 };
 
 export const useThemeStore = createWithEqualityFn<ThemeStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       ...INITIAL_THEME_STATE,
 
-      setAppScheme: (scheme: ColorSchemeName) =>
-        set({ appScheme: scheme, isDark: scheme === THEME.DARK }),
+      /**
+       * Toggles the theme between light and dark.
+       * Always sets appTheme → overrides system.
+       */
+      toggleTheme: () => {
+        const current = get().appTheme ?? get().systemTheme;
+        const themeChanged = current === 'dark' ? 'light' : 'dark';
+        set({ appTheme: themeChanged, isDark: themeChanged === 'dark' });
+      },
 
       /**
-       * Sets the system color scheme to the specified scheme.
-       *
-       * @param {ColorSchemeName} scheme - The color scheme to set as the system scheme.
+       * User manually sets a theme.
+       * If undefined, fallback to system.
        */
-      setSystemScheme: (scheme: ColorSchemeName) =>
-        set({ systemScheme: scheme, isDark: scheme === THEME.DARK }),
+      setAppTheme: (appTheme) => {
+        const finalTheme = appTheme ?? get().systemTheme;
+        set({ appTheme, isDark: finalTheme === 'dark' });
+      },
+
+      /**
+       * System theme changed.
+       * Only applies if user hasn't selected a theme.
+       */
+      setSystemTheme: (systemTheme) => {
+        const finalTheme = get().appTheme ?? systemTheme;
+        set({ systemTheme, isDark: finalTheme === 'dark' });
+      },
     }),
     {
       name: STORAGE_KEY.THEME,
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
-        appScheme: state.appScheme,
-        systemScheme: state.systemScheme,
+        appTheme: state.appTheme,
+        systemTheme: state.systemTheme,
       }),
     },
   ),

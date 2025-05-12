@@ -4,19 +4,25 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
 <View
   style={
     {
-      "backgroundColor": "#fff",
+      "backgroundColor": "",
     }
   }
 >
   <View
     style={
-      {
-        "flexDirection": "row",
-        "gap": 15,
-        "paddingBottom": 12,
-        "paddingHorizontal": 16,
-        "paddingTop": 30,
-      }
+      [
+        [
+          {
+            "flexDirection": "row",
+            "paddingHorizontal": 16,
+          },
+          {
+            "gap": 15,
+            "paddingBottom": 12,
+            "paddingTop": 30,
+          },
+        ],
+      ]
     }
   >
     <Image
@@ -56,7 +62,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
               "fontWeight": "500",
             },
             {
-              "color": "#4f4f4f",
+              "color": "",
             },
             undefined,
           ]
@@ -84,7 +90,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
                 "fontWeight": "700",
               },
               {
-                "color": "#33907c",
+                "color": "",
               },
               undefined,
             ]
@@ -113,7 +119,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
                   "fontWeight": "500",
                 },
                 {
-                  "color": "#4f4f4f",
+                  "color": "",
                 },
                 {
                   "textDecorationLine": "line-through",
@@ -136,7 +142,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
                   "fontWeight": "500",
                 },
                 {
-                  "color": "#4f4f4f",
+                  "color": "",
                 },
                 undefined,
               ]
@@ -167,7 +173,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
                 "fontWeight": "500",
               },
               {
-                "color": "#4f4f4f",
+                "color": "",
               },
               undefined,
             ]
@@ -235,7 +241,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
                     "fontWeight": "500",
                   },
                   {
-                    "color": "#4f4f4f",
+                    "color": "",
                   },
                   undefined,
                 ]
@@ -333,7 +339,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
     style={
       {
         "alignItems": "center",
-        "borderTopColor": "#dbdbde",
+        "borderTopColor": "",
         "borderTopWidth": 0.5,
         "opacity": 1,
         "paddingVertical": 12,
@@ -353,7 +359,7 @@ exports[`CartItem Should renders CartItem correctly 1`] = `
             "fontWeight": "500",
           },
           {
-            "color": "#4f4f4f",
+            "color": "",
           },
           undefined,
         ]
@@ -369,18 +375,24 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
 <View
   style={
     {
-      "backgroundColor": "#fff",
+      "backgroundColor": "",
     }
   }
 >
   <View
     style={
-      {
-        "flexDirection": "row",
-        "gap": 15,
-        "paddingHorizontal": 16,
-        "paddingVertical": 25,
-      }
+      [
+        [
+          {
+            "flexDirection": "row",
+            "paddingHorizontal": 16,
+          },
+          {
+            "gap": 15,
+            "paddingVertical": 25,
+          },
+        ],
+      ]
     }
   >
     <Image
@@ -420,7 +432,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
               "fontWeight": "500",
             },
             {
-              "color": "#4f4f4f",
+              "color": "",
             },
             undefined,
           ]
@@ -448,7 +460,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                 "fontWeight": "700",
               },
               {
-                "color": "#33907c",
+                "color": "",
               },
               undefined,
             ]
@@ -477,7 +489,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   "fontWeight": "500",
                 },
                 {
-                  "color": "#4f4f4f",
+                  "color": "",
                 },
                 {
                   "textDecorationLine": "line-through",
@@ -500,7 +512,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                   "fontWeight": "500",
                 },
                 {
-                  "color": "#4f4f4f",
+                  "color": "",
                 },
                 undefined,
               ]
@@ -531,7 +543,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                 "fontWeight": "500",
               },
               {
-                "color": "#4f4f4f",
+                "color": "",
               },
               undefined,
             ]
@@ -599,7 +611,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     "fontWeight": "500",
                   },
                   {
-                    "color": "#4f4f4f",
+                    "color": "",
                   },
                   undefined,
                 ]
@@ -779,7 +791,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -836,7 +848,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -857,10 +869,14 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     </Text>
                     <Text
                       style={
-                        {
-                          "color": "#13b58c",
-                          "fontSize": 16,
-                        }
+                        [
+                          {
+                            "fontSize": 16,
+                          },
+                          {
+                            "color": "",
+                          },
+                        ]
                       }
                     >
                       ✔
@@ -903,7 +919,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -960,7 +976,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -1017,7 +1033,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -1074,7 +1090,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -1131,7 +1147,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -1188,7 +1204,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -1245,7 +1261,7 @@ exports[`CartItem Should renders CartItem correctly without actions 1`] = `
                     onStartShouldSetResponder={[Function]}
                     style={
                       {
-                        "borderBottomColor": "#dbdbde",
+                        "borderBottomColor": "",
                         "borderBottomWidth": 1,
                         "flexDirection": "row",
                         "justifyContent": "space-between",

@@ -1,4 +1,5 @@
-import { memo, ReactNode } from 'react';
+import { memo, ReactNode, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
 import {
   TouchableOpacity,
   Text,
@@ -7,18 +8,8 @@ import {
   StyleProp,
   ViewStyle,
   TextStyle,
+  StyleSheet,
 } from 'react-native';
-import {
-  colorMap,
-  sizes,
-  textSizes,
-  variantStyles,
-  textVariants,
-  getStyles,
-} from './styles';
-
-// Themes
-import { colors } from '@/themes';
 
 // Interfaces
 import {
@@ -27,6 +18,16 @@ import {
   ButtonTextSize,
   ButtonVariant,
 } from '@/interfaces';
+
+// Themes
+import {
+  fontsFamily,
+  fontWeights,
+  lineHeights,
+  radius,
+  spacing,
+} from '@/themes';
+import { useThemeStore } from '@/stores';
 
 interface ButtonProps {
   disabled?: boolean;
@@ -56,7 +57,63 @@ export const Button = memo(
     children,
     onPress,
   }: ButtonProps) => {
-    const styles = getStyles(isLoading);
+    const { colors } = useTheme();
+    const isDark = useThemeStore((store) => store.isDark);
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          hidden: {
+            opacity: isLoading ? 0 : 1,
+          },
+        }),
+      [isLoading],
+    );
+
+    const colorMap = useMemo(
+      () => ({
+        primary: colors.button.backgroundPrimary,
+        secondary: colors.button.backgroundSecondary,
+        dark: colors.button.textDark,
+        success: colors.button.success,
+        error: colors.button.error,
+      }),
+      [colors],
+    );
+
+    const variantStyles = useMemo(
+      () =>
+        StyleSheet.create({
+          solid: { borderWidth: 0 },
+          bordered: { backgroundColor: colors.transparent },
+          ghost: { backgroundColor: colors.transparent, borderWidth: 0 },
+        }),
+      [colors],
+    );
+
+    const textVariants = useMemo(
+      () =>
+        StyleSheet.create({
+          solid: { color: colors.button.textSecondary },
+          bordered: {},
+          ghost: {},
+        }),
+      [colors],
+    );
+
+    const textColors = useMemo(
+      () =>
+        color === 'secondary'
+          ? variant === 'solid'
+            ? isDark
+              ? colors.button.textPrimary
+              : colors.button.backgroundPrimary
+            : colors.light
+          : variant === 'solid'
+          ? colors.button.textSecondary
+          : colorMap[color],
+      [color, colorMap, colors, isDark, variant],
+    );
 
     return (
       <TouchableOpacity
@@ -78,7 +135,7 @@ export const Button = memo(
         onPress={onPress}
         activeOpacity={0.7}
       >
-        <View style={styles.contentWrapper}>
+        <View style={[styles.contentWrapper, stylesDynamic.hidden]}>
           {Icon}
           <Text
             style={[
@@ -86,14 +143,7 @@ export const Button = memo(
               textVariants[variant],
               textSizes[textSize],
               {
-                color:
-                  color === 'secondary'
-                    ? variant === 'solid'
-                      ? colors.button.backgroundPrimary
-                      : colors.light
-                    : variant === 'solid'
-                    ? colors.button.textSecondary
-                    : colorMap[color],
+                color: textColors,
               },
               textStyles,
             ]}
@@ -113,3 +163,68 @@ export const Button = memo(
     );
   },
 );
+
+const styles = StyleSheet.create({
+  button: {
+    position: 'relative',
+    borderRadius: radius['3xl'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: spacing['0.5'],
+  },
+  disabled: {
+    opacity: 0.7,
+  },
+  contentWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  loading: {
+    position: 'absolute',
+  },
+  text: {
+    fontFamily: fontsFamily.regular,
+  },
+});
+
+const sizes = StyleSheet.create({
+  none: {},
+  full: { width: '100%' },
+  small: { paddingVertical: spacing[1], paddingHorizontal: spacing[3] },
+  medium: { paddingVertical: spacing[1], paddingHorizontal: 23 },
+});
+
+const textSizes = StyleSheet.create({
+  xs: {
+    fontSize: spacing[3],
+    lineHeight: lineHeights.xs,
+    fontFamily: fontsFamily.medium,
+    fontWeight: fontWeights.normal,
+  },
+  base: {
+    fontSize: spacing[3],
+    lineHeight: lineHeights.lg,
+    fontFamily: fontsFamily.semiBold,
+    fontWeight: fontWeights.bold,
+  },
+  md: {
+    fontSize: spacing['3.5'],
+    lineHeight: lineHeights.sm,
+    fontFamily: fontsFamily.medium,
+    fontWeight: fontWeights.normal,
+  },
+  lg: {
+    fontSize: spacing[4],
+    lineHeight: lineHeights.sm,
+    fontFamily: fontsFamily.medium,
+    fontWeight: fontWeights.normal,
+  },
+  xl: {
+    fontSize: spacing['4.5'],
+    lineHeight: lineHeights.sm,
+    fontFamily: fontsFamily.bold,
+    fontWeight: fontWeights.medium,
+  },
+});

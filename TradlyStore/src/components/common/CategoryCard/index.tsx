@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import {
   ImageBackground,
   ImageSourcePropType,
@@ -11,9 +11,7 @@ import {
 
 // Components
 import { Text } from '../Text';
-
-// Themes
-import { colors } from '@/themes';
+import { useTheme } from '@react-navigation/native';
 
 interface CategoryCardProps {
   title: string;
@@ -33,6 +31,18 @@ export const CategoryCard = memo(
     styleWrapper,
     onPress,
   }: CategoryCardProps) => {
+    const { colors } = useTheme();
+
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          container: {
+            backgroundColor: colors.categoryCard.background,
+          },
+        }),
+      [colors.categoryCard.background],
+    );
+
     const handlePress = () => {
       onPress(title, value);
     };
@@ -50,7 +60,7 @@ export const CategoryCard = memo(
           source={source}
           accessibilityLabel={`image of ${title} category`}
         >
-          <View style={[styles.container, style]}>
+          <View style={[styles.container, style, stylesDynamic.container]}>
             <Text
               fontSize="xs"
               color="light"
@@ -70,7 +80,6 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.categoryCard.background,
   },
   title: { width: '100%', textAlign: 'center' },
 });

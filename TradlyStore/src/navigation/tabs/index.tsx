@@ -2,6 +2,7 @@ import {
   BottomTabHeaderProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
+import { useTheme } from '@react-navigation/native';
 
 // Screens
 import { Browse, Home, Store } from '@/screens';
@@ -23,7 +24,7 @@ import { SCREENS } from '@/constants';
 import { TabsStackParamList } from '@/interfaces';
 
 // Themes
-import { colors, fontsFamily, fontSizes, fontWeights } from '@/themes';
+import { fontsFamily, fontSizes, fontWeights } from '@/themes';
 
 const Tabs = createBottomTabNavigator<TabsStackParamList>();
 
@@ -36,6 +37,8 @@ const HeaderInput = ({ options }: BottomTabHeaderProps) => (
 );
 
 export const TabsStack = () => {
+  const { colors } = useTheme();
+
   const handleRenderTabBarIcon =
     (screen: keyof TabsStackParamList) =>
     ({ color }: { color: string }) => {
@@ -59,16 +62,13 @@ export const TabsStack = () => {
     <Tabs.Navigator
       screenOptions={{
         lazy: true,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.placeholder,
+        tabBarActiveTintColor: colors.tabs.tabActiveIColor,
+        tabBarInactiveTintColor: colors.tabs.tabBarInactiveTintColor,
         tabBarStyle: {
           height: 72,
           paddingTop: 13,
-          borderColor: colors.light,
+          backgroundColor: colors.tabs.tabBackground,
           borderTopWidth: 0,
-        },
-        headerStyle: {
-          backgroundColor: colors.primary,
         },
         sceneStyle: {
           flex: 1,
@@ -88,6 +88,9 @@ export const TabsStack = () => {
         name={SCREENS.HOME}
         component={Home}
         options={{
+          sceneStyle: {
+            backgroundColor: colors.background,
+          },
           title: 'Groceries',
           header: HeaderInput,
           tabBarIcon: handleRenderTabBarIcon(SCREENS.HOME),
@@ -97,6 +100,9 @@ export const TabsStack = () => {
         name={SCREENS.BROWSE}
         component={Browse}
         options={{
+          sceneStyle: {
+            backgroundColor: colors.background,
+          },
           header: () => <HeaderWithSearchInput hasFilter title="Browse" />,
           tabBarIcon: handleRenderTabBarIcon(SCREENS.BROWSE),
         }}
@@ -105,6 +111,9 @@ export const TabsStack = () => {
         name={SCREENS.STORE}
         component={Store}
         options={{
+          sceneStyle: {
+            backgroundColor: colors.background,
+          },
           header: () => (
             <HeaderWithSearchInput hasSearchInput={false} title="My Store" />
           ),
@@ -115,6 +124,9 @@ export const TabsStack = () => {
         name={SCREENS.ORDER_HISTORY}
         getComponent={() => require('@/screens/tab/OrderHistory').OrderHistory}
         options={{
+          sceneStyle: {
+            backgroundColor: colors.background,
+          },
           title: 'Order History',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.ORDER_HISTORY),
         }}
@@ -123,6 +135,9 @@ export const TabsStack = () => {
         name={SCREENS.PROFILE}
         getComponent={() => require('@/screens/tab/Profile').Profile}
         options={{
+          sceneStyle: {
+            backgroundColor: colors.background,
+          },
           title: 'Profile',
           tabBarIcon: handleRenderTabBarIcon(SCREENS.PROFILE),
         }}

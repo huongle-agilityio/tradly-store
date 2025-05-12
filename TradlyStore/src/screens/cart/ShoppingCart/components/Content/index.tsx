@@ -1,4 +1,5 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
+import { useTheme } from '@react-navigation/native';
 import { FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 // Components
@@ -16,7 +17,7 @@ import { useAddressForm } from '@/hooks';
 import { Cart, Order } from '@/interfaces';
 
 // Themes
-import { colors, spacing } from '@/themes';
+import { spacing } from '@/themes';
 
 // Utils
 import { getTotalCarts, isEmptyObject } from '@/utils';
@@ -33,6 +34,8 @@ interface ContentProps {
 
 export const Content = memo(
   ({ isPending, onNavigateAddNewAddress, onSubmit }: ContentProps) => {
+    const { colors } = useTheme();
+
     // Stores
     const formAddress = useAddressForm((state) => state.form);
     const [carts, updateQuantityItem, removeCart] = useCartStore((state) => [
@@ -45,6 +48,27 @@ export const Content = memo(
       formAddress;
     const isDisabled = !carts?.length || isEmptyObject(formAddress);
     const { total, totalQuantity } = getTotalCarts(carts || []);
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          buttonAddressWrapper: {
+            width: '100%',
+            paddingVertical: spacing['4.5'],
+            alignItems: 'center',
+            backgroundColor: colors.backgroundSecondary,
+          },
+          addressWrapper: {
+            width: '100%',
+            paddingVertical: 15,
+            paddingHorizontal: spacing[5],
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: colors.backgroundSecondary,
+          },
+        }),
+      [colors.backgroundSecondary],
+    );
 
     const handleQuantityChange = useCallback(
       (id: string, value: string) => {
@@ -97,7 +121,7 @@ export const Content = memo(
         {isEmptyObject(formAddress) ? (
           <TouchableOpacity
             accessibilityRole="button"
-            style={styles.buttonAddressWrapper}
+            style={stylesDynamic.buttonAddressWrapper}
             onPress={onNavigateAddNewAddress}
           >
             <Text fontWeight="normal" color="placeholder">
@@ -105,7 +129,7 @@ export const Content = memo(
             </Text>
           </TouchableOpacity>
         ) : (
-          <View style={styles.addressWrapper}>
+          <View style={stylesDynamic.addressWrapper}>
             <View style={styles.textDelivery}>
               <Text color="placeholder" numberOfLines={1}>
                 Deliver to {username}, {zipCode}
@@ -146,21 +170,6 @@ const styles = StyleSheet.create({
     gap: spacing['2.5'],
     paddingTop: spacing['2.5'],
     paddingBottom: spacing[7],
-  },
-  buttonAddressWrapper: {
-    width: '100%',
-    paddingVertical: spacing['4.5'],
-    alignItems: 'center',
-    backgroundColor: colors.light,
-  },
-  addressWrapper: {
-    width: '100%',
-    paddingVertical: 15,
-    paddingHorizontal: spacing[5],
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.light,
   },
   textDelivery: { gap: spacing[1.5], width: '70%' },
   text: { opacity: 0.7 },
