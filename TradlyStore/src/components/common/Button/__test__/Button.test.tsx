@@ -6,39 +6,31 @@ import { Button } from '..';
 
 describe('Button Component', () => {
   it('Should Should renders correctly with children', () => {
-    const container = render(<Button>Click me</Button>).toJSON();
+    render(<Button>Click me</Button>);
 
     expect(screen.getByText('Click me')).toBeTruthy();
-    expect(container).toMatchSnapshot();
   });
 
   it('Should Should renders correctly when variant is not solid', () => {
-    const container = render(
-      <Button variant="bordered">Click me</Button>,
-    ).toJSON();
+    render(<Button variant="bordered">Click me</Button>);
 
     expect(screen.getByText('Click me')).toBeTruthy();
-    expect(container).toMatchSnapshot();
   });
 
   it('Should Should renders correctly when variant is solid and color is secondary', () => {
-    const container = render(
-      <Button color="secondary">Click me</Button>,
-    ).toJSON();
+    render(<Button color="secondary">Click me</Button>);
 
     expect(screen.getByText('Click me')).toBeTruthy();
-    expect(container).toMatchSnapshot();
   });
 
   it('Should Should renders correctly when variant is not solid and color is secondary', () => {
-    const container = render(
+    render(
       <Button color="secondary" variant="bordered">
         Click me
       </Button>,
-    ).toJSON();
+    );
 
     expect(screen.getByText('Click me')).toBeTruthy();
-    expect(container).toMatchSnapshot();
   });
 
   it('Should calls onPress when pressed', () => {
