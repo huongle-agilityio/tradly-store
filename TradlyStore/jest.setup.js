@@ -1,16 +1,6 @@
 /* eslint-disable no-undef */
 import '@testing-library/react-native';
 
-// Mock react-native-gesture-handler
-jest.mock('react-native-gesture-handler', () => {
-  return {
-    GestureHandlerRootView: ({ children }) => children,
-    Swipeable: jest.fn(),
-    PanGestureHandler: jest.fn(),
-    State: {},
-  };
-});
-
 jest.mock('@gorhom/portal', () => {
   return {
     PortalProvider: ({ children }) => <>{children}</>,
