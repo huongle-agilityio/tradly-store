@@ -1,6 +1,14 @@
-import { useEffect, useMemo } from 'react';
-import { View, Animated, Easing, ViewStyle, StyleSheet } from 'react-native';
+import { memo, useEffect, useMemo } from 'react';
+import { View, ViewStyle, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import Animated, {
+  Easing,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface SkeletonProps {
   width: number | string;
@@ -9,63 +17,57 @@ interface SkeletonProps {
   style?: ViewStyle;
 }
 
-export const Skeleton = ({
-  width,
-  height,
-  borderRadius = 8,
-  style,
-}: SkeletonProps) => {
-  const { colors } = useTheme();
+export const Skeleton = memo(
+  ({ width, height, borderRadius = 8, style }: SkeletonProps) => {
+    const { colors } = useTheme();
+    const shimmerAnim = useSharedValue(0);
 
-  const shimmerAnim = useMemo(() => new Animated.Value(0), []);
-  const stylesDynamic = useMemo(
-    () =>
-      StyleSheet.create({
-        container: {
-          backgroundColor: colors.skeleton.backgroundPrimary,
-        },
-        overlay: {
-          backgroundColor: colors.skeleton.backgroundSecondary,
-        },
-      }),
-    [colors.skeleton.backgroundPrimary, colors.skeleton.backgroundSecondary],
-  );
+    const stylesDynamic = useMemo(
+      () =>
+        StyleSheet.create({
+          container: {
+            backgroundColor: colors.skeleton.backgroundPrimary,
+          },
+          overlay: {
+            backgroundColor: colors.skeleton.backgroundSecondary,
+          },
+        }),
+      [colors.skeleton.backgroundPrimary, colors.skeleton.backgroundSecondary],
+    );
 
-  useEffect(() => {
-    Animated.loop(
-      Animated.timing(shimmerAnim, {
-        toValue: 1,
-        duration: 1000,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }),
-    ).start();
-  }, [shimmerAnim]);
+    useEffect(() => {
+      shimmerAnim.value = withRepeat(
+        withTiming(1, {
+          duration: 1000,
+          easing: Easing.linear,
+        }),
+        -1,
+        true,
+      );
+    }, [shimmerAnim]);
 
-  const shimmerStyle = {
-    opacity: shimmerAnim.interpolate({
-      inputRange: [0, 0.3, 1],
-      outputRange: [0.3, 1, 0.3],
-    }),
-  };
+    const shimmerStyle = useAnimatedStyle(() => ({
+      opacity: interpolate(shimmerAnim.value, [0, 0.2, 1], [0.2, 1, 0.2]),
+    }));
 
-  return (
-    <View
-      testID="skeleton-container"
-      style={[
-        styles.container,
-        { width, height, borderRadius } as ViewStyle,
-        stylesDynamic.container,
-        style,
-      ]}
-    >
-      <Animated.View
-        testID="skeleton-shimmer"
-        style={[styles.overlay, shimmerStyle, stylesDynamic.overlay]}
-      />
-    </View>
-  );
-};
+    return (
+      <View
+        testID="skeleton-container"
+        style={[
+          styles.container,
+          { width, height, borderRadius } as ViewStyle,
+          stylesDynamic.container,
+          style,
+        ]}
+      >
+        <Animated.View
+          testID="skeleton-shimmer"
+          style={[styles.overlay, stylesDynamic.overlay, shimmerStyle]}
+        />
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
