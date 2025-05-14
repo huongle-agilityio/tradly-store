@@ -1,4 +1,9 @@
 import { memo, ReactNode, useMemo } from 'react';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useTheme } from '@react-navigation/native';
 import {
   TouchableOpacity,
@@ -10,6 +15,9 @@ import {
   TextStyle,
   StyleSheet,
 } from 'react-native';
+
+// Stores
+import { useThemeStore } from '@/stores';
 
 // Interfaces
 import {
@@ -27,7 +35,6 @@ import {
   radius,
   spacing,
 } from '@/themes';
-import { useThemeStore } from '@/stores';
 
 interface ButtonProps {
   disabled?: boolean;
@@ -57,6 +64,7 @@ export const Button = memo(
     children,
     onPress,
   }: ButtonProps) => {
+    const scale = useSharedValue(1);
     const { colors } = useTheme();
     const isDark = useThemeStore((store) => store.isDark);
 
@@ -115,51 +123,63 @@ export const Button = memo(
       [color, colorMap, colors, isDark, variant],
     );
 
+    const tap = Gesture.Tap()
+      .onTouchesDown(() => (scale.value = 0.9))
+      .onTouchesUp(() => (scale.value = 1));
+
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ scale: scale.value }],
+    }));
+
     return (
-      <TouchableOpacity
-        testID="button"
-        accessibilityRole="button"
-        style={[
-          styles.button,
-          sizes[size],
-          variantStyles[variant],
-          {
-            borderColor: colorMap[color],
-            backgroundColor:
-              variant === 'solid' ? colorMap[color] : colors.transparent,
-          },
-          (disabled || isLoading) && styles.disabled,
-          buttonStyles,
-        ]}
-        disabled={disabled || isLoading}
-        onPress={onPress}
-        activeOpacity={0.7}
-      >
-        <View style={[styles.contentWrapper, stylesDynamic.hidden]}>
-          {Icon}
-          <Text
+      <GestureDetector gesture={tap}>
+        <Animated.View style={animatedStyle}>
+          <TouchableOpacity
+            testID="button"
+            accessibilityRole="button"
             style={[
-              styles.text,
-              textVariants[variant],
-              textSizes[textSize],
+              styles.button,
+              sizes[size],
+              variantStyles[variant],
               {
-                color: textColors,
+                borderColor: colorMap[color],
+                backgroundColor:
+                  variant === 'solid' ? colorMap[color] : colors.transparent,
               },
-              textStyles,
+              (disabled || isLoading) && styles.disabled,
+              buttonStyles,
             ]}
+            disabled={disabled || isLoading}
+            onPress={onPress}
+            activeOpacity={0.7}
           >
-            {children}
-          </Text>
-        </View>
-        {isLoading && (
-          <ActivityIndicator
-            testID="button-loading"
-            size="small"
-            style={styles.loading}
-            color={colorMap[color]}
-          />
-        )}
-      </TouchableOpacity>
+            <View style={[styles.contentWrapper, stylesDynamic.hidden]}>
+              {Icon}
+              <Text
+                style={[
+                  styles.text,
+                  textVariants[variant],
+                  textSizes[textSize],
+                  {
+                    color: textColors,
+                  },
+                  textStyles,
+                ]}
+              >
+                {children}
+              </Text>
+            </View>
+            {isLoading && (
+              <ActivityIndicator
+                testID="button-loading"
+                size="small"
+                style={styles.loading}
+                color={colorMap[color]}
+              />
+            )}
+          </TouchableOpacity>
+        </Animated.View>
+      </GestureDetector>
     );
   },
 );

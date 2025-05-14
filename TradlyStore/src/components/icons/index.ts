@@ -22,3 +22,4 @@ export * from './PlusCircleIcon';
 export * from './PlusIcon';
 export * from './MoneyIcon';
 export * from './MapIcon';
+export * from './HomeAnimationIcon';
