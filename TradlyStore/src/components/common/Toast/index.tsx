@@ -1,79 +1,169 @@
-import { memo, useEffect, useMemo, useRef } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@react-navigation/native';
+import Animated, {
+  Easing,
+  Extrapolation,
+  interpolate,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from 'react-native-reanimated';
+import { LayoutChangeEvent, StyleSheet } from 'react-native';
 
-// Components
-import { Text } from '../Text';
-
-// Constants
-import { TIMING } from '@/constants';
-
-// Stores
-import { useToast } from '@/stores';
-
-// Themes
-import { radius, spacing } from '@/themes';
+// Icons
+import { ErrorIcon, InfoIcon, SuccessIcon } from '@/components/icons';
 
 // Interfaces
 import { ToastColor } from '@/interfaces';
-import { useTheme } from '@react-navigation/native';
 
 interface ToastProps {
   description: string;
   variant?: ToastColor;
+  duration?: number;
 }
 
 export const Toast = memo(
-  ({ description, variant = 'default' }: ToastProps) => {
-    const closeToast = useToast((state) => state.closeToast);
-    const animatedValue = useRef(new Animated.Value(100)).current;
-
+  ({ description, variant = 'default', duration = 400 }: ToastProps) => {
     const { colors } = useTheme();
+    const visibleState = useRef(false);
+    const [textLength, setTextLength] = useState(0);
+    const [toastHeight, setToastHeight] = useState(0);
+    const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const transY = useSharedValue(0);
+    const transX = useSharedValue(0);
+
     const colorMap = useMemo(
       () => ({
-        default: colors.toast.default,
-        success: colors.toast.success,
-        error: colors.toast.error,
+        default: {
+          icon: <InfoIcon width={20} height={20} color={colors.light} />,
+          color: colors.toast.default,
+        },
+        success: {
+          icon: <SuccessIcon width={20} height={20} color={colors.light} />,
+          color: colors.toast.success,
+        },
+        error: {
+          icon: <ErrorIcon width={20} height={20} color={colors.light} />,
+          color: colors.toast.error,
+        },
       }),
-      [colors.toast.default, colors.toast.success, colors.toast.error],
+      [colors],
     );
 
-    // Animation from bottom to top
-    useEffect(() => {
-      if (description) {
-        Animated.timing(animatedValue, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true,
-        }).start();
-      } else {
-        Animated.timing(animatedValue, {
-          toValue: 100,
-          duration: 200,
-          useNativeDriver: true,
-        }).start();
+    const showToast = useCallback(() => {
+      if (!visibleState.current) {
+        visibleState.current = true;
+        transY.value = withTiming(80, { duration });
+        transX.value = withDelay(duration, withTiming(0, { duration }));
       }
-    }, [animatedValue, description]);
+    }, [duration, transX, transY]);
 
-    // Close toast after duration
+    const handleOnFinish = useCallback(() => {
+      visibleState.current = false;
+    }, []);
+
+    const hideToast = useCallback(() => {
+      if (timer.current) clearTimeout(timer.current);
+
+      transX.value = withTiming(textLength + 12, { duration });
+      transY.value = withDelay(
+        duration,
+        withTiming(
+          -toastHeight,
+          {
+            duration,
+            easing: Easing.bezierFn(0.36, 0, 0.66, -0.56),
+          },
+          () => runOnJS(handleOnFinish)(),
+        ),
+      );
+    }, [duration, handleOnFinish, textLength, toastHeight, transX, transY]);
+
+    const handleTextLayout = (event: LayoutChangeEvent) => {
+      setTextLength(Math.floor(event.nativeEvent.layout.width));
+    };
+
+    const handleViewLayout = (event: LayoutChangeEvent) => {
+      setToastHeight(event.nativeEvent.layout.height);
+    };
+
     useEffect(() => {
-      const timer = setTimeout(() => closeToast(), TIMING.TOAST_DURATION);
+      if (toastHeight) {
+        transY.value = -toastHeight;
+      }
+    }, [toastHeight, transY]);
+
+    useEffect(() => {
+      if (description && textLength > 10 && toastHeight) {
+        transX.value = textLength + 12;
+        showToast();
+        timer.current = setTimeout(() => hideToast(), 4000);
+      }
 
       return () => {
-        clearTimeout(timer);
+        if (timer.current) clearTimeout(timer.current);
       };
-    }, [closeToast]);
+    }, [description, toastHeight, textLength, transX, showToast, hideToast]);
+
+    const rView = useAnimatedStyle(
+      () => ({
+        transform: [{ translateY: transY.value }],
+        opacity: interpolate(
+          transY.value,
+          [-toastHeight, 80],
+          [0, 1],
+          Extrapolation.CLAMP,
+        ),
+      }),
+      [toastHeight],
+    );
+
+    const rOuterView = useAnimatedStyle(
+      () => ({
+        transform: [{ translateX: -Math.max(transX.value, 1) / 2 }],
+      }),
+      [],
+    );
+
+    const rInnerView = useAnimatedStyle(
+      () => ({
+        transform: [{ translateX: transX.value }],
+      }),
+      [],
+    );
+
+    const rText = useAnimatedStyle(
+      () => ({
+        opacity: interpolate(transX.value, [0, textLength], [1, 0]),
+      }),
+      [textLength],
+    );
 
     return (
       <Animated.View
-        style={[
-          {
-            transform: [{ translateY: animatedValue }],
-            backgroundColor: colorMap[variant],
-          },
-          styles.container,
-        ]}
+        onLayout={handleViewLayout}
+        style={[styles.container, rView]}
       >
-        <Text color="light">{description}</Text>
+        <Animated.View style={[styles.outerContainer, rOuterView]}>
+          <Animated.View
+            style={[
+              styles.innerContainer,
+              rInnerView,
+              { backgroundColor: colorMap[variant].color },
+            ]}
+          >
+            {colorMap[variant].icon}
+            <Animated.Text
+              onLayout={handleTextLayout}
+              style={[styles.text, rText]}
+            >
+              {description}
+            </Animated.Text>
+          </Animated.View>
+        </Animated.View>
       </Animated.View>
     );
   },
@@ -81,12 +171,33 @@ export const Toast = memo(
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: spacing['2.5'],
-    paddingHorizontal: spacing[4],
     position: 'absolute',
-    alignSelf: 'center',
-    bottom: '12%',
-    borderRadius: radius.full,
-    elevation: 5,
+    top: 0,
+    zIndex: 100,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  outerContainer: {
+    overflow: 'hidden',
+    borderRadius: 40,
+  },
+  innerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    borderRadius: 40,
+  },
+  image: {
+    width: 20,
+    height: 20,
+  },
+  text: {
+    color: 'white',
+    fontWeight: '600',
+    fontSize: 16,
+    marginLeft: 12,
+    textAlign: 'center',
   },
 });

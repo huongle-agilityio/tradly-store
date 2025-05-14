@@ -11,6 +11,7 @@ const INITIAL_TOAST_STATE: ToastState = {
     title: '',
     description: '',
     variant: 'default',
+    timestamp: '',
     duration: TIMING.TOAST_DURATION,
   },
 };
@@ -24,7 +25,7 @@ export const useToast = create<ToastStore>()((set) => ({
    * @param {Toast} toast - The toast object containing details such as title, description, variant, and duration.
    */
   showToast: (toast: Toast) => {
-    set({ toast });
+    set({ toast: { ...toast, timestamp: Date.now().toString() } });
   },
   /**
    * Closes the toast notification by setting the toast state to null.

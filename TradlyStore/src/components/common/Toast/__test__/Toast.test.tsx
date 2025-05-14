@@ -3,9 +3,6 @@ import { render, screen } from '@testing-library/react-native';
 // Components
 import { Toast } from '..';
 
-// Stores
-import * as stores from '@/stores';
-
 jest.mock('@/stores', () => ({
   useToast: jest.fn(),
 }));
@@ -13,19 +10,23 @@ jest.mock('@/stores', () => ({
 describe('Toast Component', () => {
   jest.useFakeTimers();
 
-  it('Should render toast with description', () => {
-    jest.spyOn(stores, 'useToast').mockReturnValue({ closeToast: jest.fn() });
-
-    render(<Toast description="This is a test toast" />);
-
-    expect(screen.getByText('This is a test toast')).toBeTruthy();
+  beforeEach(() => {
+    jest.useFakeTimers(); // use fake timers
   });
 
-  it('Should not render toast when description is empty', () => {
-    jest.spyOn(stores, 'useToast').mockReturnValue({ closeToast: jest.fn() });
+  afterEach(() => {
+    jest.runOnlyPendingTimers(); // ensure no timers are hanging
+    jest.useRealTimers();
+  });
+  it('renders correctly with default props', () => {
+    render(<Toast description="Test toast message" />);
 
-    render(<Toast description="" />);
+    expect(screen.getByText('Test toast message')).toBeTruthy();
+  });
 
-    expect(screen.queryByText('This is a test toast')).toBeNull();
+  it('renders with error variant', () => {
+    render(<Toast description="Error occurred" variant="error" />);
+
+    expect(screen.getByText('Error occurred')).toBeTruthy();
   });
 });
