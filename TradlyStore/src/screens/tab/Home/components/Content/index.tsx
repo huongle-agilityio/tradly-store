@@ -56,7 +56,6 @@ export const Content = memo(
 
     const [toggleGesture, setToggleGesture] = useState(true);
     const [gestureActive, setGestureActive] = useState(false);
-
     const translationY = useSharedValue(0);
     const pullUpTranslate = useSharedValue(0);
 
@@ -125,13 +124,12 @@ export const Content = memo(
       nativeEvent: { contentOffset: { y: number } };
     }) => {
       const position = event.nativeEvent.contentOffset.y;
-      if (position === 0) {
+      if (position <= 0) {
         setToggleGesture(true);
       } else if (position > 0 && toggleGesture && !gestureActive) {
         setToggleGesture(false);
       }
     };
-
     const animatedSpace = useAnimatedStyle(() => ({
       height: translationY.value,
     }));
@@ -145,57 +143,57 @@ export const Content = memo(
           </Animated.View>
         </Animated.View>
 
-        <Animated.ScrollView style={styles.container} onScroll={handleOnScroll}>
-          <View style={styles.wrapper}>
-            <Categories onPress={onRedirectProductCategory} />
-            <View style={styles.contentWrapper}>
-              <View style={styles.content}>
-                <Text fontWeight="bold" fontSize="lg" color="placeholder">
-                  New Product
-                </Text>
-                <Button
-                  textSize="xs"
-                  buttonStyles={styles.button}
-                  onPress={onRedirectNewProduct}
-                >
-                  See All
-                </Button>
+        <GestureDetector gesture={gesture}>
+          <Animated.ScrollView
+            style={styles.container}
+            onScroll={handleOnScroll}
+          >
+            <View style={styles.wrapper}>
+              <Categories onPress={onRedirectProductCategory} />
+              <View style={styles.contentWrapper}>
+                <View style={styles.content}>
+                  <Text fontWeight="bold" fontSize="lg" color="placeholder">
+                    New Product
+                  </Text>
+                  <Button
+                    textSize="xs"
+                    buttonStyles={styles.button}
+                    onPress={onRedirectNewProduct}
+                  >
+                    See All
+                  </Button>
+                </View>
+                <ListProduct
+                  data={productSorted}
+                  isLoading={isLoadingProductSorted}
+                  horizontal={true}
+                  onNavigateProductDetail={onNavigateProductDetail}
+                />
               </View>
-              <ListProduct
-                data={productSorted}
-                isLoading={isLoadingProductSorted}
-                horizontal={true}
-                onNavigateProductDetail={onNavigateProductDetail}
-              />
-            </View>
 
-            <View style={styles.contentWrapper}>
-              <View style={styles.content}>
-                <Text fontWeight="bold" fontSize="lg" color="placeholder">
-                  Popular Product
-                </Text>
-                <Button
-                  textSize="xs"
-                  buttonStyles={styles.button}
-                  onPress={onRedirectPopularProduct}
-                >
-                  See All
-                </Button>
+              <View style={styles.contentWrapper}>
+                <View style={styles.content}>
+                  <Text fontWeight="bold" fontSize="lg" color="placeholder">
+                    Popular Product
+                  </Text>
+                  <Button
+                    textSize="xs"
+                    buttonStyles={styles.button}
+                    onPress={onRedirectPopularProduct}
+                  >
+                    See All
+                  </Button>
+                </View>
+                <ListProduct
+                  data={productHasDiscount}
+                  isLoading={isLoadingProductHasDiscount}
+                  horizontal={true}
+                  onNavigateProductDetail={onNavigateProductDetail}
+                />
               </View>
-              <ListProduct
-                data={productHasDiscount}
-                isLoading={isLoadingProductHasDiscount}
-                horizontal={true}
-                onNavigateProductDetail={onNavigateProductDetail}
-              />
             </View>
-          </View>
-        </Animated.ScrollView>
-        {toggleGesture && (
-          <GestureDetector gesture={gesture}>
-            <Animated.View style={styles.gesture} />
-          </GestureDetector>
-        )}
+          </Animated.ScrollView>
+        </GestureDetector>
       </>
     );
   },
@@ -214,14 +212,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: { width: 90 },
-  gesture: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: 200,
-    width: '100%',
-    zIndex: 99999,
-  },
   pullToRefreshArea: {
     height: 50,
     alignItems: 'center',
@@ -229,6 +219,5 @@ const styles = StyleSheet.create({
     width: '100%',
     overflow: 'hidden',
   },
-  contentContainer: { flex: 1, marginHorizontal: 15, marginVertical: 15 },
   center: { justifyContent: 'center', alignItems: 'center' },
 });

@@ -13,7 +13,7 @@ import Animated, {
 import { LayoutChangeEvent, StyleSheet } from 'react-native';
 
 // Icons
-import { ErrorIcon, InfoIcon, SuccessIcon } from '@/components/icons';
+import { ErrorIcon, InfoIcon, OutlineSuccessIcon } from '@/components/icons';
 
 // Interfaces
 import { ToastColor } from '@/interfaces';
@@ -42,7 +42,9 @@ export const Toast = memo(
           color: colors.toast.default,
         },
         success: {
-          icon: <SuccessIcon width={20} height={20} color={colors.light} />,
+          icon: (
+            <OutlineSuccessIcon width={20} height={20} color={colors.light} />
+          ),
           color: colors.toast.success,
         },
         error: {
