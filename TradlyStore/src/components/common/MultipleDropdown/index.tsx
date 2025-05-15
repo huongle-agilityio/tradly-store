@@ -59,14 +59,13 @@ export const MultipleDropdown = ({
    * @param {number} itemId The value of the item selected.
    */
   const handleItemSelect = (itemId: string) => {
-    // Remove item
     if (selectedItems.includes(itemId)) {
-      return selectedItems.filter((value) => value !== itemId);
+      const newItems = selectedItems.filter((value) => value !== itemId);
+      onChange(newItems);
+    } else {
+      onChange([...selectedItems, itemId]);
     }
-
-    onChange([...selectedItems, itemId]);
   };
-
   /**
    * Removes the chip with the given itemId from the selectedItems state array.
    * @param {number} itemId The value of the chip to remove.
