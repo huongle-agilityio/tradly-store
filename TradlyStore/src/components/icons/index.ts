@@ -22,4 +22,7 @@ export * from './PlusCircleIcon';
 export * from './PlusIcon';
 export * from './MoneyIcon';
 export * from './MapIcon';
+export * from './InfoIcon';
+export * from './ErrorIcon';
+export * from './SuccessIcon';
 export * from './HomeAnimationIcon';

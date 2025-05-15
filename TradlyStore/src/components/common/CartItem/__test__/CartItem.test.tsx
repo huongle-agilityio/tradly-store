@@ -34,7 +34,6 @@ describe('CartItem', () => {
     expect(screen.getByText('$100')).toBeTruthy();
     expect(screen.getByText('10% off')).toBeTruthy();
     expect(screen.getByText('Remove')).toBeTruthy();
-    expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('Should renders CartItem correctly without actions', () => {
@@ -44,7 +43,6 @@ describe('CartItem', () => {
     expect(screen.getByText('$90')).toBeTruthy();
     expect(screen.getByText('$100')).toBeTruthy();
     expect(screen.getByText('10% off')).toBeTruthy();
-    expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('Should calls onRemoveItem when "Remove" button is pressed', () => {

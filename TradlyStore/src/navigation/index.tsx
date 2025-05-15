@@ -56,6 +56,14 @@ export const Navigation = () => {
           <SafeAreaProvider>
             <NavigationContainer linking={linking} theme={customTheme}>
               <PortalProvider>
+                {toast?.description && (
+                  <Toast
+                    key={toast.timestamp}
+                    description={toast.description}
+                    variant={toast.variant}
+                  />
+                )}
+
                 <App.Navigator
                   screenOptions={{
                     headerShown: false,
@@ -98,12 +106,6 @@ export const Navigation = () => {
                 </App.Navigator>
 
                 <StatusBar barStyle="light-content" translucent />
-                {toast?.description && (
-                  <Toast
-                    description={toast.description}
-                    variant={toast.variant}
-                  />
-                )}
               </PortalProvider>
             </NavigationContainer>
           </SafeAreaProvider>

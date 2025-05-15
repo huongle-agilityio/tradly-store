@@ -5,6 +5,7 @@ export interface Toast {
   title?: string;
   description: string;
   variant?: ToastColor;
+  timestamp?: string;
   duration?: number;
 }
 
