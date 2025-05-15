@@ -144,12 +144,9 @@ jest.mock('react-native-keychain', () => ({
 }));
 
 // Mock AsyncStorage
-jest.mock('@react-native-async-storage/async-storage', () => ({
-  setItem: jest.fn(),
-  getItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
-}));
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
+);
 
 // Mock Linking
 jest.mock('react-native/Libraries/Linking/Linking', () => ({
