@@ -1,9 +1,21 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { useTheme } from '@react-navigation/native';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 // Components
 import { Text } from '../Text';
+
+// Icons
+import { FillSuccessIcon } from '@/components/icons';
+
+// Themes
+import { radius } from '@/themes';
 
 interface OptionItemProps {
   isLastItem: boolean;
@@ -22,6 +34,7 @@ export const OptionItem = memo(
     label,
   }: OptionItemProps) => {
     const { colors } = useTheme();
+    const rotation = useSharedValue(0);
 
     const stylesDynamic = useMemo(
       () =>
@@ -30,11 +43,36 @@ export const OptionItem = memo(
             color: colors.success,
           },
           borderCommon: {
-            borderBottomColor: colors.input.borderSecondary,
+            borderBottomColor: colors.backgroundOpacity,
+          },
+          selectBox: {
+            width: 20,
+            height: 20,
+            borderWidth: 1,
+            borderRadius: radius.full,
+            borderColor: colors.backgroundOpacity,
+            justifyContent: 'center',
+            alignItems: 'center',
           },
         }),
-      [colors.success, colors.input.borderSecondary],
+      [colors],
     );
+
+    useEffect(() => {
+      if (selectedItems.includes(value)) {
+        rotation.value = withSequence(
+          withTiming(-10, { duration: 50 }),
+          withTiming(10, { duration: 50 }),
+          withTiming(-6, { duration: 50 }),
+          withTiming(6, { duration: 50 }),
+          withTiming(0, { duration: 50 }),
+        );
+      }
+    }, [rotation, selectedItems, value]);
+
+    const animatedIconStyle = useAnimatedStyle(() => ({
+      transform: [{ rotateZ: `${rotation.value}deg` }],
+    }));
 
     const handleSelect = () => {
       onItemSelect(value);
@@ -53,12 +91,20 @@ export const OptionItem = memo(
         onPress={handleSelect}
       >
         <Text textStyle={styles.itemText}>{label}</Text>
-
-        {selectedItems.includes(value) && (
-          <Text style={[styles.selectedText, stylesDynamic.selectedText]}>
-            ✔
-          </Text>
-        )}
+        <View
+          style={[
+            stylesDynamic.selectBox,
+            ...(selectedItems.includes(value)
+              ? [{ borderColor: colors.transparent }]
+              : []),
+          ]}
+        >
+          {selectedItems.includes(value) && (
+            <Animated.View style={animatedIconStyle}>
+              <FillSuccessIcon width={20} height={20} color={colors.primary} />
+            </Animated.View>
+          )}
+        </View>
       </TouchableOpacity>
     );
   },
@@ -68,7 +114,7 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   itemText: {
     fontSize: 16,

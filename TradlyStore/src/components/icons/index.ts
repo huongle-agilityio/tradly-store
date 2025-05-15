@@ -25,4 +25,6 @@ export * from './MapIcon';
 export * from './InfoIcon';
 export * from './ErrorIcon';
 export * from './SuccessIcon';
+export * from './OutlineSuccessIcon';
+export * from './FillSuccessIcon';
 export * from './HomeAnimationIcon';
