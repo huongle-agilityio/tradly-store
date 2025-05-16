@@ -57,6 +57,8 @@ export const Content = memo(
             paddingVertical: spacing['4.5'],
             alignItems: 'center',
             backgroundColor: colors.backgroundSecondary,
+            elevation: 5,
+            zIndex: 99,
           },
           addressWrapper: {
             width: '100%',
@@ -72,6 +74,10 @@ export const Content = memo(
             backgroundColor: isDark
               ? colors.backgroundSecondary
               : colors.tertiary,
+          },
+          content: {
+            flex: 1,
+            backgroundColor: colors.tertiary,
           },
         }),
       [colors.backgroundSecondary, colors.tertiary, isDark],
@@ -125,51 +131,58 @@ export const Content = memo(
         buttonText="Continue to Payment"
         onPress={handlePayment}
       >
-        {isEmptyObject(formAddress) ? (
-          <TouchableOpacity
-            accessibilityRole="button"
-            style={stylesDynamic.buttonAddressWrapper}
-            onPress={onNavigateAddNewAddress}
-          >
-            <Text fontWeight="normal" color="placeholder">
-              + Add New Address
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={stylesDynamic.addressWrapper}>
-            <View style={styles.textDelivery}>
-              <Text color="placeholder" numberOfLines={1}>
-                Deliver to {username}, {zipCode}
-              </Text>
-              <Text
-                color="placeholder"
-                textStyle={styles.text}
-                numberOfLines={1}
-              >
-                {city}, {state}
-              </Text>
-            </View>
-            <Button
-              textSize="xs"
-              buttonStyles={styles.button}
+        <View style={stylesDynamic.content}>
+          {isEmptyObject(formAddress) ? (
+            <TouchableOpacity
+              accessibilityRole="button"
+              style={stylesDynamic.buttonAddressWrapper}
               onPress={onNavigateAddNewAddress}
             >
-              Change
-            </Button>
-          </View>
-        )}
+              <Text fontWeight="normal" color="placeholder">
+                + Add New Address
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={stylesDynamic.addressWrapper}>
+              <View style={styles.textDelivery}>
+                <Text color="placeholder" numberOfLines={1}>
+                  Deliver to {username}, {zipCode}
+                </Text>
+                <Text
+                  color="placeholder"
+                  textStyle={styles.text}
+                  numberOfLines={1}
+                >
+                  {city}, {state}
+                </Text>
+              </View>
+              <Button
+                textSize="xs"
+                buttonStyles={styles.button}
+                onPress={onNavigateAddNewAddress}
+              >
+                Change
+              </Button>
+            </View>
+          )}
 
-        <FlatList
-          data={carts}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          contentContainerStyle={[
-            styles.contentContainerStyle,
-            stylesDynamic.contentContainerStyle,
-          ]}
-          ListEmptyComponent={<EmptyList text="Your cart is empty." />}
-          renderItem={renderItem}
-        />
+          <FlatList
+            data={carts}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={keyExtractor}
+            contentContainerStyle={[
+              styles.contentContainerStyle,
+              stylesDynamic.contentContainerStyle,
+            ]}
+            ListEmptyComponent={<EmptyList text="Your cart is empty." />}
+            initialNumToRender={3} // number of items to render initially
+            maxToRenderPerBatch={3} // number of items to render per batch
+            updateCellsBatchingPeriod={50} // time in ms to wait before rendering the next batch
+            windowSize={5} // number of items to keep in memory outside the viewport
+            removeClippedSubviews={true} // unmount components when outside of the viewport
+            renderItem={renderItem}
+          />
+        </View>
       </StickyFooter>
     );
   },
@@ -177,7 +190,6 @@ export const Content = memo(
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
-    gap: spacing['2.5'],
     paddingTop: spacing['2.5'],
     paddingBottom: spacing[7],
   },
