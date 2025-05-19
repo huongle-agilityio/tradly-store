@@ -47,7 +47,6 @@ export const CarouselDots = memo(
     const animatedConnectorStyle = useAnimatedStyle(() => {
       const progress = translationX.value / widthContainer;
       const clampedProgress = Math.max(-1, Math.min(1, progress));
-
       const direction = clampedProgress >= 0 ? 1 : -1;
       const baseIndex = currentIndex.value;
       const nextIndex = baseIndex + direction;
@@ -57,12 +56,14 @@ export const CarouselDots = memo(
       const fromX = dotSpacing * baseIndex;
       const toX = dotSpacing * safeNextIndex;
 
+      // Interpolate left position moving from fromX to toX
       const left = interpolate(
         Math.abs(clampedProgress),
         [0, 1],
         [fromX, Math.min(fromX, toX)],
       );
 
+      // Interpolate width expanding between dotSize and distance between dots + dotSize
       const width = interpolate(
         Math.abs(clampedProgress),
         [0, 1],
@@ -101,5 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing['2.5'],
     justifyContent: 'center',
+    position: 'relative',
+    height: spacing[3],
   },
 });

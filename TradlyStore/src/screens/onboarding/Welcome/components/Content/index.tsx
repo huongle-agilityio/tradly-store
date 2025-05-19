@@ -80,14 +80,40 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
   }, []);
 
   const handleOnboardingStep = useCallback(() => {
-    if (reactIndex < ONBOARDING_STEPS_IMAGES.length - 1) {
-      currentIndex.value += 1;
-      scrollTo(scrollRef, currentIndex.value * widthContainer, 0, true);
-      setReactIndex(currentIndex.value);
+    const maxIndex = ONBOARDING_STEPS_IMAGES.length - 1;
+
+    if (reactIndex < maxIndex) {
+      // Animate translationX like a swipe to left
+      translationX.value = withTiming(
+        -widthContainer,
+        { duration: 300 },
+        () => {
+          // Once animation finishes:
+          currentIndex.value += 1;
+
+          // Sync back to React state
+          runOnJS(setReactIndex)(reactIndex + 1);
+
+          // Scroll to the next slide
+          scrollTo(scrollRef, currentIndex.value * widthContainer, 0, true);
+
+          if (reactIndex <= ONBOARDING_STEPS_IMAGES.length - 1) {
+            // Reset translationX for next animation
+            translationX.value = 0;
+          }
+        },
+      );
     } else {
       onNavigationLogin();
     }
-  }, [reactIndex, currentIndex, scrollRef, widthContainer, onNavigationLogin]);
+  }, [
+    reactIndex,
+    widthContainer,
+    currentIndex,
+    translationX,
+    scrollRef,
+    onNavigationLogin,
+  ]);
 
   const panGesture = Gesture.Pan()
     .onUpdate((event) => {
