@@ -1,5 +1,6 @@
 import { memo, useCallback, useMemo } from 'react';
 import { useTheme } from '@react-navigation/native';
+import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 // Components
@@ -24,6 +25,7 @@ import { getTotalCarts, isEmptyObject } from '@/utils';
 
 interface RenderItemProps {
   item: Cart;
+  index: number;
 }
 
 interface ContentProps {
@@ -103,19 +105,29 @@ export const Content = memo(
     const renderItem = useCallback(
       ({
         item: { id, name, image, quantity, price, discount },
-      }: RenderItemProps) => (
-        <CartItem
-          key={id}
-          id={id}
-          name={name}
-          image={image}
-          quantity={quantity}
-          price={price}
-          discount={discount}
-          onRemoveItem={removeCart}
-          onUpdateQuantityItem={handleQuantityChange}
-        />
-      ),
+        index,
+      }: RenderItemProps) => {
+        const isFirstItem = index === 0;
+        const animation = isFirstItem
+          ? SlideInLeft.delay(index * 500)
+          : SlideInLeft.delay(index * 200);
+
+        return (
+          <Animated.View entering={animation}>
+            <CartItem
+              key={id}
+              id={id}
+              name={name}
+              image={image}
+              quantity={quantity}
+              price={price}
+              discount={discount}
+              onRemoveItem={removeCart}
+              onUpdateQuantityItem={handleQuantityChange}
+            />
+          </Animated.View>
+        );
+      },
       [handleQuantityChange, removeCart],
     );
 

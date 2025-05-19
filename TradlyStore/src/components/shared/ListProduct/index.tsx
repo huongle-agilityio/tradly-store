@@ -1,10 +1,12 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
+import { useSharedValue } from 'react-native-reanimated';
 import {
   FlatList,
   FlatListProps,
   RefreshControl,
   StyleSheet,
   View,
+  ViewToken,
 } from 'react-native';
 
 // Components
@@ -54,6 +56,7 @@ export const ListProduct = memo(
   }: Props) => {
     const { isTablet, width } = useMedia();
     const [refreshing, setRefreshing] = useState(false);
+    const viewableItems = useSharedValue<ViewToken[]>([]);
 
     const onRefresh = useCallback(() => {
       setRefreshing(true);
@@ -91,6 +94,14 @@ export const ListProduct = memo(
       }),
     };
 
+    const withItem = useMemo(
+      () =>
+        isTablet
+          ? 160
+          : Math.round((width - 50) / (listProps?.numColumns ?? 1)),
+      [isTablet, listProps?.numColumns, width],
+    );
+
     const getItemLayout = useCallback(
       (_: any, index: number) => ({
         length: 203,
@@ -114,11 +125,10 @@ export const ListProduct = memo(
           horizontal={horizontal}
           item={item}
           index={index}
+          viewableItems={viewableItems}
           style={
             !horizontal && {
-              width: isTablet
-                ? 160
-                : Math.round((width - 50) / (listProps?.numColumns ?? 1)),
+              width: withItem,
             }
           }
           hasAction={!onNavigateProductDetail}
@@ -131,12 +141,11 @@ export const ListProduct = memo(
       [
         data.length,
         horizontal,
-        isTablet,
-        listProps?.numColumns,
         onDeleteProduct,
         onEditProduct,
         onNavigateProductDetail,
-        width,
+        viewableItems,
+        withItem,
       ],
     );
 
@@ -148,6 +157,9 @@ export const ListProduct = memo(
           horizontal={horizontal}
           data={data}
           keyExtractor={keyExtractor}
+          onViewableItemsChanged={({ viewableItems: vItems }) => {
+            viewableItems.value = vItems;
+          }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={<EmptyList />}

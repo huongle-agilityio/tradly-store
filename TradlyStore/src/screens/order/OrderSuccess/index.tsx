@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useTheme } from '@react-navigation/native';
+import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { Image, ScrollView, View, StyleSheet } from 'react-native';
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 
@@ -56,17 +57,26 @@ export const OrderSuccess = ({
         </Text>
       </View>
 
-      {carts.map(({ id, name, image, quantity, price, discount }) => (
-        <CartItem
-          key={`cart-item-${id}`}
-          id={id}
-          name={name}
-          image={image}
-          quantity={quantity}
-          price={price}
-          discount={discount}
-        />
-      ))}
+      {carts.map(({ id, name, image, quantity, price, discount }, index) => {
+        const isFirstItem = index === 0;
+        const animation = isFirstItem
+          ? SlideInLeft.delay(index * 500)
+          : SlideInLeft.delay(index * 200);
+
+        return (
+          <Animated.View entering={animation}>
+            <CartItem
+              key={`cart-item-${id}`}
+              id={id}
+              name={name}
+              image={image}
+              quantity={quantity}
+              price={price}
+              discount={discount}
+            />
+          </Animated.View>
+        );
+      })}
 
       <TrackingOrder />
 
