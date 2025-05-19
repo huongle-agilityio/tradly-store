@@ -22,7 +22,7 @@ export const ProductDetail = ({
   navigation,
   route,
 }: ProductScreenProps<typeof SCREENS.PRODUCT_DETAIL>) => {
-  const { id } = route.params;
+  const { id, product } = route.params;
 
   // Stores
   const showToast = useToast((state) => state.showToast);
@@ -32,13 +32,13 @@ export const ProductDetail = ({
   const { data, isLoading } = useGetProductById(id);
   const {
     documentId = '',
-    slideImages = [],
-    image = '',
-    title = '',
+    slideImages = [product?.image || ''],
+    image = product?.image || '',
+    title = product?.title || '',
     quantity = 0,
     price = 0,
     description,
-    store,
+    store = product?.store,
     discount,
     priceType = '',
     location = '',
