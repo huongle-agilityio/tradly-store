@@ -34,10 +34,11 @@ export const Browse = ({
         screen: SCREENS.PRODUCT_DETAIL,
         params: {
           id,
+          product: data?.find((item) => item.documentId === id),
         },
       });
     },
-    [navigation],
+    [data, navigation],
   );
 
   return (

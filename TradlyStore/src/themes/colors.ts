@@ -76,7 +76,7 @@ export const darkColors = {
     secondary: baseColors.green2,
     tertiary: baseColors.white2,
     quaternary: baseColors.white2,
-    placeholder: baseColors.grey8,
+    placeholder: baseColors.white1,
     fade: baseColors.grey8,
     link: baseColors.blue1,
     error: baseColors.red2,

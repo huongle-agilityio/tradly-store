@@ -36,10 +36,11 @@ export const ProductList = ({
         screen: SCREENS.PRODUCT_DETAIL,
         params: {
           id,
+          product: data?.find((item) => item.documentId === id),
         },
       });
     },
-    [navigation],
+    [data, navigation],
   );
 
   return (

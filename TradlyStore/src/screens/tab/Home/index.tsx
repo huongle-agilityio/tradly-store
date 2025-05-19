@@ -65,10 +65,13 @@ export const Home = ({
         screen: SCREENS.PRODUCT_DETAIL,
         params: {
           id,
+          product:
+            productSorted?.find((item) => item.documentId === id) ||
+            productHasDiscount?.find((item) => item.documentId === id),
         },
       });
     },
-    [navigation],
+    [navigation, productHasDiscount, productSorted],
   );
 
   return (

@@ -7,6 +7,7 @@ import {
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Store } from './store';
 import { SortType } from './api';
 
 // Constants
@@ -38,7 +39,14 @@ export type ProductStackParamList = {
   };
   [SCREENS.ADD_PRODUCT]: undefined;
   [SCREENS.EDIT_PRODUCT]: { id?: string };
-  [SCREENS.PRODUCT_DETAIL]: { id: string };
+  [SCREENS.PRODUCT_DETAIL]: {
+    id: string;
+    product?: {
+      title: string;
+      image: string;
+      store: Store;
+    };
+  };
 };
 
 export type TabsStackParamList = {
