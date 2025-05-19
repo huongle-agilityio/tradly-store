@@ -45,6 +45,7 @@ export const CameraGalleryOptions = memo(
           snapPoints={['50%']}
           enablePanDownToClose
           backdropComponent={SheetBackDrop}
+          backgroundStyle={{ backgroundColor: colors.bottomSheet.background }}
         >
           <BottomSheetView style={styles.bottomSheetView}>
             <TouchableOpacity

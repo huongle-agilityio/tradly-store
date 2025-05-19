@@ -35,7 +35,6 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
       "borderColor": "",
       "borderRadius": 8,
       "borderWidth": 1,
-      "elevation": 5,
       "opacity": 1,
       "width": 160,
     }

@@ -56,9 +56,10 @@ export const Content = memo(
             width: '100%',
             paddingVertical: spacing['4.5'],
             alignItems: 'center',
-            backgroundColor: colors.backgroundSecondary,
-            elevation: 5,
             zIndex: 99,
+            ...(isDark
+              ? { backgroundColor: colors.backgroundSecondary }
+              : { backgroundColor: colors.backgroundSecondary, elevation: 5 }),
           },
           addressWrapper: {
             width: '100%',
@@ -67,20 +68,15 @@ export const Content = memo(
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: colors.backgroundSecondary,
             elevation: 2,
           },
-          contentContainerStyle: {
-            backgroundColor: isDark
-              ? colors.backgroundSecondary
-              : colors.tertiary,
-          },
+          contentContainerStyle: {},
           content: {
             flex: 1,
-            backgroundColor: colors.tertiary,
+            backgroundColor: isDark ? colors.primary : colors.tertiary,
           },
         }),
-      [colors.backgroundSecondary, colors.tertiary, isDark],
+      [colors, isDark],
     );
 
     const handleQuantityChange = useCallback(

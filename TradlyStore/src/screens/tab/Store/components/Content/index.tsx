@@ -11,6 +11,9 @@ import { ListProduct } from '@/components/shared';
 // Icons
 import { PlusCircleIcon } from '@/components/icons';
 
+// Stores
+import { useThemeStore } from '@/stores';
+
 // Interfaces
 import { Product } from '@/interfaces';
 
@@ -47,6 +50,8 @@ export const Content = memo(
     const { colors } = useTheme();
     const [id, setId] = useState<string>('');
     const sheetRef = useRef<BottomSheet>(null);
+
+    const isDark = useThemeStore((state) => state.isDark);
 
     const handleCloseSheet = useCallback(() => {
       sheetRef.current?.close();
@@ -87,7 +92,7 @@ export const Content = memo(
               accessibilityRole="button"
               onPress={onNavigateAddProduct}
             >
-              <PlusCircleIcon color={colors.primary} />
+              <PlusCircleIcon color={isDark ? colors.light : colors.primary} />
             </TouchableOpacity>
           )}
         </View>

@@ -172,7 +172,6 @@ const styles = StyleSheet.create({
     width: spacing[40],
     borderRadius: radius.lg,
     borderWidth: 1,
-    elevation: 5,
   },
   imageRadius: {
     borderTopLeftRadius: radius.lg,

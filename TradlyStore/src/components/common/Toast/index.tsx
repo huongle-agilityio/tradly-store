@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useTheme } from '@react-navigation/native';
 import Animated, {
   Easing,
@@ -8,9 +9,10 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
+  withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { LayoutChangeEvent, StyleSheet } from 'react-native';
+import { Dimensions, LayoutChangeEvent, StyleSheet } from 'react-native';
 
 // Icons
 import { ErrorIcon, InfoIcon, OutlineSuccessIcon } from '@/components/icons';
@@ -20,17 +22,21 @@ import { ToastColor } from '@/interfaces';
 
 interface ToastProps {
   description: string;
-  variant?: ToastColor;
   duration?: number;
+  variant?: ToastColor;
 }
+
+const screenWidth = Dimensions.get('window').width;
+const TOAST_HORIZONTAL_MARGIN = 25;
+const TOAST_MAX_WIDTH = screenWidth - TOAST_HORIZONTAL_MARGIN * 2;
 
 export const Toast = memo(
   ({ description, variant = 'default', duration = 400 }: ToastProps) => {
     const { colors } = useTheme();
     const visibleState = useRef(false);
+    const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [textLength, setTextLength] = useState(0);
     const [toastHeight, setToastHeight] = useState(0);
-    const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const transY = useSharedValue(0);
     const transX = useSharedValue(0);
@@ -92,6 +98,20 @@ export const Toast = memo(
       setToastHeight(event.nativeEvent.layout.height);
     };
 
+    const pan = Gesture.Pan()
+      .onUpdate((e) => {
+        if (e.translationY < 0) {
+          transY.value = e.translationY;
+        }
+      })
+      .onEnd(() => {
+        if (transY.value < -100) {
+          runOnJS(hideToast)();
+        } else {
+          transY.value = withSpring(-100);
+        }
+      });
+
     useEffect(() => {
       if (toastHeight) {
         transY.value = -toastHeight;
@@ -145,28 +165,30 @@ export const Toast = memo(
     );
 
     return (
-      <Animated.View
-        onLayout={handleViewLayout}
-        style={[styles.container, rView]}
-      >
-        <Animated.View style={[styles.outerContainer, rOuterView]}>
-          <Animated.View
-            style={[
-              styles.innerContainer,
-              rInnerView,
-              { backgroundColor: colorMap[variant].color },
-            ]}
-          >
-            {colorMap[variant].icon}
-            <Animated.Text
-              onLayout={handleTextLayout}
-              style={[styles.text, rText]}
+      <GestureDetector gesture={pan}>
+        <Animated.View
+          onLayout={handleViewLayout}
+          style={[styles.container, rView]}
+        >
+          <Animated.View style={[styles.outerContainer, rOuterView]}>
+            <Animated.View
+              style={[
+                styles.innerContainer,
+                rInnerView,
+                { backgroundColor: colorMap[variant].color },
+              ]}
             >
-              {description}
-            </Animated.Text>
+              {colorMap[variant].icon}
+              <Animated.Text
+                onLayout={handleTextLayout}
+                style={[styles.text, rText]}
+              >
+                {description}
+              </Animated.Text>
+            </Animated.View>
           </Animated.View>
         </Animated.View>
-      </Animated.View>
+      </GestureDetector>
     );
   },
 );
@@ -176,9 +198,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     zIndex: 100,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
+    alignSelf: 'center',
+    maxWidth: TOAST_MAX_WIDTH,
   },
   outerContainer: {
     overflow: 'hidden',

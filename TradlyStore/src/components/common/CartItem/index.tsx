@@ -76,14 +76,14 @@ export const CartItem = memo(
               : { paddingVertical: 25 }),
           },
           cartWrapper: {
-            backgroundColor: colors.light,
-            elevation: 5,
+            backgroundColor: colors.productCard.background,
+            ...(isDark ? {} : { elevation: 5 }),
           },
           buttonBorder: {
             borderTopColor: colors.productCard.border,
           },
         }),
-      [colors, onRemoveItem],
+      [colors, isDark, onRemoveItem],
     );
 
     const handleRemoveItem = () => {
@@ -95,6 +95,7 @@ export const CartItem = memo(
     };
 
     const panGesture = Gesture.Pan()
+      .enabled(!!onUpdateQuantityItem)
       .minVelocityX(-20)
       .onUpdate((e) => {
         if (e.translationX > 0) return;

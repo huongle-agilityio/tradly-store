@@ -23,9 +23,6 @@ import { Button, Text } from '@/components/common';
 // Icons
 import { HomeAnimationIcon } from '@/components/icons';
 
-// Constants
-import { QUERY_KEY } from '@/constants';
-
 // Interfaces
 import { Product } from '@/interfaces';
 
@@ -67,10 +64,8 @@ export const Content = memo(
 
     const fetchData = () => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEY.PRODUCT_BY_PARAMS({
-          sortCreatedAt: 'desc',
-          hasDiscount: true,
-        }),
+        predicate: (query) =>
+          Array.isArray(query.queryKey) && query.queryKey[0] === 'products',
       });
     };
 

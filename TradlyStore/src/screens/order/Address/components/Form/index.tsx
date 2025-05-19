@@ -15,6 +15,9 @@ import { TargetLocationIcon } from '@/components/icons';
 // Hooks
 import { AddressState, useFocusInput } from '@/hooks';
 
+// Stores
+import { useThemeStore } from '@/stores';
+
 // Schemas
 import { addressSchema } from '@/schemas';
 
@@ -30,14 +33,19 @@ export const Form = memo(({ form, onSubmit }: FormProps) => {
   const { colors } = useTheme();
   const { focusNextInput, refs } = useFocusInput(6);
 
+  // Stores
+  const isDark = useThemeStore((state) => state.isDark);
+
   const stylesDynamic = useMemo(
     () =>
       StyleSheet.create({
         currentLocationWrapper: {
           backgroundColor: colors.backgroundSecondary,
+
+          elevation: isDark ? 0 : spacing['2.5'],
         },
       }),
-    [colors.backgroundSecondary],
+    [colors.backgroundSecondary, isDark],
   );
 
   const {
@@ -160,7 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing[2],
     paddingVertical: spacing[5],
-    elevation: spacing['2.5'],
   },
   formWrapper: {
     paddingLeft: spacing[7],

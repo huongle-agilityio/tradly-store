@@ -79,7 +79,7 @@ export const darkColors = {
     placeholder: baseColors.grey8,
     fade: baseColors.grey8,
     link: baseColors.blue1,
-    error: baseColors.red1,
+    error: baseColors.red2,
     success: baseColors.green3,
   },
   skeleton: {

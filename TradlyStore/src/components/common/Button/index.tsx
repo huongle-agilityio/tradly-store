@@ -124,6 +124,7 @@ export const Button = memo(
     );
 
     const tap = Gesture.Tap()
+      .enabled(!disabled && !isLoading)
       .onTouchesDown(() => (scale.value = 0.9))
       .onTouchesUp(() => (scale.value = 1));
 
