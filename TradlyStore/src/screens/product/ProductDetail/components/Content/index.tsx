@@ -180,9 +180,7 @@ export const Content = memo(
             </View>
 
             <View style={styles.button}>
-              <Button color="secondary" textSize="xs">
-                Follow
-              </Button>
+              <Button textSize="xs">Follow</Button>
             </View>
           </View>
 

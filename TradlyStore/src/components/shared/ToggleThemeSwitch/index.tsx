@@ -21,18 +21,17 @@ export const ToggleThemeSwitch = () => {
   ]);
 
   const progress = useSharedValue(isDark ? 1 : 0);
+  const dotTranslateX = useSharedValue(isDark ? 28 : 0);
 
-  const toggleBackground = useAnimatedStyle(() => {
-    return {
-      backgroundColor:
-        progress.value === 1
-          ? colors.toggleTheme.background
-          : colors.toggleTheme.backgroundActive,
-    };
-  });
+  const toggleBackground = useAnimatedStyle(() => ({
+    backgroundColor:
+      progress.value === 1
+        ? colors.toggleTheme.background
+        : colors.toggleTheme.backgroundActive,
+  }));
 
   const dotToggle = useAnimatedStyle(() => ({
-    transform: [{ translateX: progress.value * 28 }],
+    transform: [{ translateX: dotTranslateX.value }],
     backgroundColor: colors.toggleTheme.dotBackground,
   }));
 
@@ -43,7 +42,7 @@ export const ToggleThemeSwitch = () => {
       },
       animationConfig: {
         type: 'circular',
-        duration: 900,
+        duration: 500,
         startingPoint: {
           cxRatio: 3,
           cyRatio: 1,
@@ -54,13 +53,22 @@ export const ToggleThemeSwitch = () => {
 
   const tapGesture = Gesture.Tap().onEnd(() => {
     const next = progress.value === 1 ? 0 : 1;
-    progress.value = withTiming(next, { duration: 900 });
-    runOnJS(changeTheme)();
+    progress.value = next;
+
+    // Animate dot first
+    dotTranslateX.value = withTiming(
+      next === 1 ? 28 : 0,
+      { duration: 300 },
+      () => {
+        runOnJS(changeTheme)(); // Change theme AFTER animation completes
+      },
+    );
   });
 
   useEffect(() => {
-    progress.value = withTiming(isDark ? 1 : 0, { duration: 900 });
-  }, [progress, isDark]);
+    progress.value = isDark ? 1 : 0;
+    dotTranslateX.value = withTiming(isDark ? 28 : 0, { duration: 300 });
+  }, [dotTranslateX, isDark, progress]);
 
   return (
     <GestureDetector gesture={tapGesture}>

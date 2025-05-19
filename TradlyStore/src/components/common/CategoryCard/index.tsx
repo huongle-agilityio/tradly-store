@@ -1,4 +1,6 @@
 import { memo, useMemo } from 'react';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import { useTheme } from '@react-navigation/native';
 import {
   ImageBackground,
   ImageSourcePropType,
@@ -11,7 +13,6 @@ import {
 
 // Components
 import { Text } from '../Text';
-import { useTheme } from '@react-navigation/native';
 
 interface CategoryCardProps {
   title: string;
@@ -48,30 +49,32 @@ export const CategoryCard = memo(
     };
 
     return (
-      <TouchableOpacity
-        accessibilityRole="button"
-        testID="category-card"
-        onPress={handlePress}
-        style={styleWrapper}
-      >
-        <ImageBackground
-          accessibilityRole="image"
-          testID="category-card-image"
-          source={source}
-          accessibilityLabel={`image of ${title} category`}
+      <Animated.View entering={FadeIn.duration(500)}>
+        <TouchableOpacity
+          accessibilityRole="button"
+          testID="category-card"
+          onPress={handlePress}
+          style={styleWrapper}
         >
-          <View style={[styles.container, style, stylesDynamic.container]}>
-            <Text
-              fontSize="xs"
-              color="light"
-              fontWeight="medium"
-              textStyle={styles.title}
-            >
-              {title}
-            </Text>
-          </View>
-        </ImageBackground>
-      </TouchableOpacity>
+          <ImageBackground
+            accessibilityRole="image"
+            testID="category-card-image"
+            source={source}
+            accessibilityLabel={`image of ${title} category`}
+          >
+            <View style={[styles.container, style, stylesDynamic.container]}>
+              <Text
+                fontSize="xs"
+                color="light"
+                fontWeight="medium"
+                textStyle={styles.title}
+              >
+                {title}
+              </Text>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+      </Animated.View>
     );
   },
 );

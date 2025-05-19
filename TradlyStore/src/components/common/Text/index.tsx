@@ -1,8 +1,8 @@
 import { memo, PropsWithChildren, useMemo } from 'react';
 import { useTheme } from '@react-navigation/native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import {
   TextStyle,
-  Text as BaseText,
   StyleProp,
   TextProps as BaseTextProps,
   StyleSheet,
@@ -67,7 +67,9 @@ export const Text = memo(
     );
 
     return (
-      <BaseText
+      <Animated.Text
+        entering={FadeIn.duration(500)}
+        exiting={FadeOut.duration(500)}
         style={[
           fontSizes[fontSize],
           fontWeights[fontWeight],
@@ -77,7 +79,7 @@ export const Text = memo(
         {...props}
       >
         {children}
-      </BaseText>
+      </Animated.Text>
     );
   },
 );

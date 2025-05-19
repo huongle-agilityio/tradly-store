@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 // Components
-import { Button } from '@/components/common';
+import { Button, Text } from '@/components/common';
 import { ToggleThemeSwitch } from '@/components/shared';
 
 // Stores
@@ -17,7 +17,10 @@ export const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <ToggleThemeSwitch />
+      <View style={styles.themeWrapper}>
+        <Text fontWeight="medium">Toggle Theme</Text>
+        <ToggleThemeSwitch />
+      </View>
       <Button onPress={handleLogout}>Logout</Button>
     </View>
   );
@@ -25,4 +28,10 @@ export const Profile = () => {
 
 const styles = StyleSheet.create({
   container: { minWidth: 330, paddingVertical: 30, alignSelf: 'center' },
+  themeWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
 });

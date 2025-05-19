@@ -1,5 +1,7 @@
 import { memo, ReactNode, useMemo } from 'react';
 import Animated, {
+  FadeIn,
+  FadeOut,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -134,7 +136,11 @@ export const Button = memo(
 
     return (
       <GestureDetector gesture={tap}>
-        <Animated.View style={animatedStyle}>
+        <Animated.View
+          entering={FadeIn.duration(500)}
+          exiting={FadeOut.duration(500)}
+          style={animatedStyle}
+        >
           <TouchableOpacity
             testID="button"
             accessibilityRole="button"

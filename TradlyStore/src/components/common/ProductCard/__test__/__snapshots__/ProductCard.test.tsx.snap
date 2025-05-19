@@ -114,8 +114,28 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
     }
   >
     <Text
-      numberOfLines={1}
-      style={
+      entering={
+        FadeIn {
+          "build": [Function],
+          "durationV": 500,
+          "randomizeDelay": false,
+          "reduceMotionV": "system",
+        }
+      }
+      exiting={
+        FadeOut {
+          "build": [Function],
+          "durationV": 500,
+          "randomizeDelay": false,
+          "reduceMotionV": "system",
+        }
+      }
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
+      jestInlineStyle={
         [
           {
             "fontSize": 14,
@@ -132,6 +152,16 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
             "lineHeight": 18,
           },
         ]
+      }
+      numberOfLines={1}
+      style={
+        {
+          "color": "",
+          "fontFamily": "Montserrat-Medium",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "lineHeight": 18,
+        }
       }
     >
       Product Title
@@ -172,8 +202,28 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
           }
         />
         <Text
-          numberOfLines={1}
-          style={
+          entering={
+            FadeIn {
+              "build": [Function],
+              "durationV": 500,
+              "randomizeDelay": false,
+              "reduceMotionV": "system",
+            }
+          }
+          exiting={
+            FadeOut {
+              "build": [Function],
+              "durationV": 500,
+              "randomizeDelay": false,
+              "reduceMotionV": "system",
+            }
+          }
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
+          jestInlineStyle={
             [
               {
                 "fontSize": 14,
@@ -196,6 +246,17 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
               ],
             ]
           }
+          numberOfLines={1}
+          style={
+            {
+              "color": "",
+              "fontFamily": "Montserrat-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 18,
+              "width": 40,
+            }
+          }
         >
           Store Name
         </Text>
@@ -210,7 +271,28 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
         }
       >
         <Text
-          style={
+          entering={
+            FadeIn {
+              "build": [Function],
+              "durationV": 500,
+              "randomizeDelay": false,
+              "reduceMotionV": "system",
+            }
+          }
+          exiting={
+            FadeOut {
+              "build": [Function],
+              "durationV": 500,
+              "randomizeDelay": false,
+              "reduceMotionV": "system",
+            }
+          }
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
+          jestInlineStyle={
             [
               {
                 "fontSize": 10,
@@ -228,12 +310,43 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
               },
             ]
           }
+          style={
+            {
+              "color": "",
+              "fontFamily": "Montserrat-Medium",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "lineHeight": 12,
+              "textDecorationLine": "line-through",
+            }
+          }
         >
           $
           100
         </Text>
         <Text
-          style={
+          entering={
+            FadeIn {
+              "build": [Function],
+              "durationV": 500,
+              "randomizeDelay": false,
+              "reduceMotionV": "system",
+            }
+          }
+          exiting={
+            FadeOut {
+              "build": [Function],
+              "durationV": 500,
+              "randomizeDelay": false,
+              "reduceMotionV": "system",
+            }
+          }
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
+          jestInlineStyle={
             [
               {
                 "fontSize": 14,
@@ -248,6 +361,15 @@ exports[`ProductCard Component Should renders correctly with required props 1`] 
               },
               undefined,
             ]
+          }
+          style={
+            {
+              "color": "",
+              "fontFamily": "Montserrat-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 16,
+            }
           }
         >
           $

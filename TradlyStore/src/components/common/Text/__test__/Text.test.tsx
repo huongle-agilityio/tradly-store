@@ -18,17 +18,13 @@ describe('Text Component', () => {
     render(<Text>Hello World</Text>);
     const textElement = screen.getByText('Hello World');
 
-    expect(textElement.props.style).toEqual(
-      expect.arrayContaining([
-        { fontSize: fontSizes.base, lineHeight: lineHeights.base },
-        {
-          fontFamily: fontsFamily.medium,
-          fontWeight: fontWeights.normal,
-        },
-        { color: '' },
-        undefined,
-      ]),
-    );
+    expect(textElement.props.style).toEqual({
+      fontSize: fontSizes.base,
+      lineHeight: lineHeights.base,
+      fontFamily: fontsFamily.medium,
+      fontWeight: fontWeights.normal,
+      color: '',
+    });
   });
 
   it('Should applies the correct color, fontSize, and fontWeight', () => {
@@ -39,12 +35,13 @@ describe('Text Component', () => {
     );
     const textElement = screen.getByText('Styled Text');
 
-    expect(textElement.props.style).toEqual(
-      expect.arrayContaining([
-        { fontSize: fontSizes.xl, lineHeight: lineHeights.xxl },
-        { fontFamily: fontsFamily.semiBold, fontWeight: fontWeights.bold },
-      ]),
-    );
+    expect(textElement.props.style).toEqual({
+      color: '',
+      fontSize: fontSizes.xl,
+      lineHeight: lineHeights.xxl,
+      fontFamily: fontsFamily.semiBold,
+      fontWeight: fontWeights.bold,
+    });
   });
 
   it('Should merges custom styles with default styles', () => {
@@ -52,8 +49,13 @@ describe('Text Component', () => {
     render(<Text textStyle={customStyle}>Custom Style</Text>);
     const textElement = screen.getByText('Custom Style');
 
-    expect(textElement.props.style).toEqual(
-      expect.arrayContaining([{ textAlign: 'center' }]),
-    );
+    expect(textElement.props.style).toEqual({
+      color: '',
+      fontFamily: fontsFamily.medium,
+      fontSize: fontSizes.base,
+      fontWeight: fontWeights.normal,
+      lineHeight: lineHeights.base,
+      textAlign: 'center',
+    });
   });
 });

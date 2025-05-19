@@ -106,7 +106,28 @@ exports[`Input Component Should render error message 1`] = `
     />
   </View>
   <Text
-    style={
+    entering={
+      FadeIn {
+        "build": [Function],
+        "durationV": 500,
+        "randomizeDelay": false,
+        "reduceMotionV": "system",
+      }
+    }
+    exiting={
+      FadeOut {
+        "build": [Function],
+        "durationV": 500,
+        "randomizeDelay": false,
+        "reduceMotionV": "system",
+      }
+    }
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
+    jestInlineStyle={
       [
         {
           "fontSize": 14,
@@ -123,6 +144,16 @@ exports[`Input Component Should render error message 1`] = `
           "paddingTop": 12,
         },
       ]
+    }
+    style={
+      {
+        "color": "",
+        "fontFamily": "Montserrat",
+        "fontSize": 14,
+        "fontWeight": "400",
+        "lineHeight": 16,
+        "paddingTop": 12,
+      }
     }
   >
     This field is required
