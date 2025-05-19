@@ -11,10 +11,11 @@ describe('ImageUpload Component', () => {
     id: 0,
     image: IMAGES,
     onPress: mockOnPress,
+    isActive: false,
   };
 
   it('renders correctly with given image', () => {
-    render(<ImageUpload {...props} />);
+    render(<ImageUpload {...props} isActive={true} />);
 
     const image = screen.getByTestId('uploaded-image');
 

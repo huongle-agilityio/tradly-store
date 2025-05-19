@@ -67,7 +67,7 @@ exports[`ImageUpload Component renders correctly with given image 1`] = `
         "borderRadius": 9999,
         "height": 19,
         "justifyContent": "center",
-        "opacity": 1,
+        "opacity": 0,
         "position": "absolute",
         "right": -8,
         "top": -8,

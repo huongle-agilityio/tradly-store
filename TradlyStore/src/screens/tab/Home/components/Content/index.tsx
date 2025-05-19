@@ -1,7 +1,11 @@
 import { memo, useState } from 'react';
 import { useTheme } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import {
+  Gesture,
+  GestureDetector,
+  ScrollView,
+} from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -28,6 +32,9 @@ import { Product } from '@/interfaces';
 // Themes
 import { spacing } from '@/themes';
 
+const TOUCH_SLOP = 5;
+const TIME_TO_ACTIVATE_PAN = 70;
+
 interface ContentProps {
   isLoadingProductSorted: boolean;
   isLoadingProductHasDiscount: boolean;
@@ -39,7 +46,6 @@ interface ContentProps {
   onRedirectProductCategory: (name: string, query: string) => void;
 }
 
-const REFRESH_AREA_HEIGHT = 50;
 export const Content = memo(
   ({
     isLoadingProductSorted,
@@ -51,13 +57,13 @@ export const Content = memo(
     onRedirectProductCategory,
     onNavigateProductDetail,
   }: ContentProps) => {
-    const queryClient = useQueryClient();
     const { colors } = useTheme();
+    const queryClient = useQueryClient();
+    const [isLoadingVisible, setLoadingVisible] = useState(false);
 
-    const [toggleGesture, setToggleGesture] = useState(true);
-    const [gestureActive, setGestureActive] = useState(false);
-    const translationY = useSharedValue(0);
-    const pullUpTranslate = useSharedValue(0);
+    const loadingHeight = useSharedValue(0);
+    const touchStart = useSharedValue({ x: 0, y: 0, time: 0 });
+    const gestureActive = useSharedValue(false);
 
     const fetchData = () => {
       queryClient.invalidateQueries({
@@ -66,143 +72,124 @@ export const Content = memo(
           hasDiscount: true,
         }),
       });
-
-      setTimeout(() => {
-        translationY.value = withTiming(0, { duration: 200 }, () => {
-          pullUpTranslate.value = 0;
-        });
-      }, 3000);
     };
 
-    /**
-     * Animates the pull-up gesture to fetch new data.
-     *
-     * @returns {void}
-     */
-    const pullUpAnimation = () => {
-      pullUpTranslate.value = withDelay(
-        0,
-        withTiming(
-          pullUpTranslate.value === 0 ? -10 : 0,
-          { duration: 200 },
-          (finished) => {
-            if (finished) {
-              runOnJS(fetchData)();
-            }
-          },
-        ),
+    const showBar = () => {
+      setLoadingVisible(true);
+
+      loadingHeight.value = withTiming(50, { duration: 300 });
+
+      loadingHeight.value = withDelay(
+        2000,
+        withTiming(0, { duration: 300 }, () => {
+          runOnJS(setLoadingVisible)(false);
+        }),
       );
     };
 
-    const gesture = Gesture.Pan()
-      .onBegin(() => {
-        runOnJS(setGestureActive)(true);
+    const panGesture = Gesture.Pan()
+      .manualActivation(true)
+      .onTouchesDown((e) => {
+        const touch = e.changedTouches[0];
+        touchStart.value = {
+          x: touch.x,
+          y: touch.y,
+          time: Date.now(),
+        };
       })
-      .onUpdate((event) => {
-        const total = translationY.value + event.translationY;
+      .onTouchesMove((e, state) => {
+        const touch = e.changedTouches[0];
+        const dx = Math.abs(touchStart.value.x - touch.x);
+        const dy = Math.abs(touchStart.value.y - touch.y);
+        const dt = Date.now() - touchStart.value.time;
 
-        if (total < REFRESH_AREA_HEIGHT) {
-          translationY.value = total;
-        } else {
-          translationY.value = REFRESH_AREA_HEIGHT;
+        if (dt > TIME_TO_ACTIVATE_PAN) {
+          state.activate();
+        } else if (dx > TOUCH_SLOP || dy > TOUCH_SLOP) {
+          state.fail();
+        }
+      })
+      .onUpdate((e) => {
+        if (e.translationY > 0 && !gestureActive.value) {
+          gestureActive.value = true;
+          runOnJS(showBar)();
+          runOnJS(fetchData)();
         }
       })
       .onEnd(() => {
-        runOnJS(setGestureActive)(false);
-        if (translationY.value <= REFRESH_AREA_HEIGHT - 1) {
-          translationY.value = withTiming(0, { duration: 200 });
-        } else {
-          runOnJS(pullUpAnimation)();
-        }
-
-        if (!(translationY.value > 0)) {
-          runOnJS(setToggleGesture)(false);
-        }
+        gestureActive.value = false;
       });
 
-    const handleOnScroll = (event: {
-      nativeEvent: { contentOffset: { y: number } };
-    }) => {
-      const position = event.nativeEvent.contentOffset.y;
-      if (position <= 0) {
-        setToggleGesture(true);
-      } else if (position > 0 && toggleGesture && !gestureActive) {
-        setToggleGesture(false);
-      }
-    };
-    const animatedSpace = useAnimatedStyle(() => ({
-      height: translationY.value,
+    const animatedStyle = useAnimatedStyle(() => ({
+      height: loadingHeight.value,
     }));
 
     return (
-      <>
-        <Animated.View style={[styles.pullToRefreshArea, animatedSpace]}>
-          <Animated.View style={styles.center}>
-            <HomeAnimationIcon color={colors.text.default} />
-            <Text fontSize="xs">Loading ...</Text>
-          </Animated.View>
-        </Animated.View>
-
-        <GestureDetector gesture={gesture}>
-          <Animated.ScrollView
-            style={styles.container}
-            onScroll={handleOnScroll}
-          >
-            <View style={styles.wrapper}>
-              <Categories onPress={onRedirectProductCategory} />
-              <View style={styles.contentWrapper}>
-                <View style={styles.content}>
-                  <Text fontWeight="bold" fontSize="lg" color="placeholder">
-                    New Product
-                  </Text>
-                  <Button
-                    textSize="xs"
-                    buttonStyles={styles.button}
-                    onPress={onRedirectNewProduct}
-                  >
-                    See All
-                  </Button>
-                </View>
-                <ListProduct
-                  data={productSorted}
-                  isLoading={isLoadingProductSorted}
-                  horizontal={true}
-                  onNavigateProductDetail={onNavigateProductDetail}
-                />
+      <GestureDetector gesture={panGesture}>
+        <ScrollView>
+          {isLoadingVisible && (
+            <Animated.View style={[animatedStyle, styles.pullToRefreshArea]}>
+              <View style={styles.center}>
+                <HomeAnimationIcon color={colors.text.default} />
+                <Text fontSize="xs">Loading ...</Text>
               </View>
+            </Animated.View>
+          )}
 
-              <View style={styles.contentWrapper}>
-                <View style={styles.content}>
-                  <Text fontWeight="bold" fontSize="lg" color="placeholder">
-                    Popular Product
-                  </Text>
-                  <Button
-                    textSize="xs"
-                    buttonStyles={styles.button}
-                    onPress={onRedirectPopularProduct}
-                  >
-                    See All
-                  </Button>
-                </View>
-                <ListProduct
-                  data={productHasDiscount}
-                  isLoading={isLoadingProductHasDiscount}
-                  horizontal={true}
-                  onNavigateProductDetail={onNavigateProductDetail}
-                />
+          <View style={styles.wrapper}>
+            <Categories onPress={onRedirectProductCategory} />
+
+            {/* New Product */}
+            <View style={styles.contentWrapper}>
+              <View style={styles.content}>
+                <Text fontWeight="bold" fontSize="lg" color="placeholder">
+                  New Product
+                </Text>
+                <Button
+                  textSize="xs"
+                  buttonStyles={styles.button}
+                  onPress={onRedirectNewProduct}
+                >
+                  See All
+                </Button>
               </View>
+              <ListProduct
+                data={productSorted}
+                isLoading={isLoadingProductSorted}
+                horizontal={true}
+                onNavigateProductDetail={onNavigateProductDetail}
+              />
             </View>
-          </Animated.ScrollView>
-        </GestureDetector>
-      </>
+
+            {/* Popular Product */}
+            <View style={styles.contentWrapper}>
+              <View style={styles.content}>
+                <Text fontWeight="bold" fontSize="lg" color="placeholder">
+                  Popular Product
+                </Text>
+                <Button
+                  textSize="xs"
+                  buttonStyles={styles.button}
+                  onPress={onRedirectPopularProduct}
+                >
+                  See All
+                </Button>
+              </View>
+              <ListProduct
+                data={productHasDiscount}
+                isLoading={isLoadingProductHasDiscount}
+                horizontal={true}
+                onNavigateProductDetail={onNavigateProductDetail}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </GestureDetector>
     );
   },
 );
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   wrapper: { gap: spacing[7], marginTop: spacing[4], marginBottom: 90 },
   contentWrapper: { gap: spacing[4] },
   content: {

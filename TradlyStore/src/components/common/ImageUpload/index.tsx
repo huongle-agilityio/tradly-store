@@ -19,13 +19,21 @@ import { radius } from '@/themes';
 interface ImageUploadProps {
   id: number;
   image: string;
+  isActive: boolean;
   style?: StyleProp<ImageStyle>;
   styleContainer?: StyleProp<ViewStyle>;
   onPress: (id: number) => void;
 }
 
 export const ImageUpload = memo(
-  ({ id, image, style, styleContainer, onPress }: ImageUploadProps) => {
+  ({
+    id,
+    image,
+    isActive,
+    style,
+    styleContainer,
+    onPress,
+  }: ImageUploadProps) => {
     const { colors } = useTheme();
     const stylesDynamic = useMemo(
       () =>
@@ -53,7 +61,11 @@ export const ImageUpload = memo(
         <TouchableOpacity
           accessibilityRole="button"
           testID="close-button"
-          style={[styles.closeIcon, stylesDynamic.closeIcon]}
+          style={[
+            styles.closeIcon,
+            stylesDynamic.closeIcon,
+            { opacity: isActive ? 0 : 1 },
+          ]}
           onPress={handleDelete}
         >
           <CloseIcon size={9} color={colors.light} />
