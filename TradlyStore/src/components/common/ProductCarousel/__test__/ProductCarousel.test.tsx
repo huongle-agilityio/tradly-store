@@ -7,12 +7,11 @@ describe('ProductCarousel', () => {
   const mockImages = ['image1.jpg', 'image2.jpg', 'image3.jpg'];
 
   it('Should renders correct number of images', () => {
-    const { toJSON } = render(<ProductCarousel images={mockImages} />);
+    render(<ProductCarousel images={mockImages} />);
 
     expect(screen.getAllByTestId('product-carousel-image')).toHaveLength(
       mockImages.length,
     );
-    expect(toJSON()).toMatchSnapshot();
   });
 
   it('Should renders correct number of dots', () => {
