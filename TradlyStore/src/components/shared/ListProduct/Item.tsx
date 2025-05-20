@@ -1,5 +1,10 @@
 import { memo, useCallback } from 'react';
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import Animated, {
+  SharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+import { StyleProp, StyleSheet, ViewStyle, ViewToken } from 'react-native';
 
 // Components
 import { ProductCard } from '@/components/common';
@@ -17,6 +22,7 @@ interface ItemProps {
   horizontal?: boolean | null | undefined;
   item: Product;
   style?: StyleProp<ViewStyle>;
+  viewableItems: SharedValue<ViewToken[]>;
   onNavigate?: (id: string) => void;
   onEditProduct?: (id: string) => void;
   onDeleteProduct?: (id: string) => void;
@@ -30,6 +36,7 @@ export const Item = memo(
     hasAction,
     dataLength,
     style,
+    viewableItems,
     onNavigate,
     onEditProduct,
     onDeleteProduct,
@@ -67,24 +74,39 @@ export const Item = memo(
       onDeleteProduct?.(documentId);
     }, [documentId, onDeleteProduct, onNavigate]);
 
+    const rStyles = useAnimatedStyle(() => {
+      const isVisible = Boolean(
+        viewableItems.value
+          .filter((item) => item.isViewable)
+          .find((viewableItems) => viewableItems.item.id === item.id),
+      );
+
+      return {
+        opacity: withTiming(isVisible ? 1 : 0.5, { duration: 100 }),
+        transform: [{ scale: withTiming(isVisible ? 1 : 0.7) }],
+      };
+    });
+
     return (
-      <ProductCard
-        onPress={handleProductDetail}
-        hasAction={hasAction}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        price={price}
-        source={image}
-        storeName={storeName}
-        storeSource={storeSource}
-        title={title}
-        discount={discount}
-        styleWrapper={[
-          horizontal && isFirstItem && styles.firstItem,
-          horizontal && isLastItem && styles.lastItem,
-          style,
-        ]}
-      />
+      <Animated.View style={rStyles}>
+        <ProductCard
+          onPress={handleProductDetail}
+          hasAction={hasAction}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          price={price}
+          source={image}
+          storeName={storeName}
+          storeSource={storeSource}
+          title={title}
+          discount={discount}
+          styleWrapper={[
+            horizontal && isFirstItem && styles.firstItem,
+            horizontal && isLastItem && styles.lastItem,
+            style,
+          ]}
+        />
+      </Animated.View>
     );
   },
 );
