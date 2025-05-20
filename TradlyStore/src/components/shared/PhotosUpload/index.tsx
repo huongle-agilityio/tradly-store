@@ -44,6 +44,7 @@ import {
   getErrorMessageFromDocumentPicker,
   requestPermission,
 } from '@/utils';
+import { useThemeStore } from '@/stores';
 
 const ConfirmSheet = lazy(() =>
   import('../ConfirmSheet').then((module) => ({
@@ -66,6 +67,7 @@ export const PhotosUpload = memo(
     const [permission, setPermission] = useState<PermissionType>(
       PermissionType.camera,
     );
+    const isDark = useThemeStore((store) => store.isDark);
 
     const stylesDynamic = useMemo(
       () =>
@@ -78,13 +80,13 @@ export const PhotosUpload = memo(
             borderStyle: 'dashed',
             borderWidth: 1,
             opacity: 0.7,
-            borderColor: colors.secondary,
+            borderColor: isDark ? colors.light : colors.secondary,
             justifyContent: 'center',
             alignItems: 'center',
             gap: 5,
           },
         }),
-      [colors.secondary],
+      [colors, isDark],
     );
 
     const MAX_IMAGES = 4;
@@ -263,7 +265,9 @@ export const PhotosUpload = memo(
           onPress={handleOpenSheetOptions}
           style={stylesDynamic.addImage}
         >
-          <PlusIcon />
+          <PlusIcon
+            color={isDark ? colors.light : colors.productCard.textSecondary}
+          />
           <Text
             fontWeight="medium"
             color="default"
@@ -280,7 +284,7 @@ export const PhotosUpload = memo(
           </Text>
         </TouchableOpacity>
       ),
-      [handleOpenSheetOptions, stylesDynamic.addImage],
+      [colors, handleOpenSheetOptions, isDark, stylesDynamic.addImage],
     );
 
     return (

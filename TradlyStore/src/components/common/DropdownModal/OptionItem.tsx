@@ -14,6 +14,9 @@ import { Text } from '../Text';
 // Icons
 import { FillSuccessIcon } from '@/components/icons';
 
+// Stores
+import { useThemeStore } from '@/stores';
+
 // Themes
 import { radius } from '@/themes';
 
@@ -35,6 +38,7 @@ export const OptionItem = memo(
   }: OptionItemProps) => {
     const { colors } = useTheme();
     const rotation = useSharedValue(0);
+    const isDark = useThemeStore((store) => store.isDark);
 
     const stylesDynamic = useMemo(
       () =>
@@ -101,7 +105,11 @@ export const OptionItem = memo(
         >
           {selectedItems.includes(value) && (
             <Animated.View style={animatedIconStyle}>
-              <FillSuccessIcon width={20} height={20} color={colors.primary} />
+              <FillSuccessIcon
+                width={20}
+                height={20}
+                color={isDark ? colors.light : colors.primary}
+              />
             </Animated.View>
           )}
         </View>
