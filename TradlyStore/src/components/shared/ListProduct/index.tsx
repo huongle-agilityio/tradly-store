@@ -21,6 +21,8 @@ import { Product } from '@/interfaces';
 // Themes
 import { spacing } from '@/themes';
 
+const ITEM_HEIGHT = 203;
+
 interface RenderItemProps {
   item: Product;
   index: number;
@@ -55,6 +57,10 @@ export const ListProduct = memo(
     const { isTablet, width } = useMedia();
     const [refreshing, setRefreshing] = useState(false);
 
+    const keyNumColumns = useMemo(
+      () => (isTablet ? Math.floor((width - 50 + 20) / (160 + 20)) : 2),
+      [isTablet, width],
+    );
     const onRefresh = useCallback(() => {
       setRefreshing(true);
       refetch?.();
@@ -84,7 +90,7 @@ export const ListProduct = memo(
         onEndReachedThreshold: 0.1,
       }),
       ...(!horizontal && {
-        numColumns: isTablet ? Math.floor((width - 50 + 20) / (160 + 20)) : 2,
+        numColumns: keyNumColumns,
         columnWrapperStyle: {
           gap: isTablet ? 20 : spacing['2.5'],
         },
@@ -93,8 +99,8 @@ export const ListProduct = memo(
 
     const getItemLayout = useCallback(
       (_: any, index: number) => ({
-        length: 203,
-        offset: 203 * index,
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
         index,
       }),
       [],
@@ -145,6 +151,7 @@ export const ListProduct = memo(
         {isLoading ? <ListFooter style={styles.loading} /> : null}
         <FlatList
           {...listProps}
+          key={keyNumColumns}
           horizontal={horizontal}
           data={data}
           keyExtractor={keyExtractor}

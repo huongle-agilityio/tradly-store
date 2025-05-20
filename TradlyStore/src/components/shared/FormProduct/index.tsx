@@ -53,11 +53,16 @@ export const FormProduct = memo(
     const stylesDynamic = useMemo(
       () =>
         StyleSheet.create({
+          contentContainerStyle: {
+            backgroundColor: isDark
+              ? colors.backgroundSecondary
+              : colors.tertiary,
+          },
           formWrapper: {
             backgroundColor: colors.backgroundSecondary,
           },
         }),
-      [colors.backgroundSecondary],
+      [colors.backgroundSecondary, colors.tertiary, isDark],
     );
 
     const initForm = useMemo(
@@ -108,7 +113,10 @@ export const FormProduct = memo(
 
     return (
       <KeyboardAwareScrollView
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          stylesDynamic.contentContainerStyle,
+        ]}
       >
         <StickyFooter
           disabled={!isDirty}

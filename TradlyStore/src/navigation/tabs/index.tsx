@@ -82,6 +82,7 @@ export const TabsStack = () => {
         },
         header: HeaderTitle,
         tabBarHideOnKeyboard: true,
+        animation: 'fade',
       }}
     >
       <Tabs.Screen
