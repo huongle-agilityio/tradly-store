@@ -82,8 +82,8 @@ export const Item = memo(
       );
 
       return {
-        opacity: withTiming(isVisible ? 1 : 0.5, { duration: 100 }),
-        transform: [{ scale: withTiming(isVisible ? 1 : 0.7) }],
+        opacity: withTiming(isVisible ? 1 : 0.7, { duration: 100 }),
+        transform: [{ scale: withTiming(isVisible ? 1 : 0.9) }],
       };
     });
 

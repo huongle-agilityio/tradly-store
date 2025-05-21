@@ -11,8 +11,9 @@ import {
 
 // Components
 import { Item } from './Item';
-import { ListFooter } from './Footer';
 import { EmptyList } from '../EmptyList';
+import { Placeholder } from './Placeholder';
+import { LoadingFooter } from './LoadingFooter';
 
 // Hooks
 import { useMedia } from '@/hooks';
@@ -24,6 +25,7 @@ import { Product } from '@/interfaces';
 import { spacing } from '@/themes';
 
 const ITEM_HEIGHT = 203;
+const ITEM_WIDTH = 160;
 
 interface RenderItemProps {
   item: Product;
@@ -52,18 +54,74 @@ export const ListProduct = memo(
     horizontal,
     refetch,
     onNavigateProductDetail,
+    ListEmptyComponent,
     onEditProduct,
     onDeleteProduct,
     ...props
   }: Props) => {
-    const { isTablet, width } = useMedia();
+    const { isTablet, width, height } = useMedia();
     const [refreshing, setRefreshing] = useState(false);
     const viewableItems = useSharedValue<ViewToken[]>([]);
 
+    // Calculate number of columns
     const keyNumColumns = useMemo(
       () => (isTablet ? Math.floor((width - 50 + 20) / (160 + 20)) : 2),
       [isTablet, width],
     );
+
+    const listProps = {
+      contentContainerStyle: {
+        gap: isTablet ? 20 : spacing['2.5'],
+        margin: 'auto' as const,
+        ...(!horizontal && {
+          paddingTop: spacing[5],
+          paddingBottom: spacing[15],
+        }),
+      },
+      ...(isLoadMore && {
+        onEndReached,
+        onEndReachedThreshold: 0.1,
+      }),
+      ...(!horizontal && {
+        numColumns: keyNumColumns,
+        columnWrapperStyle: {
+          gap: isTablet ? 20 : spacing['2.5'],
+        },
+      }),
+      ...(horizontal && {
+        style: { height: ITEM_HEIGHT },
+      }),
+    };
+
+    const dynamicStyle = useMemo(
+      () =>
+        StyleSheet.create({
+          placeholder: {
+            gap: isTablet ? 20 : 9,
+          },
+        }),
+      [isTablet],
+    );
+
+    // Calculate width item base on width
+    const withItem = useMemo(
+      () =>
+        isTablet
+          ? 160
+          : Math.round((width - 50) / (listProps?.numColumns ?? 1)),
+      [isTablet, listProps?.numColumns, width],
+    );
+
+    // Number items to render placeholder
+    const numItems = useMemo(
+      () =>
+        horizontal
+          ? Math.ceil(width / withItem) + 1
+          : Math.ceil(height / ITEM_HEIGHT) * keyNumColumns,
+      [height, horizontal, keyNumColumns, width, withItem],
+    );
+
+    // Refresh
     const onRefresh = useCallback(() => {
       setRefreshing(true);
       refetch?.();
@@ -77,37 +135,6 @@ export const ListProduct = memo(
       [],
     );
 
-    // Render
-    const listProps = {
-      contentContainerStyle: {
-        gap: isTablet ? 20 : spacing['2.5'],
-        paddingVertical: !horizontal ? spacing[5] : undefined,
-        margin: 'auto' as const,
-        ...(isLoading && {
-          opacity: 0,
-          pointerEvents: 'none' as const,
-        }),
-      },
-      ...(isLoadMore && {
-        onEndReached,
-        onEndReachedThreshold: 0.1,
-      }),
-      ...(!horizontal && {
-        numColumns: keyNumColumns,
-        columnWrapperStyle: {
-          gap: isTablet ? 20 : spacing['2.5'],
-        },
-      }),
-    };
-
-    const withItem = useMemo(
-      () =>
-        isTablet
-          ? 160
-          : Math.round((width - 50) / (listProps?.numColumns ?? 1)),
-      [isTablet, listProps?.numColumns, width],
-    );
-
     const getItemLayout = useCallback(
       (_: any, index: number) => ({
         length: ITEM_HEIGHT,
@@ -118,13 +145,23 @@ export const ListProduct = memo(
     );
 
     const renderFooter = useCallback(
-      () =>
-        isFetchingNextPage ? (
-          <ListFooter style={styles.loadingNextPage} />
-        ) : null,
+      () => (isFetchingNextPage ? <LoadingFooter /> : null),
       [isFetchingNextPage],
     );
 
+    const renderEmptyComponent = useCallback(
+      () => (isLoading ? null : ListEmptyComponent ?? <EmptyList />),
+      [ListEmptyComponent, isLoading],
+    );
+
+    const onViewableItemsChanged = useCallback(
+      ({ viewableItems: vItems }: { viewableItems: ViewToken[] }) => {
+        viewableItems.value = vItems;
+      },
+      [viewableItems],
+    );
+
+    // Render
     const renderItem = useCallback(
       ({ item, index }: RenderItemProps) => (
         <Item
@@ -132,16 +169,16 @@ export const ListProduct = memo(
           item={item}
           index={index}
           viewableItems={viewableItems}
-          style={
-            !horizontal && {
-              width: withItem,
-            }
-          }
           hasAction={!onNavigateProductDetail}
           dataLength={data.length}
           onNavigate={onNavigateProductDetail}
           onEditProduct={onEditProduct}
           onDeleteProduct={onDeleteProduct}
+          style={
+            !horizontal && {
+              width: withItem,
+            }
+          }
         />
       ),
       [
@@ -156,20 +193,28 @@ export const ListProduct = memo(
     );
 
     return (
-      <View>
-        {isLoading ? <ListFooter style={styles.loading} /> : null}
+      <View style={styles.container}>
+        {isLoading && (
+          <View style={styles.placeholder}>
+            <Placeholder
+              horizontal={horizontal}
+              numItems={numItems}
+              withItem={horizontal ? ITEM_WIDTH : withItem}
+              style={dynamicStyle.placeholder}
+            />
+          </View>
+        )}
+
         <FlatList
           {...listProps}
           key={keyNumColumns}
           horizontal={horizontal}
           data={data}
           keyExtractor={keyExtractor}
-          onViewableItemsChanged={({ viewableItems: vItems }) => {
-            viewableItems.value = vItems;
-          }}
+          onViewableItemsChanged={onViewableItemsChanged}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={<EmptyList />}
+          ListEmptyComponent={renderEmptyComponent()}
           ListFooterComponent={renderFooter}
           initialNumToRender={8} // number of items to render initially
           maxToRenderPerBatch={8} // number of items to render per batch
@@ -189,11 +234,6 @@ export const ListProduct = memo(
 );
 
 const styles = StyleSheet.create({
-  loading: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    justifyContent: 'center',
-  },
-  loadingNextPage: { marginVertical: 20 },
+  container: { position: 'relative' },
+  placeholder: { position: 'absolute' },
 });
