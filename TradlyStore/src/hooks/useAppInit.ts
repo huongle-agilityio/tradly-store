@@ -70,13 +70,10 @@ export const useAppInit = () => {
 
     init();
 
-    const initialScheme =
-      Appearance.getColorScheme() === 'dark' ? 'dark' : 'light';
-
-    setSystemTheme(initialScheme);
-
+    setSystemTheme(Appearance.getColorScheme());
+    // Register listener for system theme changes
     const listener = Appearance.addChangeListener(({ colorScheme }) => {
-      setSystemTheme(colorScheme === 'dark' ? 'dark' : 'light');
+      setSystemTheme(colorScheme);
     });
 
     return () => {

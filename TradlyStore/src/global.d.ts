@@ -20,7 +20,6 @@ declare module '@react-navigation/native' {
       link: string;
       dotNotification: string;
       border: string;
-
       text: {
         default: string;
         light: string;
