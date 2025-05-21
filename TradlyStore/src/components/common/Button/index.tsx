@@ -1,11 +1,5 @@
 import { memo, ReactNode, useMemo } from 'react';
-import Animated, {
-  FadeIn,
-  FadeOut,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useTheme } from '@react-navigation/native';
 import {
   TouchableOpacity,
@@ -66,7 +60,6 @@ export const Button = memo(
     children,
     onPress,
   }: ButtonProps) => {
-    const scale = useSharedValue(1);
     const { colors } = useTheme();
     const isDark = useThemeStore((store) => store.isDark);
 
@@ -125,68 +118,56 @@ export const Button = memo(
       [color, colorMap, colors, isDark, variant],
     );
 
-    const tap = Gesture.Tap()
-      .enabled(!disabled && !isLoading)
-      .onTouchesDown(() => (scale.value = 0.9))
-      .onTouchesUp(() => (scale.value = 1));
-
-    const animatedStyle = useAnimatedStyle(() => ({
-      transform: [{ scale: scale.value }],
-    }));
-
     return (
-      <GestureDetector gesture={tap}>
-        <Animated.View
-          entering={FadeIn.duration(500)}
-          exiting={FadeOut.duration(500)}
-          style={animatedStyle}
+      <Animated.View
+        entering={FadeIn.duration(500)}
+        exiting={FadeOut.duration(500)}
+      >
+        <TouchableOpacity
+          testID="button"
+          accessibilityRole="button"
+          style={[
+            styles.button,
+            sizes[size],
+            variantStyles[variant],
+            {
+              borderColor: colorMap[color],
+              backgroundColor:
+                variant === 'solid' ? colorMap[color] : colors.transparent,
+            },
+            (disabled || isLoading) && styles.disabled,
+            buttonStyles,
+          ]}
+          disabled={disabled || isLoading}
+          onPress={onPress}
+          activeOpacity={0.7}
         >
-          <TouchableOpacity
-            testID="button"
-            accessibilityRole="button"
-            style={[
-              styles.button,
-              sizes[size],
-              variantStyles[variant],
-              {
-                borderColor: colorMap[color],
-                backgroundColor:
-                  variant === 'solid' ? colorMap[color] : colors.transparent,
-              },
-              (disabled || isLoading) && styles.disabled,
-              buttonStyles,
-            ]}
-            disabled={disabled || isLoading}
-            onPress={onPress}
-            activeOpacity={0.7}
-          >
-            <View style={[styles.contentWrapper, stylesDynamic.hidden]}>
-              {Icon}
-              <Text
-                style={[
-                  styles.text,
-                  textVariants[variant],
-                  textSizes[textSize],
-                  {
-                    color: textColors,
-                  },
-                  textStyles,
-                ]}
-              >
-                {children}
-              </Text>
-            </View>
-            {isLoading && (
-              <ActivityIndicator
-                testID="button-loading"
-                size="small"
-                style={styles.loading}
-                color={colorMap[color]}
-              />
-            )}
-          </TouchableOpacity>
-        </Animated.View>
-      </GestureDetector>
+          <View style={[styles.contentWrapper, stylesDynamic.hidden]}>
+            {Icon}
+            <Text
+              style={[
+                styles.text,
+                textVariants[variant],
+                textSizes[textSize],
+                {
+                  color: textColors,
+                },
+                textStyles,
+              ]}
+            >
+              {children}
+            </Text>
+          </View>
+          {isLoading && (
+            <ActivityIndicator
+              testID="button-loading"
+              size="small"
+              style={styles.loading}
+              color={colorMap[color]}
+            />
+          )}
+        </TouchableOpacity>
+      </Animated.View>
     );
   },
 );
