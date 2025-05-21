@@ -12,10 +12,11 @@ import { MEDIA_SCREEN } from '@/constants';
  *   - `isTablet`: A boolean indicating whether the screen is a tablet screen.
  */
 export const useMedia = () => {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
 
   return {
     width,
+    height,
     isMobile: width < MEDIA_SCREEN.TABLET,
     isTablet: width >= MEDIA_SCREEN.TABLET,
   };
