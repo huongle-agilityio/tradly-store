@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useTheme } from '@react-navigation/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -38,7 +38,7 @@ export interface CartItemProps {
   quantity: number;
   price: number;
   discount?: number;
-  onRemoveItem?: (id: string) => void;
+  onOpenModal?: (id: string) => void;
   onUpdateQuantityItem?: (id: string, value: string) => void;
 }
 
@@ -50,7 +50,7 @@ export const CartItem = memo(
     quantity,
     price,
     discount,
-    onRemoveItem,
+    onOpenModal,
     onUpdateQuantityItem,
   }: CartItemProps) => {
     const { width } = useMedia();
@@ -58,8 +58,6 @@ export const CartItem = memo(
 
     // CartItem height
     const opacity = useSharedValue(1);
-    const itemHeight = useSharedValue(205);
-    const marginVertical = useSharedValue(10);
     const translationX = useSharedValue(0);
 
     // Store
@@ -71,7 +69,7 @@ export const CartItem = memo(
         StyleSheet.create({
           gapContent: {
             gap: 15,
-            ...(onRemoveItem
+            ...(onOpenModal
               ? { paddingBottom: spacing[3], paddingTop: spacing['7.5'] }
               : { paddingVertical: 25 }),
           },
@@ -83,16 +81,19 @@ export const CartItem = memo(
             borderTopColor: colors.productCard.border,
           },
         }),
-      [colors, isDark, onRemoveItem],
+      [colors, isDark, onOpenModal],
     );
 
-    const handleRemoveItem = () => {
-      onRemoveItem?.(id);
+    const handleOpenModal = () => {
+      onOpenModal?.(id);
     };
 
-    const handleUpdateQuantity = (value: string) => {
-      onUpdateQuantityItem?.(id, value);
-    };
+    const handleUpdateQuantity = useCallback(
+      (value: string) => {
+        onUpdateQuantityItem?.(id, value);
+      },
+      [id, onUpdateQuantityItem],
+    );
 
     const panGesture = Gesture.Pan()
       .enabled(!!onUpdateQuantityItem)
@@ -104,11 +105,9 @@ export const CartItem = memo(
       .onEnd(() => {
         const shouldDismiss = translationX.value < TRANSLATION_OUT_SCREEN_X;
         if (shouldDismiss) {
-          translationX.value = withTiming(-width);
-          itemHeight.value = withTiming(0);
-          marginVertical.value = withTiming(0);
-          opacity.value = withTiming(0);
-          runOnJS(handleRemoveItem)();
+          translationX.value = withTiming(0, {}, () => {
+            runOnJS(handleOpenModal)?.();
+          });
         } else {
           translationX.value = withTiming(0);
         }
@@ -127,19 +126,10 @@ export const CartItem = memo(
       ),
     }));
 
-    const animatedHeight = useAnimatedStyle(() => ({
-      height: itemHeight.value,
-    }));
-
-    const animatedVertical = useAnimatedStyle(() => ({
-      marginVertical: marginVertical.value,
-      opacity: opacity.value,
-    }));
-
     return (
       <GestureDetector gesture={panGesture}>
-        <Animated.View style={[stylesDynamic.cartWrapper, animatedVertical]}>
-          <Animated.View style={[animatedStyles, animatedHeight]}>
+        <Animated.View style={stylesDynamic.cartWrapper}>
+          <Animated.View style={animatedStyles}>
             <View style={[styles.content, stylesDynamic.gapContent]}>
               <Image
                 source={{
@@ -201,11 +191,11 @@ export const CartItem = memo(
                 </View>
               </View>
             </View>
-            {onRemoveItem && (
+            {onOpenModal && (
               <TouchableOpacity
                 accessibilityRole="button"
                 style={[styles.buttonWrapper, stylesDynamic.buttonBorder]}
-                onPress={handleRemoveItem}
+                onPress={handleOpenModal}
               >
                 <Text fontWeight="normal" color="placeholder">
                   Remove
