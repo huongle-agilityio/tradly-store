@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Modal, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Modal, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { ScrollHandlerProcessed } from 'react-native-reanimated';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -23,42 +23,40 @@ export const ImageOverlay = memo(
     isOverlayVisible,
     toggleOverlay,
     scrollHandler,
-  }: ImageOverlayProps) => {
-    return (
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            backdropColor="transparent"
-            visible={isOverlayVisible}
-            onRequestClose={toggleOverlay}
-          >
-            <GestureHandlerRootView>
-              <View style={styles.overlayBackdrop}>
-                <Animated.ScrollView
-                  horizontal
-                  pagingEnabled
-                  showsHorizontalScrollIndicator={false}
-                  scrollEventThrottle={16}
-                  onScroll={scrollHandler}
-                >
-                  {images.map((image, index) => (
-                    <Image key={index} index={index} image={image} />
-                  ))}
-                </Animated.ScrollView>
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={toggleOverlay}
-                >
-                  <CloseIcon width={20} height={20} color="white" />
-                </TouchableOpacity>
-              </View>
-            </GestureHandlerRootView>
-          </Modal>
-        </SafeAreaView>
-      </SafeAreaProvider>
-    );
-  },
+  }: ImageOverlayProps) => (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          backdropColor="transparent"
+          visible={isOverlayVisible}
+          onRequestClose={toggleOverlay}
+        >
+          <GestureHandlerRootView>
+            <ScrollView style={styles.overlayBackdrop}>
+              <Animated.ScrollView
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                scrollEventThrottle={16}
+                onScroll={scrollHandler}
+              >
+                {images.map((image, index) => (
+                  <Image key={index} index={index} image={image} />
+                ))}
+              </Animated.ScrollView>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={toggleOverlay}
+              >
+                <CloseIcon width={20} height={20} color="white" />
+              </TouchableOpacity>
+            </ScrollView>
+          </GestureHandlerRootView>
+        </Modal>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  ),
 );
 
 const styles = StyleSheet.create({

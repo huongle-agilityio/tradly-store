@@ -1,4 +1,5 @@
 export const MEDIA_SCREEN = {
+  SMALL_MOBILE: 360,
   MOBILE: 480,
   TABLET: 768,
 };

@@ -71,6 +71,7 @@ export const Content = memo(
             alignItems: 'center',
             justifyContent: 'space-between',
             elevation: 2,
+            ...(isDark ? {} : { backgroundColor: colors.backgroundSecondary }),
           },
           contentContainerStyle: {},
           content: {
