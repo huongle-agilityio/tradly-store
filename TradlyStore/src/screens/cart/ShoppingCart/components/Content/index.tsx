@@ -1,12 +1,13 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, Suspense, useCallback, useMemo, useRef, useState } from 'react';
+import BottomSheet from '@gorhom/bottom-sheet';
 import { useTheme } from '@react-navigation/native';
-import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
+import Animated, { SlideInLeft, SlideOutLeft } from 'react-native-reanimated';
 
 // Components
 import { PriceDetails } from '../PriceDetails';
-import { StickyFooter, EmptyList } from '@/components/shared';
 import { Button, CartItem, Text } from '@/components/common';
+import { StickyFooter, EmptyList, ConfirmSheet } from '@/components/shared';
 
 // Stores
 import { useCartStore, useThemeStore } from '@/stores';
@@ -37,9 +38,11 @@ interface ContentProps {
 export const Content = memo(
   ({ isPending, onNavigateAddNewAddress, onSubmit }: ContentProps) => {
     const { colors } = useTheme();
-    const isDark = useThemeStore((state) => state.isDark);
+    const [id, setId] = useState<string>('');
+    const permissionSheetRef = useRef<BottomSheet>(null);
 
     // Stores
+    const isDark = useThemeStore((state) => state.isDark);
     const formAddress = useAddressForm((state) => state.form);
     const [carts, updateQuantityItem, removeCart] = useCartStore((state) => [
       state.carts,
@@ -81,6 +84,15 @@ export const Content = memo(
       [colors, isDark],
     );
 
+    const handleToggleModal = useCallback((id: string) => {
+      permissionSheetRef.current?.snapToIndex(0);
+      setId(id);
+    }, []);
+
+    const handleCloseModal = useCallback(() => {
+      permissionSheetRef.current?.close();
+    }, []);
+
     const handleQuantityChange = useCallback(
       (id: string, value: string) => {
         updateQuantityItem(id, Number(value));
@@ -102,6 +114,12 @@ export const Content = memo(
 
     const keyExtractor = useCallback((item: Cart) => item.id, []);
 
+    const handleDelete = useCallback(() => {
+      removeCart(id);
+      handleCloseModal();
+    }, [handleCloseModal, id, removeCart]);
+
+    // Render
     const renderItem = useCallback(
       ({
         item: { id, name, image, quantity, price, discount },
@@ -113,7 +131,7 @@ export const Content = memo(
           : SlideInLeft.delay(index * 200);
 
         return (
-          <Animated.View entering={animation}>
+          <Animated.View entering={animation} exiting={SlideOutLeft}>
             <CartItem
               key={id}
               id={id}
@@ -122,13 +140,13 @@ export const Content = memo(
               quantity={quantity}
               price={price}
               discount={discount}
-              onRemoveItem={removeCart}
+              onOpenModal={handleToggleModal}
               onUpdateQuantityItem={handleQuantityChange}
             />
           </Animated.View>
         );
       },
-      [handleQuantityChange, removeCart],
+      [handleQuantityChange, handleToggleModal],
     );
 
     return (
@@ -190,6 +208,19 @@ export const Content = memo(
             removeClippedSubviews={true} // unmount components when outside of the viewport
             renderItem={renderItem}
           />
+
+          <Suspense fallback={null}>
+            <ConfirmSheet
+              title={'Delete Product?'}
+              description={
+                'Are you sure you want to delete this product? This action cannot be undone.'
+              }
+              buttonConfirmText="Delete"
+              sheetRef={permissionSheetRef}
+              onConfirm={handleDelete}
+              onCancel={handleCloseModal}
+            />
+          </Suspense>
         </View>
       </StickyFooter>
     );

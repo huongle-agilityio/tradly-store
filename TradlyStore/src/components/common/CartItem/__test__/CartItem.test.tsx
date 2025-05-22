@@ -18,7 +18,7 @@ describe('CartItem', () => {
 
   const defaultProps = {
     ...defaultPropsWithoutAction,
-    onRemoveItem: mockOnRemoveItem,
+    onOpenModal: mockOnRemoveItem,
     onUpdateQuantityItem: mockOnUpdateQuantityItem,
   };
 
@@ -45,7 +45,7 @@ describe('CartItem', () => {
     expect(screen.getByText('10% off')).toBeTruthy();
   });
 
-  it('Should calls onRemoveItem when "Remove" button is pressed', () => {
+  it('Should calls onOpenModal when "Remove" button is pressed', () => {
     render(<CartItem {...defaultProps} />);
 
     fireEvent.press(screen.getByText('Remove'));
