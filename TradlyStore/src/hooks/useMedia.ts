@@ -17,6 +17,7 @@ export const useMedia = () => {
   return {
     width,
     height,
+    isSmallMobile: width <= MEDIA_SCREEN.SMALL_MOBILE,
     isMobile: width < MEDIA_SCREEN.TABLET,
     isTablet: width >= MEDIA_SCREEN.TABLET,
   };

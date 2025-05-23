@@ -33,7 +33,7 @@ interface ContentProps {
 
 export const Content = memo(({ onNavigationLogin }: ContentProps) => {
   const { colors } = useTheme();
-  const { isTablet, width } = useMedia();
+  const { isTablet, width, isSmallMobile } = useMedia();
   const [reactIndex, setReactIndex] = useState(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const currentIndex = useSharedValue(0);
@@ -203,6 +203,8 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
       };
     });
 
+  console.log('isSmallMobile', width);
+
   return (
     <GestureDetector gesture={panGesture}>
       <View style={stylesDynamic.container}>
@@ -231,13 +233,14 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
                     styles.imageWrapper,
                     { width: widthContainer },
                     animatedImageStyle(index),
+                    { gap: isSmallMobile ? 0 : 100 },
                   ]}
                 >
                   <Animated.Image
                     source={image}
                     alt={alt}
                     resizeMode="contain"
-                    width={width - 80}
+                    style={isSmallMobile ? styles.imageSmall : undefined}
                   />
                   <Text
                     fontSize="xl"
@@ -252,7 +255,7 @@ export const Content = memo(({ onNavigationLogin }: ContentProps) => {
             </Animated.ScrollView>
           </View>
 
-          <View style={styles.wrapper}>
+          <View style={{ gap: isSmallMobile ? 15 : 50 }}>
             <CarouselDots
               currentIndex={currentIndex}
               dataLength={ONBOARDING_STEPS_IMAGES.length}
@@ -289,16 +292,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -150,
   },
+  imageSmall: { width: 200, height: 200 },
   imageWrapper: {
     alignItems: 'center',
-    gap: 100,
   },
   title: {
     textAlign: 'center',
     paddingHorizontal: spacing['2.5'],
   },
   button: { width: '100%', textAlign: 'center' },
-  wrapper: {
-    gap: 50,
-  },
 });

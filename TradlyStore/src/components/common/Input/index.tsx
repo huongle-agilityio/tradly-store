@@ -129,7 +129,7 @@ export const Input = forwardRef(
             ...(IconRight ? [styles.hasRightIcon] : []),
           ]}
         >
-          {Icon}
+          <View>{Icon}</View>
 
           <TextInput
             ref={ref}
@@ -138,7 +138,11 @@ export const Input = forwardRef(
             editable={!(isLoading || disabled)}
             placeholder={placeholder}
             secureTextEntry={secureTextEntry}
-            style={[inputStyles[variant], inputStylesStylesDynamic[variant]]}
+            style={[
+              inputStyles[variant],
+              inputStylesStylesDynamic[variant],
+              { flex: 2 },
+            ]}
             placeholderTextColor={colorMap[variant]}
             selectionColor={colorMap[variant]}
             {...props}

@@ -30,6 +30,7 @@ exports[`Input Component Should match snapshot 1`] = `
       ]
     }
   >
+    <View />
     <TextInput
       editable={true}
       onChangeText={[MockFunction]}
@@ -45,6 +46,9 @@ exports[`Input Component Should match snapshot 1`] = `
           },
           {
             "color": "",
+          },
+          {
+            "flex": 2,
           },
         ]
       }
@@ -84,6 +88,7 @@ exports[`Input Component Should render error message 1`] = `
       ]
     }
   >
+    <View />
     <TextInput
       editable={true}
       onChangeText={[MockFunction]}
@@ -99,6 +104,9 @@ exports[`Input Component Should render error message 1`] = `
           },
           {
             "color": "",
+          },
+          {
+            "flex": 2,
           },
         ]
       }

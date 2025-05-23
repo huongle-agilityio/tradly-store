@@ -10,6 +10,7 @@ import { CategoryIcon, LocationIcon, SortIcon } from '@/components/icons';
 
 // Themes
 import { spacing } from '@/themes';
+import { useMedia } from '@/hooks';
 
 interface HeaderFilterProps {
   style?: StyleProp<ViewStyle>;
@@ -17,30 +18,36 @@ interface HeaderFilterProps {
 
 export const HeaderFilter = memo(({ style }: HeaderFilterProps) => {
   const { colors } = useTheme();
+  const { isSmallMobile } = useMedia();
+
+  const listItems = [
+    {
+      icon: <SortIcon size={16} color={colors.light} />,
+      label: 'Sort by',
+    },
+    {
+      icon: <LocationIcon size={16} color={colors.light} />,
+      label: 'Location',
+    },
+    {
+      icon: <CategoryIcon size={16} color={colors.light} />,
+      label: 'Category',
+    },
+  ];
 
   return (
     <View style={[styles.container, style]}>
-      <Button
-        variant="bordered"
-        color="secondary"
-        icon={<SortIcon size={16} color={colors.light} />}
-      >
-        Sort by
-      </Button>
-      <Button
-        variant="bordered"
-        color="secondary"
-        icon={<LocationIcon size={16} color={colors.light} />}
-      >
-        Location
-      </Button>
-      <Button
-        variant="bordered"
-        color="secondary"
-        icon={<CategoryIcon size={16} color={colors.light} />}
-      >
-        Category
-      </Button>
+      {listItems.map((item, index) => (
+        <Button
+          key={index}
+          variant="bordered"
+          color="secondary"
+          icon={item.icon}
+          {...(isSmallMobile && { size: 'small' })}
+        >
+          {item.label}
+        </Button>
+      ))}
     </View>
   );
 });
