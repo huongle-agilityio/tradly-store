@@ -11,7 +11,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   userInterfaceStyle: 'light',
   newArchEnabled: true,
   splash: {
-    image: './src/assets/splash-icon.png',
+    image: './src/assets/splash-icon-dark.png',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
   },
@@ -56,5 +56,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ],
   extra: {
     storybookEnabled: process.env.EXPO_PUBLIC_ENABLE_STORYBOOK === 'true',
+    eas: {
+      projectId: 'c680031e-85e2-4a05-afad-79f999221818',
+    },
   },
 });
