@@ -38,3 +38,21 @@ jobs:
           java-version: "17"
           distribution: "temurin"
           cache: gradle
+
+      - name: Grant Gradlew permission
+        if: runner.os != 'Windows'
+        run: chmod +x android/gradlew
+
+      - name: Grant Gradlew permission in Windows
+        if: runner.os == 'Windows'
+        run: icacls android\gradlew /grant Everyone:"(RX)"
+        shell: powershell
+
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_API_URL: ${{ vars.API_URL }}
+          envkey_UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}
+          envkey_KEY_UPLOAD_IMAGE: ${{ secrets.KEY_UPLOAD_IMAGE }}
+          directory: ./practice-one
+          file_name: .env
