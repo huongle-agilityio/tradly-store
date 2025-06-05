@@ -54,5 +54,5 @@ jobs:
           envkey_API_URL: ${{ vars.API_URL }}
           envkey_UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}
           envkey_KEY_UPLOAD_IMAGE: ${{ secrets.KEY_UPLOAD_IMAGE }}
-          directory: ./practice-one
+          directory: ./TradlyStore
           file_name: .env
