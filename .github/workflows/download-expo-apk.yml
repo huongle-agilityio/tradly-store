@@ -52,6 +52,13 @@ jobs:
           BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
           echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
 
+      - name: Get build details
+        id: build_info
+        working-directory: ./practice-one
+        run: |
+          eas build:view --json --id ${{ steps.get_build.outputs.buildId }} > build-info.json
+          cat build-info.json
+
       # Extract the APK URL from the build info JSON
       - name: Extract APK URL
         id: apk_url
