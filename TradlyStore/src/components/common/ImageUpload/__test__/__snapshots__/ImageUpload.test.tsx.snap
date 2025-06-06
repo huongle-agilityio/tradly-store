@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageUpload Component renders correctly with given image 1`] = `
+<View
+  style={
+    [
+      {
+        "position": "relative",
+      },
+      undefined,
+    ]
+  }
+>
+  <Image
+    accessibilityLabel="image uploaded"
+    accessibilityRole="image"
+    source={
+      {
+        "uri": "https://path-to-image.jpg",
+      }
+    }
+    style={
+      [
+        {
+          "borderRadius": 8,
+          "height": 108,
+          "width": 140,
+        },
+        undefined,
+      ]
+    }
+    testID="uploaded-image"
+  />
+  <View
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "",
+        "borderRadius": 9999,
+        "height": 19,
+        "justifyContent": "center",
+        "opacity": 0,
+        "position": "absolute",
+        "right": -8,
+        "top": -8,
+        "width": 19,
+      }
+    }
+    testID="close-button"
+  >
+    <RNSVGSvgViewAndroid
+      align="xMidYMid"
+      bbHeight={9}
+      bbWidth={9}
+      color="#fff"
+      focusable={false}
+      height={9}
+      meetOrSlice={0}
+      minX={0}
+      minY={0}
+      style={
+        [
+          {
+            "backgroundColor": "transparent",
+            "borderWidth": 0,
+          },
+          {
+            "flex": 0,
+            "height": 9,
+            "width": 9,
+          },
+        ]
+      }
+      vbHeight={17}
+      vbWidth={16}
+      width={9}
+    >
+      <RNSVGGroup
+        fill={
+          {
+            "payload": -16777216,
+            "type": 0,
+          }
+        }
+      >
+        <RNSVGPath
+          clipRule={0}
+          d="M13.1793 16.5965C13.6988 17.1325 14.0368 17.138 14.5658 16.5965L15.6048 15.5325C16.1138 15.0115 16.1483 14.6695 15.6048 14.113L10.1223 8.50049L15.6053 2.88799C16.1188 2.36049 16.1288 2.00449 15.6053 1.46799L14.5663 0.404494C14.0273 -0.147506 13.6943 -0.122006 13.1798 0.404494L8.00082 5.70649L2.82232 0.404994C2.30782 -0.121506 1.97482 -0.147006 1.43582 0.404994L0.396825 1.46849C-0.127175 2.00499 -0.117676 2.36099 0.396825 2.88849L5.87932 8.50049L0.396825 14.113C-0.146675 14.6695 -0.117676 15.0115 0.396825 15.5325L1.43532 16.5965C1.95982 17.138 2.29782 17.1325 2.82182 16.5965L8.00082 11.2945L13.1793 16.5965Z"
+          fill={
+            {
+              "type": 2,
+            }
+          }
+          fillRule={0}
+          propList={
+            [
+              "fill",
+              "fillRule",
+            ]
+          }
+        />
+      </RNSVGGroup>
+    </RNSVGSvgViewAndroid>
+  </View>
+</View>
+`;

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text Component Should renders children correctly 1`] = `
+<Text
+  entering={
+    FadeIn {
+      "build": [Function],
+      "durationV": 500,
+      "randomizeDelay": false,
+      "reduceMotionV": "system",
+    }
+  }
+  exiting={
+    FadeOut {
+      "build": [Function],
+      "durationV": 500,
+      "randomizeDelay": false,
+      "reduceMotionV": "system",
+    }
+  }
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
+  jestInlineStyle={
+    [
+      {
+        "fontSize": 14,
+        "lineHeight": 16,
+      },
+      {
+        "fontFamily": "Montserrat-Medium",
+        "fontWeight": "500",
+      },
+      {
+        "color": "",
+      },
+      undefined,
+    ]
+  }
+  style={
+    {
+      "color": "",
+      "fontFamily": "Montserrat-Medium",
+      "fontSize": 14,
+      "fontWeight": "500",
+      "lineHeight": 16,
+    }
+  }
+>
+  Hello World
+</Text>
+`;

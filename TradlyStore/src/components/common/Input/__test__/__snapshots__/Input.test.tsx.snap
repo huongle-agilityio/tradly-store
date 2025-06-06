@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input Component Should match snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "width": "100%",
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "borderRadius": 24,
+          "borderWidth": 1,
+          "paddingHorizontal": 16,
+          "paddingVertical": 13,
+        },
+        {
+          "borderColor": "",
+        },
+        {
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <View />
+    <TextInput
+      editable={true}
+      onChangeText={[MockFunction]}
+      placeholder="Enter text"
+      placeholderTextColor=""
+      selectionColor=""
+      style={
+        [
+          {
+            "fontFamily": "Montserrat",
+            "fontSize": 18,
+            "lineHeight": 22,
+          },
+          {
+            "color": "",
+          },
+          {
+            "flex": 2,
+          },
+        ]
+      }
+      value="Test"
+    />
+  </View>
+</View>
+`;
+
+exports[`Input Component Should render error message 1`] = `
+<View
+  style={
+    [
+      {
+        "width": "100%",
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "borderRadius": 24,
+          "borderWidth": 1,
+          "paddingHorizontal": 16,
+          "paddingVertical": 13,
+        },
+        {
+          "borderColor": "",
+        },
+        {
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <View />
+    <TextInput
+      editable={true}
+      onChangeText={[MockFunction]}
+      placeholder="Enter text"
+      placeholderTextColor=""
+      selectionColor=""
+      style={
+        [
+          {
+            "fontFamily": "Montserrat",
+            "fontSize": 18,
+            "lineHeight": 22,
+          },
+          {
+            "color": "",
+          },
+          {
+            "flex": 2,
+          },
+        ]
+      }
+      value="Test"
+    />
+  </View>
+  <Text
+    entering={
+      FadeIn {
+        "build": [Function],
+        "durationV": 500,
+        "randomizeDelay": false,
+        "reduceMotionV": "system",
+      }
+    }
+    exiting={
+      FadeOut {
+        "build": [Function],
+        "durationV": 500,
+        "randomizeDelay": false,
+        "reduceMotionV": "system",
+      }
+    }
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
+    jestInlineStyle={
+      [
+        {
+          "fontSize": 14,
+          "lineHeight": 16,
+        },
+        {
+          "fontFamily": "Montserrat",
+          "fontWeight": "400",
+        },
+        {
+          "color": "",
+        },
+        {
+          "paddingTop": 12,
+        },
+      ]
+    }
+    style={
+      {
+        "color": "",
+        "fontFamily": "Montserrat",
+        "fontSize": 14,
+        "fontWeight": "400",
+        "lineHeight": 16,
+        "paddingTop": 12,
+      }
+    }
+  >
+    This field is required
+  </Text>
+</View>
+`;
