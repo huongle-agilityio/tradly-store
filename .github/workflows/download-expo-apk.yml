@@ -1,6 +1,8 @@
 name: Download APK after EAS Build
 
 on:
+ pull_request:
+    branches: ["main"]
   workflow_run:
     workflows: ["Build Android APK with Expo"] # Triggered when this workflow completes
     types:
@@ -25,8 +27,12 @@ jobs:
         id: get_build
         # Fetch the most recent finished Android build ID from the main branch
         run: |
-          BUILD_ID=$(eas build:list --platform android --status finished --limit 1 --branch main --json | jq -r '.[0].id')
-          echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
+              echo "Getting latest build info from EAS..."
+              OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json)
+              echo "Raw output:"
+              echo "$OUTPUT"
+              BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
+              echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
 
       - name: Get build details
         id: build_info
