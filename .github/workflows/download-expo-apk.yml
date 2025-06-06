@@ -1,0 +1,55 @@
+name: Download APK after EAS Build
+
+on:
+  workflow_run:
+    workflows: ["Build Android APK with Expo"] # Triggered when this workflow completes
+    types:
+      - completed # Runs only when the workflow finishes (success or failure)
+
+jobs:
+  download-apk:
+    runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    # Only run if the build workflow succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Get latest Android build info
+        id: get_build
+        # Fetch the most recent finished Android build ID from the main branch
+        run: |
+          BUILD_ID=$(eas build:list --platform android --status finished --limit 1 --branch main --json | jq -r '.[0].id')
+          echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
+
+      - name: Get build details
+        id: build_info
+        run: |
+          eas build:view --json --id ${{ steps.get_build.outputs.buildId }} > build-info.json
+          cat build-info.json
+
+      - name: Extract APK URL
+        id: apk_url
+        # Parse the APK download URL from the build info JSON file
+        run: |
+          APK_URL=$(jq -r '.artifacts.buildUrl' build-info.json)
+          echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
+
+      - name: Download APK
+        # Create directory for APK and download the APK file from the extracted URL
+        run: |
+          mkdir -p ./build/android
+          curl -L ${{ steps.apk_url.outputs.apk_url }} -o ./build/android/myapp.apk
+
+      # Upload the downloaded APK
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: MyApp-APK
+          path: ./build/android/myapp.apk
