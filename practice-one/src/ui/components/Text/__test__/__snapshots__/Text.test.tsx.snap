@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text Component Should renders children correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "fontSize": 14,
+        "lineHeight": 16,
+      },
+      {
+        "fontFamily": "Montserrat-Medium",
+        "fontWeight": "500",
+      },
+      {
+        "color": "#000",
+      },
+      undefined,
+    ]
+  }
+>
+  Hello World
+</Text>
+`;

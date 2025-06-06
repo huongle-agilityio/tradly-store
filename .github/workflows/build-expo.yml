@@ -1,0 +1,65 @@
+name: Build Android APK with Expo
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to build"
+        type: environment
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    defaults:
+      run:
+        working-directory: ./practice-one
+    steps:
+      # Check out the code
+      - uses: actions/checkout@v4
+
+      # Set up Node.js and install dependencies
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+          cache-dependency-path: ./practice-one/yarn.lock
+
+      - name: install app
+        run: yarn install --immutable --immutable-cache --check-cache
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: gradle
+
+      # Set environment variables
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_EXPO_PUBLIC_API_URL: ${{ vars.API_URL }}
+          envkey_EXPO_PUBLIC_ENABLE_STORYBOOK: ${{ vars.EXPO_PUBLIC_ENABLE_STORYBOOK }}
+          directory: ./practice-one
+          file_name: .env
+
+      # Setup Expo and EAS with EXPO_TOKEN secret
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # Run EAS build (Android, preview profile)
+      - name: Publish build
+        run: eas build --platform android --profile production --non-interactive

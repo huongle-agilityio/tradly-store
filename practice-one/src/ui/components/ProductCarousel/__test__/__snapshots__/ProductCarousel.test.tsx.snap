@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductCarousel Should renders correct number of images 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(8, 11, 18, 0.3)",
+      "height": "100%",
+      "position": "relative",
+    }
+  }
+  testID="product-carousel-container"
+>
+  <RCTScrollView
+    horizontal={true}
+    onScroll={[Function]}
+    pagingEnabled={true}
+    scrollEventThrottle={16}
+    showsHorizontalScrollIndicator={false}
+    testID="product-carousel-scroll"
+  >
+    <View>
+      <ViewManagerAdapter_ExpoImage
+        accessibilityLabel="Product image of Test Product - View 1"
+        containerViewRef={"[React.ref]"}
+        contentFit="cover"
+        contentPosition={
+          {
+            "left": "50%",
+            "top": "50%",
+          }
+        }
+        nativeViewRef={"[React.ref]"}
+        onError={[Function]}
+        onLoad={[Function]}
+        onLoadStart={[Function]}
+        onProgress={[Function]}
+        placeholder={
+          [
+            {
+              "height": 16,
+              "uri": "blurhash:/%7CrF%3FhV%252WCj%5Bayj%5Ba%7Cj%5Baz_NaeWBj@ayfRayfQfQM%7BM%7Cazj%5Bazf6fQfQfQIpWXofj%5Bayj%5Bj%5BfQayWCoeoeaya%7Dj%5BayfQa%7BoLj%3Fj%5BWVj%5Bayayj%5BfQoff7azayj%5Bayj%5Bj%5Bayofayayayj%5BfQj%5Bayayj%5Bayfjj%5Bj%5Bayjuayj%5B",
+              "width": 16,
+            },
+          ]
+        }
+        source={
+          [
+            {
+              "uri": "image1.jpg",
+            },
+          ]
+        }
+        style={
+          {
+            "width": 0,
+          }
+        }
+        testID="product-carousel-image"
+        transition={
+          {
+            "duration": 1000,
+          }
+        }
+        width={0}
+      />
+      <ViewManagerAdapter_ExpoImage
+        accessibilityLabel="Product image of Test Product - View 2"
+        containerViewRef={"[React.ref]"}
+        contentFit="cover"
+        contentPosition={
+          {
+            "left": "50%",
+            "top": "50%",
+          }
+        }
+        nativeViewRef={"[React.ref]"}
+        onError={[Function]}
+        onLoad={[Function]}
+        onLoadStart={[Function]}
+        onProgress={[Function]}
+        placeholder={
+          [
+            {
+              "height": 16,
+              "uri": "blurhash:/%7CrF%3FhV%252WCj%5Bayj%5Ba%7Cj%5Baz_NaeWBj@ayfRayfQfQM%7BM%7Cazj%5Bazf6fQfQfQIpWXofj%5Bayj%5Bj%5BfQayWCoeoeaya%7Dj%5BayfQa%7BoLj%3Fj%5BWVj%5Bayayj%5BfQoff7azayj%5Bayj%5Bj%5Bayofayayayj%5BfQj%5Bayayj%5Bayfjj%5Bj%5Bayjuayj%5B",
+              "width": 16,
+            },
+          ]
+        }
+        source={
+          [
+            {
+              "uri": "image2.jpg",
+            },
+          ]
+        }
+        style={
+          {
+            "width": 0,
+          }
+        }
+        testID="product-carousel-image"
+        transition={
+          {
+            "duration": 1000,
+          }
+        }
+        width={0}
+      />
+      <ViewManagerAdapter_ExpoImage
+        accessibilityLabel="Product image of Test Product - View 3"
+        containerViewRef={"[React.ref]"}
+        contentFit="cover"
+        contentPosition={
+          {
+            "left": "50%",
+            "top": "50%",
+          }
+        }
+        nativeViewRef={"[React.ref]"}
+        onError={[Function]}
+        onLoad={[Function]}
+        onLoadStart={[Function]}
+        onProgress={[Function]}
+        placeholder={
+          [
+            {
+              "height": 16,
+              "uri": "blurhash:/%7CrF%3FhV%252WCj%5Bayj%5Ba%7Cj%5Baz_NaeWBj@ayfRayfQfQM%7BM%7Cazj%5Bazf6fQfQfQIpWXofj%5Bayj%5Bj%5BfQayWCoeoeaya%7Dj%5BayfQa%7BoLj%3Fj%5BWVj%5Bayayj%5BfQoff7azayj%5Bayj%5Bj%5Bayofayayayj%5BfQj%5Bayayj%5Bayfjj%5Bj%5Bayjuayj%5B",
+              "width": 16,
+            },
+          ]
+        }
+        source={
+          [
+            {
+              "uri": "image3.jpg",
+            },
+          ]
+        }
+        style={
+          {
+            "width": 0,
+          }
+        }
+        testID="product-carousel-image"
+        transition={
+          {
+            "duration": 1000,
+          }
+        }
+        width={0}
+      />
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "alignSelf": "center",
+        "bottom": 15,
+        "flexDirection": "row",
+        "gap": 5,
+        "position": "absolute",
+        "zIndex": 999,
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderRadius": 9999,
+          "height": 6,
+          "opacity": 0.4,
+          "width": 6,
+        }
+      }
+      testID="product-carousel-dot-item"
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderRadius": 9999,
+          "height": 6,
+          "opacity": 0.4,
+          "width": 6,
+        }
+      }
+      testID="product-carousel-dot-item"
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderRadius": 9999,
+          "height": 6,
+          "opacity": 0.4,
+          "width": 6,
+        }
+      }
+      testID="product-carousel-dot-item"
+    />
+  </View>
+</View>
+`;

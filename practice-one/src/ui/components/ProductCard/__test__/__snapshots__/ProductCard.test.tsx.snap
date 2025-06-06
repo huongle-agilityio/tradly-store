@@ -1,0 +1,274 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductCard Component Should renders correctly with required props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "borderColor": "#dbdbde",
+      "borderRadius": 8,
+      "borderWidth": 1,
+      "opacity": 1,
+      "width": 160,
+    }
+  }
+  testID="product-card"
+>
+  <ViewManagerAdapter_ExpoImage
+    accessibilityLabel="product-Product Title"
+    borderTopLeftRadius={8}
+    borderTopRightRadius={8}
+    containerViewRef={"[React.ref]"}
+    contentFit="cover"
+    contentPosition={
+      {
+        "left": "50%",
+        "top": "50%",
+      }
+    }
+    height={125}
+    nativeViewRef={"[React.ref]"}
+    onError={[Function]}
+    onLoad={[Function]}
+    onLoadStart={[Function]}
+    onProgress={[Function]}
+    placeholder={
+      [
+        {
+          "height": 16,
+          "uri": "blurhash:/%7CrF%3FhV%252WCj%5Bayj%5Ba%7Cj%5Baz_NaeWBj@ayfRayfQfQM%7BM%7Cazj%5Bazf6fQfQfQIpWXofj%5Bayj%5Bj%5BfQayWCoeoeaya%7Dj%5BayfQa%7BoLj%3Fj%5BWVj%5Bayayj%5BfQoff7azayj%5Bayj%5Bj%5Bayofayayayj%5BfQj%5Bayayj%5Bayfjj%5Bj%5Bayjuayj%5B",
+          "width": 16,
+        },
+      ]
+    }
+    source={
+      [
+        {
+          "uri": "image-url",
+        },
+      ]
+    }
+    style={
+      {
+        "borderTopLeftRadius": 8,
+        "borderTopRightRadius": 8,
+        "height": 125,
+        "width": "100%",
+      }
+    }
+    testID="category-card-image"
+    transition={
+      {
+        "duration": 1000,
+      }
+    }
+    width="100%"
+  />
+  <View
+    style={
+      {
+        "backgroundColor": "#fff",
+        "borderBottomLeftRadius": 8,
+        "borderBottomRightRadius": 8,
+        "gap": 14,
+        "padding": 12,
+      }
+    }
+  >
+    <Text
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontSize": 14,
+            "lineHeight": 16,
+          },
+          {
+            "fontFamily": "Montserrat-Medium",
+            "fontWeight": "500",
+          },
+          {
+            "color": "#4a4a4a",
+          },
+          {
+            "lineHeight": 18,
+          },
+        ]
+      }
+    >
+      Product Title
+    </Text>
+    <View
+      style={
+        {
+          "flexDirection": "row",
+          "gap": 5,
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "gap": 6,
+          }
+        }
+      >
+        <ViewManagerAdapter_ExpoImage
+          accessibilityLabel="store-Store Name-logo"
+          borderRadius={9999}
+          containerViewRef={"[React.ref]"}
+          contentFit="cover"
+          contentPosition={
+            {
+              "left": "50%",
+              "top": "50%",
+            }
+          }
+          height={20}
+          nativeViewRef={"[React.ref]"}
+          onError={[Function]}
+          onLoad={[Function]}
+          onLoadStart={[Function]}
+          onProgress={[Function]}
+          placeholder={
+            [
+              {
+                "height": 16,
+                "uri": "blurhash:/%7CrF%3FhV%252WCj%5Bayj%5Ba%7Cj%5Baz_NaeWBj@ayfRayfQfQM%7BM%7Cazj%5Bazf6fQfQfQIpWXofj%5Bayj%5Bj%5BfQayWCoeoeaya%7Dj%5BayfQa%7BoLj%3Fj%5BWVj%5Bayayj%5BfQoff7azayj%5Bayj%5Bj%5Bayofayayayj%5BfQj%5Bayayj%5Bayfjj%5Bj%5Bayjuayj%5B",
+                "width": 16,
+              },
+            ]
+          }
+          source={
+            [
+              {
+                "uri": "store-logo-url",
+              },
+            ]
+          }
+          style={
+            {
+              "borderRadius": 9999,
+              "height": 20,
+              "width": 20,
+            }
+          }
+          transition={
+            {
+              "duration": 1000,
+            }
+          }
+          width={20}
+        />
+        <Text
+          numberOfLines={1}
+          style={
+            [
+              {
+                "fontSize": 14,
+                "lineHeight": 16,
+              },
+              {
+                "fontFamily": "Montserrat-Medium",
+                "fontWeight": "500",
+              },
+              {
+                "color": "#4f4f4f",
+              },
+              {
+                "lineHeight": 18,
+                "width": 55,
+              },
+            ]
+          }
+        >
+          Store Name
+        </Text>
+      </View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "gap": 6,
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "fontSize": 10,
+                "lineHeight": 12,
+              },
+              {
+                "fontFamily": "Montserrat-Medium",
+                "fontWeight": "500",
+              },
+              {
+                "color": "#4f4f4f",
+              },
+              {
+                "textDecorationLine": "line-through",
+              },
+            ]
+          }
+        >
+          $
+          100
+        </Text>
+        <Text
+          style={
+            [
+              {
+                "fontSize": 14,
+                "lineHeight": 16,
+              },
+              {
+                "fontFamily": "Montserrat-Medium",
+                "fontWeight": "500",
+              },
+              {
+                "color": "#33907c",
+              },
+              undefined,
+            ]
+          }
+        >
+          $
+          80
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

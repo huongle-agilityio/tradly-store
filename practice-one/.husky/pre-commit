@@ -1,0 +1,2 @@
+cd ./practice-one
+yarn lint-staged
