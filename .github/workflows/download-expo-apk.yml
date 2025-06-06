@@ -1,12 +1,12 @@
 name: Download APK after EAS Build
 
 on:
- pull_request:
+  pull_request:
     branches: ["main"]
-  workflow_run:
-    workflows: ["Build Android APK with Expo"] # Triggered when this workflow completes
-    types:
-      - completed # Runs only when the workflow finishes (success or failure)
+    # workflow_run:
+    #   workflows: ["Build Android APK with Expo"] # Triggered when this workflow completes
+    #   types:
+    #     - completed # Runs only when the workflow finishes (success or failure)
 
 jobs:
   download-apk:
@@ -14,7 +14,7 @@ jobs:
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
     # Only run if the build workflow succeeded
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout repo
@@ -27,12 +27,12 @@ jobs:
         id: get_build
         # Fetch the most recent finished Android build ID from the main branch
         run: |
-              echo "Getting latest build info from EAS..."
-              OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json)
-              echo "Raw output:"
-              echo "$OUTPUT"
-              BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
-              echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
+          echo "Getting latest build info from EAS..."
+          OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json)
+          echo "Raw output:"
+          echo "$OUTPUT"
+          BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
+          echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
 
       - name: Get build details
         id: build_info
