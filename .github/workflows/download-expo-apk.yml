@@ -1,12 +1,12 @@
 name: Download APK after EAS Build
 
 on:
-  pull_request:
-    branches: ["main"]
-  # workflow_run:
-  #   workflows: ["Build Android APK with Expo"] # Triggered when this workflow completes
-  #   types:
-  #     - completed # Runs only when the workflow finishes (success or failure)
+  # pull_request:
+  #   branches: ["main"]
+  workflow_run:
+    workflows: ["Build Android APK with Expo"] # Triggered when this workflow completes
+    types:
+      - completed # Runs only when the workflow finishes (success or failure)
 
 jobs:
   # download-apk:
