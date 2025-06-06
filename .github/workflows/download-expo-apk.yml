@@ -43,7 +43,7 @@ jobs:
         id: get_build
         run: |
           echo "Getting latest build info from EAS..."
-          OUTPUT=$(yarn eas build:list --platform android --status finished --limit 1 --json --non-interactive)
+          OUTPUT=$(yarn eas build:list --platform android --status finished --limit 1 --json --non-interactive | grep -oP '\[.*\]')
           echo "Raw output:"
           echo "$OUTPUT"
           BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
