@@ -20,14 +20,23 @@ jobs:
     defaults:
       run:
         working-directory: ./practice-one
+
     steps:
       # Clone the repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Install the EAS CLI globally to use in subsequent steps
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
+      # Set up Node.js and install dependencies
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: practice-one/yarn.lock
+
+      - name: Install dependencies
+        working-directory: practice-one
+        run: yarn install --immutable --immutable-cache --check-cache
 
       # Get the most recent finished Android build from the 'main' branch
       - name: Get latest Android build info
