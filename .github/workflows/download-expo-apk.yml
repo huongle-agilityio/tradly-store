@@ -32,7 +32,7 @@ jobs:
         id: get_build
         run: |
           echo "Getting latest build info from EAS..."
-          eas build:list --platform android --status finished --limit 1 --json
+          eas build:list --platform android --status finished --limit 1 --json --non-interactive
           # OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json --non-interactive)
           # echo "Raw output:"
           # echo "$OUTPUT"
