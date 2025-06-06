@@ -32,11 +32,12 @@ jobs:
         id: get_build
         run: |
           echo "Getting latest build info from EAS..."
-          OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json --non-interactive)
-          echo "Raw output:"
-          echo "$OUTPUT"
-          BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
-          echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
+          echo eas build:list --platform android --status finished --limit 1 --json
+          # OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json --non-interactive)
+          # echo "Raw output:"
+          # echo "$OUTPUT"
+          # BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
+          # echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
 
       - name: Get build details
         id: build_info
