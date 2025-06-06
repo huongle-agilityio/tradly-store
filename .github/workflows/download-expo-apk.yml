@@ -28,31 +28,22 @@ jobs:
         run: npm install -g eas-cli
 
       # Get the most recent finished Android build from the 'main' branch
-      - name: Get latest Android build info
+     - name: Get latest Android build info
         id: get_build
         run: |
           echo "Getting latest build info from EAS..."
-          OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json)
-
+          OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json --non-interactive)
           echo "Raw output:"
           echo "$OUTPUT"
-
-          COUNT=$(echo "$OUTPUT" | jq 'length')
-          if [ "$COUNT" -eq 0 ]; then
-            echo "❌ No finished builds found on branch 'main'"
-            exit 1
-          fi
-
           BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
           echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
 
-      # Get detailed info about the retrieved build ID
       - name: Get build details
         id: build_info
         # Retrieve detailed information about the build by its ID
         run: |
           eas build:view --json --id ${{ steps.get_build.outputs.buildId }} > build-info.json
-          cat build-info.json  # Output details to logs for debugging purposes
+          cat build-info.json
 
       # Extract the APK URL from the build info JSON
       - name: Extract APK URL
