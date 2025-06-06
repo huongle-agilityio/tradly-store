@@ -1,6 +1,8 @@
 name: Download APK after EAS Build
 
 on:
+ push:
+    branches: ["main"]
   pull_request:
     branches: ["main"]
     # workflow_run:
