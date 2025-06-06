@@ -5,30 +5,26 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
-  # workflow_run:
-  #   workflows: ["Build Android APK with Expo"]
-  #   types:
-  #     - completed
 
 jobs:
   download-apk:
     runs-on: ubuntu-latest
+
+    # Environment variable to store your Expo access token
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-      run: |
-        eas whoami || eas login --token $EXPO_TOKEN
-    # Only run if the build workflow succeeded
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    # Set the working directory for all run steps
     defaults:
       run:
         working-directory: ./practice-one
 
     steps:
-      # Clone the repository
+      # Clone the repo
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Set up Node.js and install dependencies
+      # Setup Node.js environment
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
@@ -36,45 +32,52 @@ jobs:
           cache: yarn
           cache-dependency-path: practice-one/yarn.lock
 
+      # Install project dependencies using Yarn
       - name: Install dependencies
-        working-directory: practice-one
         run: yarn install --immutable --immutable-cache --check-cache
 
-      - name: Install EAS CLI
+      # Install EAS CLI globally
+      - name: Install EAS CLI globally
         run: npm install -g eas-cli
 
-      # Get the most recent finished Android build from the 'main' branch
+      # Authenticate with EAS using the Expo token
+      - name: Login to EAS
+        run: eas whoami || eas login --token $EXPO_TOKEN
+
+      # Get the most recent finished Android build
       - name: Get latest Android build info
         id: get_build
         run: |
           echo "Getting latest build info from EAS..."
           OUTPUT=$(eas build:list --platform android --status finished --limit 1 --json --non-interactive)
-          echo "Raw output:"
-          echo "$OUTPUT"
-          BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
+          echo "$OUTPUT" > tmp-build.json
+          cat tmp-build.json
+          # Extract build ID from the JSON
+          BUILD_ID=$(jq -r '.[0].id' tmp-build.json)
           echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
 
+      # Get full details of the build using the build ID
       - name: Get build details
         id: build_info
-        working-directory: ./practice-one
         run: |
           eas build:view --json --id ${{ steps.get_build.outputs.buildId }} > build-info.json
           cat build-info.json
 
-      # Extract the APK URL from the build info JSON
+      # Extract the APK download URL from the build info JSON
       - name: Extract APK URL
         id: apk_url
         run: |
           APK_URL=$(jq -r '.artifacts.buildUrl' build-info.json)
+          echo "apk_url=$APK_URL"
           echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
 
-      # Download the APK using curl
+      # Download the APK file using curl
       - name: Download APK
         run: |
           mkdir -p ./build/android
-          curl -L ${{ steps.apk_url.outputs.apk_url }} -o ./build/android/myapp.apk
+          curl -L "${{ steps.apk_url.outputs.apk_url }}" -o ./build/android/myapp.apk
 
-      # Upload the APK as an artifact so it can be accessed from the Actions UI
+      # Upload the downloaded APK as an artifact so it can be downloaded later
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
