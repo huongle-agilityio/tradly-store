@@ -1,7 +1,7 @@
 name: Download APK after EAS Build
 
 on:
- push:
+  push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
