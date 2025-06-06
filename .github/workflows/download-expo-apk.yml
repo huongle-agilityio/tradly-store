@@ -43,19 +43,11 @@ jobs:
         id: get_build
         run: |
           echo "Getting latest build info from EAS..."
-          yarn eas build:list --platform android --status finished --limit 1 --json --non-interactive
-          # OUTPUT=$(eas build:list --platform android --status finished --limit 1 --branch main --json --non-interactive)
-          # echo "Raw output:"
-          # echo "$OUTPUT"
-          # BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
-          # echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
-
-      - name: Get build details
-        id: build_info
-        # Retrieve detailed information about the build by its ID
-        run: |
-          yarn eas build:view --json --id ${{ steps.get_build.outputs.buildId }} > build-info.json
-          cat build-info.json
+          OUTPUT=$(yarn eas build:list --platform android --status finished --limit 1 --json --non-interactive)
+          echo "Raw output:"
+          echo "$OUTPUT"
+          BUILD_ID=$(echo "$OUTPUT" | jq -r '.[0].id')
+          echo "buildId=$BUILD_ID" >> $GITHUB_OUTPUT
 
       # Extract the APK URL from the build info JSON
       - name: Extract APK URL
