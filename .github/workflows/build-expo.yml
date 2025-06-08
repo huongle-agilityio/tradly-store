@@ -73,12 +73,13 @@ jobs:
         run: |
           eas build --platform android --profile production-apk --non-interactive --output json > build-result.json
 
+      - name: Check build result
+        run: cat build-result.json
       - name: Download Expo APK
         run: |
           apk_url=$(jq -r '.artifacts.android' build-result.json)
           echo "Downloading APK from $apk_url"
-          curl -L $apk_url -o ./dist/expo-apk
-
+          curl -L $apk_url -o ./dist/expo-apk.apk
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
