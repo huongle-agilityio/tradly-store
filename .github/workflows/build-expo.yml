@@ -70,18 +70,17 @@ jobs:
         run: mkdir -p dist
 
       # Run EAS build (Android, production profile)
-      - name: Publish build
+      - name: Run EAS build
         id: eas_build
         run: |
-          eas build --platform android --profile production-apk --non-interactive --wait --output build-result.json
-
-      - name: Check build result
-        run: cat build-result.json
-      - name: Download Expo APK
+          eas build --platform android --profile production-apk --non-interactive --wait > build-log.txt
+      
+      - name: Extract APK URL
         run: |
-          apk_url=$(jq -r '.artifacts.android' build-result.json)
-          echo "Downloading APK from $apk_url"
-          curl -L $apk_url -o ./dist/expo-apk.apk
+          download_url=$(grep -o 'https://.*\.apk' build-log.txt | tail -n1)
+          echo "Download URL: $download_url"
+          curl -L "$download_url" -o ./dist/app-release.apk
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
