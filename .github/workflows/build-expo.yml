@@ -78,9 +78,9 @@ jobs:
         run: |
           eas build --platform android --profile production-apk --non-interactive --wait --json > build-info.json
       
-      - name: Extract APK URL
+      - name: Extract APK URL and Download
         run: |
-          download_url=$(jq -r '.artifacts.buildUrl' build-info.json)
+          download_url=$(jq -r '.[0].artifacts.buildUrl' build-info.json)
           echo "Download URL: $download_url"
           curl -L "$download_url" -o ./dist/expo-apk.apk
 
