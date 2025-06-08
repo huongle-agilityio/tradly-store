@@ -71,7 +71,7 @@ jobs:
       - name: Publish build
         id: eas_build
         run: |
-          eas build --platform android --profile production-apk --non-interactive --output json > build-result.json
+          eas build --platform android --profile production-apk --non-interactive
 
       - name: Check build result
         run: cat build-result.json
