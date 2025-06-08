@@ -79,7 +79,7 @@ jobs:
         run: |
           download_url=$(grep -o 'https://.*\.apk' build-log.txt | tail -n1)
           echo "Download URL: $download_url"
-          curl -L "$download_url" -o ./dist/app-release.apk
+          curl -L "$download_url" -o ./dist/expo-apk.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
