@@ -3,8 +3,12 @@ name: Build Android APK with CLI
 on:
   push:
     branches: ["main"]
+    paths:
+      - "TradlyStore/**"
   pull_request:
     branches: ["main"]
+    paths:
+      - "TradlyStore/**"
   workflow_dispatch:
     inputs:
       environment:
@@ -56,3 +60,24 @@ jobs:
           envkey_KEY_UPLOAD_IMAGE: ${{ secrets.KEY_UPLOAD_IMAGE }}
           directory: ./TradlyStore
           file_name: .env
+
+      - name: Build apk
+        run: yarn build:apk
+
+      - name: Sign app APK
+        uses: ilharp/sign-android-release@v2
+        id: sign_app
+        with:
+          releaseDir: TradlyStore/android/app/build/outputs/apk/release
+          signingKey: ${{ secrets.SIGNING_KEY }}
+          keyAlias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          buildToolsVersion: 36.0.0
+
+      - name: Upload application
+        uses: actions/upload-artifact@v4
+        with:
+            name: app dev
+            path: ${{steps.sign_app.outputs.signedFile}}
+            retention-days: 3
