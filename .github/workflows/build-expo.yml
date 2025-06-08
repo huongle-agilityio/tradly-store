@@ -5,10 +5,12 @@ on:
     branches: ["main"]
     paths:
       - "practice-one/**"
+      - ".github/workflows/build-expo.yml"
   pull_request:
     branches: ["main"]
     paths:
       - "practice-one/**"
+      - ".github/workflows/build-expo.yml"
   workflow_dispatch:
     inputs:
       environment:
