@@ -78,11 +78,12 @@ jobs:
         run: |
           eas build --platform android --profile production-apk --non-interactive --wait --json > build-info.json
       
-      - name: Extract APK URL and Download
+      - name: Extract APK URL
         run: |
-          download_url=$(jq -r '.[0].artifacts.buildUrl' build-info.json)
+          download_url=$(jq -r '.artifacts.buildUrl' build-info.json)
           echo "Download URL: $download_url"
-          curl -L "$download_url" -o ./dist/expo-apk.apk
+          mkdir -p ../../dist
+          curl -L "$download_url" -o ../../dist/expo-apk.apk
 
       - name: Verify APK
         run: |
@@ -93,4 +94,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: expo-apk
-          path: ./dist/expo-apk.apk
+          path: dist/expo-apk.apk
