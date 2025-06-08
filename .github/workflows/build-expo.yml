@@ -3,8 +3,12 @@ name: Build Android APK with Expo
 on:
   push:
     branches: ["main"]
+    paths:
+      - "practice-one/**"
   pull_request:
     branches: ["main"]
+    paths:
+      - "practice-one/**"
   workflow_dispatch:
     inputs:
       environment:
@@ -60,6 +64,23 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      # Run EAS build (Android, preview profile)
+      - name: Prepare dist folder
+        run: mkdir -p dist
+
+      # Run EAS build (Android, production profile)
       - name: Publish build
-        run: eas build --platform android --profile production --non-interactive
+        id: eas_build
+        run: |
+          eas build --platform android --profile production-apk --non-interactive --output json > build-result.json
+
+      - name: Download Expo APK
+        run: |
+          apk_url=$(jq -r '.artifacts.android' build-result.json)
+          echo "Downloading APK from $apk_url"
+          curl -L $apk_url -o ./dist/expo-apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: expo-apk
+          path: ./dist/expo-apk.apk
