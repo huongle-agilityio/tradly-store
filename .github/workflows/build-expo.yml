@@ -26,12 +26,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      API_URL: ${{ vars.API_URL }}
-      EXPO_PUBLIC_ENABLE_STORYBOOK: ${{ vars.EXPO_PUBLIC_ENABLE_STORYBOOK }}
     environment: ${{ inputs.environment }}
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      API_URL: ${{ vars.API_URL }}
+      EXPO_PUBLIC_ENABLE_STORYBOOK: ${{ vars.EXPO_PUBLIC_ENABLE_STORYBOOK }}
     defaults:
       run:
         working-directory: ./practice-one
