@@ -4,7 +4,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   owner: 'huong.le',
   name: 'practice-one',
-  slug: 'tradlystore',
+  slug: 'practice-one',
   scheme: 'practice-one',
   version: '1.0.0',
   orientation: 'portrait',
