@@ -83,4 +83,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: expo-apk
-          path: dist/expo-apk.apk
+          path: practice-one/dist/expo-apk.apk
