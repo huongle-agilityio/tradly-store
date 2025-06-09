@@ -21,11 +21,11 @@ jobs:
           name: cli-apk
           path: dist
 
-      # - name: Download Expo APK
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: expo-apk
-      #     path: dist
+      - name: Download Expo APK
+        uses: actions/download-artifact@v4
+        with:
+          name: expo-apk
+          path: dist
 
       - name: Generate CHANGELOG
         run: |
