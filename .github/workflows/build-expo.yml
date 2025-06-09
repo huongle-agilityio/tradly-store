@@ -70,20 +70,9 @@ jobs:
         run: mkdir -p dist
 
       # Run EAS build (Android, production profile)
-      - name: Install jq
-        run: sudo apt-get install jq
-  
-      - name: Run EAS build
-        id: eas_build
+      - name: Run EAS local build
         run: |
-          eas build --platform android --profile production-apk --non-interactive --wait --json > build-info.json
-      
-      - name: Extract APK URL
-        run: |
-          download_url=$(jq -r '.[] | select(.platform == "android") | .artifacts.buildUrl' build-info.json)
-          echo "Download URL: $download_url"
-          mkdir -p ../../dist
-          curl -L "$download_url" -o ../../dist/expo-apk.apk
+          eas build --platform android --profile production-apk --non-interactive --local --output=./dist/expo-apk.apk
 
       - name: Verify APK
         run: |
