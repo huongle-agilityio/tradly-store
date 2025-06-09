@@ -13,12 +13,6 @@ on:
     paths:
       - "TradlyStore/**"
       - ".github/workflows/build-cli.yml"
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to build"
-        type: environment
-        required: true
 
 permissions:
   contents: write
@@ -26,7 +20,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: env
+    environment: dev
     env:
       API_URL: ${{ vars.API_URL }}
       UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}

@@ -13,12 +13,6 @@ on:
     paths:
       - "practice-one/**"
       - ".github/workflows/build-expo.yml"
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to build"
-        type: environment
-        required: true
 
 permissions:
   contents: write
@@ -26,7 +20,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: env
+    environment: dev
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       API_URL: ${{ vars.API_URL }}
