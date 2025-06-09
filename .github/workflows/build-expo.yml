@@ -76,7 +76,7 @@ jobs:
 
       - name: Run EAS cloud build
         run: |
-          eas build --platform android --profile production --non-interactive
+          eas build --platform android --profile development --non-interactive
 
       # # Run EAS build (Android, production with apk profile)
       # - name: Run EAS local build
