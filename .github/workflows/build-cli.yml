@@ -29,8 +29,10 @@ jobs:
       run:
         working-directory: ./TradlyStore
     steps:
+      # Check out the code
       - uses: actions/checkout@v4
 
+      # Set up Node.js and install dependencies
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
@@ -52,15 +54,13 @@ jobs:
         if: runner.os != 'Windows'
         run: chmod +x android/gradlew
 
+      # Set environment variables
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v2.0
         with:
-          envkeys: |
-            {
-              "API_URL": "${{ vars.API_URL }}",
-              "UPLOAD_IMAGE_URL": "${{ vars.UPLOAD_IMAGE_URL }}",
-              "KEY_UPLOAD_IMAGE": "${{ secrets.KEY_UPLOAD_IMAGE }}"
-            }
+          envkey_API_URL: ${{ vars.API_URL }}
+          envkey_UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}
+          envkey_KEY_UPLOAD_IMAGE: ${{ secrets.KEY_UPLOAD_IMAGE }}
           directory: ./TradlyStore
           file_name: .env
 
@@ -73,6 +73,7 @@ jobs:
       - name: Build apk
         run: yarn build:apk
 
+      # Sign and upload the APK
       - name: Sign app APK
         uses: ilharp/sign-android-release@v2
         id: sign_app
@@ -105,6 +106,7 @@ jobs:
           name: cli-apk
           path: dist
 
+      # Generate release notes and create a GitHub release
       - name: Generate CHANGELOG
         run: |
           echo "# Release Notes for TradlyStore ${{ github.ref_name }}" > dist/CHANGELOG.md
