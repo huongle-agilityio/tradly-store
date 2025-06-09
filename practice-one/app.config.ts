@@ -55,7 +55,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
   ],
   extra: {
-    API_URL: process.env.EXPO_PUBLIC_API_URL,
+    EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL,
     storybookEnabled: process.env.EXPO_PUBLIC_ENABLE_STORYBOOK === 'true',
     eas: {
       projectId: 'c680031e-85e2-4a05-afad-79f999221818',
