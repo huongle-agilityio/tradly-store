@@ -74,22 +74,26 @@ jobs:
       - name: Prepare dist folder
         run: mkdir -p dist
 
-      # Run EAS build (Android, production with apk profile)
-      - name: Run EAS local build
+      - name: Run EAS cloud build
         run: |
-          eas build --platform android --profile production-apk --non-interactive --local --output=./dist/expo-apk.apk
-        working-directory: ./practice-one
+          eas build --platform android --profile production-apk --non-interactive
 
-      - name: Verify APK
-        run: |
-          ls -lh ./dist
-          file ./dist/expo-apk.apk
+      # # Run EAS build (Android, production with apk profile)
+      # - name: Run EAS local build
+      #   run: |
+      #     eas build --platform android --profile production-apk --non-interactive --local --output=./dist/expo-apk.apk
+      #   working-directory: ./practice-one
 
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: expo-apk
-          path: practice-one/dist/expo-apk.apk
+      # - name: Verify APK
+      #   run: |
+      #     ls -lh ./dist
+      #     file ./dist/expo-apk.apk
+
+      # - name: Upload APK artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: expo-apk
+      #     path: practice-one/dist/expo-apk.apk
 
   release:
     needs: build
