@@ -2,6 +2,8 @@ name: Build Android APK with Expo
 
 on:
   push:
+    tags:
+      - "v*.*.*"
     branches: ["main"]
     paths:
       - "practice-one/**"
@@ -17,6 +19,9 @@ on:
         description: "Environment to build"
         type: environment
         required: true
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -84,3 +89,29 @@ jobs:
         with:
           name: expo-apk
           path: practice-one/dist/expo-apk.apk
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Download Expo APK
+        uses: actions/download-artifact@v4
+        with:
+          name: expo-apk
+          path: dist
+
+      - name: Generate CHANGELOG
+        run: |
+          echo "# Release Notes for ${{ github.ref_name }}" > dist/CHANGELOG.md
+          echo "- CLI APK and Expo APK included" >> dist/CHANGELOG.md
+
+      - name: Create GitHub Release with APKs
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: |
+            dist/*.apk
+          body_path: dist/CHANGELOG.md
