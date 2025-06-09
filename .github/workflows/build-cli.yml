@@ -26,7 +26,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: env
     env:
       API_URL: ${{ vars.API_URL }}
       UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}

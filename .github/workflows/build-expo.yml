@@ -26,7 +26,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: env
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       API_URL: ${{ vars.API_URL }}
