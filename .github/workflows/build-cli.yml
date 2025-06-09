@@ -64,12 +64,6 @@ jobs:
           directory: ./TradlyStore
           file_name: .env
 
-      - name: Debug environment values
-        run: |
-          echo "API_URL: $API_URL"
-          echo "UPLOAD_IMAGE_URL: $UPLOAD_IMAGE_URL"
-          echo "KEY_UPLOAD_IMAGE: $KEY_UPLOAD_IMAGE"
-
       - name: Build apk
         run: yarn build:apk
 
