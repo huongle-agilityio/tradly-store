@@ -55,7 +55,6 @@ jobs:
           cache: gradle
 
       # Set environment variables
-
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v2.0
         with:

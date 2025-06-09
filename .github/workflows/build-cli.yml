@@ -20,6 +20,9 @@ on:
         type: environment
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -50,11 +53,6 @@ jobs:
       - name: Grant Gradlew permission
         if: runner.os != 'Windows'
         run: chmod +x android/gradlew
-
-      - name: Grant Gradlew permission in Windows
-        if: runner.os == 'Windows'
-        run: icacls android\gradlew /grant Everyone:"(RX)"
-        shell: powershell
 
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v2.0
