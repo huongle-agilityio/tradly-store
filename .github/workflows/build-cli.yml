@@ -5,10 +5,12 @@ on:
     branches: ["main"]
     paths:
       - "TradlyStore/**"
+      - ".github/workflows/build-cli.yml"
   pull_request:
     branches: ["main"]
     paths:
       - "TradlyStore/**"
+      - ".github/workflows/build-cli.yml"
   workflow_dispatch:
     inputs:
       environment:
@@ -78,6 +80,6 @@ jobs:
       - name: Upload application
         uses: actions/upload-artifact@v4
         with:
-            name: cli-apk
-            path: ${{steps.sign_app.outputs.signedFile}}
-            retention-days: 3
+          name: cli-apk
+          path: ${{steps.sign_app.outputs.signedFile}}
+          retention-days: 3
