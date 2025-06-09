@@ -76,12 +76,12 @@ jobs:
 
       - name: Run EAS cloud build
         run: |
-          eas build --platform android --profile production-apk --non-interactive
+          eas build --platform android --profile production --non-interactive
 
       # # Run EAS build (Android, production with apk profile)
       # - name: Run EAS local build
       #   run: |
-      #     eas build --platform android --profile production-apk --non-interactive --local --output=./dist/expo-apk.apk
+      #     eas build --platform android --profile production --non-interactive --local --output=./dist/expo-apk.apk
       #   working-directory: ./practice-one
 
       # - name: Verify APK
