@@ -55,11 +55,15 @@ jobs:
           cache: gradle
 
       # Set environment variables
+
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v2.0
         with:
-          envkey_EXPO_PUBLIC_API_URL: ${{ vars.API_URL }}
-          envkey_EXPO_PUBLIC_ENABLE_STORYBOOK: ${{ vars.EXPO_PUBLIC_ENABLE_STORYBOOK }}
+          envkeys: |
+            {
+              "EXPO_PUBLIC_API_URL": "${{ vars.API_URL }}",
+              "EXPO_PUBLIC_ENABLE_STORYBOOK": "${{ vars.EXPO_PUBLIC_ENABLE_STORYBOOK }}",
+            }
           directory: ./practice-one
           file_name: .env
 
@@ -74,7 +78,7 @@ jobs:
       - name: Prepare dist folder
         run: mkdir -p dist
 
-      # Run EAS build (Android, production profile)
+      # Run EAS build (Android, production with apk profile)
       - name: Run EAS local build
         run: |
           eas build --platform android --profile production-apk --non-interactive --local --output=./dist/expo-apk.apk

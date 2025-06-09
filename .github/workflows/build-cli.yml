@@ -59,9 +59,12 @@ jobs:
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v2.0
         with:
-          envkey_API_URL: ${{ vars.API_URL }}
-          envkey_UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}
-          envkey_KEY_UPLOAD_IMAGE: ${{ secrets.KEY_UPLOAD_IMAGE }}
+          envkeys: |
+            {
+              "API_URL": "${{ vars.API_URL }}",
+              "UPLOAD_IMAGE_URL": "${{ vars.UPLOAD_IMAGE_URL }}",
+              "KEY_UPLOAD_IMAGE": "${{ secrets.KEY_UPLOAD_IMAGE }}"
+            }
           directory: ./TradlyStore
           file_name: .env
 
