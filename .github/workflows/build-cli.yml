@@ -2,6 +2,8 @@ name: Build Android APK with CLI
 
 on:
   push:
+    tags:
+      - "v*.*.*"
     branches: ["main"]
     paths:
       - "TradlyStore/**"
@@ -83,3 +85,29 @@ jobs:
           name: cli-apk
           path: ${{steps.sign_app.outputs.signedFile}}
           retention-days: 3
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Download CLI APK
+        uses: actions/download-artifact@v4
+        with:
+          name: cli-apk
+          path: dist
+
+      - name: Generate CHANGELOG
+        run: |
+          echo "# Release Notes for ${{ github.ref_name }}" > dist/CHANGELOG.md
+          echo "- CLI APK and Expo APK included" >> dist/CHANGELOG.md
+
+      - name: Create GitHub Release with APKs
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: |
+            dist/*.apk
+          body_path: dist/CHANGELOG.md
