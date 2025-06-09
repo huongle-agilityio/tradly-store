@@ -92,6 +92,7 @@ jobs:
 
   release:
     needs: build
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -110,7 +111,6 @@ jobs:
 
       - name: Create GitHub Release with APKs
         uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
         with:
           files: |
             dist/*.apk
