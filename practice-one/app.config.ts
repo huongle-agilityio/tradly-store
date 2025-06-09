@@ -2,8 +2,9 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
+  owner: 'tradly',
   name: 'practice-one',
-  slug: 'practice-one',
+  slug: 'tradlystore',
   scheme: 'practice-one',
   version: '1.0.0',
   orientation: 'portrait',
@@ -58,7 +59,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL,
     storybookEnabled: process.env.EXPO_PUBLIC_ENABLE_STORYBOOK === 'true',
     eas: {
-      projectId: 'c680031e-85e2-4a05-afad-79f999221818',
+      projectId: '58387e3e-419d-4067-80a3-cfab1e672a6c',
     },
   },
 });
