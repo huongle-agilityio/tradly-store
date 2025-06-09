@@ -26,6 +26,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      API_URL: ${{ vars.API_URL }}
+      EXPO_PUBLIC_ENABLE_STORYBOOK: ${{ vars.EXPO_PUBLIC_ENABLE_STORYBOOK }}
     environment: ${{ inputs.environment }}
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -65,6 +68,11 @@ jobs:
             }
           directory: ./practice-one
           file_name: .env
+
+      - name: Debug environment values
+        run: |
+          echo "API_URL: $API_URL"
+          echo "EXPO_PUBLIC_ENABLE_STORYBOOK: $EXPO_PUBLIC_ENABLE_STORYBOOK"
 
       # Setup Expo and EAS with EXPO_TOKEN secret
       - name: Setup Expo
