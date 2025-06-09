@@ -2,7 +2,7 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  owner: 'tradly',
+  owner: 'huong.le',
   name: 'practice-one',
   slug: 'tradlystore',
   scheme: 'practice-one',
@@ -59,7 +59,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL,
     storybookEnabled: process.env.EXPO_PUBLIC_ENABLE_STORYBOOK === 'true',
     eas: {
-      projectId: '58387e3e-419d-4067-80a3-cfab1e672a6c',
+      projectId: 'c680031e-85e2-4a05-afad-79f999221818',
     },
   },
 });
