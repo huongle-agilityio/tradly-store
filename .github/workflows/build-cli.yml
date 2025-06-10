@@ -81,14 +81,13 @@ jobs:
 
       - name: Rename signed APK
         run: |
-          mkdir -p signed-apk
-          cp "${{ steps.sign_app.outputs.signedFile }}" "signed-apk/TradlyStore.apk"
+          mv "${{ steps.sign_app.outputs.signedFile }}" TradlyStore.apk
 
       - name: Upload application
         uses: actions/upload-artifact@v4
         with:
           name: cli-apk
-          path: signed-apk/TradlyStore.apk
+          path: TradlyStore.apk
           retention-days: 3
 
   release:
