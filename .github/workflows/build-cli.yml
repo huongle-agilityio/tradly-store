@@ -88,7 +88,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cli-apk
-          path: signed-apk/custom-name.apk
+          path: signed-apk/TradlyStore.apk
           retention-days: 3
 
   release:
