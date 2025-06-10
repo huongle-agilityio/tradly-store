@@ -59,10 +59,6 @@ jobs:
           directory: ./practice-one
           file_name: .env
 
-      - name: Show .env content
-        run: cat .env
-        working-directory: ./practice-one
-
       # Setup Expo and EAS with EXPO_TOKEN secret
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -72,34 +68,13 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Android app
-        run: eas build --platform android --profile production --local --output ${{ github.workspace }}/app-release.apk
+        run: eas build --platform android --profile production --local --output ${{ github.workspace }}/TradlyStore.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
-          path: ${{ github.workspace }}/app-release.apk
-
-      # - name: Run EAS cloud build
-      #   run: |
-      #     eas build --platform android --profile development --non-interactive
-
-      # # Run EAS build (Android, production with apk profile)
-      # - name: Run EAS local build
-      #   run: |
-      #     eas build --platform android --profile production --non-interactive --local --output=./dist/expo-apk.apk
-      #   working-directory: ./practice-one
-
-      # - name: Verify APK
-      #   run: |
-      #     ls -lh ./dist
-      #     file ./dist/expo-apk.apk
-
-      # - name: Upload APK artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: expo-apk
-      #     path: practice-one/dist/expo-apk.apk
+          name: expo-apk
+          path: ${{ github.workspace }}/TradlyStore.apk
 
   release:
     needs: build
