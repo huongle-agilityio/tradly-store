@@ -79,15 +79,22 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
           buildToolsVersion: 36.0.0
 
+      - name: Debug signed file path
+        run: echo "Signed file path - ${{ steps.sign_app.outputs.signedFile }}"
+
       - name: Rename signed APK
         run: |
-          mv "${{ steps.sign_app.outputs.signedFile }}" TradlyStore.apk
+          mv "${{ steps.sign_app.outputs.signedFile }}" "${{ github.workspace }}/TradlyStore.apk"
+
+      # - name: Rename signed APK
+      #   run: |
+      #     mv "${{ steps.sign_app.outputs.signedFile }}" TradlyStore.apk
 
       - name: Upload application
         uses: actions/upload-artifact@v4
         with:
           name: cli-apk
-          path: TradlyStore.apk
+          path: ${{ steps.sign_app.outputs.signedFile }}
           retention-days: 3
 
   release:
