@@ -71,12 +71,18 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Prepare dist folder
-        run: mkdir -p dist
+      - name: Build Android app
+        run: eas build --platform android --profile production --local --output ${{ github.workspace }}/app-release.apk
 
-      - name: Run EAS cloud build
-        run: |
-          eas build --platform android --profile development --non-interactive
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: ${{ github.workspace }}/app-release.apk
+
+      # - name: Run EAS cloud build
+      #   run: |
+      #     eas build --platform android --profile development --non-interactive
 
       # # Run EAS build (Android, production with apk profile)
       # - name: Run EAS local build
