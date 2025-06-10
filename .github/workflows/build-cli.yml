@@ -94,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cli-apk
-          path: ${{ steps.sign_app.outputs.signedFile }}
+          path: ${{ github.workspace }}/TradlyStore.apk
           retention-days: 3
 
   release:
