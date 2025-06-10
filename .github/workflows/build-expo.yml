@@ -3,7 +3,7 @@ name: Build Android APK with Expo
 on:
   push:
     tags:
-      - "expo-v*.*.*"
+      - "expo*.*.*"
     branches: ["main"]
     paths:
       - "practice-one/**"
@@ -96,9 +96,9 @@ jobs:
           # echo "# Release Notes for TradlyStore Expo ${{ github.ref_name }}" > dist/CHANGELOG.md
           echo "- The Expo of TradlyStore" >> dist/CHANGELOG.md
 
-      - name: Create GitHub Release with APKs
-        uses: softprops/action-gh-release@v2
+      - name: Create GitHub Release with APK
+        uses: ncipollo/release-action@v1
         with:
-          files: |
-            dist/*.apk
-          body_path: dist/CHANGELOG.md
+          artifacts: "dist/*.apk"
+          tag: ${{ github.ref_name }}
+          bodyFile: dist/CHANGELOG.md

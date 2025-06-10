@@ -3,7 +3,7 @@ name: Build Android APK with CLI
 on:
   push:
     tags:
-      - "cli-v*.*.*"
+      - "cli*.*.*"
     branches: ["main"]
     paths:
       - "TradlyStore/**"
@@ -79,9 +79,6 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
           buildToolsVersion: 36.0.0
 
-      - name: Debug signed file path
-        run: echo "Signed file path - ${{ steps.sign_app.outputs.signedFile }}"
-
       - name: Rename signed APK
         run: |
           mv "${{ steps.sign_app.outputs.signedFile }}" "${{ github.workspace }}/TradlyStore.apk"
@@ -106,9 +103,6 @@ jobs:
         with:
           name: cli-apk
           path: dist
-
-      - name: List files in dist
-        run: ls -la dist
 
       # Generate release notes and create a GitHub release
       - name: Generate CHANGELOG
