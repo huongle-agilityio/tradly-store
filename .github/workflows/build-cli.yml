@@ -107,6 +107,9 @@ jobs:
           name: cli-apk
           path: dist
 
+      - name: List files in dist
+        run: ls -la dist
+
       # Generate release notes and create a GitHub release
       - name: Generate CHANGELOG
         run: |
