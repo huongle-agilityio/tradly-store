@@ -95,7 +95,7 @@ jobs:
 
   release:
     needs: build
-    # if: github.ref_type == 'tag'
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
