@@ -94,7 +94,7 @@ jobs:
       - name: Generate CHANGELOG
         run: |
           # echo "# Release Notes for TradlyStore Expo ${{ github.ref_name }}" > dist/CHANGELOG.md
-          echo "- The Expo of TradlyStore" >> dist/CHANGELOG.md
+          echo "- The Expo APK of TradlyStore" >> dist/CHANGELOG.md
 
       - name: Create GitHub Release with APK
         uses: ncipollo/release-action@v1
