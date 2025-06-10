@@ -3,7 +3,7 @@ name: Build Android APK with Expo
 on:
   push:
     tags:
-      - "expo*.*.*"
+      - "expo-v*.*.*"
     branches: ["main"]
     paths:
       - "practice-one/**"

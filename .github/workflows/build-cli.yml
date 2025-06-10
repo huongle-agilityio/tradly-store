@@ -3,7 +3,7 @@ name: Build Android APK with CLI
 on:
   push:
     tags:
-      - "cli*.*.*"
+      - "cli-v*.*.*"
     branches: ["main"]
     paths:
       - "TradlyStore/**"
