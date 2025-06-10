@@ -3,7 +3,7 @@ name: Build Android APK with Expo
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "expo-v*.*.*"
     branches: ["main"]
     paths:
       - "practice-one/**"
@@ -78,7 +78,7 @@ jobs:
 
   release:
     needs: build
-    if: github.ref_type == 'tag'
+    # if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -93,8 +93,8 @@ jobs:
       # Generate release notes and create a GitHub release
       - name: Generate CHANGELOG
         run: |
-          echo "# Release Notes for TradlyStore ${{ github.ref_name }}" > dist/CHANGELOG.md
-          echo "- The Expo and CLI APKs of TradlyStore" >> dist/CHANGELOG.md
+          # echo "# Release Notes for TradlyStore Expo ${{ github.ref_name }}" > dist/CHANGELOG.md
+          echo "- The Expo of TradlyStore" >> dist/CHANGELOG.md
 
       - name: Create GitHub Release with APKs
         uses: softprops/action-gh-release@v2

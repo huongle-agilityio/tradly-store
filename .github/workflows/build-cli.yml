@@ -3,7 +3,7 @@ name: Build Android APK with CLI
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "cli-v*.*.*"
     branches: ["main"]
     paths:
       - "TradlyStore/**"
@@ -86,10 +86,6 @@ jobs:
         run: |
           mv "${{ steps.sign_app.outputs.signedFile }}" "${{ github.workspace }}/TradlyStore.apk"
 
-      # - name: Rename signed APK
-      #   run: |
-      #     mv "${{ steps.sign_app.outputs.signedFile }}" TradlyStore.apk
-
       - name: Upload application
         uses: actions/upload-artifact@v4
         with:
@@ -99,7 +95,7 @@ jobs:
 
   release:
     needs: build
-    if: github.ref_type == 'tag'
+    # if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -114,8 +110,8 @@ jobs:
       # Generate release notes and create a GitHub release
       - name: Generate CHANGELOG
         run: |
-          echo "# Release Notes for TradlyStore ${{ github.ref_name }}" > dist/CHANGELOG.md
-          echo "- The Expo and CLI APKs of TradlyStore" >> dist/CHANGELOG.md
+          echo "# Release Notes for TradlyStore CLI ${{ github.ref_name }}" > dist/CHANGELOG.md
+          echo "- The CLI APK TradlyStore" >> dist/CHANGELOG.md
 
       - name: Create GitHub Release with APKs
         uses: softprops/action-gh-release@v2
