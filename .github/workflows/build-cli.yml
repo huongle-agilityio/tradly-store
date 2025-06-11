@@ -64,6 +64,13 @@ jobs:
           directory: ./TradlyStore
           file_name: .env
 
+      # Run the build and tests
+      - name: Run Lint
+        run: yarn lint
+
+      - name: Run Tests
+        run: yarn test
+
       - name: Build apk
         run: yarn build:apk
 
