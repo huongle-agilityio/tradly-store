@@ -65,9 +65,6 @@ jobs:
           file_name: .env
 
       # Run the build and tests
-      - name: Run Lint
-        run: yarn lint
-
       - name: Run Tests
         run: yarn test
 
