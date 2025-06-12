@@ -48,9 +48,7 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+          cache: gradle
 
       # Set environment variables
       - name: Create .env file
@@ -74,7 +72,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Android app
-        run: eas build --platform android --profile production --local --no-cache --output ${{ github.workspace }}/TradlyStore.apk
+        run: eas build --platform android --profile production --local --output ${{ github.workspace }}/TradlyStore.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
