@@ -1,3 +1,7 @@
+def env = new Properties()
+env.load(new FileInputStream(new File(rootDir.parentFile, ".env")))
+project.ext.env = env
+
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
@@ -5,6 +9,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.firebase.crashlytics'
+
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -96,15 +101,19 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file("./android/app/your_key_name.keystore")
+            storePassword project.env.get("MYAPP_UPLOAD_STORE_PASSWORD")
+            keyAlias project.env.get("MYAPP_UPLOAD_KEY_ALIAS")
+            keyPassword project.env.get("MYAPP_UPLOAD_KEY_PASSWORD")
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             shrinkResources true
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"

@@ -14,23 +14,45 @@ on:
       - "TradlyStore/**"
       - ".github/workflows/build-cli.yml"
 
+  workflow_dispatch:
+    inputs:
+      runsOn:
+        description: "Choose GitHub runner"
+        required: true
+        type: choice
+        default: ubuntu-latest
+        options:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    environment:
+      description: "Select the environment"
+      type: environment
+      required: true
+
 permissions:
   contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ inputs.environment || 'development' }}
     env:
       API_URL: ${{ vars.API_URL }}
       UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}
       KEY_UPLOAD_IMAGE: ${{ secrets.KEY_UPLOAD_IMAGE }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
     defaults:
       run:
         working-directory: ./TradlyStore
     steps:
       # Check out the code
       - uses: actions/checkout@v4
+
+      # Test environment variables
+      - name: Check environment variables
+        run: |
+          echo "ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
 
       # Set up Node.js and install dependencies
       - name: Use Node.js 20
@@ -61,6 +83,9 @@ jobs:
           envkey_API_URL: ${{ vars.API_URL }}
           envkey_UPLOAD_IMAGE_URL: ${{ vars.UPLOAD_IMAGE_URL }}
           envkey_KEY_UPLOAD_IMAGE: ${{ secrets.KEY_UPLOAD_IMAGE }}
+          envkey_MYAPP_UPLOAD_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          envkey_MYAPP_UPLOAD_KEY_ALIAS: ${{ secrets.ALIAS }}
+          envkey_MYAPP_UPLOAD_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           directory: ./TradlyStore
           file_name: .env
 
@@ -72,20 +97,13 @@ jobs:
         run: yarn build:apk
 
       # Sign and upload the APK
-      - name: Sign app APK
-        uses: ilharp/sign-android-release@v2
-        id: sign_app
-        with:
-          releaseDir: TradlyStore/android/app/build/outputs/apk/release
-          signingKey: ${{ secrets.SIGNING_KEY }}
-          keyAlias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-          buildToolsVersion: 36.0.0
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./android/app/your_key_name.keystore
 
       - name: Rename signed APK
         run: |
-          mv "${{ steps.sign_app.outputs.signedFile }}" "${{ github.workspace }}/TradlyStore.apk"
+          mv "./TradlyStore/android/app/build/outputs/apk/release/app-release.apk" "${{ github.workspace }}/TradlyStore.apk"
 
       - name: Upload application
         uses: actions/upload-artifact@v4
