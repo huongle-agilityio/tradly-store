@@ -48,9 +48,12 @@ jobs:
     steps:
       # Check out the code
       - uses: actions/checkout@v4
+
+      # Check the actual runner OS
       - name: Show actual runner OS
         run: echo "ACTUAL RUNNER OS '${{ runner.os }}'"
-      # Test environment variables
+
+      # Check environment variables
       - name: Check environment variables
         run: |
           echo "ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
