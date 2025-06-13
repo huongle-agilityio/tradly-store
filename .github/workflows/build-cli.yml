@@ -35,7 +35,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ${{ inputs.runsOn }}
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runsOn || 'ubuntu-latest' }}
     environment: ${{ inputs.environment || 'development' }}
     env:
       API_URL: ${{ vars.API_URL }}
@@ -48,7 +48,8 @@ jobs:
     steps:
       # Check out the code
       - uses: actions/checkout@v4
-
+      - name: Show actual runner OS
+        run: echo "ACTUAL RUNNER OS '${{ runner.os }}'"
       # Test environment variables
       - name: Check environment variables
         run: |
