@@ -107,7 +107,7 @@ jobs:
 
       - name: Rename signed APK
         run: |
-          mv "./TradlyStore/android/app/build/outputs/apk/release/app-release.apk" "${{ github.workspace }}/TradlyStore.apk"
+          mv "android/app/build/outputs/apk/release/app-release.apk" "${{ github.workspace }}/TradlyStore.apk"
 
       - name: Upload application
         uses: actions/upload-artifact@v4
