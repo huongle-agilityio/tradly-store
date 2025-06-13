@@ -54,6 +54,12 @@ jobs:
         run: |
           echo "ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
 
+      # Sign and upload the APK
+      - name: Decode keystore
+        run: |
+          mkdir -p android/app
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > android/app/my_key_name.keystore
+
       # Set up Node.js and install dependencies
       - name: Use Node.js 20
         uses: actions/setup-node@v4
@@ -89,14 +95,8 @@ jobs:
           directory: ./TradlyStore
           file_name: .env
 
-      # Sign and upload the APK
-      - name: Decode keystore
-        run: |
-          mkdir -p ./TradlyStore/android/app
-          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./TradlyStore/android/app/my_key_name.keystore
-
       - name: Check keystore exists 1
-        run: ls -la ./TradlyStore/android/app
+        run: ls -la android/app
 
       # Run the build and tests
       - name: Run Tests
@@ -104,9 +104,6 @@ jobs:
 
       - name: Build apk
         run: yarn build:apk
-
-      - name: Check keystore exists 2
-        run: ls -la ./TradlyStore/android/app
 
       - name: Rename signed APK
         run: |
