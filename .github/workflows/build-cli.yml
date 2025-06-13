@@ -25,10 +25,10 @@ on:
           - ubuntu-latest
           - macos-latest
           - windows-latest
-    environment:
-      description: "Select the environment"
-      type: environment
-      required: true
+      environment:
+        description: "Select the environment"
+        type: environment
+        required: true
 
 permissions:
   contents: write
