@@ -35,7 +35,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runsOn }}
     environment: ${{ inputs.environment || 'development' }}
     env:
       API_URL: ${{ vars.API_URL }}
@@ -94,9 +94,6 @@ jobs:
           envkey_MYAPP_UPLOAD_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           directory: ./TradlyStore
           file_name: .env
-
-      - name: Check keystore exists 1
-        run: ls -la android/app
 
       # Run the build and tests
       - name: Run Tests
