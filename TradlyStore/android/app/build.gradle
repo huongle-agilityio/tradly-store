@@ -102,7 +102,7 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file("./android/app/your_key_name.keystore")
+            storeFile file("my_key_name.keystore")
             storePassword project.env.get("MYAPP_UPLOAD_STORE_PASSWORD")
             keyAlias project.env.get("MYAPP_UPLOAD_KEY_ALIAS")
             keyPassword project.env.get("MYAPP_UPLOAD_KEY_PASSWORD")
