@@ -95,12 +95,18 @@ jobs:
           mkdir -p ./TradlyStore/android/app
           echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./TradlyStore/android/app/my_key_name.keystore
 
+      - name: Check keystore exists 1
+        run: ls -la ./TradlyStore/android/app
+
       # Run the build and tests
       - name: Run Tests
         run: yarn test
 
       - name: Build apk
         run: yarn build:apk
+
+      - name: Check keystore exists 2
+        run: ls -la ./TradlyStore/android/app
 
       - name: Rename signed APK
         run: |
