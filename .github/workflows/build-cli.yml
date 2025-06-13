@@ -89,17 +89,17 @@ jobs:
           directory: ./TradlyStore
           file_name: .env
 
+      # Sign and upload the APK
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./TradlyStore/android/app/my_key_name.keystore
+
       # Run the build and tests
       - name: Run Tests
         run: yarn test
 
       - name: Build apk
         run: yarn build:apk
-
-      # Sign and upload the APK
-      - name: Decode keystore
-        run: |
-          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./TradlyStore/android/app/my_key_name.keystore
 
       - name: Rename signed APK
         run: |
