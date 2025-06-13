@@ -99,7 +99,7 @@ jobs:
       # Sign and upload the APK
       - name: Decode keystore
         run: |
-          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./android/app/your_key_name.keystore
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./TradlyStoreandroid/app/your_key_name.keystore
 
       - name: Rename signed APK
         run: |
